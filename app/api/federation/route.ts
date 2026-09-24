@@ -58,8 +58,10 @@ function parse(html:string,round:number){
 }
 function stamp(s:string){const m=s.match(/(\d{1,2})[\/-](\d{1,2})(?:[\/-](\d{2,4}))?/);if(!m)return 0;let y=m[3]?+m[3]:new Date().getFullYear();if(y<100)y+=2000;return new Date(y,+m[2]-1,+m[1]).getTime()}
 
-export async function GET(){
+export async function GET(req:Request){
  const now=Date.now();
+ const debug=new URL(req.url).searchParams.get("debug")==="1";
+ const diagnostics:any[]=[];
  const teams=await Promise.all(federationTeams.map(async team=>{
    const games:any[]=[];
    // September is early season; scan all rounds but stop once several future fixtures exist.
