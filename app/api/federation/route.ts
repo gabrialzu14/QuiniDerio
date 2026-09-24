@@ -20,7 +20,7 @@ async function fetchHtml(url:string){
  }catch{}
  const request=async()=>{
    const r=await fetch(url,{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"es-ES,es;q=0.9","Referer":root,...(cookie?{"Cookie":cookie}:{})},cache:"no-store",redirect:"follow",signal:AbortSignal.timeout(15000)});
-   absorb(r);if(!r.ok)throw new Error("Federation "+r.status);return r.text();
+   absorb(r);if(!r.ok)throw new Error("Federation "+r.status);const body=await r.text();if(!body.trim())throw new Error("Federation returned HTTP "+r.status+" with empty body; final URL: "+r.url);return body;
  };
  let body=await request();
  if(/No se ha aceptado el cookie/i.test(body)&&cookie)body=await request();
