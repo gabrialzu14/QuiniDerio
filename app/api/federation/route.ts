@@ -34,9 +34,9 @@ function parse(html:string,round:number){
 }
 function stamp(s:string){const m=s.match(/(\d{2})[-/](\d{2})[-/](\d{4})/);return m?new Date(+m[3],+m[2]-1,+m[1]).getTime():0}
 export async function GET(){
- const now=Date.now(), max=10;
+ const now=Date.now(), max=40;
  const teams=await Promise.all(federationTeams.map(async team=>{
-   const pages=await Promise.all(Array.from({length:max},(_,i)=>i+1).map(async j=>{try{return parse(await get(team.calendar.replace("{J}",String(j))),j)}catch{return null}}));
+   const pages=[]; for(let start=1;start<=max;start+=8){const batch=await Promise.all(Array.from({length:Math.min(8,max-start+1)},(_,i)=>start+i).map(async j=>{try{return parse(await get(team.calendar.replace("{J}",String(j))),j)}catch{return null}}));pages.push(...batch)}
    const games=pages.filter((x):x is NonNullable<typeof x>=>!!x&&!!x.opponent);
    const future=games.filter(x=>stamp(x.date)>=now-36*3600000).sort((a,b)=>stamp(a.date)-stamp(b.date));
    const game=future[0]||games.sort((a,b)=>Math.abs(stamp(a.date)-now)-Math.abs(stamp(b.date)-now))[0];
