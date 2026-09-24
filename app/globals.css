@@ -42,3 +42,5 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overscroll-behavior-y:n
 @media(min-width:431px) and (max-width:768px){.liquidNav{left:50%;right:auto;width:min(calc(100% - 28px),500px);transform:translateX(-50%)}}
 @media(orientation:landscape) and (max-height:500px){.glassHeader{position:relative;top:auto}.liquidNav{min-height:55px}.liquidNav button{min-height:44px}.dashboard{padding-bottom:75px}.roundDock{bottom:66px}}
 @supports(padding:max(0px)){.dashboard{padding-bottom:max(calc(94px + env(safe-area-inset-bottom)),108px)}}
+
+.fixtureInfo{display:flex;flex-wrap:wrap;gap:5px 10px;margin:9px 0 2px;padding:8px 9px;border-radius:11px;background:#0917258c;border:1px solid #ffffff0d}.fixtureInfo span{display:flex;align-items:center;min-width:0;color:#91a6b8;font-size:7px;font-weight:700;line-height:1.3}.fixtureInfo span:last-child{color:#71899d}@media(max-width:390px){.fixtureInfo{display:grid;gap:3px;margin-top:8px;padding:7px 8px}.fixtureInfo span{font-size:6.5px}}
