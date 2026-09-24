@@ -74,5 +74,5 @@ export async function GET(){
    const game=next||nearest||games[0];
    return {id:team.id,name:team.name,...(game||{status:"unavailable",opponent:"",date:"",time:"",venue:"",federationRound:null})};
  }));
- return NextResponse.json({updatedAt:new Date().toISOString(),teams},{headers:{"Cache-Control":"no-store, max-age=0"}});
+ return NextResponse.json({updatedAt:new Date().toISOString(),teams,...(debug?{diagnostics}: {})},{headers:{"Cache-Control":"no-store, max-age=0"}});
 }
