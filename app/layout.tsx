@@ -1,1 +1,5 @@
-import "./globals.css";\nimport {Geist} from "next/font/google";\nconst geist=Geist({subsets:["latin"],variable:"--font-geist"});\nexport const metadata={title:"QuiniDerio",description:"La quiniela de los equipos del CD Derio"};\nexport default function RootLayout({children}:{children:React.ReactNode}){return <html lang="es"><body className={geist.className}>{children}</body></html>}
+import "./globals.css";
+import {Inter} from "next/font/google";
+const inter=Inter({subsets:["latin"],variable:"--font-inter",display:"swap"});
+export const metadata={title:"QuiniDerio",description:"La quiniela de los equipos del CD Derio"};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="es"><body className={inter.variable}>{children}</body></html>}
