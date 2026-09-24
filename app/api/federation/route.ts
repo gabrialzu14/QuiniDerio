@@ -66,7 +66,7 @@ export async function GET(req:Request){
    const games:any[]=[];
    // September is early season; scan all rounds but stop once several future fixtures exist.
    for(let start=1;start<=40;start+=5){
-     const batch=await Promise.all(Array.from({length:Math.min(5,41-start)},(_,i)=>start+i).map(async round=>{try{const html=await fetchHtml(team.calendar.replace("{J}",String(round)));const game=parse(html,round);if(debug&&round<=3)diagnostics.push({team:team.name,round,bytes:html.length,hasDerio:/DERIO/i.test(text(html)),cookieRejected:/No se ha aceptado el cookie/i.test(html),sample:text(html).slice(0,180),parsed:game});return game}catch(e){if(debug&&round<=3)diagnostics.push({team:team.name,round,error:String(e)});return null}}));
+     const batch=await Promise.all(Array.from({length:Math.min(5,41-start)},(_,i)=>start+i).map(async round=>{try{const html=await fetchHtml(team.calendar.replace("{J}",String(round)));const game=parse(html,round);if(debug&&round<=3)diagnostics.push({team:team.name,round,bytes:html.length,hasDerio:/DERIO/i.test(text(html)),cookieRejected:/No se ha aceptado el cookie/i.test(html),sample:text(html).slice(0,180),parsed:game});return game}catch(e){if(debug&&round<=3)diagnostics.push({team:team.name,round,error:String(e),source:"all PNFG calendar routes"});return null}}));
      games.push(...batch.filter(Boolean));
      if(games.filter(g=>stamp(g.date)>=now-2*86400000).length>=2)break;
    }
