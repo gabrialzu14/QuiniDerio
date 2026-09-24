@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { federationTeams } from "@/lib/federation";
+import { federationTeams } from "../../../lib/federation";
 
 export const dynamic = "force-dynamic";
 
