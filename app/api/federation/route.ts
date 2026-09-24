@@ -8,26 +8,26 @@ const isDerio=(s:string)=>/\bDERIO\b/i.test(s);
 const junk=(s:string)=>/(JORNADA|TEMPORADA|RESULTADOS|CLASIFIC|ÁRBITR|ARBITR|HIERBA|ARTIFICIAL|NATURAL|CAMPO|ZELAIA|FECHA|HORA|LOCAL|VISITANTE|EGUTEGI|SAILKAPEN)/i.test(s);
 function parse(html:string,round:number){
  const rows=[...html.matchAll(/<tr[\s\S]*?<\/tr>/gi)].map(m=>txt(m[0])).filter(Boolean);
- const row=rows.find(x=>isDerio(x));
+ const row=rows.find(x=>isDerio(x)&&(/\b(?:[01]?\d|2[0-3]):[0-5]\d\b/.test(x)||/\b\d{2}[-/]\d{2}[-/]\d{4}\b/.test(x)))||rows.find(x=>isDerio(x));
  const source=row||txt(html);
  if(!isDerio(source))return null;
  const date=source.match(/\b\d{2}[-/]\d{2}[-/]\d{4}\b/)?.[0]||"";
  const time=source.match(/\b(?:[01]?\d|2[0-3]):[0-5]\d\b/)?.[0]||"";
- const parts=source.split(/\s{2,}|\s*\|\s*/).map(x=>x.trim()).filter(x=>x.length>2);
+ const parts=source.split(/\s*\|\s*/).map(x=>x.trim()).filter(x=>x.length>2);
  let di=parts.findIndex(isDerio);
  if(di<0)di=0;
- const candidates=parts.filter(x=>!junk(x)&&!/^\d+[\s-]*\d*$/.test(x)&&!/^\d{2}[-/]\d{2}/.test(x)&&!/^\d{1,2}:\d{2}$/.test(x));
+ const candidates=parts.filter(x=>!junk(x)&&x.length<100&&!/^\d+[\s-]*\d*$/.test(x)&&!/^\d{2}[-/]\d{2}/.test(x)&&!/^\d{1,2}:\d{2}$/.test(x));
  const dci=candidates.findIndex(isDerio);
  let opponent="";
  if(dci>=0){
-   const near=[candidates[dci-1],candidates[dci+1]].filter(Boolean);
+   const near=[candidates[dci-1],candidates[dci+1],candidates[dci-2],candidates[dci+2]].filter(Boolean);
    opponent=near.find(x=>!isDerio(x)&&x.length<90)||"";
  }
  if(!opponent){
    const m=source.match(/([^|]{3,70})\s+-\s+([^|]{3,70})/);
    if(m){opponent=isDerio(m[1])?m[2].trim():isDerio(m[2])?m[1].trim():""}
  }
- const isHome=opponent?source.indexOf("DERIO")<source.indexOf(opponent):undefined;
+ const isHome=opponent?source.toUpperCase().indexOf("DERIO")<source.toUpperCase().indexOf(opponent.toUpperCase()):undefined;
  const venueParts=parts.filter(x=>/(IBAIONDO|MALLONA|LASESARRE|ASTI|FADURA|TABIRA|SOLOARTE|ETXEZURI|SAN MIGUEL|URBIETA|GAZITUAGA|GOBELA|CAMPO|ZELAIA|POL\.|MUNICIPAL)/i.test(x));
  const venue=venueParts.find(x=>!isDerio(x))||"";
  return {federationRound:round,opponent:opponent.replace(/^[-–—\s]+|[-–—\s]+$/g,""),date,time,venue,isHome,status:opponent?"scheduled":"unparsed"};
