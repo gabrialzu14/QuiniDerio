@@ -1,37 +1,62 @@
 import { NextResponse } from "next/server";
 import { federationTeams } from "../../../lib/federation";
 export const dynamic="force-dynamic";
-const clean=(s:string)=>s.replace(/&nbsp;|&#160;/gi," ").replace(/&amp;/gi,"&").replace(/&quot;/gi,'"').replace(/&#39;/gi,"'").replace(/<br\s*\/?\s*>/gi," | ").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
-async function get(url:string){const r=await fetch(url,{headers:{"user-agent":"Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Safari/604.1","accept":"text/html,application/xhtml+xml","accept-language":"es-ES,es;q=0.9"},cache:"no-store",signal:AbortSignal.timeout(12000)});if(!r.ok)throw new Error("Federation "+r.status);return r.text()}
-function cells(row:string){return [...row.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(m=>clean(m[1])).filter(Boolean)}
+
+const decode=(s:string)=>s.replace(/&nbsp;|&#160;/gi," ").replace(/&amp;/gi,"&").replace(/&quot;/gi,'"').replace(/&#39;/gi,"'").replace(/&aacute;/gi,"á").replace(/&eacute;/gi,"é").replace(/&iacute;/gi,"í").replace(/&oacute;/gi,"ó").replace(/&uacute;/gi,"ú").replace(/&ntilde;/gi,"ñ");
+const text=(s:string)=>decode(s).replace(/<script[\s\S]*?<\/script>/gi," ").replace(/<style[\s\S]*?<\/style>/gi," ").replace(/<br\s*\/?\s*>/gi," | ").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+
+async function fetchHtml(url:string){
+ const r=await fetch(url,{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36","Accept":"text/html,application/xhtml+xml","Accept-Language":"es-ES,es;q=0.9","Referer":new URL(url).origin+"/"},cache:"no-store",signal:AbortSignal.timeout(15000),redirect:"follow"});
+ if(!r.ok) throw new Error(String(r.status));
+ return r.text();
+}
+function dateOf(s:string){return s.match(/\b\d{1,2}[\/-]\d{1,2}(?:[\/-]\d{2,4})?\b/)?.[0]||""}
+function timeOf(s:string){return s.match(/\b(?:[01]?\d|2[0-3]):[0-5]\d\b/)?.[0]||""}
 function parse(html:string,round:number){
- const rows=[...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)].map(m=>cells(m[0])).filter(c=>c.some(v=>/DERIO/i.test(v)));
- for(const c of rows){
-  const di=c.findIndex(v=>/DERIO/i.test(v)); if(di<0)continue;
-  const date=c.find(v=>/\b\d{1,2}[\/-]\d{1,2}(?:[\/-]\d{2,4})?\b/.test(v))||"";
-  const time=c.find(v=>/\b(?:[01]?\d|2[0-3]):[0-5]\d\b/.test(v))||"";
-  const teamish=c.filter(v=>v.length<80&&!/^(JORNADA|FECHA|HORA|CAMPO|LOCAL|VISITANTE|RESULTADO)$/i.test(v)&&!/^\d{1,2}:\d{2}$/.test(v)&&!/^\d{1,2}[\/-]\d{1,2}/.test(v));
-  const ti=teamish.findIndex(v=>/DERIO/i.test(v));
-  const before=teamish.slice(0,ti).reverse().find(v=>/[A-ZÁÉÍÓÚÑ]{2}/i.test(v)&&!/^\d+$/.test(v));
-  const after=teamish.slice(ti+1).find(v=>/[A-ZÁÉÍÓÚÑ]{2}/i.test(v)&&!/^\d+$/.test(v));
-  const opponent=(after||before||"").trim();
-  if(!opponent)continue;
-  const venue=c.find(v=>v!==opponent&&!/DERIO/i.test(v)&&/(IBAIONDO|FADURA|MUNICIPAL|POLIDEPORT|CAMPO|ZELAIA|FUTBOL|FÚTBOL|KIROL|SAN |MALLONA|LASESARRE|SOLOARTE|TABIRA|URBIETA|GAZITUAGA|GOBELA)/i.test(v))||"";
-  const derioCell=c.findIndex(v=>/DERIO/i.test(v)), oppCell=c.findIndex(v=>v===opponent);
-  return {federationRound:round,opponent,date,time,venue,isHome:derioCell>=0&&oppCell>=0?derioCell<oppCell:undefined,status:"scheduled"};
+ const rowHtml=[...html.matchAll(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi)].map(m=>m[0]).filter(r=>/DERIO/i.test(text(r)));
+ for(const row of rowHtml){
+   const vals=[...row.matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(m=>text(m[1])).filter(Boolean);
+   if(!vals.length) continue;
+   const di=vals.findIndex(v=>/DERIO/i.test(v)); if(di<0)continue;
+   const ignore=(v:string)=>/^(JORNADA|FECHA|HORA|CAMPO|LOCAL|VISITANTE|RESULTADO|VS\.?|-)$/i.test(v)||/^\d+$/.test(v)||!!dateOf(v)||!!timeOf(v);
+   const teamCells=vals.map((v,i)=>({v,i})).filter(x=>!ignore(x.v)&&x.v.length<90);
+   const d=teamCells.findIndex(x=>/DERIO/i.test(x.v));
+   const left=teamCells.slice(0,d).reverse().find(x=>!/(IBAIONDO|CAMPO|ZELAIA|MUNICIPAL|POLIDEPORT)/i.test(x.v));
+   const right=teamCells.slice(d+1).find(x=>!/(IBAIONDO|CAMPO|ZELAIA|MUNICIPAL|POLIDEPORT)/i.test(x.v));
+   const opp=(right||left)?.v||"";
+   if(!opp)continue;
+   const oi=vals.findIndex(v=>v===opp);
+   const venue=vals.find(v=>v!==opp&&!/DERIO/i.test(v)&&/(IBAIONDO|CAMPO|ZELAIA|MUNICIPAL|POLIDEPORT|FADURA|MALLONA|LASESARRE|SOLOARTE|TABIRA|URBIETA|GAZITUAGA|GOBELA|SAN MIGUEL)/i.test(v))||"";
+   return {federationRound:round,opponent:opp,date:dateOf(text(row)),time:timeOf(text(row)),venue,isHome:oi>=0?di<oi:undefined,status:"scheduled"};
+ }
+ // Federation sometimes returns non-table/mobile markup: use a bounded text window around DERIO.
+ const all=text(html), pos=all.search(/DERIO/i);
+ if(pos>=0){
+   const chunk=all.slice(Math.max(0,pos-180),pos+260);
+   const pieces=chunk.split(/\s+[-–—|]\s+|\s{2,}/).map(x=>x.trim()).filter(Boolean);
+   const dp=pieces.findIndex(x=>/DERIO/i.test(x));
+   const opp=[pieces[dp-1],pieces[dp+1]].find(x=>x&&!/DERIO/i.test(x)&&x.length<80&&!dateOf(x)&&!timeOf(x));
+   if(opp)return {federationRound:round,opponent:opp,date:dateOf(chunk),time:timeOf(chunk),venue:"",status:"scheduled"};
  }
  return null;
 }
 function stamp(s:string){const m=s.match(/(\d{1,2})[\/-](\d{1,2})(?:[\/-](\d{2,4}))?/);if(!m)return 0;let y=m[3]?+m[3]:new Date().getFullYear();if(y<100)y+=2000;return new Date(y,+m[2]-1,+m[1]).getTime()}
+
 export async function GET(){
  const now=Date.now();
  const teams=await Promise.all(federationTeams.map(async team=>{
-  const rounds=Array.from({length:38},(_,i)=>i+1), found:any[]=[];
-  for(let i=0;i<rounds.length;i+=6){const batch=await Promise.all(rounds.slice(i,i+6).map(async j=>{try{return parse(await get(team.calendar.replace("{J}",String(j))),j)}catch{return null}}));found.push(...batch.filter(Boolean));}
-  const dated=found.filter(g=>stamp(g.date)>0);
-  const upcoming=dated.filter(g=>stamp(g.date)>=now-2*86400000).sort((a,b)=>stamp(a.date)-stamp(b.date))[0];
-  const game=upcoming||dated.sort((a,b)=>Math.abs(stamp(a.date)-now)-Math.abs(stamp(b.date)-now))[0]||found[0];
-  return {id:team.id,name:team.name,...(game||{status:"unavailable",opponent:"",date:"",time:"",venue:"",federationRound:null})};
+   const games:any[]=[];
+   // September is early season; scan all rounds but stop once several future fixtures exist.
+   for(let start=1;start<=40;start+=5){
+     const batch=await Promise.all(Array.from({length:Math.min(5,41-start)},(_,i)=>start+i).map(async round=>{try{return parse(await fetchHtml(team.calendar.replace("{J}",String(round))),round)}catch{return null}}));
+     games.push(...batch.filter(Boolean));
+     if(games.filter(g=>stamp(g.date)>=now-2*86400000).length>=2)break;
+   }
+   const dated=games.filter(g=>stamp(g.date));
+   const next=dated.filter(g=>stamp(g.date)>=now-2*86400000).sort((a,b)=>stamp(a.date)-stamp(b.date))[0];
+   const nearest=dated.sort((a,b)=>Math.abs(stamp(a.date)-now)-Math.abs(stamp(b.date)-now))[0];
+   const game=next||nearest||games[0];
+   return {id:team.id,name:team.name,...(game||{status:"unavailable",opponent:"",date:"",time:"",venue:"",federationRound:null})};
  }));
- return NextResponse.json({updatedAt:new Date().toISOString(),teams},{headers:{"Cache-Control":"no-store"}});
+ return NextResponse.json({updatedAt:new Date().toISOString(),teams},{headers:{"Cache-Control":"no-store, max-age=0"}});
 }
