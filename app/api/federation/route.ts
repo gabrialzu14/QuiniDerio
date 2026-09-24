@@ -18,8 +18,8 @@ async function fetchHtml(url:string){
      const r2=await fetch(new URL(boot.headers.get("location")!,root),{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36",...(cookie?{"Cookie":cookie}:{})},cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(10000)});absorb(r2);
    }
  }catch{}
- const request=async()=>{
-   const r=await fetch(url,{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"es-ES,es;q=0.9","Referer":root,...(cookie?{"Cookie":cookie}:{})},cache:"no-store",redirect:"follow",signal:AbortSignal.timeout(15000)});
+ const request=async(target=url)=>{
+   const r=await fetch(target,{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"es-ES,es;q=0.9","Referer":root,...(cookie?{"Cookie":cookie}:{})},cache:"no-store",redirect:"follow",signal:AbortSignal.timeout(15000)});
    absorb(r);if(!r.ok)throw new Error("Federation "+r.status);const body=await r.text();if(!body.trim())throw new Error("Federation returned HTTP "+r.status+" with empty body; final URL: "+r.url);return body;
  };
  let body=await request();
