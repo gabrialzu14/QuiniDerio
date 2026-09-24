@@ -6,35 +6,25 @@ const decode=(s:string)=>s.replace(/&nbsp;|&#160;/gi," ").replace(/&amp;/gi,"&")
 const text=(s:string)=>decode(s).replace(/<script[\s\S]*?<\/script>/gi," ").replace(/<style[\s\S]*?<\/style>/gi," ").replace(/<br\s*\/?\s*>/gi," | ").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
 
 async function fetchHtml(url:string){
- // PNFG is session-gated: it can return an empty "No se ha aceptado el cookie"
- // page unless redirects are followed while preserving JSESSIONID.
- let current=url, cookie="";
- for(let hop=0;hop<6;hop++){
-   const r=await fetch(current,{headers:{
-     "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Safari/537.36",
-     "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-     "Accept-Language":"es-ES,es;q=0.9",
-     "Referer":new URL(current).origin+"/",
-     ...(cookie?{"Cookie":cookie}:{})
-   },cache:"no-store",signal:AbortSignal.timeout(15000),redirect:"manual"});
-   const setCookie=r.headers.get("set-cookie");
-   if(setCookie){
-     const session=setCookie.match(/JSESSIONID=[^;,\s]+/i)?.[0];
-     if(session)cookie=session;
+ // PNFG validates a JSESSIONID cookie. Bootstrap it from the federation root
+ // first, then request the jornada using the same session.
+ const u=new URL(url), root=u.origin+"/";
+ let cookie="";
+ const absorb=(r:Response)=>{const raw=r.headers.get("set-cookie")||"";const m=raw.match(/JSESSIONID=[^;,\\s]+/i);if(m)cookie=m[0]};
+ try{
+   const boot=await fetch(root,{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36","Accept":"text/html,application/xhtml+xml","Accept-Language":"es-ES,es;q=0.9"},cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(10000)});
+   absorb(boot);
+   if(boot.status>=300&&boot.status<400&&boot.headers.get("location")){
+     const r2=await fetch(new URL(boot.headers.get("location")!,root),{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36",...(cookie?{"Cookie":cookie}:{})},cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(10000)});absorb(r2);
    }
-   if(r.status>=300&&r.status<400){
-     const location=r.headers.get("location");
-     if(location){current=new URL(location,current).toString();continue}
-   }
-   if(!r.ok)throw new Error("Federation "+r.status);
-   const body=await r.text();
-   // Some PNFG installations establish the session on the first request but
-   // still return the cookie-rejection shell. Retry the original URL once
-   // with the newly issued JSESSIONID.
-   if(/No se ha aceptado el cookie/i.test(body)&&cookie&&hop<5){current=url;continue}
-   return body;
- }
- throw new Error("Federation session redirect loop");
+ }catch{}
+ const request=async()=>{
+   const r=await fetch(url,{headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"es-ES,es;q=0.9","Referer":root,...(cookie?{"Cookie":cookie}:{})},cache:"no-store",redirect:"follow",signal:AbortSignal.timeout(15000)});
+   absorb(r);if(!r.ok)throw new Error("Federation "+r.status);return r.text();
+ };
+ let body=await request();
+ if(/No se ha aceptado el cookie/i.test(body)&&cookie)body=await request();
+ return body;
 }
 function dateOf(s:string){return s.match(/\b\d{1,2}[\/-]\d{1,2}(?:[\/-]\d{2,4})?\b/)?.[0]||""}
 function timeOf(s:string){return s.match(/\b(?:[01]?\d|2[0-3]):[0-5]\d\b/)?.[0]||""}
