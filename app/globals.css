@@ -72,3 +72,76 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opac
 .roundBadge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:#0d2a24;color:#6cdfa7;font-size:8px;font-weight:850;letter-spacing:.8px}.roundBadge i{width:6px;height:6px;border-radius:50%;background:#39d98a;animation:pulseDot 1.6s infinite}.roundProgress{display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:10px;padding:12px 13px;border-radius:16px;margin-bottom:13px}.roundProgress>b{font-size:12px}.roundProgress>div{height:5px;border-radius:8px;background:#172c40;overflow:hidden}.roundProgress>div i{height:100%;display:block;border-radius:8px;background:linear-gradient(90deg,#ed3947,#167bea);transition:width .35s ease}.roundProgress>span{font-size:8px;color:#7890a5}
 .matchCard{border-radius:21px!important;margin-bottom:10px!important;padding:15px!important;transition:transform .18s ease,border-color .2s ease,box-shadow .2s ease}.matchCard:active{transform:scale(.992)}.matchCard h3{letter-spacing:-.25px}.matchCard button{min-height:44px}.tabPage{padding-bottom:8px}
 @media(max-width:370px){.porraHero{grid-template-columns:1fr 76px;padding:20px 16px!important}.porraHero h1{font-size:28px!important}.porraScore strong{font-size:32px!important}.heroActions{gap:7px}.heroActions small{display:none}}
+
+/* QuiniDerio: Porra icons, blue navigation light and responsive touch surfaces. */
+body {
+  background: radial-gradient(ellipse at 15% 10%, rgba(27, 93, 167, .17), transparent 35%),
+    radial-gradient(ellipse at 88% 62%, rgba(210, 48, 71, .09), transparent 36%),
+    repeating-linear-gradient(125deg, rgba(145, 192, 230, .012) 0 1px, transparent 1px 9px), #06111c;
+}
+.dashboard::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: .18;
+  background: radial-gradient(circle, rgba(136, 188, 237, .22) 1px, transparent 1px) 0 0 / 23px 23px;
+  mask-image: linear-gradient(to bottom, #000, transparent 82%);
+}
+.liquidNav {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .55), 0 0 28px rgba(34, 133, 235, .12), inset 0 1px rgba(255, 255, 255, .08) !important;
+}
+.liquidNav button {
+  min-height: 57px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: #a0b4c7;
+  transition: background .22s ease, color .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+.liquidNav .navIcon { height: 24px; transition: transform .22s ease, filter .22s ease; }
+.liquidNav .navIcon svg { width: 23px; height: 23px; stroke-linecap: round; stroke-linejoin: round; }
+.liquidNav small { font-size: 9px !important; line-height: 1.1; font-weight: 750; white-space: normal; }
+.liquidNav button.active {
+  color: #8bd0ff !important;
+  background: rgba(56, 146, 245, .14) !important;
+  box-shadow: 0 0 19px rgba(59, 156, 255, .24), inset 0 1px rgba(167, 218, 255, .13) !important;
+}
+.liquidNav button.active .navIcon { transform: translateY(-2px); filter: drop-shadow(0 0 7px rgba(95, 190, 255, .95)); }
+.liquidNav button:active { transform: scale(.94); }
+.glassStats button, .weeklyShortcut, .menuCards button, .myPick, .oneXtwo button, .heroActions button, .optionCards button, .rankGrid button {
+  cursor: pointer;
+  transition: transform .18s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+@media (hover:hover) {
+  .glassStats button:hover, .weeklyShortcut:hover, .menuCards button:hover, .myPick:hover { transform: translateY(-2px); border-color: rgba(89, 175, 255, .56) !important; box-shadow: 0 14px 34px rgba(26, 114, 207, .14); }
+  .oneXtwo button:not(:disabled):hover, .optionCards button:hover, .rankGrid button:hover { border-color: rgba(99, 180, 255, .7); box-shadow: 0 0 15px rgba(49, 140, 240, .16); }
+}
+:where(button, input):focus-visible { outline: 2px solid #78c7ff; outline-offset: 3px; }
+button:disabled { cursor: not-allowed; }
+.myPick { width: 100%; color: inherit; text-align: left; min-height: 63px; }
+.brandBar .avatar { border: 0; cursor: pointer; color: inherit; }
+.menuCards button { min-height: 66px; }
+.menuCards button > span svg { width: 21px; height: 21px; stroke-linecap: round; stroke-linejoin: round; }
+.detailBackdrop { position: fixed; inset: 0; z-index: 60; display: flex; align-items: flex-end; justify-content: center; padding: 16px; background: rgba(2, 9, 17, .72); backdrop-filter: blur(8px); animation: qFadeUp .2s ease-out; }
+.detailSheet { width: min(100%, 520px); max-height: min(80vh, 690px); overflow: auto; padding: 22px 20px max(25px, env(safe-area-inset-bottom)); color: #e7f1fa; border: 1px solid rgba(104, 171, 225, .35); border-radius: 24px; background: linear-gradient(150deg, #142e45, #081622 68%); box-shadow: 0 24px 80px #000b, 0 0 34px rgba(54, 145, 244, .12); }
+.detailSheetHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.detailSheetHead small { font-size: 9px; font-weight: 800; letter-spacing: 1.3px; color: #85bde9; }
+.detailSheetHead h2 { margin: 5px 0 0; font-size: 22px; }
+.detailSheetHead button { flex: none; width: 44px; height: 44px; border: 1px solid #ffffff27; border-radius: 14px; background: #ffffff0e; color: #e7f1fa; font-size: 25px; cursor: pointer; }
+.detailRows { display: grid; gap: 7px; }
+.detailRow { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 48px; padding: 11px 13px; border: 1px solid #ffffff12; border-radius: 13px; background: #ffffff08; font-size: 12px; }
+.detailRow span { color: #a4b9cb; }
+.detailRow b { text-align: right; color: #a9d9ff; }
+.detailExtra { padding: 22px; border-radius: 16px; background: #ffffff0a; text-align: center; }
+.detailExtra p { margin: 0 0 12px; }
+.detailExtra strong { display: block; font-size: 32px; color: #89cfff; }
+.detailExtra small { display: block; margin-top: 12px; color: #9db3c5; }
+@media (max-width: 370px) { .liquidNav small { font-size: 8px !important; } .liquidNav button { min-height: 53px; } }
+@media (prefers-reduced-motion: reduce) { .liquidNav button, .liquidNav .navIcon, .glassStats button, .weeklyShortcut, .menuCards button, .myPick, .oneXtwo button, .heroActions button, .optionCards button, .rankGrid button, .detailBackdrop { transition: none !important; animation: none !important; } }
