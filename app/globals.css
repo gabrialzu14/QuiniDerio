@@ -153,3 +153,62 @@ button:disabled { cursor: not-allowed; }
 .dashboard:has(.detailBackdrop) .liquidNav { opacity: 0; pointer-events: none; }
 .detailSheet { scrollbar-color: #42627d transparent; scrollbar-width: thin; }
 .dashboard:has(.detailBackdrop) .liquidNav { visibility: hidden !important; animation: none !important; }
+
+/* Phone-first layout: a single centered game dock, with room for system gestures. */
+@media (max-width: 768px) {
+  html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+  .dashboard {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+    padding-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right));
+    padding-bottom: calc(116px + env(safe-area-inset-bottom));
+  }
+  .dashboard > :not(.liquidNav) { max-width: 100%; }
+  .liquidNav {
+    position: fixed !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+    width: min(calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)), 500px) !important;
+    max-width: none !important;
+    min-height: 72px;
+    padding: 6px !important;
+    transform: translate3d(-50%, 0, 0) !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2px;
+    border-radius: 24px !important;
+    z-index: 50;
+    -webkit-backdrop-filter: blur(26px) saturate(160%);
+  }
+  .liquidNav button {
+    min-width: 0 !important;
+    min-height: 58px;
+    padding: 6px 1px !important;
+    gap: 4px;
+    border-radius: 18px;
+    touch-action: manipulation;
+  }
+  .liquidNav .navIcon { height: 23px; }
+  .liquidNav .navIcon svg { width: 22px; height: 22px; }
+  .liquidNav small {
+    font-size: clamp(9px, 2.5vw, 10px) !important;
+    line-height: 1.1;
+    white-space: nowrap;
+    text-overflow: clip;
+    letter-spacing: 0;
+  }
+  .roundDock { bottom: calc(91px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 350px) {
+  .liquidNav { width: calc(100vw - 14px - env(safe-area-inset-left) - env(safe-area-inset-right)) !important; padding: 5px 3px !important; }
+  .liquidNav small { font-size: 9px !important; }
+}
+@media (max-width: 768px) and (orientation: landscape) and (max-height: 500px) {
+  .liquidNav { min-height: 56px; bottom: calc(5px + env(safe-area-inset-bottom)) !important; padding: 3px 5px !important; }
+  .liquidNav button { min-height: 48px; gap: 1px; }
+  .liquidNav .navIcon { height: 19px; }
+  .liquidNav .navIcon svg { width: 19px; height: 19px; }
+  .roundDock { bottom: calc(67px + env(safe-area-inset-bottom)); }
+  .dashboard { padding-bottom: calc(86px + env(safe-area-inset-bottom)); }
+}
