@@ -420,3 +420,10 @@ html{touch-action:pan-y;overscroll-behavior-x:none;-webkit-text-size-adjust:100%
 .brandBar .userChip>span{width:28px!important;height:28px!important;min-width:28px!important;display:grid!important;place-items:center!important;border-radius:50%!important;line-height:1!important}
 .brandBar .userChip>b{min-width:0!important;max-width:96px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:11px!important;line-height:1!important}
 @media(max-width:600px){.brandBar .userChip{width:36px!important;height:36px!important;padding:4px!important}.brandBar .userChip>b{display:none!important}.brandBar .userChip>span{width:28px!important;height:28px!important}.brandBar{padding-left:10px!important;padding-right:10px!important}.brandMark{min-width:0!important}.brandMark>div{min-width:0!important}}
+
+/* Home cover: ImagenIntro framed cleanly without distortion */
+.qdBanner{position:relative!important;overflow:hidden!important;min-height:clamp(210px,36vw,390px)!important;background:#07121d!important}
+.qdBanner>img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center center!important;display:block!important;transform:none!important}
+.qdBannerShade{position:absolute!important;inset:0!important;background:linear-gradient(90deg,rgba(4,11,18,.78) 0%,rgba(4,11,18,.28) 48%,rgba(4,11,18,.2) 100%),linear-gradient(0deg,rgba(4,11,18,.48),transparent 55%)!important}
+.qdBannerContent{position:relative!important;z-index:2!important}
+@media(max-width:600px){.qdBanner{min-height:225px!important;border-radius:18px!important}.qdBanner>img{object-position:center center!important}.qdBannerContent{padding:18px!important}}
