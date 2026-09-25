@@ -150,3 +150,5 @@ button:disabled { cursor: not-allowed; }
 .liquidNav { left: 50% !important; right: auto !important; width: min(calc(100% - 24px), 500px) !important; transform: translateX(-50%); }
 /* A transformed animated parent would displace a fixed dialog after scrolling. */
 .profilePage { animation: none; }
+.dashboard:has(.detailBackdrop) .liquidNav { opacity: 0; pointer-events: none; }
+.detailSheet { scrollbar-color: #42627d transparent; scrollbar-width: thin; }
