@@ -393,3 +393,24 @@ html{touch-action:pan-y;overscroll-behavior-x:none;-webkit-text-size-adjust:100%
 .positionCard .coachPhoto{animation:none!important;transform:none!important;translate:none!important;transition:none!important;overflow:hidden!important}
 .positionCard:hover .coachPhoto,.positionCard:active .coachPhoto,.positionCard.selected .coachPhoto{animation:none!important;transform:none!important;translate:none!important}
 .positionCard .coachPhoto img,.positionCard:hover .coachPhoto img,.positionCard:active .coachPhoto img,.positionCard.selected .coachPhoto img{animation:none!important;transform:none!important;translate:none!important;transition:none!important;inset:0!important;margin:0!important}
+
+/* Mobile viewport density correction — show more UI without scaling the document */
+@media(max-width:600px){
+  main:not(.appSplash){max-width:100%!important;width:100%!important;padding-left:14px!important;padding-right:14px!important}
+  .seasonHead{padding:18px!important;border-radius:20px!important}
+  .seasonHead h1{font-size:27px!important}
+  .season{padding:14px!important}
+  .positionCard{max-width:350px!important}
+  .positionCard .coachPhoto{height:235px!important}
+  .setupProgress{margin-left:0!important;margin-right:0!important}
+  .visualChoice{padding:12px!important;margin:10px 0!important}
+  .categoryLabel{margin-top:20px!important}
+  .confirmDock{left:10px!important;right:10px!important;width:auto!important}
+}
+@media(max-width:390px){
+  main:not(.appSplash){padding-left:11px!important;padding-right:11px!important}
+  .season{padding:11px!important}
+  .positionCard{max-width:330px!important}
+  .positionCard .coachPhoto{height:218px!important}
+  .seasonHead h1{font-size:25px!important}
+}
