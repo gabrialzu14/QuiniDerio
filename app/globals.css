@@ -469,3 +469,8 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
 .qdBanner:before{background:linear-gradient(180deg,rgba(3,9,16,.03) 45%,rgba(3,9,16,.32) 100%)!important;mix-blend-mode:normal!important}
 .qdBanner:after{background:none!important}
 @media(max-width:600px){.qdBanner{aspect-ratio:16/9!important;min-height:0!important;height:auto!important;max-height:none!important}.qdBanner>img{object-position:center center!important}}
+
+/* Final home hero artwork */
+.qdBanner{aspect-ratio:16/9!important;min-height:0!important;max-height:none!important}
+.qdBanner>img{object-fit:cover!important;object-position:center center!important;filter:none!important;transform:none!important}
+@media(max-width:600px){.qdBanner{aspect-ratio:16/9!important;min-height:0!important}.qdBanner>img{object-position:center center!important}}
