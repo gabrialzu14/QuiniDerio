@@ -251,10 +251,13 @@ button:disabled { cursor: not-allowed; }
 .coachGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
 .coachGrid article { display:grid; justify-items:center; gap:4px; padding:10px 4px; border-radius:14px; background:rgba(20,47,69,.62); text-align:center; }
 .coachAvatar { width:42px; height:42px; display:grid; place-items:center; border-radius:50%; background:linear-gradient(135deg,#b92b43,#186ec1); font-weight:800; font-size:12px; }
+.coachAvatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
 .coachGrid b { font-size:10px; line-height:1.15; }
 .coachGrid small { color:#8299ad; font-size:8px; }
 .rivalsPanel { display:flex; justify-content:space-between; align-items:center; gap:14px; }
 .rivalsPanel button { flex:0 0 auto; border:1px solid #4185c3; border-radius:11px; padding:10px 12px; background:#123657; color:#ddecfa; font-size:11px; font-weight:750; }
 @media(max-width:390px){.coachGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.rivalsPanel{display:block}.rivalsPanel button{margin-top:10px}}
+.liquidNav button:nth-child(2) .navIcon { border: 0 !important; padding: 0 !important; border-radius: 0 !important; background: transparent !important; }
+.coachPhoto img { width:100%; height:100%; object-fit:cover; border-radius:14px; display:block; }
 .versus .crestBox img { display: block; width: 46px; height: 46px; object-fit: contain; border-radius: 8px; }
 @media (max-width: 360px) { .versus .crestBox { width: 46px; height: 46px; } .versus .crestBox img { width: 40px; height: 40px; } }
