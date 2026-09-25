@@ -8,4 +8,4 @@ export const metadata={
  manifest:"/manifest.webmanifest",
  icons:{icon:[{url:appIcon,type:"image/png"}],shortcut:appIcon,apple:[{url:appIcon,type:"image/png"}]}
 };
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="es"><head><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"/><meta name="theme-color" content="#070b14"/></head><body className={inter.variable}>{children}</body></html>}
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="es"><head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no"/><meta name="theme-color" content="#070b14"/></head><body className={inter.variable}>{children}</body></html>}
