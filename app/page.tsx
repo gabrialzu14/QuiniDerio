@@ -1,9 +1,9 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
 
-const teamData=[{name:"Derio A",max:18,coach:"Nando Alonso",photo:"/nando-coach.svg"},{name:"Derio B",max:18,coach:"Gorka Barrio",photo:"/gorka-coach.svg"},{name:"Derio Fem",max:16,coach:"Iker Ibarluzea",photo:"/iker-coach.svg"},{name:"Derio Fem B",max:14,coach:"Ibai Mateos",photo:"/ibai-coach.svg"},{name:"Juvenil A",max:18,coach:"Peio Garcia",photo:"/peio-coach.svg"},{name:"Juvenil B",max:18,coach:"Mikel Taranilla",photo:"/mikel-coach.svg"}];
+const teamData=[{name:"Derio A",max:18,coach:"Nando Alonso",photo:"/nando-coach.svg"},{name:"Derio B",max:18,coach:"Gorka Barrio",photo:"/gorka-coach.svg"},{name:"Derio Fem",max:16,coach:"Iker Ibarluzea",photo:"/iker-coach.svg"},{name:"Derio Fem B",max:14,coach:"Ibai Mateos",photo:"/ibai-coach.svg"},{name:"Juvenil A",max:18,coach:"Peio Garcia",photo:"/peio-coach.svg"},{name:"Juvenil B",max:18,coach:"Mikel Tara",photo:"/mikel-coach.svg"}];
 const teams=teamData.map(t=>t.name);
-const coaches=["Nando Alonso","Gorka Barrio","Iker Ibarluzea","Ibai Mateos","Peio Garcia","Mikel Taranilla"];
+const coaches=["Nando Alonso","Gorka Barrio","Iker Ibarluzea","Ibai Mateos","Peio Garcia","Mikel Tara"];
 const delegates=["Gabri Alzueta","Mikel Elejalde","Omar El Kabouri","Aner Taranilla","Koldo Corral","Asel Ibañez"];
 type Season={positions:Record<string,string>,highest:string,lowest:string,firstCoach:string,coachCards:string,firstDelegate:string,delegateCards:string};
 const empty:Season={positions:{},highest:"",lowest:"",firstCoach:"",coachCards:"",firstDelegate:"",delegateCards:""};
