@@ -230,5 +230,18 @@ button:disabled { cursor: not-allowed; }
   border-radius: 14px;
   background: rgba(255, 255, 255, .06);
 }
+
+/* A quiniela round groups six teams; each card shows its own league round. */
+.quizRounds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 0 0 14px; }
+.quizRounds button { min-height: 44px; border: 1px solid rgba(102, 160, 214, .28); border-radius: 13px; background: rgba(11, 31, 48, .82); color: #aac0d3; font-size: clamp(11px, 3vw, 13px); font-weight: 750; }
+.quizRounds button.active { color: white; border-color: #5caaf2; background: linear-gradient(135deg, #164e83, #0f3359); box-shadow: 0 5px 19px #238cf544; }
+.liquidNav button { text-align: center; }
+.liquidNav button small { margin: 0; }
+.liquidNav button.active { background: transparent !important; box-shadow: none !important; }
+.liquidNav button.active .navIcon { filter: drop-shadow(0 0 8px #5cbaff); }
+.surprise.vote > img { object-fit: contain; background: #102237; }
+.dinioFallback { display: grid; place-content: center; justify-items: center; gap: 10px; height: min(50vh, 310px); margin-bottom: 16px; border: 1px solid #315574; border-radius: 19px; background: radial-gradient(circle at 50% 50%, #214b72, #0c1a2d 70%); }
+.dinioFallback img { width: 96px; height: 96px; object-fit: contain; margin: 0; }
+.dinioFallback strong { font-size: 22px; letter-spacing: 3px; }
 .versus .crestBox img { display: block; width: 46px; height: 46px; object-fit: contain; border-radius: 8px; }
 @media (max-width: 360px) { .versus .crestBox { width: 46px; height: 46px; } .versus .crestBox img { width: 40px; height: 40px; } }
