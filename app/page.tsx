@@ -32,12 +32,18 @@ type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:str
 const rivalCrests:Record<string,string>={
  "Derio A":"/aretxabaleta-crest.svg",
  "Derio Fem":"/intxaurdi-crest.svg",
- "Derio Fem B":"/ibaiondo-crest.svg"
+ "Derio Fem B":"/ibaiondo-crest.svg",
+ "Derio B":"https://www.berangofutboltaldea.com/imagenes/miequipo/escudo.webp?varfanta=0fd8c748a85714bf046ae300f097191a",
+ "Juvenil A":"https://upload.wikimedia.org/wikipedia/commons/e/e4/Milan_Academy_%28AC_Milan%29.svg",
+ "Juvenil B":"https://api.clupik.com/clubs/9604/images/clubTransparent.png"
 };
 const confirmedFixtures:Record<string,Partial<Fixture>>={
- "Derio A":{opponent:"Aretxabaleta U.D.",date:"26/09/2026",time:"12:00",isHome:false,federationRound:4,competition:"3ª RFEF"},
+ "Derio A":{opponent:"Aretxabaleta U.D.",date:"26/09/2026",time:"12:00",venue:"Ibarra",isHome:false,federationRound:4,competition:"3ª RFEF"},
+ "Derio B":{opponent:"Berango A",date:"27/09/2026",time:"16:15",isHome:false},
  "Derio Fem":{opponent:"Intxaurdi K.E.",date:"27/09/2026",time:"18:15",isHome:true,federationRound:2,competition:"Femenina Vasca"},
- "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"04/10/2026",time:"",isHome:false,federationRound:1,competition:"1ª Regional"}
+ "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"04/10/2026",time:"",isHome:false,federationRound:1,competition:"1ª Regional"},
+ "Juvenil A":{opponent:"MSC Butroe",date:"27/09/2026",time:"15:45",isHome:true},
+ "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"",isHome:true}
 };
 function GameQuiniela({federation,picks,setPicks,saved,onSave}:{federation:Fixture[],picks:Record<string,string>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,saved:boolean,onSave:()=>void}){
  const games=teams.map(team=>({name:team,...federation.find(f=>f.name===team),...confirmedFixtures[team]}));
@@ -54,7 +60,7 @@ function GameQuiniela({federation,picks,setPicks,saved,onSave}:{federation:Fixtu
    const label=competition&&federationRound?`${competition} · J${federationRound}`:`PARTIDO ${i+1}`;
    return <article className={"matchCard "+(picks[team]?"picked":"")} key={team}>
     <div className="matchMeta"><span>{label}</span><em><i className="lockDot"/> {time?"Cierra 1h antes":"Hora pendiente"}</em></div>
-    <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:"Fecha por confirmar"}</span><span>{`${isHome?"Local":"Visitante"} · ${venue||"Campo por confirmar"}`}</span></div>
+    <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:"Fecha por confirmar"}</span><span>{`${isHome?"Local":"Visitante"} · ${isHome?"Ibaiondo, Derio":venue||"Campo por confirmar"}`}</span></div>
     <div className="versus"><div><ClubCrest src={isHome?"/derio-crest.svg":rivalCrests[team]} name={home}/><b>{home}</b><small>LOCAL</small></div><strong>VS</strong><div><ClubCrest src={isHome?rivalCrests[team]:"/derio-crest.svg"} name={away}/><b>{away}</b><small>VISITANTE</small></div></div>
     <div className="pickHint">ELIGE TU PRONÓSTICO</div>
     <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={saved} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[team]===x} className={picks[team]===x?"active":""} onClick={()=>setPicks(v=>({...v,[team]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
