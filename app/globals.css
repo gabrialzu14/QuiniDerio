@@ -212,3 +212,10 @@ button:disabled { cursor: not-allowed; }
   .roundDock { bottom: calc(67px + env(safe-area-inset-bottom)); }
   .dashboard { padding-bottom: calc(86px + env(safe-area-inset-bottom)); }
 }
+
+/* Fixture details stay legible when a competition or club name is long. */
+.matchMeta { align-items: center; gap: 8px; }
+.matchMeta > span { min-width: 0; line-height: 1.25; overflow-wrap: anywhere; }
+.matchMeta > em { flex: none; }
+.fixtureInfo span { font-size: 10px; line-height: 1.35; }
+.versus b { overflow-wrap: anywhere; }
