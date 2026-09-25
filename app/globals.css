@@ -414,3 +414,9 @@ html{touch-action:pan-y;overscroll-behavior-x:none;-webkit-text-size-adjust:100%
   .positionCard .coachPhoto{height:218px!important}
   .seasonHead h1{font-size:25px!important}
 }
+
+/* Header user chip: keep profile aligned and contained */
+.brandBar .userChip{display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;max-width:150px!important;min-width:36px!important;height:38px!important;padding:4px 8px 4px 5px!important;border-radius:999px!important;overflow:hidden!important;flex:0 0 auto!important}
+.brandBar .userChip>span{width:28px!important;height:28px!important;min-width:28px!important;display:grid!important;place-items:center!important;border-radius:50%!important;line-height:1!important}
+.brandBar .userChip>b{min-width:0!important;max-width:96px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:11px!important;line-height:1!important}
+@media(max-width:600px){.brandBar .userChip{width:36px!important;height:36px!important;padding:4px!important}.brandBar .userChip>b{display:none!important}.brandBar .userChip>span{width:28px!important;height:28px!important}.brandBar{padding-left:10px!important;padding-right:10px!important}.brandMark{min-width:0!important}.brandMark>div{min-width:0!important}}
