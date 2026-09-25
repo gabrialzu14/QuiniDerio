@@ -152,3 +152,4 @@ button:disabled { cursor: not-allowed; }
 .profilePage { animation: none; }
 .dashboard:has(.detailBackdrop) .liquidNav { opacity: 0; pointer-events: none; }
 .detailSheet { scrollbar-color: #42627d transparent; scrollbar-width: thin; }
+.dashboard:has(.detailBackdrop) .liquidNav { visibility: hidden !important; animation: none !important; }
