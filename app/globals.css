@@ -433,3 +433,16 @@ html{touch-action:pan-y;overscroll-behavior-x:none;-webkit-text-size-adjust:100%
 html[data-theme="light"] body{background:#eef3f6!important;color:#142532!important}html[data-theme="light"] .brandBar,html[data-theme="light"] .accountList,html[data-theme="light"] .accountHero{background:rgba(255,255,255,.94)!important;color:#142532!important;border-color:rgba(25,65,92,.12)!important}html[data-theme="light"] .tabPage,html[data-theme="light"] .qdHomeMain{color:#142532}html[data-theme="light"] .settingRow small,html[data-theme="light"] .accountList small,html[data-theme="light"] .accountHero small{color:#647887!important}
 html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;bottom:auto!important}html[data-nav="top"] .dashboard{padding-top:86px!important}
 @media(max-width:420px){.accountHero{padding:14px;gap:10px}.accountHero .bigAvatar{width:48px;height:48px}.accountHero h1{font-size:18px}.settingRow{grid-template-columns:30px minmax(0,1fr) auto;padding:10px}.segmented button{padding:6px;font-size:8px}}
+
+/* Home hero integrated into the game instead of looking like a standalone photo */
+.qdBanner{isolation:isolate!important;border:1px solid rgba(79,147,198,.2)!important;box-shadow:inset 0 0 70px rgba(3,12,20,.5),0 18px 48px rgba(0,0,0,.2)!important}
+.qdBanner:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 12% 50%,rgba(222,35,52,.28),transparent 38%),radial-gradient(circle at 88% 45%,rgba(31,112,201,.32),transparent 40%);mix-blend-mode:screen}
+.qdBanner:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(4,11,18,.04),rgba(4,11,18,.62)),repeating-linear-gradient(90deg,transparent 0,transparent 54px,rgba(255,255,255,.018) 55px)}
+.qdBanner>img{filter:saturate(1.06) contrast(1.05)!important;transform:scale(1.025)!important}
+.qdBannerContent{z-index:3!important;text-shadow:0 3px 18px rgba(0,0,0,.65)}
+/* 1-X-2 each has its own unmistakable selected state */
+.oneXtwo button[aria-pressed="true"]:nth-child(1){background:linear-gradient(145deg,#16854c,#0d6038)!important;border-color:#4fd18b!important;color:#fff!important;box-shadow:0 0 0 1px rgba(79,209,139,.2),0 8px 22px rgba(14,117,66,.24)!important}
+.oneXtwo button[aria-pressed="true"]:nth-child(2){background:linear-gradient(145deg,#7b4ac6,#553095)!important;border-color:#ad83ef!important;color:#fff!important;box-shadow:0 0 0 1px rgba(173,131,239,.2),0 8px 22px rgba(87,48,149,.24)!important}
+.oneXtwo button[aria-pressed="true"]:nth-child(3){background:linear-gradient(145deg,#176fb4,#104e82)!important;border-color:#62afe9!important;color:#fff!important;box-shadow:0 0 0 1px rgba(98,175,233,.2),0 8px 22px rgba(16,78,130,.24)!important}
+.oneXtwo button[aria-pressed="true"] small{color:rgba(255,255,255,.82)!important}
+.quizRounds.singleRound{grid-template-columns:1fr!important}.quizRounds.singleRound button{pointer-events:none!important}
