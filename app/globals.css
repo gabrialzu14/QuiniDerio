@@ -243,5 +243,18 @@ button:disabled { cursor: not-allowed; }
 .dinioFallback { display: grid; place-content: center; justify-items: center; gap: 10px; height: min(50vh, 310px); margin-bottom: 16px; border: 1px solid #315574; border-radius: 19px; background: radial-gradient(circle at 50% 50%, #214b72, #0c1a2d 70%); }
 .dinioFallback img { width: 96px; height: 96px; object-fit: contain; margin: 0; }
 .dinioFallback strong { font-size: 22px; letter-spacing: 3px; }
+.coachesPanel,.rivalsPanel { margin-top: 18px; padding: 16px; border: 1px solid rgba(92,158,214,.24); border-radius: 20px; background: rgba(9,28,44,.75); }
+.coachesIntro { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.coachesIntro .crestBox { width:52px; height:52px; flex:0 0 52px; }
+.coachesIntro h2,.rivalsPanel h2 { margin:2px 0 3px; font-size:18px; }
+.coachesIntro small,.rivalsPanel p { color:#8299ad; font-size:11px; margin:0; line-height:1.4; }
+.coachGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.coachGrid article { display:grid; justify-items:center; gap:4px; padding:10px 4px; border-radius:14px; background:rgba(20,47,69,.62); text-align:center; }
+.coachAvatar { width:42px; height:42px; display:grid; place-items:center; border-radius:50%; background:linear-gradient(135deg,#b92b43,#186ec1); font-weight:800; font-size:12px; }
+.coachGrid b { font-size:10px; line-height:1.15; }
+.coachGrid small { color:#8299ad; font-size:8px; }
+.rivalsPanel { display:flex; justify-content:space-between; align-items:center; gap:14px; }
+.rivalsPanel button { flex:0 0 auto; border:1px solid #4185c3; border-radius:11px; padding:10px 12px; background:#123657; color:#ddecfa; font-size:11px; font-weight:750; }
+@media(max-width:390px){.coachGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.rivalsPanel{display:block}.rivalsPanel button{margin-top:10px}}
 .versus .crestBox img { display: block; width: 46px; height: 46px; object-fit: contain; border-radius: 8px; }
 @media (max-width: 360px) { .versus .crestBox { width: 46px; height: 46px; } .versus .crestBox img { width: 40px; height: 40px; } }
