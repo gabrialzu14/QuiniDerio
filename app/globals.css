@@ -474,3 +474,29 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
 .qdBanner{aspect-ratio:16/9!important;min-height:0!important;max-height:none!important}
 .qdBanner>img{object-fit:cover!important;object-position:center center!important;filter:none!important;transform:none!important}
 @media(max-width:600px){.qdBanner{aspect-ratio:16/9!important;min-height:0!important}.qdBanner>img{object-position:center center!important}}
+
+/* Compact mobile bottom navigation */
+@media(max-width:600px){
+ .liquidNav{
+   width:calc(100% - 28px)!important;
+   max-width:430px!important;
+   min-height:58px!important;
+   height:58px!important;
+   left:50%!important;
+   bottom:max(8px,env(safe-area-inset-bottom))!important;
+   padding:5px 6px!important;
+   gap:2px!important;
+   border-radius:24px!important;
+   overflow:hidden!important;
+   box-sizing:border-box!important
+ }
+ .liquidNav button{min-width:0!important;height:48px!important;padding:4px 2px!important;border-radius:17px!important;gap:2px!important}
+ .liquidNav .navIcon{width:22px!important;height:22px!important}
+ .liquidNav .navIcon svg{width:18px!important;height:18px!important}
+ .liquidNav small{font-size:7px!important;line-height:1!important;white-space:nowrap!important}
+ .liquidNav button.active{border-radius:16px!important}
+ .dashboard{padding-bottom:82px!important}
+}
+/* Account page must occupy the normal tab viewport cleanly */
+.porraAccount{width:100%!important;max-width:760px!important;margin:0 auto!important;box-sizing:border-box!important}
+.porraAccount .accountHero,.porraAccount .accountSection{width:100%!important;box-sizing:border-box!important}
