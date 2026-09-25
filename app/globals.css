@@ -376,3 +376,9 @@ html,body,button,input,select,textarea{font-family:var(--font-inter),Inter,Arial
 
 /* Keep coach portraits fixed and clipped inside prediction card frame */
 .positionCard .coachPhoto{overflow:hidden!important;position:relative!important;isolation:isolate}.positionCard .coachPhoto img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important;object-position:center top!important;transform:none!important;translate:none!important;animation:none!important;transition:none!important}.positionCard:hover .coachPhoto img,.positionCard:active .coachPhoto img{transform:none!important;translate:none!important}.positionCard{overflow:hidden!important}
+
+/* Prediction options: selected state belongs to the whole card, no tick/chevron */
+.visualChoice .optionCards button{position:relative!important;border:1px solid rgba(105,139,166,.16)!important;background:rgba(7,18,30,.72)!important;box-shadow:none!important;transition:border-color .16s ease,background .16s ease,box-shadow .16s ease,transform .16s ease!important}
+.visualChoice .optionCards button:hover{background:rgba(12,29,45,.88)!important;border-color:rgba(92,157,205,.3)!important}
+.visualChoice .optionCards button.active{background:linear-gradient(105deg,rgba(32,91,135,.34),rgba(13,31,48,.94))!important;border-color:rgba(83,170,231,.82)!important;box-shadow:inset 3px 0 0 #4da8e7,0 7px 22px rgba(0,0,0,.16),0 0 0 1px rgba(77,168,231,.08)!important;transform:translateY(-1px)}
+.visualChoice .optionCards button.active strong{color:#fff!important;font-weight:850!important}.visualChoice .optionCards button.active i{background:rgba(70,157,218,.2)!important;border-color:rgba(88,177,239,.4)!important;color:#bde5ff!important}
