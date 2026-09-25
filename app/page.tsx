@@ -29,6 +29,11 @@ function Choice({title,points,value,options,onChange}:{title:string,points:strin
 
 type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string};
 // Confirmed directly from the club's federation screenshots; unknown times stay unknown.
+const rivalCrests:Record<string,string>={
+ "Derio A":"/aretxabaleta-crest.svg",
+ "Derio Fem":"/intxaurdi-crest.svg",
+ "Derio Fem B":"/ibaiondo-crest.svg"
+};
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"Aretxabaleta U.D.",date:"26/09/2026",time:"12:00",isHome:false,federationRound:4,competition:"3ª RFEF"},
  "Derio Fem":{opponent:"Intxaurdi K.E.",date:"27/09/2026",time:"18:15",isHome:true,federationRound:2,competition:"Femenina Vasca"},
@@ -50,7 +55,7 @@ function GameQuiniela({federation,picks,setPicks,saved,onSave}:{federation:Fixtu
    return <article className={"matchCard "+(picks[team]?"picked":"")} key={team}>
     <div className="matchMeta"><span>{label}</span><em><i className="lockDot"/> {time?"Cierra 1h antes":"Hora pendiente"}</em></div>
     <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:"Fecha por confirmar"}</span><span>{`${isHome?"Local":"Visitante"} · ${venue||"Campo por confirmar"}`}</span></div>
-    <div className="versus"><div><i>{isHome?"CD":"?"}</i><b>{home}</b><small>LOCAL</small></div><strong>VS</strong><div><i>{isHome?"?":"CD"}</i><b>{away}</b><small>VISITANTE</small></div></div>
+    <div className="versus"><div><ClubCrest src={isHome?"/derio-crest.svg":rivalCrests[team]} name={home}/><b>{home}</b><small>LOCAL</small></div><strong>VS</strong><div><ClubCrest src={isHome?rivalCrests[team]:"/derio-crest.svg"} name={away}/><b>{away}</b><small>VISITANTE</small></div></div>
     <div className="pickHint">ELIGE TU PRONÓSTICO</div>
     <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={saved} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[team]===x} className={picks[team]===x?"active":""} onClick={()=>setPicks(v=>({...v,[team]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
     {picks[team]&&<div className="pickFeedback">Pronóstico: <b>{picks[team]}</b><span>Guardado localmente</span></div>}
@@ -59,6 +64,7 @@ function GameQuiniela({federation,picks,setPicks,saved,onSave}:{federation:Fixtu
   <div className="roundDock"><div><b>{saved?"Quiniela enviada":done===6?"Lista para guardar":done+"/6 elegidos"}</b><small>{saved?"Tus pronósticos quedan bloqueados en este prototipo":done===6?"Revisa tus elecciones":"Completa todos los partidos"}</small></div><button className={saved?"saved":""} disabled={done<6||saved} onClick={onSave}>{saved?"✓ Guardada":"Guardar"}</button></div>
  </section>
 }
+function ClubCrest({src,name}:{src?:string,name:string}){return src?<span className="crestBox"><img src={src} alt={`Escudo de ${name}`} loading="lazy"/></span>:<i aria-hidden="true">?</i>}
 function MyPredictions({picks,onEdit}:{picks:Record<string,string>,onEdit:()=>void}){const total=Object.keys(picks).length;return <section className="tabPage"><div className="pageTop porraPageTop"><p className="eyebrow">MIS PRONÓSTICOS</p><h1>Tu jornada</h1><p>Consulta rápidamente todo lo que has marcado.</p></div><div className="predictionSummary"><div><small>COMPLETADOS</small><b>{total}<em>/6</em></b></div><span>{total===6?"Jornada completa ✓":"Te faltan "+(6-total)}</span></div><div className="myPicks">{["Derio A","Derio B","Derio Fem","Derio Fem B","Juvenil A","Juvenil B"].map((team,i)=><button type="button" className="myPick" onClick={onEdit} aria-label={`Ver partido y pronóstico de ${team}`} key={team}><span>{i+1}</span><div><b>{team}</b><small>Jornada actual · tocar para ver</small></div><strong className={picks[team]?"hasPick":""}>{picks[team]||"—"}</strong></button>)}</div></section>}
 function Ranking({mode,setMode}:{mode:"general"|"jornada",setMode:(m:"general"|"jornada")=>void}){return <section className="tabPage"><div className="pageTop porraPageTop"><p className="eyebrow">CLASIFICACIÓN</p><h1>{mode==="general"?"Clasificación general":"Clasificación de jornada"}</h1><p>{mode==="general"?"Puntos acumulados durante la temporada.":"Puntos conseguidos en la jornada actual."}</p></div><div className="rankingTabs"><button className={mode==="general"?"active":""} onClick={()=>setMode("general")}>General</button><button className={mode==="jornada"?"active":""} onClick={()=>setMode("jornada")}>Jornada</button></div><div className="leaderCard"><div><span>1</span><div><b>Sin líder aún</b><small>La clasificación aparecerá con las primeras puntuaciones</small></div><strong>0 <em>pts</em></strong></div></div><div className="rankingHeader"><span>#</span><span>JUGADOR</span><span>PTS</span></div><div className="rankingEmpty porraEmpty">Todavía no hay puntuaciones registradas.</div></section>}
 function More({name,dinio,season}:{name:string,dinio:string,season:Season}){
