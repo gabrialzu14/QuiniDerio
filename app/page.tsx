@@ -28,7 +28,7 @@ export default function Home(){
 function Brand({avatar,onHome}:{avatar?:string,onHome?:()=>void}){return <header className="brandBar glassHeader"><div className="brandMark"><img src="/quiniderio-logo.jpg" alt="QuiniDerio"/><div><b className="logo">Quini<span>Derio</span></b><small>LA QUINIELA DEL CD DERIO</small></div></div>{avatar&&<button type="button" className="avatar" onClick={onHome} aria-label="Volver a Inicio">{avatar}</button>}</header>}
 function Choice({title,points,value,options,onChange}:{title:string,points:string,value:string,options:string[],onChange:(v:string)=>void}){return <section className="choice"><span><b>{title}</b><em>{points}</em></span><div className="optionCards">{options.map(o=><button type="button" className={value===o?"active":""} onClick={()=>onChange(o)} key={o}><i>{o.split(" ").map(x=>x[0]).slice(0,2).join("")}</i><strong>{o}</strong><span>{value===o?"✓":"›"}</span></button>)}</div></section>}
 
-type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string};
+type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string};
 // Confirmed directly from the club's federation screenshots; unknown times stay unknown.
 const rivalCrests:Record<string,string>={
  "Derio A":"/aretxabaleta-crest.svg",
@@ -47,7 +47,7 @@ const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"",isHome:true,federationRound:2,competition:"Liga Juvenil B"}
 };
 const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
- 1:{"Derio A":confirmedFixtures["Derio A"],"Derio B":confirmedFixtures["Derio B"],"Derio Fem":confirmedFixtures["Derio Fem"],"Derio Fem B":{competition:"Amistoso"},"Juvenil A":confirmedFixtures["Juvenil A"],"Juvenil B":{competition:"Amistoso"}},
+ 1:{"Derio A":confirmedFixtures["Derio A"],"Derio B":confirmedFixtures["Derio B"],"Derio Fem":confirmedFixtures["Derio Fem"],"Derio Fem B":{opponent:"Bizkerre C",date:"26/09/2026",time:"18:30",isHome:true,competition:"Amistoso",crest:"https://pbs.twimg.com/profile_images/1612424888668635136/6IixKALc.jpg"},"Juvenil A":confirmedFixtures["Juvenil A"],"Juvenil B":{opponent:"Sestao River",date:"26/09/2026",time:"16:00",isHome:true,competition:"Amistoso",crest:"https://pbs.twimg.com/profile_images/1898675328312078378/KMMAP-Rd.jpg"}},
  2:{"Derio Fem B":confirmedFixtures["Derio Fem B"],"Juvenil B":confirmedFixtures["Juvenil B"]},
  3:{}
 };
@@ -70,7 +70,7 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
    return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
     <div className="matchMeta"><span>{label}</span><em><i className="lockDot"/> {time?"Cierra 1h antes":"Hora pendiente"}</em></div>
     <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{game.isHome===undefined?"Localía y campo por confirmar":`${isHome?"Local":"Visitante"} · ${isHome?"Ibaiondo, Derio":venue||"Campo por confirmar"}`}</span></div>
-    <div className="versus"><div><ClubCrest src={isHome?"/derio-crest.svg":rivalCrests[team]} name={home}/><b>{home}</b><small>{game.isHome===undefined?"DERIO":"LOCAL"}</small></div><strong>VS</strong><div><ClubCrest src={isHome?rivalCrests[team]:"/derio-crest.svg"} name={away}/><b>{away}</b><small>{game.isHome===undefined?"POR CONFIRMAR":"VISITANTE"}</small></div></div>
+    <div className="versus"><div><ClubCrest src={isHome?"/derio-crest.svg":game.crest||rivalCrests[team]} name={home}/><b>{home}</b><small>{game.isHome===undefined?"DERIO":"LOCAL"}</small></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/derio-crest.svg"} name={away}/><b>{away}</b><small>{game.isHome===undefined?"POR CONFIRMAR":"VISITANTE"}</small></div></div>
     <div className="pickHint">ELIGE TU PRONÓSTICO</div>
     <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={saved||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active":""} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
     {picks[pickKey]&&<div className="pickFeedback">Pronóstico: <b>{picks[pickKey]}</b><span>Guardado localmente</span></div>}
