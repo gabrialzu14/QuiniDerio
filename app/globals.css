@@ -145,3 +145,8 @@ button:disabled { cursor: not-allowed; }
 .detailExtra small { display: block; margin-top: 12px; color: #9db3c5; }
 @media (max-width: 370px) { .liquidNav small { font-size: 8px !important; } .liquidNav button { min-height: 53px; } }
 @media (prefers-reduced-motion: reduce) { .liquidNav button, .liquidNav .navIcon, .glassStats button, .weeklyShortcut, .menuCards button, .myPick, .oneXtwo button, .heroActions button, .optionCards button, .rankGrid button, .detailBackdrop { transition: none !important; animation: none !important; } }
+
+/* Keep the mobile dock aligned with the app on wide screens. */
+.liquidNav { left: 50% !important; right: auto !important; width: min(calc(100% - 24px), 500px) !important; transform: translateX(-50%); }
+/* A transformed animated parent would displace a fixed dialog after scrolling. */
+.profilePage { animation: none; }
