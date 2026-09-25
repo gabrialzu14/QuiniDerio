@@ -55,7 +55,7 @@ function HomeOverview({name,currentDone,onTab}:{name:string,currentDone:number,o
   </aside>
   <div className="qdHomeMain">
    <section className="qdBanner">
-    <img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/Imagen%20con%20Fondo%20Eliminado.png" alt="QuiniDerio · CD Derio"/>
+    <img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/ImagenPortada.png" alt="QuiniDerio · CD Derio"/>
     <div className="qdBannerShade"/>
     <div className="qdBannerContent"><span><i/> TEMPORADA 2026/27</span><h1>QUINI<span>DERIO</span></h1><p>LA QUINIELA DEL CD DERIO</p></div>
    </section>
@@ -73,7 +73,7 @@ function HomeOverview({name,currentDone,onTab}:{name:string,currentDone:number,o
   </div>
  </div>
 }
-function Brand({avatar,name,onHome}:{avatar?:string,name?:string,onHome?:()=>void}){return <header className="brandBar glassHeader"><div className="brandMark"><img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png" alt="QuiniDerio"/><div><b className="logo">Quini<span>Derio</span></b><small>LA QUINIELA DEL CD DERIO</small></div></div>{avatar&&<button type="button" className="avatar userChip" onClick={onHome} aria-label="Volver a Inicio"><span>{avatar}</span>{name&&<b>{name}</b>}</button>}</header>}
+function Brand({avatar,name,onHome}:{avatar?:string,name?:string,onHome?:()=>void}){return <header className="brandBar glassHeader"><div className="brandMark"><img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png" alt="QuiniDerio"/><div><b className="logo">Quini<span>Derio</span></b><small>LA QUINIELA DEL CD DERIO</small></div></div>{avatar&&<button type="button" className="avatar userChip" onClick={onHome} aria-label="Volver a Inicio"><span>{avatar}</span>{name&&<b title={name}>{name}</b>}</button>}</header>}
 function Choice({title,points,value,options,onChange,visual}:{title:string,points:string,value:string,options:string[],onChange:(v:string)=>void,visual?:"up"|"down"|"red"|"cards"}){return <section className={`choice visualChoice ${visual||""}`}><span className="choiceHead"><span className="choiceTitle">{visual&&<i className={`choiceVisual ${visual}`} aria-hidden="true">{visual==="up"?"↑":visual==="down"?"↓":visual==="red"?"":<><u></u><u></u></>}</i>}<b>{title}</b></span><em>{points}</em></span><div className="optionCards">{options.map(o=><button type="button" className={value===o?"active":""} onClick={()=>onChange(o)} key={o}><i>{o.split(" ").map(x=>x[0]).slice(0,2).join("")}</i><strong>{o}</strong></button>)}</div></section>}
 
 type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string};
