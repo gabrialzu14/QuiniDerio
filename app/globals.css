@@ -337,3 +337,8 @@ button:disabled { cursor: not-allowed; }
 .qdBannerContent{display:none!important}
 @media(min-width:901px){.qdBanner{height:auto!important}.qdBanner>img{width:100%!important;height:auto!important;object-fit:contain!important}}
 @media(max-width:900px){.qdBanner{height:auto!important;margin:0 -14px!important}.qdBanner>img{width:100%!important;height:auto!important;object-fit:contain!important}}
+
+/* Temporary QA account reset */
+.menuCards .resetAccount{margin-top:10px;border-color:rgba(255,84,99,.2)!important;background:rgba(92,20,31,.18)!important}
+.menuCards .resetAccount>span,.menuCards .resetAccount b{color:#ff6978!important}
+.menuCards .resetAccount:hover{background:rgba(120,26,40,.25)!important;border-color:rgba(255,84,99,.34)!important}
