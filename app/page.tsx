@@ -141,7 +141,7 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
  </section>
 }
 function DinioImage(){const [failed,setFailed]=useState(false);return failed?<div className="dinioFallback" role="img" aria-label="Imagen de Dinio pendiente"><img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" alt=""/><strong>DINIO</strong></div>:<img src="/dinio.png" alt="Dinio y CD Derio" onError={()=>setFailed(true)}/>;}
-function QuiniCover(){return <section className="quiniCover uploadedCover mobileCover" aria-label="QuiniDerio"><img src={SB+"/branding/ImagenPortada.png"} alt="QuiniDerio · CD Derio"/></section>}
+function QuiniCover(){return <section className="quiniCover uploadedCover mobileCover" aria-label="QuiniDerio"><img src={SB+"/branding/ImagenPortada.png?v=202609281640"} alt="QuiniDerio · CD Derio"/></section>}
 function CoachesPanel(){return <section className="coachesPanel"><div className="coachesIntro"><ClubCrest src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" name="CD Derio"/><div><p className="eyebrow">CD DERIO</p><h2>El equipo</h2><small>Entrenadores de la temporada</small></div></div><div className="coachGrid">{teamData.map(t=><article key={t.name}><div className="coachAvatar"><img src={t.photo} alt={`Entrenador ${t.coach}`} /></div><b>{t.coach}</b><small>{t.name}</small></article>)}</div></section>}
 function ClubCrest({src,name}:{src?:string,name:string}){return src?<span className="crestBox"><img src={src} alt={`Escudo de ${name}`} loading="lazy"/></span>:<i aria-hidden="true">?</i>}
 function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,string>,round:number,dinio:string,season:Season,onEdit:()=>void}){
