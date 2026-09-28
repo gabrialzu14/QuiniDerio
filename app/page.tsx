@@ -89,8 +89,8 @@ const rivalCrests:Record<string,string>={
  "Juvenil B":SB+"/Escudos/SD%20LEIOA.png"
 }
 const confirmedFixtures:Record<string,Partial<Fixture>>={
- "Derio A":{opponent:"S.D. Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF"},
- "Derio B":{opponent:"Escolapios",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B"},
+ "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF"},
+ "Derio B":{opponent:"Escolapios",date:"03/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B"},
  "Derio Fem":{opponent:"CD Lakua",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca"},
  "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"03/10/2026",time:"20:00",venue:"Ibaiondo",isHome:true,federationRound:1,competition:"FEM B"},
  "Juvenil A":{opponent:"Iturrigorri A",date:"04/10/2026",time:"13:30",venue:"La Roseta, Bilbao",isHome:false,federationRound:3,competition:"Juvenil A"},
