@@ -56,7 +56,7 @@ function HomeOverview({name,currentDone,onTab}:{name:string,currentDone:number,o
   </aside>
   <div className="qdHomeMain">
    <section className="qdBanner">
-    <img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/Fondoinicio.png" alt="QuiniDerio · CD Derio"/>
+    <img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png" alt="QuiniDerio · CD Derio"/>
     <div className="qdBannerShade"/>
     <div className="qdBannerContent"><span><i/> TEMPORADA 2026/27</span><h1><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></h1><p>LA QUINIELA DEL CD DERIO</p></div>
    </section>
@@ -136,7 +136,7 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
  </section>
 }
 function DinioImage(){const [failed,setFailed]=useState(false);return failed?<div className="dinioFallback" role="img" aria-label="Imagen de Dinio pendiente"><img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" alt=""/><strong>DINIO</strong></div>:<img src="/dinio.png" alt="Dinio y CD Derio" onError={()=>setFailed(true)}/>;}
-function QuiniCover(){return <section className="quiniCover uploadedCover" aria-label="QuiniDerio"><img src={SB+"/branding/Fondoinicio.png"} alt="QuiniDerio · CD Derio" style={{display:"block",width:"100%",height:"auto",objectFit:"cover"}}/></section>}
+function QuiniCover(){return <section className="quiniCover uploadedCover" aria-label="QuiniDerio"><img src={SB+"/branding/LogoApp.png"} alt="QuiniDerio · CD Derio" style={{display:"block",width:"100%",height:"auto",objectFit:"cover"}}/></section>}
 function CoachesPanel(){return <section className="coachesPanel"><div className="coachesIntro"><ClubCrest src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" name="CD Derio"/><div><p className="eyebrow">CD DERIO</p><h2>El equipo</h2><small>Entrenadores de la temporada</small></div></div><div className="coachGrid">{teamData.map(t=><article key={t.name}><div className="coachAvatar"><img src={t.photo} alt={`Entrenador ${t.coach}`} /></div><b>{t.coach}</b><small>{t.name}</small></article>)}</div></section>}
 function ClubCrest({src,name}:{src?:string,name:string}){return src?<span className="crestBox"><img src={src} alt={`Escudo de ${name}`} loading="lazy"/></span>:<i aria-hidden="true">?</i>}
 function MyPredictions({picks,round,onEdit}:{picks:Record<string,string>,round:number,onEdit:()=>void}){
