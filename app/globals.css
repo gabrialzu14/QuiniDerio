@@ -669,3 +669,9 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
 .optionCards button.active:after{content:"✓";position:absolute!important;right:6px!important;top:6px!important;width:16px!important;height:16px!important;display:grid!important;place-items:center!important;border-radius:50%!important;background:#36a9f4!important;color:#04131f!important;font-size:9px!important;font-weight:950!important;box-shadow:0 2px 8px rgba(28,151,230,.35)!important}
 .optionCards button.active i{border-color:rgba(93,190,250,.45)!important;box-shadow:0 0 10px rgba(36,153,226,.16)!important}
 .optionCards button:active{transform:scale(.98)!important}
+
+
+/* Playoff semantic color: purple */
+.zoneLegend i.playoff{background:#a970ff!important;box-shadow:0 0 8px rgba(169,112,255,.35)!important}
+.rankGrid button.playoff{border-color:rgba(169,112,255,.30)!important;color:#c8a7ff!important;background:rgba(169,112,255,.06)!important}
+.rankGrid button.active.playoff{color:#16062b!important;background:linear-gradient(180deg,#bd8cff,#9355e8)!important;border-color:#cfa8ff!important;box-shadow:0 0 0 1px rgba(169,112,255,.20),0 4px 14px rgba(143,76,226,.30)!important}
