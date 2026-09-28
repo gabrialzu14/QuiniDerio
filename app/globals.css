@@ -968,3 +968,54 @@ html[data-theme="light"] .refreshOverlay i{color:#128bc9!important;text-shadow:n
 @keyframes saveSweep{to{background-position:-220% 0}}
 @keyframes savePop{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
 html[data-theme="light"] .roundDock>button:not(:disabled):active{box-shadow:0 2px 7px rgba(37,92,125,.16),inset 0 2px 5px rgba(21,100,145,.10)!important}
+
+
+/* Fix pull-to-refresh regression: force compact horizontal pill */
+.refreshOverlay,
+.gameScreen .refreshOverlay,
+.dashboard .refreshOverlay{
+  position:fixed!important;
+  top:calc(72px + env(safe-area-inset-top))!important;
+  bottom:auto!important;
+  left:50%!important;
+  right:auto!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+  min-width:0!important;
+  max-width:calc(100vw - 36px)!important;
+  height:40px!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  padding:0 17px!important;
+  margin:0!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:9px!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+}
+.refreshOverlay i,
+.gameScreen .refreshOverlay i{
+  flex:0 0 auto!important;
+  width:15px!important;
+  height:15px!important;
+  min-width:15px!important;
+  min-height:15px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:16px!important;
+  line-height:15px!important;
+}
+.refreshOverlay b,
+.gameScreen .refreshOverlay b{
+  flex:0 0 auto!important;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  font-size:10px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+}
