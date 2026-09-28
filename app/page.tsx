@@ -91,7 +91,7 @@ const rivalCrests:Record<string,string>={
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"S.D. Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF"},
  "Derio B":{opponent:"Escolapios",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B"},
- "Derio Fem":{opponent:"Lakua de Vitoria-Gasteiz C.D.F. A",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca"},
+ "Derio Fem":{opponent:"CD Lakua",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca"},
  "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"04/10/2026",time:"18:30",venue:"PM Rekalde, Bilbao",isHome:false,federationRound:1,competition:"FEM B"},
  "Juvenil A":{opponent:"Iturrigorri A",date:"04/10/2026",time:"13:30",venue:"La Roseta, Bilbao",isHome:false,federationRound:3,competition:"Juvenil A"},
  "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"15:30",venue:"Ibaiondo, Derio",isHome:true,federationRound:1,competition:"Juvenil B"}
