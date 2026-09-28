@@ -1954,3 +1954,111 @@ main.gameScreen>.season .stepBadge{
   .dashboard{padding-bottom:calc(96px + env(safe-area-inset-bottom))!important}
   .dashboard .liquidNav{bottom:calc(10px + env(safe-area-inset-bottom))!important}
 }
+
+
+/* Loading v2 — faster, quieter and more dynamic */
+.appSplash.modernSplash{
+  position:fixed!important;
+  inset:0!important;
+  z-index:99999!important;
+  width:100%!important;
+  min-height:100dvh!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  overflow:hidden!important;
+  background:#070d13!important;
+}
+.modernSplash .splashAtmosphere{position:absolute!important;inset:0!important;pointer-events:none!important}
+.modernSplash .splashAtmosphere i{position:absolute!important;width:62vw!important;height:62vw!important;border-radius:50%!important;filter:blur(70px)!important;opacity:.14!important;animation:splashDrift 3s ease-in-out infinite alternate!important}
+.modernSplash .splashAtmosphere i:first-child{left:-28vw!important;top:12%!important;background:var(--qd-red)!important}
+.modernSplash .splashAtmosphere i:last-child{right:-28vw!important;bottom:10%!important;background:var(--qd-blue)!important;animation-delay:-1.2s!important}
+.modernSplash .splashPulse{position:absolute!important;width:184px!important;height:184px!important;display:grid!important;place-items:center!important}
+.modernSplash .splashPulse span{position:absolute!important;width:92px!important;height:92px!important;border:1px solid rgba(255,255,255,.09)!important;border-radius:50%!important;animation:splashRing 2s ease-out infinite!important}
+.modernSplash .splashPulse span:nth-child(2){animation-delay:.55s!important}
+.modernSplash .splashPulse span:nth-child(3){animation-delay:1.1s!important}
+.modernSplash .splashLogo{position:relative!important;z-index:2!important;width:86px!important;height:86px!important;padding:0!important;border-radius:24px!important;overflow:hidden!important;box-shadow:0 18px 55px rgba(0,0,0,.38)!important;animation:splashLogoIn .55s cubic-bezier(.2,.8,.2,1) both!important}
+.modernSplash .splashLogo img{width:100%!important;height:100%!important;display:block!important;object-fit:cover!important}
+.modernSplash .splashWord{position:relative!important;z-index:2!important;margin-top:20px!important;text-align:center!important}
+.modernSplash .splashWord b{display:block!important;font-size:27px!important;line-height:1!important;letter-spacing:-1.1px!important}
+.modernSplash .splashWord small{display:block!important;margin-top:7px!important;color:#74818c!important;font-size:7px!important;font-weight:800!important;letter-spacing:1.65px!important}
+.modernSplash .splashLoader{position:relative!important;z-index:2!important;display:flex!important;gap:6px!important;margin-top:25px!important}
+.modernSplash .splashLoader span{width:5px!important;height:5px!important;border-radius:50%!important;background:#7f8c96!important;animation:splashDot .85s ease-in-out infinite alternate!important}
+.modernSplash .splashLoader span:first-child{background:var(--qd-red)!important}
+.modernSplash .splashLoader span:nth-child(2){animation-delay:.16s!important}
+.modernSplash .splashLoader span:last-child{background:var(--qd-blue)!important;animation-delay:.32s!important}
+.modernSplash>em{position:relative!important;z-index:2!important;margin-top:9px!important;color:#586570!important;font-size:6px!important;font-style:normal!important;font-weight:850!important;letter-spacing:1.6px!important}
+.modernSplash.isReady .splashLoader span{animation-duration:.35s!important}
+@keyframes splashRing{0%{transform:scale(.65);opacity:.65}100%{transform:scale(1.8);opacity:0}}
+@keyframes splashDot{to{transform:translateY(-5px);opacity:.4}}
+@keyframes splashDrift{to{transform:translate3d(7vw,-3vh,0) scale(1.08)}}
+@keyframes splashLogoIn{from{transform:scale(.76);opacity:0}to{transform:scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ .modernSplash *{animation:none!important}
+}
+
+/* Prediction save v2 — clear action + green confirmation below */
+.roundDock{
+  grid-template-columns:minmax(0,1fr) minmax(138px,168px)!important;
+  gap:10px!important;
+  padding:11px!important;
+  border-radius:18px!important;
+  background:#0c141b!important;
+  border:1px solid var(--qd-line-strong)!important;
+  overflow:visible!important;
+}
+.roundDockStatus{min-width:0!important}
+.roundDockStatus b{font-size:10px!important;color:#eef3f6!important}
+.roundDockStatus small{margin-top:4px!important;color:#7d8993!important;line-height:1.25!important}
+.roundDock .savePrediction{
+  width:100%!important;
+  min-height:44px!important;
+  padding:10px 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:9px!important;
+  border:1px solid transparent!important;
+  border-radius:13px!important;
+  background:linear-gradient(105deg,var(--qd-red),#a53c69 48%,var(--qd-blue))!important;
+  color:#fff!important;
+  font-size:9px!important;
+  font-weight:850!important;
+  letter-spacing:.1px!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.22)!important;
+}
+.roundDock .savePrediction i{font-size:14px!important;font-style:normal!important;line-height:1!important}
+.roundDock .savePrediction:disabled{
+  background:#171f26!important;
+  border-color:var(--qd-line)!important;
+  color:#606c75!important;
+  box-shadow:none!important;
+  opacity:1!important;
+}
+.predictionSaved{
+  position:absolute!important;
+  top:calc(100% + 8px)!important;
+  left:0!important;
+  right:0!important;
+  min-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:9px 14px!important;
+  border:1px solid #39b879!important;
+  border-radius:13px!important;
+  background:rgba(13,54,38,.96)!important;
+  color:#7ce3ad!important;
+  font-size:10px!important;
+  font-weight:850!important;
+  letter-spacing:.2px!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.26)!important;
+  animation:savedSlide .22s ease-out both!important;
+}
+@keyframes savedSlide{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:390px){
+ .roundDock{grid-template-columns:minmax(0,1fr) 132px!important}
+ .roundDock .savePrediction{padding-left:8px!important;padding-right:8px!important;font-size:8.3px!important}
+}
