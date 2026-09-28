@@ -746,3 +746,18 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
   color:#eafaff!important;
   text-shadow:0 0 8px rgba(83,206,255,.32)!important;
 }
+
+
+/* Uniform neon selection: no side/leading selection marker */
+.optionCards button.active:before,
+.optionCards button.active:after{
+  content:none!important;
+  display:none!important;
+}
+.optionCards button.active{
+  border-color:rgba(63,190,255,.88)!important;
+  box-shadow:
+    0 0 10px rgba(25,169,247,.38),
+    0 0 22px rgba(22,140,244,.18),
+    inset 0 0 15px rgba(30,167,244,.08)!important;
+}
