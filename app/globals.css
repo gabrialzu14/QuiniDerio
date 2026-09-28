@@ -675,3 +675,35 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
 .zoneLegend i.playoff{background:#a970ff!important;box-shadow:0 0 8px rgba(169,112,255,.35)!important}
 .rankGrid button.playoff{border-color:rgba(169,112,255,.30)!important;color:#c8a7ff!important;background:rgba(169,112,255,.06)!important}
 .rankGrid button.active.playoff{color:#16062b!important;background:linear-gradient(180deg,#bd8cff,#9355e8)!important;border-color:#cfa8ff!important;box-shadow:0 0 0 1px rgba(169,112,255,.20),0 4px 14px rgba(143,76,226,.30)!important}
+
+
+/* Compact safe-area continue dock + tickless staff selection */
+.optionCards button.active:after{display:none!important;content:none!important}
+@media(max-width:600px){
+ .confirmDock{
+   left:max(14px,env(safe-area-inset-left))!important;
+   right:max(14px,env(safe-area-inset-right))!important;
+   width:auto!important;max-width:none!important;
+   bottom:calc(12px + env(safe-area-inset-bottom))!important;
+   min-height:0!important;
+   padding:7px 8px 7px 11px!important;
+   gap:8px!important;
+   border-radius:15px!important;
+   box-sizing:border-box!important;
+   background:rgba(8,25,39,.86)!important;
+   border:1px solid rgba(121,187,229,.16)!important;
+   box-shadow:0 8px 24px rgba(0,0,0,.25)!important;
+   backdrop-filter:blur(22px)!important;-webkit-backdrop-filter:blur(22px)!important
+ }
+ .confirmDock>div{min-width:0!important}
+ .confirmDock b{font-size:9px!important;line-height:1.1!important}
+ .confirmDock small{font-size:6.5px!important;line-height:1.1!important}
+ .confirmDock button{
+   flex:0 0 auto!important;
+   min-height:34px!important;
+   padding:7px 11px!important;
+   border-radius:10px!important;
+   font-size:8.5px!important;
+   white-space:nowrap!important
+ }
+}
