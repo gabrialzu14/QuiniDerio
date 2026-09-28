@@ -1823,3 +1823,106 @@ main.gameScreen>.season .stepBadge{
 .roundBadge,.eyebrow{color:#7faed2!important}
 .redCardMark{background:var(--qd-red)!important}
 .gameToast{border-color:rgba(223,51,73,.28)!important}
+
+
+/* QA pass 2026-09-29 — mobile navigation, touch targets and crest normalization */
+@media(max-width:600px){
+  /* Bottom navigation: one authoritative mobile geometry */
+  .dashboard{
+    padding-bottom:calc(104px + env(safe-area-inset-bottom))!important;
+  }
+  .dashboard .liquidNav{
+    position:fixed!important;
+    z-index:1000!important;
+    left:50%!important;
+    right:auto!important;
+    bottom:calc(10px + env(safe-area-inset-bottom))!important;
+    transform:translateX(-50%)!important;
+    width:min(420px,calc(100vw - 24px))!important;
+    min-height:62px!important;
+    padding:5px!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:2px!important;
+    border-radius:21px!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+  .dashboard .liquidNav button{
+    min-width:0!important;
+    min-height:50px!important;
+    padding:5px 1px!important;
+    border-radius:16px!important;
+    overflow:hidden!important;
+  }
+  .dashboard .liquidNav .navIcon{
+    height:20px!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+  .dashboard .liquidNav small{
+    display:block!important;
+    max-width:100%!important;
+    margin-top:2px!important;
+    overflow:hidden!important;
+    white-space:nowrap!important;
+    text-overflow:ellipsis!important;
+    font-size:6.3px!important;
+    line-height:1!important;
+  }
+  .dashboard .liquidNav button.active:before{
+    background:linear-gradient(90deg,var(--qd-red),var(--qd-blue))!important;
+    box-shadow:none!important;
+  }
+
+  /* Prevent cards / fixtures from creating horizontal scroll */
+  .tabPage,.qdHome,.matchCard,.myPick,.fixturePick,.versus,.qdFixture,
+  .accountProfileCard,.accountSection,.rivalsPanel{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .fixturePickCopy,.qdClub,.versus>div{
+    min-width:0!important;
+  }
+  .fixturePickCopy b span,.qdClub b,.versus b{
+    overflow-wrap:anywhere!important;
+  }
+
+  /* iOS tap ergonomics */
+  .roundPredictionTabs button,
+  .predictionScopeTabs button,
+  .predictionTabs button,
+  .rankingTabs button{
+    min-height:40px!important;
+  }
+}
+
+/* Crest QA: contain every badge, then compensate the oversized Iturrigorri source */
+.crestBox{
+  display:grid!important;
+  place-items:center!important;
+  overflow:hidden!important;
+}
+.crestBox img{
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+}
+.crestBox img[src*="ITURRIGORRI"],
+.crestBox img[src*="Iturrigorri"],
+.crestBox img[alt*="Iturrigorri"],
+.crestBox img[alt*="ITURRIGORRI"]{
+  width:72%!important;
+  height:72%!important;
+  max-width:72%!important;
+  max-height:72%!important;
+}
+
+/* Ensure fixed CTA/nav layers never overlap each other on onboarding/dashboard */
+@media(max-width:600px){
+  main.gameScreen>.confirmDock{z-index:900!important}
+  main.dashboard>.liquidNav{z-index:1000!important}
+}
