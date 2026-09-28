@@ -91,7 +91,7 @@ const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"S.D. Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF"},
  "Derio B":{opponent:"Escolapios",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B"},
  "Derio Fem":{opponent:"Lakua de Vitoria-Gasteiz C.D.F. A",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca"},
- "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"04/10/2026",time:"18:30",venue:"Campo por confirmar",isHome:false,federationRound:1,competition:"FEM B"},
+ "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"04/10/2026",time:"18:30",venue:"PM Rekalde, Bilbao",isHome:false,federationRound:1,competition:"FEM B"},
  "Juvenil A":{opponent:"Iturrigorri A",date:"04/10/2026",time:"13:30",venue:"La Roseta, Bilbao",isHome:false,federationRound:3,competition:"Juvenil A"},
  "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"15:30",venue:"Ibaiondo, Derio",isHome:true,federationRound:1,competition:"Juvenil B"}
 };
@@ -124,8 +124,8 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
    const label=competition==="Amistoso"?"AMISTOSO":federationRound?`${competition||"Liga"} · Jornada ${federationRound}`:`JORNADA DE LIGA PENDIENTE`;
    const pickKey=`${round}:${team}`;
    return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
-    <div className="matchMeta"><span>{label}</span><em><i className="lockDot"/> {time?"Cierra 1h antes":"Hora pendiente"}</em></div>
-    <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{game.isHome===undefined?"Localía y campo por confirmar":`${isHome?"Local":"Visitante"} · ${isHome?"Ibaiondo, Derio":venue||"Campo por confirmar"}`}</span></div>
+    <div className="matchMeta"><span>{label}</span><em>{time?"Jornada abierta":"Hora pendiente"}</em></div>
+    <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{venue||"Lugar por confirmar"}</span></div>
     <div className="versus"><div><ClubCrest src={isHome?"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b><small>{game.isHome===undefined?"DERIO":"LOCAL"}</small></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png"} name={away}/><b>{away}</b><small>{game.isHome===undefined?"POR CONFIRMAR":"VISITANTE"}</small></div></div>
     <div className="pickHint">ELIGE TU PRONÓSTICO</div>
     <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={saved||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active":""} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
