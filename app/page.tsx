@@ -111,8 +111,12 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
  const games=teams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
  const done=teams.filter(team=>picks[`${round}:${team}`]).length;
  const pending=games.filter(game=>!game.opponent).length;
+ const parseKickoff=(date?:string,time?:string)=>{if(!date||!time)return null;const [d,m,y]=date.split("/").map(Number);const [h,min]=time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()};
+ const kickoffs=games.map(g=>parseKickoff(g.date,g.time)).filter((v):v is number=>v!==null);
+ const firstKickoff=kickoffs.length?Math.min(...kickoffs):null;
+ const roundClosed=firstKickoff!==null&&Date.now()>=firstKickoff;
  return <section className="tabPage">
-  <div className="pageTop compactTop"><div className="roundBadge"><i/> {round===1?"JORNADA ABIERTA":"PRÓXIMAMENTE"}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
+  <div className="pageTop compactTop"><div className="roundBadge"><i/> {roundClosed?"JORNADA CERRADA":round===1?"JORNADA ABIERTA":"PRÓXIMAMENTE"}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
   <div className="quizRounds singleRound" role="group" aria-label="Jornada publicada"><button type="button" aria-pressed="true" className="active">Jornada 1</button></div>
   <div className={"roundProgress "+(done===6?"complete":"")}><b>{done}/6</b><div><i style={{width:`${done/6*100}%`}}/></div><span>{done===6?"¡Jornada completada!":"Te faltan "+(6-done)+" pronósticos"}</span></div>
   {done===6&&<div className="completeBanner"><span>✓</span><div><b>¡Pleno de pronósticos!</b><small>Ya puedes guardar tu quiniela.</small></div></div>}
@@ -124,15 +128,15 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
    const label=competition==="Amistoso"?"AMISTOSO":federationRound?`${competition||"Liga"} · Jornada ${federationRound}`:`JORNADA DE LIGA PENDIENTE`;
    const pickKey=`${round}:${team}`;
    return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
-    <div className="matchMeta"><span>{label}</span><em>{time?"Jornada abierta":"Hora pendiente"}</em></div>
+    <div className="matchMeta"><span>{label}</span><em>{roundClosed?"Jornada cerrada":time?"Jornada abierta":"Hora pendiente"}</em></div>
     <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{venue||"Lugar por confirmar"}</span></div>
     <div className="versus"><div><ClubCrest src={isHome?"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b><small>{game.isHome===undefined?"DERIO":"LOCAL"}</small></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png"} name={away}/><b>{away}</b><small>{game.isHome===undefined?"POR CONFIRMAR":"VISITANTE"}</small></div></div>
     <div className="pickHint">ELIGE TU PRONÓSTICO</div>
-    <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={saved||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active":""} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
+    <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={saved||roundClosed||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active":""} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
     {picks[pickKey]&&<div className="pickFeedback">Pronóstico: <b>{picks[pickKey]}</b><span>Guardado localmente</span></div>}
    </article>
   })}</div>
-  <div className="roundDock"><div><b>{saved?"Quiniela guardada":done===6?"Lista para guardar":done+"/6 elegidos"}</b><small>{saved?"Tus pronósticos quedan bloqueados en este prototipo":pending?`Pendientes ${pending} rivales por confirmar`:done===6?"Revisa tus elecciones":"Completa todos los partidos"}</small></div><button className={saved?"saved":""} disabled={done<6||saved||pending>0} onClick={onSave}>{saved?"✓ Guardada":"Guardar"}</button></div>
+  <div className="roundDock"><div><b>{roundClosed?"Jornada cerrada":saved?"Quiniela guardada":done===6?"Lista para guardar":done+"/6 elegidos"}</b><small>{roundClosed?"El primer partido de la jornada ya ha comenzado":saved?"Tus pronósticos quedan bloqueados":pending?`Pendientes ${pending} rivales por confirmar`:done===6?"Revisa tus elecciones":"Completa todos los partidos"}</small></div><button className={saved?"saved":""} disabled={done<6||saved||roundClosed||pending>0} onClick={onSave}>{saved?"✓ Guardada":"Guardar"}</button></div>
  </section>
 }
 function DinioImage(){const [failed,setFailed]=useState(false);return failed?<div className="dinioFallback" role="img" aria-label="Imagen de Dinio pendiente"><img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" alt=""/><strong>DINIO</strong></div>:<img src="/dinio.png" alt="Dinio y CD Derio" onError={()=>setFailed(true)}/>;}
