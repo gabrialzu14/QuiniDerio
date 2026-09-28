@@ -1267,3 +1267,40 @@ html[data-theme="light"] .seasonSticker{background:linear-gradient(145deg,#fff,#
   overflow:hidden!important;
   text-overflow:ellipsis!important;
 }
+
+
+/* Fix onboarding continue dock: full-width, centered and clear of iPhone safe area */
+@media(max-width:600px){
+  .confirmDock{
+    position:sticky!important;
+    left:auto!important;
+    right:auto!important;
+    bottom:calc(10px + env(safe-area-inset-bottom))!important;
+    width:calc(100% - 8px)!important;
+    max-width:430px!important;
+    margin:22px auto 0!important;
+    grid-template-columns:minmax(0,1fr) 132px!important;
+    padding:8px!important;
+    border-radius:18px!important;
+    overflow:hidden!important;
+  }
+  .confirmDock .submit{
+    width:100%!important;
+    min-width:0!important;
+    min-height:40px!important;
+    margin:0!important;
+    padding:10px 14px!important;
+    border-radius:12px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+    font-size:10px!important;
+  }
+}
+@media(max-width:390px){
+  .confirmDock{
+    width:100%!important;
+    grid-template-columns:minmax(0,1fr) 122px!important;
+  }
+}
