@@ -1528,3 +1528,135 @@ html[data-theme="light"] .seasonSticker{background:linear-gradient(145deg,#fff,#
     padding-bottom:10px!important;
   }
 }
+
+
+/* Prediction onboarding v6 — CD Derio red/blue, tighter native-mobile hierarchy */
+@media(max-width:600px){
+  main.gameScreen>.season .visualChoice{
+    margin:9px 0!important;
+    padding:11px 12px!important;
+    border-radius:18px!important;
+    border:1px solid rgba(45,101,145,.48)!important;
+    background:
+      radial-gradient(circle at 100% 0,rgba(25,118,185,.08),transparent 38%),
+      linear-gradient(145deg,rgba(11,31,47,.97),rgba(7,24,38,.98))!important;
+    box-shadow:0 8px 22px rgba(0,0,0,.12)!important;
+  }
+  main.gameScreen>.season .visualChoice .choiceHead{
+    min-height:36px!important;
+    margin-bottom:9px!important;
+    gap:8px!important;
+  }
+  main.gameScreen>.season .choiceTitle{
+    gap:9px!important;
+    flex:1 1 auto!important;
+  }
+  main.gameScreen>.season .choiceTitle b{
+    font-size:12px!important;
+    line-height:1.15!important;
+    letter-spacing:-.1px!important;
+  }
+  main.gameScreen>.season .choiceVisual{
+    flex:0 0 36px!important;
+    width:36px!important;
+    height:36px!important;
+    border-radius:11px!important;
+  }
+  main.gameScreen>.season .choiceHead>em{
+    padding:6px 9px!important;
+    border-radius:999px!important;
+    border:1px solid rgba(47,127,190,.22)!important;
+    background:rgba(18,70,111,.38)!important;
+    color:#82c8ff!important;
+    font-size:8px!important;
+    font-weight:850!important;
+    line-height:1!important;
+  }
+  main.gameScreen>.season .optionCards{
+    gap:7px!important;
+  }
+  main.gameScreen>.season .optionCards button{
+    min-height:39px!important;
+    padding:8px 10px!important;
+    border-radius:999px!important;
+    border:1px solid rgba(86,126,157,.19)!important;
+    background:rgba(4,17,28,.68)!important;
+    color:#aebdca!important;
+  }
+  main.gameScreen>.season .optionCards button strong{
+    font-size:9.8px!important;
+  }
+  main.gameScreen>.season .optionCards button.active{
+    border:1px solid transparent!important;
+    background:
+      linear-gradient(#0c2940,#0c2940) padding-box,
+      linear-gradient(100deg,#ef334b 0%,#bd3c68 38%,#1684d7 100%) border-box!important;
+    color:#fff!important;
+    box-shadow:
+      0 5px 16px rgba(8,84,141,.18),
+      inset 0 0 18px rgba(28,132,211,.12)!important;
+  }
+  main.gameScreen>.season .optionCards button.active strong{
+    color:#fff!important;
+    font-weight:850!important;
+  }
+  main.gameScreen>.season .categoryLabel{
+    margin:14px 2px 4px!important;
+    padding-top:5px!important;
+  }
+  main.gameScreen>.season .categoryLabel b{font-size:12px!important}
+  main.gameScreen>.season .categoryLabel small{font-size:8px!important}
+  main.gameScreen>.season .stepBadge{
+    background:linear-gradient(135deg,rgba(222,48,69,.20),rgba(24,126,203,.22))!important;
+    border:1px solid rgba(72,143,198,.22)!important;
+    color:#8bcfff!important;
+  }
+  main.gameScreen>.season{
+    padding-bottom:84px!important;
+  }
+  main.gameScreen>.confirmDock{
+    position:fixed!important;
+    z-index:60!important;
+    left:50%!important;
+    right:auto!important;
+    bottom:calc(env(safe-area-inset-bottom) + 14px)!important;
+    transform:translateX(-50%)!important;
+    width:min(330px,calc(100vw - 32px))!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+  }
+  main.gameScreen>.confirmDock:before{
+    content:""!important;
+    position:absolute!important;
+    z-index:-1!important;
+    left:-24px!important;
+    right:-24px!important;
+    top:-24px!important;
+    bottom:-16px!important;
+    background:linear-gradient(180deg,transparent,rgba(3,14,23,.82) 42%,rgba(3,14,23,.96))!important;
+    filter:blur(3px)!important;
+    pointer-events:none!important;
+  }
+  main.gameScreen>.confirmDock .submit{
+    width:100%!important;
+    max-width:none!important;
+    min-height:48px!important;
+    margin:0!important;
+    border-radius:15px!important;
+    border:1px solid rgba(74,113,145,.24)!important;
+    background:linear-gradient(100deg,rgba(108,35,49,.72),rgba(20,62,113,.78))!important;
+    color:rgba(222,230,238,.45)!important;
+    box-shadow:0 10px 28px rgba(0,0,0,.28)!important;
+  }
+  main.gameScreen>.confirmDock .submit:not(:disabled){
+    border-color:rgba(102,168,220,.38)!important;
+    background:linear-gradient(100deg,#d83249 0%,#a93c6d 42%,#176fbd 100%)!important;
+    color:#fff!important;
+    box-shadow:0 10px 30px rgba(8,79,137,.28),0 0 0 1px rgba(230,53,75,.10)!important;
+  }
+}
