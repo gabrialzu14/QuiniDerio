@@ -1926,3 +1926,31 @@ main.gameScreen>.season .stepBadge{
   main.gameScreen>.confirmDock{z-index:900!important}
   main.dashboard>.liquidNav{z-index:1000!important}
 }
+
+
+/* Quiniela mobile overlap correction */
+@media(max-width:600px){
+  .matchStack{gap:14px!important}
+  .matchStack .matchCard:last-child{margin-bottom:0!important}
+  .roundDock{
+    position:relative!important;
+    top:auto!important;
+    bottom:auto!important;
+    left:auto!important;
+    right:auto!important;
+    z-index:2!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:16px 0 4px!important;
+    box-sizing:border-box!important;
+  }
+  .matchCard .crestBox img[src*="ITURRIGORRI"],
+  .versus .crestBox img[src*="ITURRIGORRI"],
+  .matchCard .crestBox img[alt*="Iturrigorri"],
+  .versus .crestBox img[alt*="Iturrigorri"]{
+    transform:scale(.48)!important;
+    transform-origin:center!important;
+  }
+  .dashboard{padding-bottom:calc(96px + env(safe-area-inset-bottom))!important}
+  .dashboard .liquidNav{bottom:calc(10px + env(safe-area-inset-bottom))!important}
+}
