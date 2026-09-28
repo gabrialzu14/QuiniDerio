@@ -544,3 +544,36 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
 
 /* Inicio portada: integrated mobile hero */
 .quiniCover.uploadedCover.mobileCover{width:100%!important;max-width:none!important;aspect-ratio:1.78/1!important;margin:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#07131f!important;box-shadow:none!important;position:relative!important}.quiniCover.uploadedCover.mobileCover img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 50%!important;border:0!important;border-radius:0!important;transform:none!important}.quiniCover.uploadedCover.mobileCover:before,.quiniCover.uploadedCover.mobileCover:after{display:none!important}@media(max-width:430px){.quiniCover.uploadedCover.mobileCover{aspect-ratio:16/9!important}}
+
+
+/* 2026-09-28 navigation, predictions and account polish */
+.liquidNav{
+ background:linear-gradient(180deg,rgba(19,45,65,.52),rgba(6,19,31,.38))!important;
+ border:1px solid rgba(130,195,235,.18)!important;
+ box-shadow:0 14px 38px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.07)!important;
+ backdrop-filter:blur(28px) saturate(135%)!important;-webkit-backdrop-filter:blur(28px) saturate(135%)!important;
+ overflow:visible!important
+}
+.liquidNav:before{content:"";position:absolute;inset:-8px;border-radius:38px;background:radial-gradient(ellipse at center,rgba(31,145,220,.10),transparent 68%);filter:blur(10px);pointer-events:none;z-index:-1}
+.liquidNav button.active{background:radial-gradient(circle at 50% 45%,rgba(37,161,244,.18),rgba(37,161,244,.045) 58%,transparent 76%)!important;border-radius:24px!important;box-shadow:none!important;filter:drop-shadow(0 0 9px rgba(45,166,246,.52))!important}
+
+.fixturePick{grid-template-columns:58px minmax(0,1fr) 36px!important}
+.fixtureCrests{display:flex;align-items:center;width:58px;min-width:58px}
+.fixtureCrests .crestBox{display:grid!important;width:32px!important;height:32px!important;flex:0 0 32px;background:#fff;border-radius:50%;padding:3px;box-sizing:border-box;border:1px solid rgba(255,255,255,.18)}
+.fixtureCrests .crestBox+ .crestBox{margin-left:-8px}
+.fixtureCrests .crestBox img{object-fit:contain!important}
+.fixturePickCopy{padding-left:1px}
+.fixturePick .pickResult{grid-column:3!important;justify-self:end!important}
+.extraPrediction{grid-template-columns:34px minmax(0,1fr) 42px!important;align-items:center!important;background:linear-gradient(135deg,rgba(22,140,244,.10),rgba(255,255,255,.025))!important;border-color:rgba(72,170,241,.22)!important}
+.extraPredictionMark{width:32px;height:32px;display:grid;place-items:center;border-radius:11px;background:rgba(22,140,244,.13);color:#55b4ff}
+.extraPrediction div:nth-child(2){display:grid;gap:2px}.extraPrediction div:nth-child(2) small{font-size:8px;letter-spacing:.08em;color:#62baff;opacity:1}.extraPrediction div:nth-child(2) b{font-size:11px}.extraPrediction div:nth-child(2) span{font-size:8px;opacity:.5}.extraPrediction>strong{justify-self:end;display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:rgba(22,140,244,.12);border:1px solid rgba(72,170,241,.28);font-size:14px}
+
+.porraAccount .accountHero{background:linear-gradient(135deg,rgba(22,140,244,.12),rgba(255,255,255,.025))!important;border:1px solid rgba(93,177,235,.17)!important;border-radius:22px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important}
+.porraAccount .accountSection{margin-top:16px!important}.porraAccount .accountSection>h3{font-size:10px!important;letter-spacing:.12em!important;text-transform:uppercase!important;opacity:.55!important;margin:0 0 7px 6px!important}
+.porraAccount .accountList{overflow:hidden!important;border:1px solid rgba(125,185,225,.13)!important;border-radius:18px!important;background:rgba(255,255,255,.025)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important}
+.porraAccount .accountList>button,.porraAccount .settingRow{transition:background .18s ease,transform .18s ease!important}
+.porraAccount .accountList>button:active,.porraAccount .settingRow:active{background:rgba(22,140,244,.07)!important}
+.porraAccount .accountList>button>span,.porraAccount .settingIcon{display:grid!important;place-items:center!important;width:34px!important;height:34px!important;min-width:34px!important;border-radius:11px!important;background:rgba(22,140,244,.09)!important;color:#56b3f7!important}
+.porraAccount .segmented{padding:3px!important;border-radius:11px!important;background:rgba(0,0,0,.16)!important}.porraAccount .segmented button{border-radius:8px!important}.porraAccount .segmented button.active{background:rgba(22,140,244,.16)!important;color:#63baff!important}
+.porraAccount .switch{background:rgba(255,255,255,.08)!important}.porraAccount .switch.on{background:rgba(22,140,244,.48)!important}
+.porraAccount .resetAccount b{color:#ff6d76!important}
