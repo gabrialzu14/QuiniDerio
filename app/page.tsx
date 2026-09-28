@@ -57,7 +57,7 @@ function HomeOverview({name,currentDone,onTab}:{name:string,currentDone:number,o
   </aside>
   <div className="qdHomeMain">
    <section className="qdBanner">
-    <img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png" alt="QuiniDerio · CD Derio"/>
+    <img src={SB+"/branding/ImagenPortada.png?v=202609281638"} alt="QuiniDerio · CD Derio"/>
     <div className="qdBannerShade"/>
     <div className="qdBannerContent"><span><i/> TEMPORADA 2026/27</span><h1><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></h1><p>LA QUINIELA DEL CD DERIO</p></div>
    </section>
