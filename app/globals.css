@@ -953,3 +953,18 @@ html[data-theme="light"] .refreshOverlay b{color:#17658f!important}
 html[data-theme="light"] .refreshOverlay{background:rgba(249,253,255,.94)!important;border-color:rgba(28,143,205,.23)!important;box-shadow:0 8px 22px rgba(40,86,113,.12)!important}
 html[data-theme="light"] .refreshOverlay b{color:#173448!important}
 html[data-theme="light"] .refreshOverlay i{color:#128bc9!important;text-shadow:none!important}
+
+
+/* Modern save/update interaction */
+.roundDock>button{position:relative!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-width:88px!important;transition:transform .12s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease!important;transform:translateZ(0)!important}
+.roundDock>button span{position:relative!important;z-index:2!important}
+.roundDock>button i{position:relative!important;z-index:2!important;width:17px!important;height:17px!important;display:grid!important;place-items:center!important;border-radius:50%!important;background:rgba(255,255,255,.12)!important;font-size:10px!important;font-style:normal!important;transition:transform .18s ease,background .18s ease!important}
+.roundDock>button:not(:disabled):active{transform:scale(.94)!important;box-shadow:0 2px 8px rgba(0,0,0,.18),inset 0 2px 5px rgba(0,0,0,.16)!important}
+.roundDock>button:not(:disabled):active i{transform:translateX(2px)!important}
+.roundDock>button.saving{background:linear-gradient(110deg,rgba(31,139,205,.78),rgba(54,195,244,.82),rgba(31,139,205,.78))!important;background-size:220% 100%!important;animation:saveSweep .75s linear infinite!important;box-shadow:0 0 18px rgba(45,181,239,.20)!important}
+.roundDock>button.saving i{width:14px!important;height:14px!important;border:2px solid rgba(255,255,255,.28)!important;border-top-color:#fff!important;background:transparent!important;animation:spin .65s linear infinite!important}
+.roundDock>button.success{background:linear-gradient(180deg,#35d895,#1cad72)!important;border-color:#59e7ad!important;color:#031b12!important;box-shadow:0 0 0 1px rgba(55,219,154,.15),0 0 20px rgba(36,202,137,.24)!important;animation:savePop .32s ease!important}
+.roundDock>button.success i{background:rgba(255,255,255,.24)!important;transform:scale(1.08)!important}
+@keyframes saveSweep{to{background-position:-220% 0}}
+@keyframes savePop{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+html[data-theme="light"] .roundDock>button:not(:disabled):active{box-shadow:0 2px 7px rgba(37,92,125,.16),inset 0 2px 5px rgba(21,100,145,.10)!important}
