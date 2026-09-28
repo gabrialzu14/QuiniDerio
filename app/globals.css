@@ -1385,3 +1385,42 @@ html[data-theme="light"] .seasonSticker{background:linear-gradient(145deg,#fff,#
   }
   .visualChoice .optionCards button strong{font-size:9.5px!important}
 }
+
+
+/* Hotfix: remove selected-pill artifact and center continue action */
+.visualChoice .optionCards button.active:before,
+.visualChoice .optionCards button.active:after{
+  content:none!important;
+  display:none!important;
+}
+@media(max-width:600px){
+  .confirmDock{
+    position:sticky!important;
+    left:auto!important;
+    right:auto!important;
+    bottom:calc(12px + env(safe-area-inset-bottom))!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:calc(100% - 28px)!important;
+    max-width:420px!important;
+    margin:24px auto 0!important;
+    padding:8px!important;
+    box-sizing:border-box!important;
+  }
+  .confirmDock>div{
+    display:none!important;
+  }
+  .confirmDock .submit{
+    flex:none!important;
+    width:min(100%,310px)!important;
+    min-width:0!important;
+    min-height:44px!important;
+    margin:0 auto!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+    box-sizing:border-box!important;
+  }
+}
