@@ -80,24 +80,31 @@ function Choice({title,points,value,options,onChange,visual}:{title:string,point
 type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string};
 // Confirmed directly from the club's federation screenshots; unknown times stay unknown.
 const rivalCrests:Record<string,string>={
- "Derio A":"/aretxabaleta-crest.svg",
- "Derio Fem":"/intxaurdi-crest.svg",
+ "Derio A":"https://upload.wikimedia.org/wikipedia/en/9/98/SD_Beasain_logo.png",
+ "Derio Fem":"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Lakua.png",
  "Derio Fem B":"/ibaiondo-crest.svg",
- "Derio B":"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/BerangoB.png",
- "Juvenil A":"https://upload.wikimedia.org/wikipedia/commons/e/e4/Milan_Academy_%28AC_Milan%29.svg",
- "Juvenil B":"https://api.clupik.com/clubs/9604/images/clubTransparent.png"
+ "Derio B":"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Escolapios.png",
+ "Juvenil A":"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Iturrigorri.png",
+ "Juvenil B":"https://upload.wikimedia.org/wikipedia/en/8/8b/SD_Leioa_logo.png"
 };
 const confirmedFixtures:Record<string,Partial<Fixture>>={
- "Derio A":{opponent:"Aretxabaleta U.D.",date:"26/09/2026",time:"12:00",venue:"Ibarra",isHome:false,federationRound:4,competition:"3ª RFEF"},
- "Derio B":{opponent:"Berango B",date:"27/09/2026",time:"16:15",isHome:false,federationRound:2,competition:"Liga Derio B"},
- "Derio Fem":{opponent:"Intxaurdi K.E.",date:"27/09/2026",time:"18:15",isHome:true,federationRound:2,competition:"Femenina Vasca"},
- "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"04/10/2026",time:"",isHome:false,federationRound:1,competition:"1ª Regional"},
- "Juvenil A":{opponent:"MSC Butroe",date:"27/09/2026",time:"15:45",isHome:true,federationRound:2,competition:"Liga Juvenil A"},
- "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"",isHome:true,federationRound:2,competition:"Liga Juvenil B"}
+ "Derio A":{opponent:"S.D. Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF"},
+ "Derio B":{opponent:"Escolapios",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B"},
+ "Derio Fem":{opponent:"Lakua de Vitoria-Gasteiz C.D.F. A",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca"},
+ "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"04/10/2026",time:"18:30",venue:"Campo por confirmar",isHome:false,federationRound:1,competition:"FEM B"},
+ "Juvenil A":{opponent:"Iturrigorri A",date:"04/10/2026",time:"13:30",venue:"La Roseta, Bilbao",isHome:false,federationRound:3,competition:"Juvenil A"},
+ "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"15:30",venue:"Ibaiondo, Derio",isHome:true,federationRound:1,competition:"Juvenil B"}
 };
 const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
- 1:{"Derio A":confirmedFixtures["Derio A"],"Derio B":confirmedFixtures["Derio B"],"Derio Fem":confirmedFixtures["Derio Fem"],"Derio Fem B":{opponent:"Bizkerre C",date:"26/09/2026",time:"18:30",isHome:true,competition:"Amistoso",crest:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Bizkerre.png"},"Juvenil A":confirmedFixtures["Juvenil A"],"Juvenil B":{opponent:"Sestao River",date:"26/09/2026",time:"16:00",isHome:true,competition:"Amistoso",crest:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Sestao_River_Club.png"}},
- 2:{"Derio Fem B":confirmedFixtures["Derio Fem B"],"Juvenil B":confirmedFixtures["Juvenil B"]},
+ 1:{
+  "Derio A":confirmedFixtures["Derio A"],
+  "Derio B":confirmedFixtures["Derio B"],
+  "Derio Fem":confirmedFixtures["Derio Fem"],
+  "Derio Fem B":confirmedFixtures["Derio Fem B"],
+  "Juvenil A":confirmedFixtures["Juvenil A"],
+  "Juvenil B":confirmedFixtures["Juvenil B"]
+ },
+ 2:{},
  3:{}
 };
 function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record<string,string>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>void}){
