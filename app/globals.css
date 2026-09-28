@@ -707,3 +707,42 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
    white-space:nowrap!important
  }
 }
+
+
+/* Neon staff/delegate selection */
+.optionCards button{
+  border:1px solid rgba(92,166,215,.12)!important;
+  background:linear-gradient(145deg,rgba(10,30,45,.82),rgba(5,18,29,.92))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+.optionCards button.active{
+  transform:translateY(-1px)!important;
+  color:#fff!important;
+  border:1px solid rgba(63,190,255,.88)!important;
+  background:
+    radial-gradient(circle at 18% 50%,rgba(28,177,255,.18),transparent 42%),
+    linear-gradient(145deg,rgba(8,43,66,.94),rgba(5,21,34,.96))!important;
+  box-shadow:
+    0 0 0 1px rgba(31,177,255,.13),
+    0 0 10px rgba(25,169,247,.38),
+    0 0 22px rgba(22,140,244,.18),
+    inset 0 0 15px rgba(30,167,244,.08)!important;
+}
+.optionCards button.active:before{
+  content:""!important;display:block!important;position:absolute!important;
+  left:10px!important;right:10px!important;bottom:0!important;height:2px!important;
+  border-radius:999px!important;
+  background:linear-gradient(90deg,transparent,#38c7ff 24%,#6ee7ff 50%,#38a8ff 76%,transparent)!important;
+  box-shadow:0 0 7px #38bfff,0 0 14px rgba(56,191,255,.55)!important;
+  pointer-events:none!important;
+}
+.optionCards button.active:after{display:none!important;content:none!important}
+.optionCards button.active i{
+  border-color:rgba(91,205,255,.72)!important;
+  background:rgba(24,156,224,.11)!important;
+  box-shadow:0 0 8px rgba(40,190,255,.42),0 0 16px rgba(27,153,230,.18)!important;
+}
+.optionCards button.active strong{
+  color:#eafaff!important;
+  text-shadow:0 0 8px rgba(83,206,255,.32)!important;
+}
