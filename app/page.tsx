@@ -109,7 +109,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
  3:{}
 };
 function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record<string,string>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>void}){
- const games=teams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
+ const [saving,setSaving]=useState(false); const [savedPulse,setSavedPulse]=useState(false); const games=teams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
  const done=teams.filter(team=>picks[`${round}:${team}`]).length;
  const pending=games.filter(game=>!game.opponent).length;
  const parseKickoff=(date?:string,time?:string)=>{if(!date||!time)return null;const [d,m,y]=date.split("/").map(Number);const [h,min]=time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()};
@@ -120,7 +120,6 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
   <div className="pageTop compactTop"><div className="roundBadge"><i/> {roundClosed?"JORNADA CERRADA":round===1?"JORNADA ABIERTA":"PRÓXIMAMENTE"}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
   <div className="quizRounds singleRound" role="group" aria-label="Jornada publicada"><button type="button" aria-pressed="true" className="active">Jornada 1</button></div>
   <div className={"roundProgress "+(done===6?"complete":"")}><b>{done}/6</b><div><i style={{width:`${done/6*100}%`}}/></div><span>{done===6?"¡Jornada completada!":"Te faltan "+(6-done)+" pronósticos"}</span></div>
-  {done===6&&<div className="completeBanner"><span>✓</span><div><b>¡Pleno de pronósticos!</b><small>Ya puedes guardar tu quiniela.</small></div></div>}
   <div className="matchStack">{games.map((game,i)=>{
    const {name:team,date="",time="",venue="",federationRound,competition}=game;
    const rival=game.opponent||"Rival por confirmar";
@@ -137,7 +136,7 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
     {picks[pickKey]&&<div className="pickFeedback">Pronóstico: <b>{picks[pickKey]}</b><span>Guardado localmente</span></div>}
    </article>
   })}</div>
-  <div className="roundDock"><div><b>{roundClosed?"Jornada cerrada":saved?"Quiniela guardada · editable":done===6?"Lista para guardar":done+"/6 elegidos"}</b><small>{roundClosed?"El primer partido de la jornada ya ha comenzado":saved?"Puedes cambiarla hasta que empiece la jornada":pending?`Pendientes ${pending} rivales por confirmar`:done===6?"Revisa tus elecciones":"Completa todos los partidos"}</small></div><button className={saved?"saved":""} disabled={done<6||roundClosed||pending>0} onClick={onSave}>{saved?"Actualizar":"Guardar"}</button></div>
+  <div className="roundDock"><div><b>{roundClosed?"Jornada cerrada":saved?"Quiniela guardada · editable":done===6?"Lista para guardar":done+"/6 elegidos"}</b><small>{roundClosed?"El primer partido de la jornada ya ha comenzado":saved?"Puedes cambiarla hasta que empiece la jornada":pending?`Pendientes ${pending} rivales por confirmar`:done===6?"Revisa tus elecciones":"Completa todos los partidos"}</small></div><button className={(saved?"saved ":"")+(saving?"saving ":"")+(savedPulse?"success":"")} disabled={done<6||roundClosed||pending>0||saving} onClick={()=>{setSaving(true);setSavedPulse(false);window.setTimeout(()=>{onSave();setSaving(false);setSavedPulse(true);window.setTimeout(()=>setSavedPulse(false),900)},220)}}><span>{saving?"Guardando…":savedPulse?"Guardado":saved?"Actualizar":"Guardar"}</span><i aria-hidden="true">{saving?"":savedPulse?"✓":"→"}</i></button></div>
  </section>
 }
 function DinioImage(){const [failed,setFailed]=useState(false);return failed?<div className="dinioFallback" role="img" aria-label="Imagen de Dinio pendiente"><img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" alt=""/><strong>DINIO</strong></div>:<img src="/dinio.png" alt="Dinio y CD Derio" onError={()=>setFailed(true)}/>;}
