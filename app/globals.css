@@ -1118,3 +1118,110 @@ html[data-theme="light"] .seasonSticker{background:linear-gradient(145deg,#fff,#
 .cardsMark:before{left:2px!important;transform:rotate(-7deg)!important}.cardsMark:after{left:13px!important;transform:rotate(7deg)!important}
 .dinioSticker{min-height:68px!important;grid-template-columns:54px 1fr!important}.dinioSticker>img{width:48px!important;height:56px!important;margin:6px!important;border-radius:10px!important;object-fit:contain!important;object-position:center bottom!important}.dinioSticker>div{padding:8px 10px!important}.dinioSticker b{font-size:9px!important}.dinioSticker strong{font-size:12px!important}
 @media(max-width:390px){.seasonStickerGrid{gap:7px!important}.teamSticker{grid-template-columns:49px minmax(0,1fr)!important;gap:5px!important}.teamSticker .stickerPhoto{height:62px!important}.stickerCopy strong{font-size:20px!important}.stickerCopy small{font-size:5.7px!important}.stickerCopy b{font-size:6.6px!important}}
+
+
+/* Season predictions v3 — larger portraits, cleaner hierarchy, consistent spacing */
+.seasonStickerGrid{
+  gap:10px!important;
+}
+.teamSticker{
+  grid-template-columns:68px minmax(0,1fr)!important;
+  gap:8px!important;
+  min-height:96px!important;
+  padding:7px!important;
+}
+.teamSticker .stickerPhoto{
+  width:68px!important;
+  height:82px!important;
+  border-radius:12px!important;
+  background:linear-gradient(180deg,rgba(8,29,43,.95),rgba(5,20,31,.98))!important;
+}
+.teamSticker .stickerPhoto img{
+  width:100%!important;
+  height:100%!important;
+  padding:2px 2px 0!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+}
+.stickerPhoto:after{
+  background:linear-gradient(180deg,transparent 57%,rgba(2,12,19,.92))!important;
+}
+.stickerPhoto span{
+  left:6px!important;
+  right:6px!important;
+  bottom:5px!important;
+  max-width:none!important;
+  font-size:6.5px!important;
+  text-align:left!important;
+}
+.stickerCopy{
+  padding:5px 3px 5px 2px!important;
+}
+.stickerCopy small{
+  font-size:6.3px!important;
+  line-height:1.1!important;
+}
+.stickerCopy strong{
+  margin:3px 0 4px!important;
+  font-size:25px!important;
+}
+.stickerCopy b{
+  font-size:7.3px!important;
+  line-height:1.15!important;
+}
+.miniSticker,.staffSticker,.coachSticker{
+  min-height:78px!important;
+  padding:11px 12px!important;
+}
+.miniSticker b,.staffSticker b{
+  margin-top:6px!important;
+  font-size:8.5px!important;
+}
+.cardsMark{
+  position:relative!important;
+}
+.dinioSticker{
+  min-height:78px!important;
+  grid-template-columns:68px 1fr!important;
+}
+.dinioSticker>img{
+  width:58px!important;
+  height:66px!important;
+  margin:6px!important;
+  padding:0!important;
+  border-radius:10px!important;
+  object-fit:cover!important;
+  object-position:center top!important;
+}
+.dinioSticker>div{
+  padding:9px 11px!important;
+}
+.dinioSticker b{
+  margin:4px 0!important;
+  font-size:9.5px!important;
+}
+.dinioSticker strong{
+  font-size:14px!important;
+}
+@media(max-width:390px){
+  .seasonStickerGrid{gap:8px!important}
+  .teamSticker{
+    grid-template-columns:61px minmax(0,1fr)!important;
+    gap:6px!important;
+    min-height:90px!important;
+    padding:6px!important;
+  }
+  .teamSticker .stickerPhoto{
+    width:61px!important;
+    height:76px!important;
+  }
+  .stickerCopy strong{font-size:23px!important}
+  .stickerCopy small{font-size:5.9px!important}
+  .stickerCopy b{font-size:6.9px!important}
+}
+@media(max-width:350px){
+  .teamSticker{
+    grid-template-columns:56px minmax(0,1fr)!important;
+  }
+  .teamSticker .stickerPhoto{width:56px!important;height:72px!important}
+}
