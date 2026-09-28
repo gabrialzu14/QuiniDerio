@@ -500,3 +500,7 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
 /* Account page must occupy the normal tab viewport cleanly */
 .porraAccount{width:100%!important;max-width:760px!important;margin:0 auto!important;box-sizing:border-box!important}
 .porraAccount .accountHero,.porraAccount .accountSection{width:100%!important;box-sizing:border-box!important}
+
+
+/* QuiniDerio canonical wordmark: QUINI white · DE red · RIO blue */
+.qd-quini{color:#fff!important}.qd-de{color:#ef1b2d!important}.qd-rio{color:#168cf4!important}
