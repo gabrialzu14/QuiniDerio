@@ -1225,3 +1225,45 @@ html[data-theme="light"] .seasonSticker{background:linear-gradient(145deg,#fff,#
   }
   .teamSticker .stickerPhoto{width:56px!important;height:72px!important}
 }
+
+
+/* Season staff cards v4 — icon left, selected name right */
+.coachSticker,
+.seasonSticker.miniSticker:has(.redCardMark),
+.seasonSticker.miniSticker:has(.cardsMark){
+  display:grid!important;
+  grid-template-columns:34px minmax(0,1fr)!important;
+  grid-template-rows:auto auto!important;
+  column-gap:9px!important;
+  align-items:center!important;
+  justify-content:initial!important;
+}
+.coachSticker>small,
+.seasonSticker.miniSticker:has(.redCardMark)>small,
+.seasonSticker.miniSticker:has(.cardsMark)>small{
+  grid-column:1/-1!important;
+  grid-row:1!important;
+  width:100%!important;
+}
+.coachSticker>strong,
+.seasonSticker.miniSticker:has(.redCardMark)>strong,
+.seasonSticker.miniSticker:has(.cardsMark)>strong{
+  grid-column:1!important;
+  grid-row:2!important;
+  align-self:center!important;
+  justify-self:start!important;
+  margin:5px 0 0!important;
+}
+.coachSticker>b,
+.seasonSticker.miniSticker:has(.redCardMark)>b,
+.seasonSticker.miniSticker:has(.cardsMark)>b{
+  grid-column:2!important;
+  grid-row:2!important;
+  align-self:center!important;
+  margin:5px 0 0!important;
+  font-size:9px!important;
+  line-height:1.15!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
