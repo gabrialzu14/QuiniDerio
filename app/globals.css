@@ -1660,3 +1660,166 @@ html[data-theme="light"] .seasonSticker{background:linear-gradient(145deg,#fff,#
     box-shadow:0 10px 30px rgba(8,79,137,.28),0 0 0 1px rgba(230,53,75,.10)!important;
   }
 }
+
+
+/* QuiniDerio neutral visual system v1 — dark neutral base, Derio colors as accents */
+:root{
+  --qd-bg:#081018;
+  --qd-surface:#0d151d;
+  --qd-surface-2:#111b24;
+  --qd-surface-3:#16212b;
+  --qd-line:rgba(190,205,218,.12);
+  --qd-line-strong:rgba(205,218,229,.19);
+  --qd-text:#f4f7fa;
+  --qd-muted:#8d9aa6;
+  --qd-red:#df3349;
+  --qd-blue:#1979c5;
+}
+html,body{background:var(--qd-bg)!important}
+body{color:var(--qd-text)!important}
+main,.dashboard,.gameScreen{background-color:var(--qd-bg)!important}
+
+/* Main surfaces: remove the blue wash */
+.glassHeader,
+.porraHero,
+.porraStats button,
+.porraNotice,
+.weeklyShortcut,
+.matchCard,
+.predictionSummary,
+.myPick,
+.profileCard,
+.accountProfileCard,
+.accountSection,
+.rivalsPanel,
+.leaderCard,
+.rankingEmpty,
+.emptyCard{
+  background:linear-gradient(145deg,var(--qd-surface-2),var(--qd-surface))!important;
+  border-color:var(--qd-line)!important;
+}
+.pageTop p,.porraHero p,.fixtureInfo,.matchMeta,.accountTitle p,
+.accountList small,.profileFields em,.predictionSummary small{
+  color:var(--qd-muted)!important;
+}
+
+/* Bottom navigation: neutral until active */
+nav.liquidNav,nav{
+  background:rgba(9,15,21,.94)!important;
+  border-color:var(--qd-line-strong)!important;
+}
+nav button{
+  color:#778590!important;
+  background:transparent!important;
+}
+nav button.active{
+  color:#fff!important;
+  background:linear-gradient(145deg,#161f27,#111920)!important;
+  box-shadow:inset 0 0 0 1px var(--qd-line-strong)!important;
+}
+nav button.active .navIcon{
+  color:#fff!important;
+}
+nav button.active:after{
+  background:linear-gradient(90deg,var(--qd-red),var(--qd-blue))!important;
+}
+
+/* Prediction onboarding: neutral cards, club colors only where meaningful */
+main.gameScreen>.setupProgress{
+  background:rgba(10,16,22,.94)!important;
+  border-color:var(--qd-line-strong)!important;
+}
+main.gameScreen>.setupProgress span{color:var(--qd-muted)!important}
+.progressTrack{background:#1a222a!important}
+.progressTrack i{background:linear-gradient(90deg,var(--qd-red),var(--qd-blue))!important}
+
+main.gameScreen>.season .visualChoice,
+main.gameScreen .positionCard,
+main.gameScreen .predictionIntro{
+  background:linear-gradient(145deg,#101820,#0b1218)!important;
+  border-color:var(--qd-line)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.16)!important;
+}
+main.gameScreen>.season .optionCards button{
+  background:#0b1218!important;
+  border-color:var(--qd-line)!important;
+  color:#a7b1ba!important;
+}
+main.gameScreen>.season .optionCards button.active{
+  border:1px solid transparent!important;
+  background:
+    linear-gradient(#111920,#111920) padding-box,
+    linear-gradient(105deg,var(--qd-red),var(--qd-blue)) border-box!important;
+  box-shadow:0 6px 18px rgba(0,0,0,.22)!important;
+  color:#fff!important;
+}
+main.gameScreen>.season .choiceHead>em{
+  background:#151e26!important;
+  border-color:var(--qd-line)!important;
+  color:#aeb9c2!important;
+}
+main.gameScreen>.season .stepBadge{
+  background:#141d25!important;
+  border-color:var(--qd-line-strong)!important;
+  color:#d7e0e7!important;
+}
+.choiceVisual.up{background:rgba(40,159,98,.10)!important}
+.choiceVisual.down,.choiceVisual.red{background:rgba(223,51,73,.10)!important}
+.choiceVisual.cards{background:rgba(218,174,66,.08)!important}
+
+/* Position picker: make default cells neutral */
+.rankGrid button{
+  background:#101820!important;
+  border-color:var(--qd-line)!important;
+  color:#aeb8c1!important;
+}
+.rankGrid button.active{
+  color:#fff!important;
+  border-color:transparent!important;
+  background:
+    linear-gradient(#151d25,#151d25) padding-box,
+    linear-gradient(105deg,var(--qd-red),var(--qd-blue)) border-box!important;
+  box-shadow:0 5px 16px rgba(0,0,0,.2)!important;
+}
+
+/* Tabs: white/neutral inactive, Derio accent active */
+.predictionScopeTabs,
+.predictionTabs,
+.rankingTabs,
+.quizRounds{
+  background:#0b1218!important;
+  border-color:var(--qd-line)!important;
+}
+.predictionScopeTabs button,
+.predictionTabs button,
+.rankingTabs button,
+.quizRounds button{
+  color:#8996a1!important;
+}
+.predictionScopeTabs button.active,
+.predictionTabs button.active,
+.rankingTabs button.active,
+.quizRounds button.active{
+  color:#fff!important;
+  background:#171f27!important;
+  box-shadow:inset 0 -2px 0 var(--qd-red)!important;
+}
+
+/* CTAs: club identity gets the strongest red/blue treatment */
+.submit:not(:disabled),
+.authContinue,
+.heroActions button:first-child{
+  background:linear-gradient(105deg,var(--qd-red) 0%,#a63d6b 46%,var(--qd-blue) 100%)!important;
+  color:#fff!important;
+  border-color:transparent!important;
+}
+.submit:disabled{
+  background:#151d24!important;
+  color:#66737d!important;
+  border-color:var(--qd-line)!important;
+}
+
+/* Small informational accents stay blue; alerts/actions skew red */
+.roundBadge,.eyebrow{color:#7faed2!important}
+.redCardMark{background:var(--qd-red)!important}
+.gameToast{border-color:rgba(223,51,73,.28)!important}
