@@ -80,13 +80,13 @@ function Choice({title,points,value,options,onChange,visual}:{title:string,point
 type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string};
 // Confirmed directly from the club's federation screenshots; unknown times stay unknown.
 const rivalCrests:Record<string,string>={
- "Derio A":"https://upload.wikimedia.org/wikipedia/en/9/98/SD_Beasain_logo.png",
- "Derio Fem":"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Lakua.png",
- "Derio Fem B":"/ibaiondo-crest.svg",
- "Derio B":"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Escolapios.png",
- "Juvenil A":"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/Iturrigorri.png",
- "Juvenil B":"https://upload.wikimedia.org/wikipedia/en/8/8b/SD_Leioa_logo.png"
-};
+ "Derio A":SB+"/Escudos/BEASAIN.png",
+ "Derio Fem":SB+"/Escudos/Lakua.png",
+ "Derio Fem B":SB+"/Escudos/IbaiondoNerbioi.png",
+ "Derio B":SB+"/Escudos/Escolapios.png",
+ "Juvenil A":SB+"/Escudos/ITURRIGORRI.png",
+ "Juvenil B":SB+"/Escudos/SD%20LEIOA.png"
+}
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"S.D. Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF"},
  "Derio B":{opponent:"Escolapios",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B"},
