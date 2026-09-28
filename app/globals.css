@@ -504,3 +504,11 @@ html[data-nav="top"] .liquidNav{top:max(8px,env(safe-area-inset-top))!important;
 
 /* QuiniDerio canonical wordmark: QUINI white · DE red · RIO blue */
 .qd-quini{color:#fff!important}.qd-de{color:#ef1b2d!important}.qd-rio{color:#168cf4!important}
+
+/* Canonical compact floating bottom navigation */
+.liquidNav{position:fixed!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:max(10px,env(safe-area-inset-bottom))!important;width:min(calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)),500px)!important;min-height:58px!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:2px!important;padding:5px!important;border-radius:22px!important;overflow:hidden!important}
+.liquidNav button{width:100%!important;min-width:0!important;min-height:48px!important;padding:4px 2px!important;border-radius:16px!important;gap:1px!important}
+.liquidNav .navIcon{height:19px!important;line-height:19px!important;font-size:16px!important}.liquidNav small{font-size:6.3px!important;line-height:9px!important;margin:0!important}
+.dashboard{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+.roundDock{bottom:calc(78px + env(safe-area-inset-bottom))!important}
+@media(max-width:380px){.liquidNav{width:calc(100vw - 14px - env(safe-area-inset-left) - env(safe-area-inset-right))!important;bottom:max(6px,env(safe-area-inset-bottom))!important;padding:4px!important;border-radius:20px!important}.liquidNav button{min-height:46px!important;border-radius:14px!important}.liquidNav small{font-size:5.7px!important}.dashboard{padding-bottom:calc(86px + env(safe-area-inset-bottom))!important}.roundDock{bottom:calc(72px + env(safe-area-inset-bottom))!important}}
