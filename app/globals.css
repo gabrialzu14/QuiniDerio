@@ -900,3 +900,15 @@ html[data-theme="light"] .extraPrediction{background:linear-gradient(145deg,#f8f
 .refreshOverlay b{font-size:8px!important;letter-spacing:.25px!important;color:#dff7ff!important}
 html[data-theme="light"] .refreshOverlay{background:rgba(248,252,255,.92)!important;border-color:rgba(27,145,207,.22)!important;box-shadow:0 8px 24px rgba(42,91,120,.13)!important}
 html[data-theme="light"] .refreshOverlay b{color:#17658f!important}
+
+
+/* Iturrigorri crest: normalize oversized artwork inside match cards */
+.matchCard .crestBox img[src*="ITURRIGORRI"],
+.versus .crestBox img[src*="ITURRIGORRI"]{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  padding:0!important;
+  transform:scale(.62)!important;
+  transform-origin:center!important;
+}
