@@ -912,3 +912,44 @@ html[data-theme="light"] .refreshOverlay b{color:#17658f!important}
   transform:scale(.62)!important;
   transform-origin:center!important;
 }
+
+
+/* Pull-to-refresh — same compact pill language as Porra 3 RFEF */
+.refreshOverlay{
+  position:fixed!important;
+  top:calc(76px + env(safe-area-inset-top))!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  z-index:9998!important;
+  width:auto!important;
+  min-width:188px!important;
+  max-width:calc(100vw - 40px)!important;
+  padding:10px 17px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  border-radius:999px!important;
+  background:rgba(7,23,36,.90)!important;
+  border:1px solid rgba(64,174,239,.24)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.025)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+  pointer-events:none!important;
+}
+.refreshOverlay i{
+  width:auto!important;height:auto!important;
+  display:block!important;
+  border:0!important;border-radius:0!important;
+  color:#4bc8ff!important;
+  font-size:17px!important;font-weight:900!important;font-style:normal!important;
+  line-height:1!important;
+  animation:none!important;
+  text-shadow:0 0 10px rgba(59,190,255,.34)!important;
+}
+.refreshOverlay b{font-size:11px!important;font-weight:850!important;line-height:1!important;letter-spacing:0!important;color:#f3f9fd!important;white-space:nowrap!important}
+.refreshOverlay.ready{border-color:rgba(69,201,255,.40)!important;box-shadow:0 8px 24px rgba(0,0,0,.17),0 0 18px rgba(42,178,241,.09)!important}
+.refreshOverlay.ready i{color:#66dcff!important}
+html[data-theme="light"] .refreshOverlay{background:rgba(249,253,255,.94)!important;border-color:rgba(28,143,205,.23)!important;box-shadow:0 8px 22px rgba(40,86,113,.12)!important}
+html[data-theme="light"] .refreshOverlay b{color:#173448!important}
+html[data-theme="light"] .refreshOverlay i{color:#128bc9!important;text-shadow:none!important}
