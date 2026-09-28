@@ -1085,3 +1085,36 @@ html[data-theme="light"] .seasonSticker{background:linear-gradient(145deg,#fff,#
 .twoCardIcons i:first-child{left:2px!important;transform:rotate(-7deg)!important}
 .twoCardIcons i:last-child{left:13px!important;transform:rotate(7deg)!important}
 @media(max-width:370px){.teamSticker{grid-template-columns:52px minmax(0,1fr)!important;padding:5px!important;gap:6px!important}.teamSticker .stickerPhoto{height:68px!important}}
+
+
+/* Season predictions v2 — tighter, balanced mobile cards */
+.predictionsPage{padding-bottom:118px!important}
+.predictionsPage .pageTop{margin-bottom:16px!important}
+.predictionsPage .pageTop h1{font-size:34px!important;line-height:.98!important;letter-spacing:-1.4px!important}
+.predictionsPage .pageTop>p:last-child{margin-top:8px!important;font-size:11px!important;line-height:1.45!important}
+.predictionScopeTabs{margin-bottom:9px!important;padding:4px!important;border-radius:15px!important}
+.predictionScopeTabs button{min-height:36px!important;border-radius:11px!important;font-size:9.5px!important}
+.predictionTabs{margin-bottom:14px!important;padding:4px!important;border-radius:15px!important}
+.predictionTabs button{min-height:38px!important;border-radius:11px!important;font-size:9.5px!important}
+.seasonStickerGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+.seasonSticker{border-radius:15px!important;border-color:rgba(70,178,238,.17)!important;box-shadow:0 6px 18px rgba(0,0,0,.12),inset 0 1px rgba(255,255,255,.025)!important}
+.teamSticker{grid-template-columns:54px minmax(0,1fr)!important;gap:7px!important;min-height:78px!important;padding:6px!important}
+.teamSticker .stickerPhoto{height:66px!important;border-radius:10px!important}
+.teamSticker .stickerPhoto img{border-radius:9px!important;object-fit:contain!important;object-position:center bottom!important;padding:3px 2px 0!important;box-sizing:border-box!important}
+.stickerPhoto span{left:5px!important;bottom:4px!important;max-width:calc(100% - 10px)!important;font-size:6.3px!important;line-height:1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.stickerCopy{padding:3px 2px!important}
+.stickerCopy small,.seasonSticker>small,.dinioSticker small{font-size:6.1px!important;letter-spacing:.42px!important;line-height:1.15!important}
+.stickerCopy strong{margin:2px 0 3px!important;font-size:22px!important}
+.stickerCopy b{font-size:7px!important;line-height:1.15!important}
+.miniSticker,.staffSticker{min-height:70px!important;padding:10px 11px!important}
+.miniSticker strong{margin-top:4px!important;font-size:16px!important}
+.miniSticker b,.staffSticker b{margin-top:5px!important;font-size:8px!important}
+.redCardMark{width:10px!important;height:15px!important;margin:5px 0 0!important}
+.twoCardIcons{width:25px!important;height:18px!important;margin:5px 0 0!important}
+.twoCardIcons i{width:10px!important;height:14px!important}
+.twoCardIcons i:first-child{left:2px!important}.twoCardIcons i:last-child{left:12px!important}
+.cardsMark{display:block!important;width:25px!important;height:18px!important;margin:5px 0 0!important;font-size:0!important;letter-spacing:0!important}
+.cardsMark:before,.cardsMark:after{content:""!important;position:absolute!important;width:10px!important;height:14px!important;border-radius:2px!important;background:#f2c94c!important;box-shadow:0 0 8px rgba(242,201,76,.15)!important}
+.cardsMark:before{left:2px!important;transform:rotate(-7deg)!important}.cardsMark:after{left:13px!important;transform:rotate(7deg)!important}
+.dinioSticker{min-height:68px!important;grid-template-columns:54px 1fr!important}.dinioSticker>img{width:48px!important;height:56px!important;margin:6px!important;border-radius:10px!important;object-fit:contain!important;object-position:center bottom!important}.dinioSticker>div{padding:8px 10px!important}.dinioSticker b{font-size:9px!important}.dinioSticker strong{font-size:12px!important}
+@media(max-width:390px){.seasonStickerGrid{gap:7px!important}.teamSticker{grid-template-columns:49px minmax(0,1fr)!important;gap:5px!important}.teamSticker .stickerPhoto{height:62px!important}.stickerCopy strong{font-size:20px!important}.stickerCopy small{font-size:5.7px!important}.stickerCopy b{font-size:6.6px!important}}
