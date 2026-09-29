@@ -2618,3 +2618,13 @@ main.gameScreen>.season .optionCards button.active,.rankGrid button.active,.oneX
 @keyframes qdSheetIn{from{opacity:0;transform:translate3d(0,18px,0) scale(.985)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
 .crestBox img,.coachPhoto img,.coachAvatar img,.stickerPhoto img{transition:opacity .25s ease,filter .25s ease}
 @media(prefers-reduced-motion:reduce){.oneXtwo button.active b,.detailBackdrop,.detailSheet{animation:none!important}}
+
+
+/* Resilient loading and connectivity */
+.connectionBadge{position:fixed;z-index:980;top:calc(70px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:7px 12px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(11,24,34,.68);backdrop-filter:blur(18px) saturate(145%);-webkit-backdrop-filter:blur(18px) saturate(145%);font-size:11px;font-weight:750;color:rgba(239,247,251,.86);box-shadow:0 8px 24px rgba(0,0,0,.18);white-space:nowrap;animation:qdContentIn .24s ease both}
+.dataSkeleton{max-width:720px;margin:14px auto 0;padding:0 18px;display:grid;gap:8px}
+.dataSkeleton i{display:block;height:54px;border-radius:18px;background:linear-gradient(105deg,rgba(255,255,255,.055) 25%,rgba(255,255,255,.13) 42%,rgba(255,255,255,.055) 60%);background-size:220% 100%;animation:qdSkeleton 1.15s ease-in-out infinite}
+@keyframes qdSkeleton{0%{background-position:100% 0}100%{background-position:-100% 0}}
+button:disabled{cursor:default}
+.savePrediction:disabled,.authContinue:disabled{transform:none!important}
+@media(prefers-reduced-motion:reduce){.dataSkeleton i{animation:none!important}}
