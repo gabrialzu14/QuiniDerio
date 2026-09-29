@@ -2601,3 +2601,110 @@ main.gameScreen>.season .optionCards button.active,
 @media(max-width:390px){
   .dashboard .liquidNav:before{clip-path:inset(0 round 28px)!important}
 }
+
+
+/* Action system v4 — solid modern controls, no red/blue split boxes */
+.submit:not(:disabled),.authContinue,.heroActions button:first-child,
+.roundDock .savePrediction,.surprise .confirm,.surprise>button,
+.yesno button,.optionCards button.active,.rankGrid button.active,.oneXtwo button.active{
+  background-image:none!important;
+}
+
+/* Primary confirmation: solid cobalt, compact, tactile */
+.roundDock .savePrediction{
+  min-height:45px!important;
+  padding:9px 10px 9px 14px!important;
+  border:1px solid rgba(135,197,240,.30)!important;
+  border-radius:15px!important;
+  background:#1979c5!important;
+  color:#fff!important;
+  box-shadow:0 8px 18px rgba(8,54,88,.20),inset 0 1px 0 rgba(255,255,255,.15)!important;
+  transition:transform .16s ease,background .18s ease,box-shadow .18s ease!important;
+}
+.roundDock .savePrediction:not(:disabled):active{
+  transform:scale(.97)!important;
+  background:#1269ad!important;
+  box-shadow:0 3px 10px rgba(8,54,88,.18)!important;
+}
+.roundDock .savePrediction .actionArrow{
+  width:23px!important;height:23px!important;display:grid!important;place-items:center!important;
+  margin-left:2px!important;border-radius:50%!important;background:rgba(255,255,255,.15)!important;
+  font-size:18px!important;font-weight:500!important;font-style:normal!important;line-height:1!important;
+}
+.roundDock .savePrediction:disabled{
+  background:rgba(72,101,120,.32)!important;
+  border-color:rgba(151,184,206,.13)!important;
+  color:rgba(211,225,234,.38)!important;
+  box-shadow:none!important;
+}
+
+/* Onboarding confirmation: clean light button, not a gradient slab */
+.submit:not(:disabled){
+  background:#f2f6f9!important;
+  color:#102534!important;
+  border:1px solid rgba(255,255,255,.50)!important;
+  border-radius:15px!important;
+  box-shadow:0 8px 20px rgba(3,18,28,.16)!important;
+}
+.submit:not(:disabled):active{transform:scale(.975)!important;background:#dfeaf1!important}
+
+/* Dinio: remove boxed/split-color controls and make it feel like a decisive final vote */
+.surprise{
+  background:rgba(25,61,84,.72)!important;
+  border:1px solid rgba(158,201,229,.18)!important;
+  box-shadow:0 18px 50px rgba(4,19,29,.20)!important;
+}
+.surprise>button,.surprise .confirm{
+  min-height:46px!important;
+  border-radius:15px!important;
+  border:1px solid rgba(139,197,237,.26)!important;
+  background:#1979c5!important;
+  color:#fff!important;
+  box-shadow:0 8px 20px rgba(7,55,89,.18)!important;
+}
+.surprise .confirm:disabled{background:rgba(74,104,124,.34)!important;color:rgba(221,232,239,.38)!important;box-shadow:none!important}
+.yesno{
+  padding:0!important;
+  gap:9px!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.yesno button{
+  min-height:48px!important;
+  border-radius:15px!important;
+  background:rgba(45,86,112,.55)!important;
+  border:1px solid rgba(149,196,227,.18)!important;
+  color:#b8cbd8!important;
+  box-shadow:none!important;
+}
+.yesno button.active{
+  background:#edf4f8!important;
+  border-color:#edf4f8!important;
+  color:#102534!important;
+  box-shadow:0 7px 18px rgba(4,23,35,.16)!important;
+}
+
+/* Selected controls everywhere: single-material surfaces, no two-sided red/blue boxes */
+main.gameScreen>.season .optionCards button.active,.rankGrid button.active,.oneXtwo button.active,
+.predictionScopeTabs button.active,.predictionTabs button.active,.rankingTabs button.active,
+.quizRounds button.active,.roundPredictionTabs button.active{
+  background:#235f87!important;
+  background-image:none!important;
+  border-color:rgba(151,207,244,.34)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 5px 15px rgba(5,35,54,.13)!important;
+  color:#fff!important;
+}
+
+/* Bottom nav active item: glass only, no split red/blue rectangle */
+.dashboard .liquidNav button.active{
+  background:rgba(202,225,240,.14)!important;
+  background-image:none!important;
+  border-color:transparent!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 3px 10px rgba(4,18,27,.08)!important;
+}
+
+/* Keep club red/blue as ambient light, never as boxed gradients */
+.choiceHead>em,.stepBadge,.categoryLabel,.roundBadge{
+  background-image:none!important;
+}
