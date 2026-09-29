@@ -2748,3 +2748,12 @@ html[data-theme="light"] .porraAccount .switch.on{background:#53b6ee!important}
  .porraAccount .accountList>button>span,.porraAccount .settingIcon{width:38px!important;height:38px!important;min-width:38px!important}
  .porraAccount .segmented button{min-width:54px!important;padding-left:7px!important;padding-right:7px!important}
 }
+
+
+/* Cadete B — jornada de descanso */
+.matchCard.restCard{border-color:rgba(102,166,207,.14)!important;background:rgba(9,27,40,.52)!important}
+.restTeam{display:flex;align-items:center;justify-content:center;gap:12px;padding:18px 12px 10px;text-align:left}
+.restTeam .crestBox{width:46px;height:46px;min-width:46px}
+.restTeam>div{display:grid;gap:3px}.restTeam b{font-size:15px}.restTeam small{font-size:11px;color:var(--muted)}
+.restNotice{margin:8px 14px 14px;padding:10px 12px;border-radius:14px;background:rgba(102,166,207,.07);color:var(--muted);font-size:11px;font-weight:750;text-align:center}
+.qdFixture.qdRest{opacity:.88}.qdFixture.qdRest .qdKick strong{font-size:12px}.qdRestLabel{justify-content:center!important;color:var(--muted)}
