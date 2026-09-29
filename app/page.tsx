@@ -15,7 +15,8 @@ const teamData=[
  {name:"Juvenil B",competition:"JUVENIL B",max:16,coach:"Mikel Tara",photo:SB+"/entrenadores/MikelTara.png",zones:{1:"champion",2:"playoff",14:"relegation",15:"relegation",16:"relegation"}}
 ];
 const teams=teamData.map(t=>t.name);
-const coaches=["Nando Alonso","Gorka Barrio","Iker Ibarluzea","Ibai Mateos","Peio Garcia","Mikel Tara"];
+const weeklyTeams=[...teams,"Cadete B"];
+const coaches=["Nando Alonso","Gorka Barrio","Iker Ibarluzea","Ibai Mateos","Peio Garcia","Mikel Tara","Gaizka Garcia"];
 const delegates=["Gabri Alzueta","Mikel Elejalde","Omar El Kabouri","Aner Taranilla","Koldo Corral","Asel Ibañez"];
 type Season={positions:Record<string,string>,highest:string,lowest:string,firstCoach:string,coachCards:string,firstDelegate:string,delegateCards:string};
 const empty:Season={positions:{},highest:"",lowest:"",firstCoach:"",coachCards:"",firstDelegate:"",delegateCards:""};
@@ -31,7 +32,7 @@ export default function Home(){
  const select=(key:keyof Season,value:string)=>setSeason(s=>{const next={...s,[key]:value};const saved=localStorage.getItem("quiniderio-player");if(saved){try{const x=JSON.parse(saved);localStorage.setItem("quiniderio-player",JSON.stringify({...x,season:next,onboardingStep:"season"}))}catch{}}return next;});
  useEffect(()=>{if(!hydrated)return;try{localStorage.setItem("quiniderio-picks",JSON.stringify(picks))}catch{}},[picks,hydrated]);
  useEffect(()=>{if(!hydrated)return;try{localStorage.setItem("quiniderio-saved-rounds",JSON.stringify(savedRounds))}catch{}},[savedRounds,hydrated]);
- const currentDone=teams.filter(team=>picks[`${quizRound}:${team}`]).length;
+ const currentDone=weeklyTeams.filter(team=>quizFixtures[quizRound]?.[team]?.status!=="rest"&&picks[`${quizRound}:${team}`]).length;
  if(showSplash) return <main className={"appSplash matchdaySplash "+(assetsReady?"isReady":"")}><div className="loadBackdrop"/><div className="loadTop"><span>CD DERIO</span><i>2026/27</i></div><div className="loadCenter"><div className="loadMark"><img src={SB+"/branding/LogoApp.png"} alt="QuiniDerio"/><span className="loadOrbit"/></div><div className="loadTitle"><b>Quini<span>Derio</span></b><small>LA QUINIELA DEL CD DERIO</small></div></div><div className="loadBottom"><div className="loadLine"><i/></div><div><span>{assetsReady?"TODO LISTO":"PREPARANDO JORNADA"}</span><b>{assetsReady?"100":"•••"}</b></div></div></main>;
  if(step==="name") return <main className="authScreen"><Brand/><section className="authWrap"><div className="authLogo"><img src={SB+"/branding/LogoApp.png"} alt="QuiniDerio"/><p>LA QUINIELA DEL CD DERIO</p></div><form className="authForm" onSubmit={e=>{e.preventDefault();if(register){if(username.trim().length>=3){const n=username.trim();setName(n);localStorage.setItem("quiniderio-player",JSON.stringify({name:n,email,completed:false,onboardingStep:"season",season}));setStep("season")}}else if(email&&password){const n=email.split("@")[0];setName(n);localStorage.setItem("quiniderio-player",JSON.stringify({name:n,email,completed:false,onboardingStep:"season",season}));setStep("season")}}}><div className="authTabs"><button type="button" className={!register?"active":""} onClick={()=>setRegister(false)}>Iniciar sesión</button><button type="button" className={register?"active":""} onClick={()=>setRegister(true)}>Registrarme</button></div><h1>{register?"Crea tu cuenta":"Bienvenido"}</h1><p>{register?"Completa tu perfil para empezar a jugar.":"Accede a tu cuenta de QuiniDerio."}</p><label>Email<input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="tu@email.com" autoComplete="email"/></label><label>Contraseña<input type="password" required minLength={6} value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" autoComplete={register?"new-password":"current-password"}/></label>{register&&<><label>Nombre de usuario<input required minLength={3} value={username} onChange={e=>setUsername(e.target.value)} placeholder="Nombre que verán los demás"/></label><label className="profileUpload"><span>Imagen de perfil <small>Opcional</small></span><input type="file" accept="image/*" onChange={e=>setProfileImage(e.target.files?.[0]||null)}/><b>{profileImage?profileImage.name:"Elegir imagen"}</b></label><label className="notificationOpt"><input type="checkbox" checked={notifications} onChange={e=>setNotifications(e.target.checked)}/><span><b>Activar notificaciones</b><small>Avisos de jornadas y novedades. Las activaremos próximamente.</small></span></label></>}<button className="authContinue">{register?"Crear cuenta y continuar":"Entrar"}</button></form></section></main>;
  if(step==="season") { const done=teams.filter(t=>season.positions[t]).length+[season.highest,season.lowest,season.firstCoach,season.coachCards,season.firstDelegate,season.delegateCards].filter(Boolean).length; const total=12; return <main className="gameScreen">{refreshing&&<div className={"refreshOverlay "+(refreshReady?"ready":"")}><i aria-hidden="true">{refreshReady?"↑":"↓"}</i><b>{toast||"Desliza para actualizar"}</b></div>}<Brand/><div className="setupProgress"><div><span>PREDICCIONES DE TEMPORADA</span><b>{done}/{total}</b></div><div className="progressTrack"><i style={{width:`${Math.round(done/total*100)}%`}}/></div></div><div className="seasonHead"><p className="eyebrow">ANTES DE EMPEZAR</p><h1>Tus predicciones</h1><p>Estas elecciones son para toda la temporada. Cuando las confirmes no podrás modificarlas.</p></div><section className="season">
@@ -50,7 +51,7 @@ export default function Home(){
 }
 function HomeOverview({name,currentDone,onTab}:{name:string,currentDone:number,onTab:(tab:"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas")=>void}){
  const fixtureTs=(g:{date?:string,time?:string})=>{if(!g.date)return Number.MAX_SAFE_INTEGER;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};
- const homeGames=teams.map(team=>({name:team,...(quizFixtures[1][team]||{})})).sort((a,b)=>fixtureTs(a)-fixtureTs(b));
+ const homeGames=weeklyTeams.map(team=>({name:team,...(quizFixtures[1][team]||{})})).sort((a,b)=>fixtureTs(a)-fixtureTs(b));
  return <div className="qdHome">
   <aside className="qdSide">
    <div className="qdSideTitle">MENÚ</div>
@@ -76,7 +77,7 @@ function HomeOverview({name,currentDone,onTab}:{name:string,currentDone:number,o
    <section className="qdRound">
     <div className="qdRoundHead"><div><h2>Jornada 1</h2><span>Temporada 2026/27</span></div><button onClick={()=>onTab("quiniela")}>Hacer quiniela</button></div>
     <div className="qdRoundTabs">{[1,2,3,4,5,6,7,8].map(n=><span className={n===1?"active":""} key={n}>J{n}</span>)}</div>
-    <div className="qdFixtureList">{homeGames.map(game=>{const rival=game.opponent||"Por confirmar";const home=game.isHome===false?rival:game.name;const away=game.isHome===false?game.name:rival;return <div className="qdFixture" key={game.name}><div className="qdClub home"><b>{home}</b><ClubCrest src={game.isHome===false?game.crest||rivalCrests[game.name]:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png"} name={home}/></div><div className="qdKick"><small>{game.date||"Fecha pendiente"}</small><strong>{game.time||"—"}</strong></div><div className="qdClub"><ClubCrest src={game.isHome===false?"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png":game.crest||rivalCrests[game.name]} name={away}/><b>{away}</b></div></div>})}</div>
+    <div className="qdFixtureList">{homeGames.map(game=>{const rival=game.opponent||"Por confirmar";const home=game.isHome===false?rival:game.name;const away=game.isHome===false?game.name:rival;return game.status==="rest"?<div className="qdFixture qdRest" key={game.name}><div className="qdClub home"><b>{game.name}</b><ClubCrest src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" name={game.name}/></div><div className="qdKick"><small>Jornada 1</small><strong>Descanso</strong></div><div className="qdClub qdRestLabel"><b>Sin partido</b></div></div>:<div className="qdFixture" key={game.name}><div className="qdClub home"><b>{home}</b><ClubCrest src={game.isHome===false?game.crest||rivalCrests[game.name]:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png"} name={home}/></div><div className="qdKick"><small>{game.date||"Fecha pendiente"}</small><strong>{game.time||"—"}</strong></div><div className="qdClub"><ClubCrest src={game.isHome===false?"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png":game.crest||rivalCrests[game.name]} name={away}/><b>{away}</b></div></div>})}</div>
    </section>
   </div>
  </div>
@@ -100,7 +101,8 @@ const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio Fem":{opponent:"CD Lakua",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca"},
  "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"03/10/2026",time:"20:00",venue:"PL Rekalde, Bilbao",isHome:false,federationRound:1,competition:"FEM B"},
  "Juvenil A":{opponent:"Iturrigorri A",date:"04/10/2026",time:"13:30",venue:"La Roseta, Bilbao",isHome:false,federationRound:3,competition:"Juvenil A"},
- "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"15:30",venue:"Ibaiondo, Derio",isHome:true,federationRound:1,competition:"Juvenil B"}
+ "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"15:30",venue:"Ibaiondo, Derio",isHome:true,federationRound:1,competition:"Juvenil B"},
+ "Cadete B":{status:"rest",competition:"Cadete B",federationRound:1}
 };
 const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
  1:{
@@ -109,17 +111,19 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Derio Fem":confirmedFixtures["Derio Fem"],
   "Derio Fem B":confirmedFixtures["Derio Fem B"],
   "Juvenil A":confirmedFixtures["Juvenil A"],
-  "Juvenil B":confirmedFixtures["Juvenil B"]
+  "Juvenil B":confirmedFixtures["Juvenil B"],
+  "Cadete B":confirmedFixtures["Cadete B"]
  },
  2:{},
  3:{}
 };
 function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record<string,string>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>void}){
- const [saving,setSaving]=useState(false); const [savedPulse,setSavedPulse]=useState(false); const games=teams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
- const done=teams.filter(team=>picks[`${round}:${team}`]).length;
- const pending=games.filter(game=>!game.opponent).length;
+ const [saving,setSaving]=useState(false); const [savedPulse,setSavedPulse]=useState(false); const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
+ const playableGames=games.filter(game=>game.status!=="rest");
+ const done=playableGames.filter(game=>picks[`${round}:${game.name}`]).length;
+ const pending=playableGames.filter(game=>!game.opponent).length;
  const parseKickoff=(date?:string,time?:string)=>{if(!date||!time)return null;const [d,m,y]=date.split("/").map(Number);const [h,min]=time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()};
- const kickoffs=games.map(g=>parseKickoff(g.date,g.time)).filter((v):v is number=>v!==null);
+ const kickoffs=playableGames.map(g=>parseKickoff(g.date,g.time)).filter((v):v is number=>v!==null);
  const firstKickoff=kickoffs.length?Math.min(...kickoffs):null;
  const roundClosed=firstKickoff!==null&&Date.now()>=firstKickoff;
  return <section className="tabPage">
