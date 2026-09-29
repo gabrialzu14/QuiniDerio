@@ -137,6 +137,7 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
    const home=isHome?team:rival,away=isHome?rival:team;
    const label=competition==="Amistoso"?"AMISTOSO":federationRound?`${competition||"Liga"} · Jornada ${federationRound}`:`JORNADA DE LIGA PENDIENTE`;
    const pickKey=`${round}:${team}`;
+   if(game.status==="rest")return <article className="matchCard restCard" key={team}><div className="matchMeta"><span>CADETE B · JORNADA 1</span><em>Descanso</em></div><div className="restTeam"><ClubCrest src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" name="CD Derio"/><div><b>CD Derio Cadete B</b><small>Entrenador · Gaizka Garcia</small></div></div><div className="restNotice">Esta jornada no disputa partido</div></article>;
    return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
     <div className="matchMeta"><span>{label}</span><em>{roundClosed?"Jornada cerrada":time?"Jornada abierta":"Hora pendiente"}</em></div>
     <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{venue||"Lugar por confirmar"}</span></div>
