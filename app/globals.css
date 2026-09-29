@@ -2551,3 +2551,53 @@ main.gameScreen>.season .optionCards button.active,
 .roundDock,main.gameScreen>.setupProgress{
   background:rgba(20,52,72,.88)!important;
 }
+
+
+/* Bottom nav artifact fix — eliminate square pseudo/background layers */
+.dashboard .liquidNav{
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background:rgba(73,111,136,.22)!important;
+  background-image:linear-gradient(135deg,rgba(218,235,245,.14),rgba(55,91,115,.10))!important;
+  background-clip:padding-box!important;
+}
+.dashboard .liquidNav:before{
+  inset:0!important;
+  border-radius:inherit!important;
+  background:linear-gradient(120deg,rgba(255,255,255,.12),transparent 34%,rgba(87,169,226,.07) 70%,transparent)!important;
+  clip-path:inset(0 round 29px)!important;
+}
+.dashboard .liquidNav:after{
+  display:none!important;
+  content:none!important;
+}
+.dashboard .liquidNav button,
+.dashboard .liquidNav button.active{
+  overflow:hidden!important;
+  background-clip:padding-box!important;
+}
+.dashboard .liquidNav button:before,
+.dashboard .liquidNav button:after{
+  border-radius:inherit!important;
+}
+.dashboard .liquidNav button:not(.active):before,
+.dashboard .liquidNav button:not(.active):after{
+  display:none!important;
+  content:none!important;
+}
+.dashboard .liquidNav button.active:before,
+.dashboard .liquidNav button.active:after{
+  display:none!important;
+  content:none!important;
+}
+.dashboard .liquidNav .navIcon,
+.dashboard .liquidNav small{
+  position:relative!important;
+  z-index:3!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+@media(max-width:390px){
+  .dashboard .liquidNav:before{clip-path:inset(0 round 28px)!important}
+}
