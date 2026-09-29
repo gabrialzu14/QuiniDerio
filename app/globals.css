@@ -2708,3 +2708,102 @@ main.gameScreen>.season .optionCards button.active,.rankGrid button.active,.oneX
 .choiceHead>em,.stepBadge,.categoryLabel,.roundBadge{
   background-image:none!important;
 }
+
+
+/* Interaction polish v5 — smoother, lighter mobile navigation */
+@keyframes qdContentIn{
+  from{opacity:.35;transform:translate3d(0,7px,0);filter:blur(2px)}
+  to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+.dashboard .qdHome,
+.dashboard .gameQuiniela,
+.dashboard .myPredictions,
+.dashboard .ranking,
+.dashboard .moreScreen{
+  animation:qdContentIn .28s cubic-bezier(.2,.8,.2,1) both;
+}
+.dashboard button,
+.gameScreen button{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.dashboard button:not(:disabled),
+.gameScreen button:not(:disabled){
+  transition:
+    transform .18s cubic-bezier(.2,.8,.2,1),
+    opacity .18s ease,
+    background-color .22s ease,
+    border-color .22s ease,
+    box-shadow .24s ease,
+    color .2s ease!important;
+}
+.dashboard button:not(:disabled):active,
+.gameScreen button:not(:disabled):active{
+  transform:scale(.965);
+}
+.dashboard .liquidNav{
+  transition:
+    transform .3s cubic-bezier(.2,.8,.2,1),
+    background-color .25s ease,
+    border-color .25s ease,
+    box-shadow .3s ease!important;
+}
+.dashboard .liquidNav button{
+  will-change:transform;
+  transition:
+    transform .2s cubic-bezier(.2,.8,.2,1),
+    background-color .24s ease,
+    color .22s ease,
+    opacity .2s ease!important;
+}
+.dashboard .liquidNav button:active{
+  transform:scale(.90)!important;
+  opacity:.82;
+}
+.dashboard .liquidNav button.active{
+  transform:translateY(-1px);
+  background:rgba(221,237,247,.13)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.20),
+    inset 0 0 0 1px rgba(255,255,255,.045),
+    0 5px 15px rgba(3,18,28,.09)!important;
+}
+.dashboard .liquidNav button.active .navIcon{
+  transform:scale(1.06);
+}
+.dashboard .liquidNav .navIcon{
+  transition:transform .24s cubic-bezier(.2,.8,.2,1),filter .24s ease!important;
+}
+.dashboard .liquidNav small{
+  transition:opacity .2s ease,color .2s ease!important;
+}
+.matchCard,
+.predictionCard,
+.accountSection,
+.qdFixture,
+.qdSummary article,
+.qdSummary button{
+  transition:
+    transform .2s cubic-bezier(.2,.8,.2,1),
+    background-color .22s ease,
+    border-color .22s ease,
+    box-shadow .25s ease!important;
+}
+@media (hover:hover) and (pointer:fine){
+  .matchCard:hover,.predictionCard:hover,.qdFixture:hover{
+    transform:translateY(-2px);
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .dashboard .qdHome,
+  .dashboard .gameQuiniela,
+  .dashboard .myPredictions,
+  .dashboard .ranking,
+  .dashboard .moreScreen{
+    animation:none!important;
+  }
+  .dashboard button,.gameScreen button,.dashboard .liquidNav,
+  .dashboard .liquidNav .navIcon,.matchCard,.predictionCard,.accountSection,.qdFixture{
+    transition:none!important;
+  }
+}
