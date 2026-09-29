@@ -2251,3 +2251,103 @@ main.gameScreen>.setupProgress,.roundDock{
 .matchdaySplash .loadMark{
   filter:drop-shadow(-16px 0 24px rgba(225,46,69,.18)) drop-shadow(16px 0 25px rgba(22,132,216,.22))!important;
 }
+
+
+/* Bottom navigation final — Porra-style true liquid glass */
+.dashboard .liquidNav{
+  position:fixed!important;
+  z-index:1000!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:calc(10px + env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  width:min(420px,calc(100vw - 22px))!important;
+  min-height:64px!important;
+  padding:5px!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:2px!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+  border-radius:23px!important;
+  background:linear-gradient(135deg,rgba(191,218,235,.18),rgba(50,82,103,.12))!important;
+  -webkit-backdrop-filter:blur(28px) saturate(185%) brightness(1.08)!important;
+  backdrop-filter:blur(28px) saturate(185%) brightness(1.08)!important;
+  box-shadow:
+    0 16px 42px rgba(3,10,16,.24),
+    inset 0 1px 0 rgba(255,255,255,.28),
+    inset 0 -1px 0 rgba(255,255,255,.07),
+    -12px 0 28px rgba(222,48,71,.055),
+    12px 0 30px rgba(27,132,211,.08)!important;
+  overflow:hidden!important;
+}
+.dashboard .liquidNav:before{
+  content:""!important;
+  position:absolute!important;
+  z-index:0!important;
+  inset:1px!important;
+  border-radius:22px!important;
+  background:
+    linear-gradient(115deg,rgba(255,255,255,.16),rgba(255,255,255,.025) 32%,rgba(105,181,235,.08) 68%,rgba(255,255,255,.04))!important;
+  pointer-events:none!important;
+}
+.dashboard .liquidNav:after{
+  content:""!important;
+  position:absolute!important;
+  z-index:0!important;
+  width:130px!important;
+  height:80px!important;
+  top:-48px!important;
+  left:20%!important;
+  border-radius:50%!important;
+  background:rgba(255,255,255,.10)!important;
+  filter:blur(24px)!important;
+  pointer-events:none!important;
+}
+.dashboard .liquidNav button{
+  position:relative!important;
+  z-index:2!important;
+  min-width:0!important;
+  min-height:52px!important;
+  padding:5px 1px!important;
+  border:0!important;
+  border-radius:17px!important;
+  background:transparent!important;
+  color:rgba(206,219,228,.62)!important;
+  box-shadow:none!important;
+  transition:transform .16s ease,background .22s ease,color .22s ease!important;
+}
+.dashboard .liquidNav button:active{transform:scale(.93)!important}
+.dashboard .liquidNav button.active{
+  color:#fff!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.19),rgba(255,255,255,.07))!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    inset 0 0 0 1px rgba(255,255,255,.07),
+    0 5px 14px rgba(2,9,14,.12)!important;
+}
+.dashboard .liquidNav button.active:before{
+  content:""!important;
+  position:absolute!important;
+  top:3px!important;
+  left:50%!important;
+  width:21px!important;
+  height:1.5px!important;
+  transform:translateX(-50%)!important;
+  border-radius:99px!important;
+  background:linear-gradient(90deg,var(--qd-red),#c25a86 48%,var(--qd-blue))!important;
+  box-shadow:-5px 0 8px rgba(223,51,73,.42),5px 0 9px rgba(25,121,197,.48)!important;
+}
+.dashboard .liquidNav button.active:after{display:none!important}
+.dashboard .liquidNav button.active .navIcon{
+  filter:drop-shadow(0 0 7px rgba(120,190,238,.30))!important;
+}
+.dashboard .liquidNav small{
+  color:inherit!important;
+}
+@media(max-width:390px){
+  .dashboard .liquidNav{
+    width:calc(100vw - 16px)!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    border-radius:21px!important;
+  }
+}
