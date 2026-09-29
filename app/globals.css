@@ -2757,3 +2757,149 @@ html[data-theme="light"] .porraAccount .switch.on{background:#53b6ee!important}
 .restTeam>div{display:grid;gap:3px}.restTeam b{font-size:15px}.restTeam small{font-size:11px;color:var(--muted)}
 .restNotice{margin:8px 14px 14px;padding:10px 12px;border-radius:14px;background:rgba(102,166,207,.07);color:var(--muted);font-size:11px;font-weight:750;text-align:center}
 .qdFixture.qdRest{opacity:.88}.qdFixture.qdRest .qdKick strong{font-size:12px}.qdRestLabel{justify-content:center!important;color:var(--muted)}
+
+
+/* Light mode v2 — global white surface system */
+html[data-theme="light"] body,
+html[data-theme="light"] .gameScreen,
+html[data-theme="light"] .dashboard,
+html[data-theme="light"] .tabPage,
+html[data-theme="light"] .qdHomeMain{
+  background:#f3f7fa!important;color:#173247!important;
+}
+html[data-theme="light"] .qdHome{background:#f3f7fa!important}
+html[data-theme="light"] .qdSide{
+  background:rgba(255,255,255,.92)!important;
+  border-color:rgba(47,105,140,.11)!important;
+  box-shadow:8px 0 26px rgba(50,91,116,.05)!important;
+}
+html[data-theme="light"] .qdSide button{color:#607b8e!important}
+html[data-theme="light"] .qdSide button.active{background:#eef7fc!important;color:#138ccc!important}
+html[data-theme="light"] .qdSeason{background:#f6fafc!important;border-color:rgba(47,105,140,.10)!important;color:#557184!important}
+
+html[data-theme="light"] .qdSummary>article,
+html[data-theme="light"] .qdSummary>button,
+html[data-theme="light"] .qdRound,
+html[data-theme="light"] .qdFixture,
+html[data-theme="light"] .matchCard,
+html[data-theme="light"] .matchCard.restCard,
+html[data-theme="light"] .roundProgress,
+html[data-theme="light"] .roundDock,
+html[data-theme="light"] .predictionSummary,
+html[data-theme="light"] .myPick,
+html[data-theme="light"] .leaderCard,
+html[data-theme="light"] .rankingEmpty,
+html[data-theme="light"] .emptyCard,
+html[data-theme="light"] .seasonPredictionList,
+html[data-theme="light"] .seasonSticker,
+html[data-theme="light"] .coachesPanel,
+html[data-theme="light"] .rivalsPanel,
+html[data-theme="light"] main.gameScreen>.season .visualChoice,
+html[data-theme="light"] main.gameScreen .positionCard,
+html[data-theme="light"] main.gameScreen .predictionIntro{
+  background:#fff!important;
+  background-image:none!important;
+  color:#173247!important;
+  border-color:rgba(48,112,151,.13)!important;
+  box-shadow:0 8px 24px rgba(44,87,113,.055)!important;
+}
+html[data-theme="light"] .qdSummary>article:hover,
+html[data-theme="light"] .qdSummary>button:hover,
+html[data-theme="light"] .matchCard:hover,
+html[data-theme="light"] .qdFixture:hover{
+  box-shadow:0 10px 26px rgba(44,87,113,.075)!important;
+}
+html[data-theme="light"] .qdRoundHead,
+html[data-theme="light"] .qdRoundTabs,
+html[data-theme="light"] .qdFixture{
+  border-color:rgba(48,112,151,.10)!important;
+}
+html[data-theme="light"] .qdRoundTabs span{background:#f4f8fb!important;color:#70889a!important;border-color:rgba(55,111,145,.10)!important}
+html[data-theme="light"] .qdRoundTabs span.active{background:#e9f6fd!important;color:#118dcc!important;border-color:rgba(17,141,204,.18)!important}
+html[data-theme="light"] .qdKick strong{background:#f2f7fa!important;color:#173247!important;border-color:rgba(50,110,146,.11)!important}
+html[data-theme="light"] .qdFixture.qdRest{opacity:1!important}
+html[data-theme="light"] .restNotice{background:#f2f8fb!important;color:#668195!important}
+
+html[data-theme="light"] .matchMeta,
+html[data-theme="light"] .fixtureInfo,
+html[data-theme="light"] .pickHint,
+html[data-theme="light"] .restTeam small,
+html[data-theme="light"] .roundDockStatus small{color:#6b8496!important}
+html[data-theme="light"] .matchMeta em,
+html[data-theme="light"] .roundBadge{background:#edf7fc!important;color:#1488c5!important;border-color:rgba(29,143,203,.13)!important}
+html[data-theme="light"] .versus>strong{color:#8296a4!important}
+html[data-theme="light"] .oneXtwo{background:#f5f9fb!important;border-color:rgba(52,109,143,.10)!important}
+html[data-theme="light"] .oneXtwo button{background:#fff!important;color:#577184!important;border-color:rgba(52,109,143,.11)!important;box-shadow:none!important}
+html[data-theme="light"] .oneXtwo button.active{background:#e8f5fc!important;color:#087fc1!important;border-color:rgba(8,127,193,.22)!important;box-shadow:0 4px 12px rgba(35,119,166,.08)!important}
+html[data-theme="light"] .oneXtwo button:disabled{background:#f5f8fa!important;color:#a0afb9!important}
+html[data-theme="light"] .pickFeedback{background:#f1f9fd!important;color:#4d7086!important;border-color:rgba(40,136,190,.12)!important}
+html[data-theme="light"] .roundDock .savePrediction:disabled{background:#edf2f5!important;color:#9aaab5!important;border-color:rgba(65,107,132,.10)!important}
+
+html[data-theme="light"] .predictionScopeTabs,
+html[data-theme="light"] .predictionTabs,
+html[data-theme="light"] .rankingTabs,
+html[data-theme="light"] .quizRounds{
+  background:#eaf1f5!important;border-color:rgba(49,108,143,.10)!important;
+}
+html[data-theme="light"] .roundPredictionTabs button{background:#fff!important;color:#617d90!important;border-color:rgba(49,108,143,.12)!important}
+html[data-theme="light"] .roundPredictionTabs button.active{background:#e8f5fc!important;color:#087fc1!important;border-color:rgba(8,127,193,.18)!important;box-shadow:none!important}
+
+html[data-theme="light"] .seasonPredictionRow{background:#fff!important}
+html[data-theme="light"] .stickerPhoto,
+html[data-theme="light"] .miniSticker,
+html[data-theme="light"] .staffSticker,
+html[data-theme="light"] .dinioSticker{background:#f5f9fb!important;border-color:rgba(48,112,151,.10)!important}
+html[data-theme="light"] .cardsMark u{box-shadow:none!important}
+
+html[data-theme="light"] .rankingTable,
+html[data-theme="light"] .rankGrid,
+html[data-theme="light"] .rankingList{background:transparent!important}
+html[data-theme="light"] .rankRow,
+html[data-theme="light"] .rankingRow{
+  background:#fff!important;color:#173247!important;
+  border-color:rgba(48,112,151,.10)!important;
+}
+html[data-theme="light"] .rankRow:nth-child(odd),
+html[data-theme="light"] .rankingRow:nth-child(odd){background:#fbfdfe!important}
+
+html[data-theme="light"] main.gameScreen>.season,
+html[data-theme="light"] .positionCards,
+html[data-theme="light"] .optionCards{background:transparent!important}
+html[data-theme="light"] .optionCards button,
+html[data-theme="light"] .rankGrid button{
+  background:#fff!important;color:#506d80!important;border-color:rgba(48,112,151,.13)!important;box-shadow:0 4px 14px rgba(44,87,113,.04)!important;
+}
+html[data-theme="light"] .optionCards button.active,
+html[data-theme="light"] .rankGrid button.active{
+  background:#e8f5fc!important;color:#087fc1!important;border-color:rgba(8,127,193,.22)!important;box-shadow:0 4px 14px rgba(35,119,166,.07)!important;
+}
+html[data-theme="light"] .categoryLabel{background:transparent!important;color:#173247!important;border-color:rgba(48,112,151,.10)!important}
+html[data-theme="light"] .stepBadge{background:#edf7fc!important;color:#1288c5!important}
+html[data-theme="light"] .confirmDock{
+  background:rgba(255,255,255,.92)!important;color:#173247!important;
+  border-color:rgba(48,112,151,.13)!important;
+  box-shadow:0 10px 28px rgba(44,87,113,.10)!important;
+  backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;
+}
+html[data-theme="light"] .submit:not(:disabled){background:#168fd0!important;color:#fff!important;border-color:#168fd0!important;box-shadow:0 7px 18px rgba(22,143,208,.16)!important}
+
+html[data-theme="light"] .detailSheet,
+html[data-theme="light"] .surprise{
+  background:#fff!important;background-image:none!important;color:#173247!important;
+  border-color:rgba(48,112,151,.14)!important;
+}
+html[data-theme="light"] .yesno button{background:#f2f7fa!important;color:#587487!important;border-color:rgba(48,112,151,.12)!important}
+html[data-theme="light"] .yesno button.active{background:#e8f5fc!important;color:#087fc1!important;border-color:rgba(8,127,193,.20)!important}
+
+html[data-theme="light"] .connectionBadge{background:rgba(255,255,255,.92)!important;color:#496a7f!important;border-color:rgba(48,112,151,.12)!important}
+html[data-theme="light"] .dataSkeleton i{background:linear-gradient(105deg,#edf3f6 25%,#fff 42%,#edf3f6 60%)!important;background-size:220% 100%!important}
+
+/* Kill inherited dark ambient shadows in light mode */
+html[data-theme="light"] .matchStack .matchCard:nth-child(odd),
+html[data-theme="light"] .matchStack .matchCard:nth-child(even),
+html[data-theme="light"] .accountSection:nth-child(odd),
+html[data-theme="light"] .accountSection:nth-child(even),
+html[data-theme="light"] .predictionSummary:nth-child(odd),
+html[data-theme="light"] .predictionSummary:nth-child(even){
+  box-shadow:0 8px 24px rgba(44,87,113,.055)!important;
+}
