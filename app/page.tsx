@@ -12,10 +12,11 @@ const teamData=[
  {name:"Derio Fem",competition:"DERIO FEM",max:16,coach:"Iker Ibarluzea",photo:SB+"/entrenadores/IkerIbarluzea.png",zones:{1:"champion",2:"promotion",3:"promotion",14:"relegation",15:"relegation",16:"relegation"}},
  {name:"Derio Fem B",competition:"DERIO B FEM",max:16,coach:"Ibai Mateos",photo:SB+"/entrenadores/IbaiMateos.png",zones:{1:"champion",2:"playoff",15:"relegation",16:"relegation"}},
  {name:"Juvenil A",competition:"JUVENIL A",max:18,coach:"Peio Garcia",photo:SB+"/entrenadores/PeioGarcia.png",zones:{1:"champion",2:"promotion",16:"relegation",17:"relegation",18:"relegation"}},
- {name:"Juvenil B",competition:"JUVENIL B",max:16,coach:"Mikel Tara",photo:SB+"/entrenadores/MikelTara.png",zones:{1:"champion",2:"playoff",14:"relegation",15:"relegation",16:"relegation"}}
+ {name:"Juvenil B",competition:"JUVENIL B",max:16,coach:"Mikel Tara",photo:SB+"/entrenadores/MikelTara.png",zones:{1:"champion",2:"playoff",14:"relegation",15:"relegation",16:"relegation"}},
+ {name:"Cadete B",competition:"CADETE B",max:15,coach:"Gaizka Garcia",photo:"",zones:{1:"champion",2:"playoff",14:"relegation",15:"relegation"}}
 ];
 const teams=teamData.map(t=>t.name);
-const weeklyTeams=[...teams,"Cadete B"];
+const weeklyTeams=teams;
 const coaches=["Nando Alonso","Gorka Barrio","Iker Ibarluzea","Ibai Mateos","Peio Garcia","Mikel Tara","Gaizka Garcia"];
 const delegates=["Gabri Alzueta","Mikel Elejalde","Omar El Kabouri","Aner Taranilla","Koldo Corral","Asel Ibañez"];
 type Season={positions:Record<string,string>,highest:string,lowest:string,firstCoach:string,coachCards:string,firstDelegate:string,delegateCards:string};
