@@ -2604,3 +2604,17 @@ main.gameScreen>.season .optionCards button.active,.rankGrid button.active,.oneX
     transition:none!important;
   }
 }
+
+
+/* Fine-grained tactile feedback */
+.oneXtwo button.active b{animation:qdPickPop .24s cubic-bezier(.2,.9,.2,1)}
+@keyframes qdPickPop{0%{transform:scale(.78);opacity:.55}70%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+.predictionScopeTabs button,.predictionTabs button,.rankingTabs button,.quizRounds button,.roundPredictionTabs button{
+  position:relative;overflow:hidden;
+}
+.detailBackdrop{animation:qdBackdropIn .2s ease both}
+.detailSheet{animation:qdSheetIn .28s cubic-bezier(.2,.8,.2,1) both;transform-origin:50% 100%}
+@keyframes qdBackdropIn{from{opacity:0;backdrop-filter:blur(0)}to{opacity:1}}
+@keyframes qdSheetIn{from{opacity:0;transform:translate3d(0,18px,0) scale(.985)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+.crestBox img,.coachPhoto img,.coachAvatar img,.stickerPhoto img{transition:opacity .25s ease,filter .25s ease}
+@media(prefers-reduced-motion:reduce){.oneXtwo button.active b,.detailBackdrop,.detailSheet{animation:none!important}}
