@@ -164,7 +164,7 @@ function CoachesPanel(){return <section className="coachesPanel"><div className=
 function ClubCrest({src,name}:{src?:string,name:string}){const iturrigorri=/iturrigorri/i.test(name)||/Iturrigorri\.png/i.test(src||"");return src?<span className={"crestBox "+(iturrigorri?"crestIturrigorri":"")}><img src={src} alt={`Escudo de ${name}`} loading="lazy"/></span>:<i aria-hidden="true">?</i>}
 function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,string>,round:number,dinio:string,season:Season,onEdit:()=>void}){
  const [rivalSeasons,setRivalSeasons]=useState<Array<{user_id:string,username:string,season:Season,dinio:string,profile_pic:string}>>([]);
- useEffect(()=>{void(async()=>{const {data:{user}}=await supabase.auth.getUser();const {data}=await supabase.from("quini_profiles").select("user_id,username,season,dinio,profile_pic").eq("completed",true).order("username");setRivalSeasons(((data||[]) as any[]).filter(p=>p.user_id!==user?.id))})()},[]);
+ useEffect(()=>{void(async()=>{const {data:{user}}=await supabase.auth.getUser();const {data}=await supabase.from("quini_public_profiles").select("user_id,username,season,dinio,profile_pic").order("username");setRivalSeasons(((data||[]) as any[]).filter(p=>p.user_id!==user?.id))})()},[]);
  const [scope,setScope]=useState<"season"|"rounds">("season");
  const [view,setView]=useState<"mine"|"rivals">("mine");
  const [selectedRound,setSelectedRound]=useState(round);
