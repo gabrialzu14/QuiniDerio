@@ -1,0 +1,35 @@
+name: Recordatorios push QuiniDerio
+on:
+  schedule:
+    - cron: "4,34 8-23 * * *"
+      timezone: "Europe/Madrid"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: quiniderio-push-reminders
+  cancel-in-progress: false
+jobs:
+  send:
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      NEXT_PUBLIC_VAPID_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_VAPID_PUBLIC_KEY }}
+      VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+      VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Preparar worker push
+        run: |
+          mkdir -p /tmp/quiniderio-push
+          cp scripts/send-push-reminders.mjs /tmp/quiniderio-push/
+          cd /tmp/quiniderio-push
+          npm init -y >/dev/null 2>&1
+          npm install --silent web-push@3.6.7
+      - name: Enviar recordatorios
+        run: cd /tmp/quiniderio-push && node send-push-reminders.mjs
