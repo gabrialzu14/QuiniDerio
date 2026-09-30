@@ -3213,3 +3213,58 @@ body>.avatarCropOverlay{position:fixed!important;inset:0!important;width:100vw!i
 
 /* Admin account controls */
 .adminAccountSection .adminPanelEntry .accountMonoIcon,.adminAccountSection .adminPendingEntry .accountMonoIcon{color:#fff!important}.adminPendingEntry{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;text-align:left}.adminPendingSheet{padding:2px 0 4px}.adminPendingSummary{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.045)}.adminPendingSummary>b{font-size:24px}.adminPendingSummary>span{font-size:10px;color:#8da0ae}.adminPendingList{display:grid;gap:7px;max-height:48dvh;overflow:auto}.adminPendingList>div{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;padding:9px;border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}.adminPendingList .rankingAvatar{width:34px!important;height:34px!important}.adminPendingList>div>div b,.adminPendingList>div>div small{display:block}.adminPendingList>div>div b{font-size:11px}.adminPendingList>div>div small{margin-top:2px;font-size:8px;color:#8397a5}.adminPendingList>div>strong{font-size:8px;color:#ffbd68}.adminPendingLoading,.adminPendingAllDone{padding:26px 10px;text-align:center;color:#8da0ae;font-size:11px}.adminPendingAllDone b,.adminPendingAllDone small{display:block}.adminPendingAllDone b{font-size:15px;color:#fff}.adminPendingAllDone small{margin-top:4px}[data-theme="light"] .adminAccountSection .adminPanelEntry .accountMonoIcon,[data-theme="light"] .adminAccountSection .adminPendingEntry .accountMonoIcon{color:#fff!important}[data-theme="light"] .adminPendingSummary,[data-theme="light"] .adminPendingList>div{background:#f3f6f8;border-color:#e1e7eb}[data-theme="light"] .adminPendingAllDone b{color:#1b2932}
+
+
+/* Electric-blue neon accent — 2026-10-01 */
+:root{
+  --quini-blue:#18a8ff;
+  --quini-blue-bright:#38baff;
+  --quini-blue-soft:rgba(24,168,255,.15);
+  --quini-blue-line:rgba(56,186,255,.58);
+  --quini-blue-glow:rgba(24,168,255,.32);
+}
+.liquidNav button.active,
+.predictionTabs button.active,
+.predictionScopeTabs button.active,
+.roundPredictionTabs button.active,
+.quizRounds button.active,
+.rankingTabs button.active{
+  color:var(--quini-blue-bright)!important;
+  border-color:var(--quini-blue-line)!important;
+  box-shadow:0 0 12px var(--quini-blue-glow),inset 0 0 12px rgba(24,168,255,.06)!important;
+}
+.liquidNav button.active{
+  background:rgba(24,168,255,.09)!important;
+  filter:drop-shadow(0 0 8px rgba(24,168,255,.82))!important;
+}
+.oneXtwo button.active,
+.rankGrid button.active,
+.optionCards button.active,
+.yesno button.active,
+.fixturePick .pickResult.hasPick{
+  background:rgba(24,168,255,.14)!important;
+  color:#fff!important;
+  border-color:var(--quini-blue-line)!important;
+  box-shadow:0 0 14px rgba(24,168,255,.24)!important;
+}
+.oneXtwo button.active:after{background:var(--quini-blue-bright)!important;box-shadow:0 0 8px var(--quini-blue-bright)!important}
+.optionCards button.active i,.stepBadge{background:rgba(24,168,255,.18)!important;color:#7ed0ff!important}
+.optionCards button.active>span,.extraPredictionMark,.accountEdit button{color:#67c7ff!important}
+.switch.on{background:var(--quini-blue)!important;box-shadow:0 0 12px rgba(24,168,255,.38)!important}
+.identity input:focus,.accountEdit input:focus{
+  border-color:var(--quini-blue-bright)!important;
+  box-shadow:0 0 0 3px rgba(24,168,255,.12),0 0 14px rgba(24,168,255,.16)!important;
+}
+.accountEdit button,.extraPrediction{
+  border-color:rgba(56,186,255,.34)!important;
+}
+.accountEdit button{background:rgba(24,168,255,.12)!important;box-shadow:0 0 12px rgba(24,168,255,.10)!important}
+.extraPredictionMark{background:rgba(24,168,255,.14)!important;box-shadow:0 0 12px rgba(24,168,255,.14)!important}
+.matchCard.picked:before{background:var(--quini-blue)!important;box-shadow:0 0 8px var(--quini-blue)!important}
+html[data-theme="light"] .liquidNav button.active,
+html[data-theme="light"] .predictionTabs button.active,
+html[data-theme="light"] .predictionScopeTabs button.active,
+html[data-theme="light"] .roundPredictionTabs button.active,
+html[data-theme="light"] .quizRounds button.active,
+html[data-theme="light"] .rankingTabs button.active{color:#087fd1!important;border-color:rgba(8,127,209,.28)!important;box-shadow:0 0 10px rgba(24,168,255,.12)!important}
+html[data-theme="light"] .switch.on{background:#129eea!important;box-shadow:0 0 9px rgba(18,158,234,.20)!important}
