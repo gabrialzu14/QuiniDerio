@@ -102,6 +102,7 @@ const rivalCrests:Record<string,string>={
  "Juvenil A":SB+"/Escudos/Iturrigorri.png",
  "Juvenil B":SB+"/Escudos/SD%20LEIOA.png"
 }
+const currentStandings:Record<string,string>={"Derio A":"2º · 8 pts","Beasain":"15º · 4 pts","Derio B":"13º · 1 pto","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"7º · 3 pts","Iturrigorri A":"8º · 3 pts"};
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF",federationRound:5},
  "Derio B":{opponent:"Escolapios",date:"03/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",federationRound:3},
@@ -148,7 +149,7 @@ function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{
    return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
     <div className="matchMeta"><span>{label}</span><em>{roundClosed?"Jornada cerrada":time?"Jornada abierta":"Hora pendiente"}</em></div>
     <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{venue||"Lugar por confirmar"}</span></div>
-    <div className="versus"><div><ClubCrest src={isHome?"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b><small>{game.isHome===undefined?"DERIO":"LOCAL"}</small></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png"} name={away}/><b>{away}</b><small>{game.isHome===undefined?"POR CONFIRMAR":"VISITANTE"}</small></div></div>
+    <div className="versus"><div><ClubCrest src={isHome?"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b>{currentStandings[home]&&<small>{currentStandings[home]}</small>}</div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png"} name={away}/><b>{away}</b>{currentStandings[away]&&<small>{currentStandings[away]}</small>}</div></div>
     {liveMatches[game.name]?.status!=="scheduled"&&<div className={"liveMatchStrip "+liveMatches[game.name]?.status}><b>{liveMatches[game.name]?.status==="live"?"EN JUEGO":"FINAL"}</b><strong>{liveMatches[game.name]?.home_score} - {liveMatches[game.name]?.away_score}</strong></div>}<div className="pickHint">ELIGE TU PRONÓSTICO</div>
     <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={roundClosed||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active":""} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
     {picks[pickKey]&&<div className="pickFeedback">Pronóstico: <b>{picks[pickKey]}</b><span>Guardado localmente</span></div>}
