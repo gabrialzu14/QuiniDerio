@@ -3173,3 +3173,6 @@ html[data-theme="light"] .sessionSection .logoutAccount span{background:#eaf5fc;
 /* Jornada selector: remove outer rectangular rail */
 .roundPredictionTabs{background:transparent!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding-left:0!important;padding-right:0!important}
 html[data-theme="light"] .roundPredictionTabs{background:transparent!important;border:0!important;box-shadow:none!important}
+
+/* Refresh success: same fluorescent green feedback as submitted quiniela */
+.gameToast{background:#16d96b!important;background-image:none!important;border:1px solid #54ff9a!important;color:#fff!important;box-shadow:0 8px 24px rgba(22,217,107,.26),0 0 18px rgba(84,255,154,.16)!important}
