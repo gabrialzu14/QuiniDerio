@@ -1,0 +1,5 @@
+import {NextRequest,NextResponse} from "next/server";
+import {createClient} from "@supabase/supabase-js";
+const url=process.env.NEXT_PUBLIC_SUPABASE_URL||"";
+const service=process.env.SUPABASE_SERVICE_ROLE_KEY||"";
+export async function DELETE(req:NextRequest){try{const token=req.headers.get("authorization")?.replace(/^Bearer\s+/i,"");if(!token)return NextResponse.json({error:"unauthorized"},{status:401});const admin=createClient(url,service,{auth:{persistSession:false}});const {data,error}=await admin.auth.getUser(token);if(error||!data.user)return NextResponse.json({error:"unauthorized"},{status:401});await admin.from("push_notification_log").delete().eq("player_id",data.user.id);await admin.from("push_subscriptions").delete().eq("player_id",data.user.id);await admin.from("players").delete().eq("auth_user_id",data.user.id);const {error:deleteError}=await admin.auth.admin.deleteUser(data.user.id);if(deleteError)throw deleteError;return NextResponse.json({ok:true})}catch(e){console.error(e);return NextResponse.json({error:"delete_failed"},{status:500})}}
