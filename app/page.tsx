@@ -121,7 +121,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
  3:{}
 };
 function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record<string,string>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>void}){
- const [saving,setSaving]=useState(false); const [savedPulse,setSavedPulse]=useState(false); const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
+ const [saving,setSaving]=useState(false); const [savedPulse,setSavedPulse]=useState(false); const [saveMessage,setSaveMessage]=useState("Enviado!"); const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
  const playableGames=games.filter(game=>game.status!=="rest");
  const done=playableGames.filter(game=>picks[`${round}:${game.name}`]).length;
  const pending=playableGames.filter(game=>!game.opponent).length;
@@ -150,7 +150,7 @@ function GameQuiniela({picks,setPicks,round,setRound,saved,onSave}:{picks:Record
     {picks[pickKey]&&<div className="pickFeedback">Pronóstico: <b>{picks[pickKey]}</b><span>Guardado localmente</span></div>}
    </article>
   })}</div>
-  <div className="roundDock"><div className="roundDockStatus"><b>{roundClosed?"Jornada cerrada":done===6?"Pronóstico completo":done+"/6 elegidos"}</b><small>{roundClosed?"El primer partido ya ha comenzado":pending?`Pendientes ${pending} rivales por confirmar`:done===6?"Puedes revisar tus elecciones antes de enviarlas":"Completa todos los partidos"}</small></div><button className="savePrediction" disabled={done<6||roundClosed||pending>0||saving} onClick={()=>{setSaving(true);setSavedPulse(false);window.setTimeout(()=>{onSave();setSaving(false);setSavedPulse(true);window.setTimeout(()=>setSavedPulse(false),1800)},180)}}><span>{saving?"Guardando…":saved?"Actualizar pronóstico":"Confirmar pronóstico"}</span></button>{savedPulse&&<div className="predictionSaved" role="status">Pronóstico guardado</div>}</div>
+  <div className="roundDock"><div className="roundDockStatus"><b>{roundClosed?"Jornada cerrada":done===6?"Pronóstico completo":done+"/6 elegidos"}</b><small>{roundClosed?"El primer partido ya ha comenzado":pending?`Pendientes ${pending} rivales por confirmar`:done===6?"Puedes revisar tus elecciones antes de enviarlas":"Completa todos los partidos"}</small></div><button className="savePrediction" disabled={done<6||roundClosed||pending>0||saving} onClick={()=>{const wasSaved=saved;setSaving(true);setSavedPulse(false);window.setTimeout(()=>{onSave();setSaving(false);setSaveMessage(wasSaved?"Actualizado!":"Enviado!");setSavedPulse(true);window.setTimeout(()=>setSavedPulse(false),1800)},180)}}><span>{saving?"Guardando…":saved?"Actualizar pronóstico":"Confirmar pronóstico"}</span></button>{savedPulse&&<div className="predictionSaved" role="status">{saveMessage}</div>}</div>
  </section>
 }
 function DinioImage(){const [failed,setFailed]=useState(false);return failed?<div className="dinioFallback" role="img" aria-label="Imagen de Dinio pendiente"><img src="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/Escudos/cd_derio.png" alt=""/><strong>DINIO</strong></div>:<img src="/dinio.png" alt="Dinio y CD Derio" onError={()=>setFailed(true)}/>;}
