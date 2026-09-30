@@ -3268,3 +3268,33 @@ html[data-theme="light"] .roundPredictionTabs button.active,
 html[data-theme="light"] .quizRounds button.active,
 html[data-theme="light"] .rankingTabs button.active{color:#087fd1!important;border-color:rgba(8,127,209,.28)!important;box-shadow:0 0 10px rgba(24,168,255,.12)!important}
 html[data-theme="light"] .switch.on{background:#129eea!important;box-shadow:0 0 9px rgba(18,158,234,.20)!important}
+
+
+/* Ranking participant detail — 3 RFEF compact layout */
+.playerStatsOverlay{background:rgba(1,8,17,.88)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
+.playerStatsModal{position:relative;width:min(calc(100% - 24px),414px)!important;max-height:calc(100dvh - 24px)!important;padding:15px 18px 18px!important;border-radius:24px!important;background:#12263a!important;border:1px solid rgba(98,158,201,.20)!important;box-shadow:0 28px 90px rgba(0,0,0,.56)!important}
+.playerStatsModal>header{position:relative;display:block!important;margin:0 0 15px!important;text-align:center}
+.playerStatsModal>header>button{position:absolute;right:-3px;top:0;width:35px!important;height:35px!important;background:rgba(255,255,255,.06)!important;color:#8fa8bb!important;font-size:22px!important}
+.playerStatsIdentity{display:flex!important;flex-direction:column;align-items:center!important;gap:7px!important}
+.playerStatsIdentity h2{max-width:75%;margin:0!important;font-size:20px!important;text-align:center}
+.playerStatsAvatar{width:72px!important;height:72px!important;flex:0 0 72px!important;border:2px solid #d8f6ff!important;box-shadow:0 0 0 2px rgba(24,168,255,.12),0 0 16px rgba(24,168,255,.12)!important}
+.playerStatsAvatar img{width:100%;height:100%;object-fit:cover}
+.playerStatsSummary{gap:8px!important;margin-top:4px}
+.playerStatsSummary article{display:flex;min-height:59px;flex-direction:column;align-items:center;justify-content:center;padding:8px 5px!important;border-radius:13px!important;background:rgba(255,255,255,.035)!important;border:0!important}
+.playerStatsSummary b{order:1;margin:0!important;font-size:18px!important;line-height:1.1}
+.playerStatsSummary small{order:2;margin-top:7px;font-size:7px!important;font-weight:800;color:#7895ac!important;letter-spacing:.055em!important}
+.playerStatsCalculated{margin:10px 0 13px;text-align:center;font-size:8px;color:#7895ac}
+.playerMatchList{margin-top:0!important;padding-top:12px;border-top:1px solid rgba(120,169,203,.14)}
+.playerMatchTitle{margin:0 0 8px!important}
+.playerMatchTitle>div span{display:block;margin-bottom:2px;color:#19d795;font-size:8px;font-weight:900;letter-spacing:.08em}
+.playerMatchTitle>div b{display:block;font-size:12px!important}
+.playerMatchTitle>small{display:grid;place-items:center;min-width:29px;height:21px;padding:0 8px;border-radius:11px;background:rgba(255,255,255,.055);color:#8aa3b6!important;font-weight:800}
+.playerMatchList article{min-height:48px;padding:8px 10px!important;margin-top:6px!important;border-radius:13px!important;background:rgba(255,255,255,.025)!important;border:1px solid rgba(104,156,193,.18)!important}
+.playerMatchList article.hit{border-color:rgba(24,211,145,.18)!important;background:rgba(20,190,131,.035)!important}
+.playerMatchList article>div{display:grid;grid-template-columns:25px minmax(0,1fr);align-items:center;gap:5px}
+.playerMatchList article>div small{font-size:8px!important;color:#7d98ad!important}
+.playerMatchList article>div b{margin:0!important;font-size:9px!important;text-align:center}
+.playerMatchList article>span small{display:none!important}
+.playerMatchList article>span strong{display:grid;place-items:center;min-width:31px;height:31px;border-radius:11px;font-size:13px!important;color:#d9e8f3}
+.playerMatchList article.hit>span strong{background:#0acb91;color:#fff!important;box-shadow:0 0 12px rgba(10,203,145,.20)}
+@media(max-width:480px){.playerStatsOverlay{padding:7px!important}.playerStatsModal{width:min(100%,400px)!important;max-height:calc(100dvh - 14px)!important;border-radius:21px!important;padding:13px 14px 16px!important}.playerStatsAvatar{width:68px!important;height:68px!important;flex-basis:68px!important}.playerStatsSummary article{min-height:56px}}
