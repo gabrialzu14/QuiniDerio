@@ -2998,3 +2998,10 @@ main.gameScreen>.confirmDock .submit:not(:disabled):hover,
   main.gameScreen:not(.dashboard)>.season .visualChoice{padding:11px!important;border-radius:15px!important}
   main.gameScreen:not(.dashboard)>.season .optionCards button{min-height:42px!important;padding:6px 7px!important}
 }
+
+.pushPromptBackdrop{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(2,6,14,.72);backdrop-filter:blur(14px);animation:qSurpriseBackdrop .25s ease both}
+.pushPrompt{width:min(390px,100%);padding:28px 22px 20px;border-radius:26px;text-align:center;background:rgba(14,20,32,.96);border:1px solid rgba(255,255,255,.12);box-shadow:0 24px 70px rgba(0,0,0,.5);animation:qSurpriseEnter .48s cubic-bezier(.2,.9,.2,1.06) both}
+.pushBell{width:58px;height:58px;margin:0 auto 15px;display:grid;place-items:center;border-radius:18px;background:rgba(77,190,244,.12);border:1px solid rgba(77,190,244,.24);font-size:30px;color:#72d6ff}
+.pushPrompt h2{margin:0 0 9px;font-size:23px}.pushPrompt p{margin:0 auto 20px;max-width:320px;color:var(--muted,#9ca8b8);font-size:13px;line-height:1.55}.pushPrompt>small{display:block;margin:-8px 0 12px;color:#ff8f8f}
+.pushPrompt>button{width:100%;min-height:48px;border:0;border-radius:15px;font-weight:800;font-family:inherit;cursor:pointer}.pushPrompt>button:not(.later){background:#eef5f8;color:#10283a}.pushPrompt .later{margin-top:8px;background:transparent;color:#aab4c2}.pushPrompt button:disabled{opacity:.55}
+[data-theme="light"] .pushPrompt{background:rgba(255,255,255,.97);border-color:rgba(10,30,50,.12)}
