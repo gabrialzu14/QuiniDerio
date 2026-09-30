@@ -25,6 +25,7 @@ const coaches=["Nando Alonso","Gorka Barrio","Iker Ibarluzea","Ibai Mateos","Pei
 const delegates=["Gabri Alzueta","Mikel Elejalde","Omar El Kabouri","Aner Taranilla","Koldo Corral","Asel Ibañez","Galder Carreras"];
 const assistantCoaches=["Julen de Miguel","David Perez","Galder Ferreiro","Eneko Sanchez"];
 const assistantCoachTeam:Record<string,string>={"Julen de Miguel":"Derio A","David Perez":"Derio B","Galder Ferreiro":"Fem A","Eneko Sanchez":"Fem B"};
+// Production sync: 2026-10-01
 type Season={positions:Record<string,string>,highest:string,lowest:string,firstCoach:string,coachCards:string,assistantCoachExpulsions:string,assistantCoachCards:string,firstDelegate:string,delegateCards:string};
 const empty:Season={positions:{},highest:"",lowest:"",firstCoach:"",coachCards:"",assistantCoachExpulsions:"",assistantCoachCards:"",firstDelegate:"",delegateCards:""};
 
