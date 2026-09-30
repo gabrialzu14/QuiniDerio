@@ -10,10 +10,10 @@ const teamData=[
  {name:"Derio A",competition:"3ª RFEF",max:18,coach:"Nando Alonso",photo:SB+"/entrenadores/NandoAlonso.png",zones:{1:"champion",2:"playoff",3:"playoff",4:"playoff",5:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
  {name:"Derio B",competition:"DERIO B",max:18,coach:"Gorka Barrio",photo:SB+"/entrenadores/GorkaBarrio.png",zones:{1:"champion",2:"promotion",3:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
  {name:"Derio Fem",competition:"DERIO FEM",max:16,coach:"Iker Ibarluzea",photo:SB+"/entrenadores/IkerIbarluzea.png",zones:{1:"champion",2:"promotion",3:"promotion",14:"relegation",15:"relegation",16:"relegation"}},
- {name:"Derio Fem B",competition:"DERIO B FEM",max:16,coach:"Ibai Mateos",photo:SB+"/entrenadores/IbaiMateos.png",zones:{1:"champion",2:"playoff",15:"relegation",16:"relegation"}},
- {name:"Juvenil A",competition:"JUVENIL A",max:18,coach:"Peio Garcia",photo:SB+"/entrenadores/PeioGarcia.png",zones:{1:"champion",2:"promotion",16:"relegation",17:"relegation",18:"relegation"}},
+ {name:"Derio Fem B",competition:"DERIO B FEM",max:16,coach:"Ibai Mateos",photo:SB+"/entrenadores/IbaiMateos2.png",zones:{1:"champion",2:"playoff",15:"relegation",16:"relegation"}},
+ {name:"Juvenil A",competition:"JUVENIL A",max:18,coach:"Peio Garcia",photo:SB+"/entrenadores/PeioGarcia2.png",zones:{1:"champion",2:"promotion",16:"relegation",17:"relegation",18:"relegation"}},
  {name:"Juvenil B",competition:"JUVENIL B",max:16,coach:"Mikel Tara",photo:SB+"/entrenadores/MikelTara.png",zones:{1:"champion",2:"playoff",14:"relegation",15:"relegation",16:"relegation"}},
- {name:"Cadete B",competition:"CADETE B",max:15,coach:"Gaizka Garcia",photo:"",zones:{1:"champion",2:"playoff",14:"relegation",15:"relegation"}}
+ {name:"Cadete B",competition:"CADETE B",max:15,coach:"Gaizka Garcia",photo:SB+"/entrenadores/GaizkaGarcia.png",zones:{1:"champion",2:"playoff",14:"relegation",15:"relegation"}}
 ];
 const teams=teamData.map(t=>t.name);
 const weeklyTeams=teams;
