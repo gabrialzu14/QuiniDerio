@@ -2932,3 +2932,46 @@ html[data-theme="light"] .predictionSummary:nth-child(even){
   main.gameScreen .rankGrid button{height:34px!important;min-width:0!important;border-radius:10px!important;font-size:11px!important}
   main.gameScreen .categoryLabel{margin:18px 0 8px!important;padding:10px 4px!important}
 }
+
+
+/* 2026-09-30 onboarding interaction + account polish */
+main.gameScreen>.confirmDock .submit:not(:disabled),
+.confirmDock .submit:not(:disabled){
+  background:#eef5f8!important;
+  color:#10283a!important;
+  border:1px solid rgba(118,184,218,.38)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.20),inset 0 1px rgba(255,255,255,.72)!important;
+}
+main.gameScreen>.confirmDock .submit:not(:disabled):hover,
+.confirmDock .submit:not(:disabled):hover{background:#dcecf4!important;border-color:rgba(88,173,218,.55)!important}
+.confirmDock .submit:not(:disabled):after{display:none!important}
+
+@keyframes qSurpriseEnter{0%{opacity:0;transform:translateY(28px) scale(.90);filter:blur(8px)}65%{opacity:1;transform:translateY(-4px) scale(1.018);filter:blur(0)}100%{opacity:1;transform:none;filter:blur(0)}}
+@keyframes qSurpriseBackdrop{from{opacity:0}to{opacity:1}}
+@keyframes qDinioReveal{0%{opacity:0;transform:translateY(18px) scale(.94)}100%{opacity:1;transform:none}}
+@keyframes qChoicePulse{0%,100%{box-shadow:0 0 0 rgba(78,190,244,0)}50%{box-shadow:0 0 24px rgba(78,190,244,.13)}}
+.lockedBackdrop{animation:qSurpriseBackdrop .28s ease-out both!important}
+.surprise{animation:qSurpriseEnter .52s cubic-bezier(.2,.9,.2,1.08) both!important;transform-origin:center!important}
+.surprise.vote{animation:qSurpriseEnter .44s cubic-bezier(.2,.9,.2,1.05) both!important}
+.surprise.vote>*{animation:qDinioReveal .38s ease-out both}
+.surprise.vote>img{animation-delay:.03s}
+.surprise.vote>.eyebrow{animation-delay:.09s}
+.surprise.vote>h2{animation-delay:.14s}
+.surprise.vote>.extra{animation-delay:.19s}
+.surprise.vote>.yesno{animation-delay:.24s}
+.surprise.vote>.confirm{animation-delay:.29s}
+.surprise>button:not(.confirm){transition:transform .18s ease,box-shadow .2s ease!important}
+.surprise>button:not(.confirm):hover{transform:translateY(-2px)!important;box-shadow:0 10px 24px rgba(0,0,0,.22)!important}
+.yesno button{transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .2s ease,background .2s ease,box-shadow .2s ease!important}
+.yesno button:hover{transform:translateY(-2px)!important;border-color:rgba(88,197,246,.45)!important}
+.yesno button.active{animation:qChoicePulse 1.8s ease-in-out infinite!important;transform:scale(1.025)!important}
+
+.photoAction .cameraIcon{position:relative!important;width:18px!important;height:13px!important;display:inline-block!important;border:1.8px solid currentColor!important;border-radius:4px!important;color:#68d3ff!important;text-shadow:none!important}
+.photoAction .cameraIcon:before{content:""!important;position:absolute!important;left:4px!important;top:-5px!important;width:7px!important;height:4px!important;border:1.8px solid currentColor!important;border-bottom:0!important;border-radius:3px 3px 0 0!important}
+.photoAction .cameraIcon:after{content:""!important;position:absolute!important;left:5px!important;top:3px!important;width:5px!important;height:5px!important;border:1.6px solid currentColor!important;border-radius:50%!important}
+
+/* Season layout: seven team cards first; Cadete B occupies the next full row,
+   then secondary predictions continue in paired rows and Dinio closes full-width. */
+.seasonStickerGrid .teamSticker:nth-child(7){grid-column:1/-1!important}
+.seasonStickerGrid .teamSticker:nth-child(7){grid-template-columns:64px minmax(0,1fr)!important}
+.seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:70px!important}
