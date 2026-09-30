@@ -7,8 +7,8 @@ async function compressProfileImage(file:File){return new Promise<string>((resol
 
 const SB="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images";
 const teamData=[
- {name:"Derio A",competition:"3ª RFEF",max:18,coach:"Nando Alonso",photo:SB+"/entrenadores/NandoAlonso.png",zones:{1:"champion",2:"playoff",3:"playoff",4:"playoff",5:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
- {name:"Derio B",competition:"DERIO B",max:18,coach:"Gorka Barrio",photo:SB+"/entrenadores/GorkaBarrio.png",zones:{1:"champion",2:"promotion",3:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
+ {name:"Derio A",competition:"3ª RFEF",max:18,coach:"Nando Alonso",photo:SB+"/entrenadores/NandoAlonso2.png",zones:{1:"champion",2:"playoff",3:"playoff",4:"playoff",5:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
+ {name:"Derio B",competition:"DERIO B",max:18,coach:"Gorka Barrio",photo:SB+"/entrenadores/GorkaBarrio2.png",zones:{1:"champion",2:"promotion",3:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
  {name:"Derio Fem",competition:"DERIO FEM",max:16,coach:"Iker Ibarluzea",photo:SB+"/entrenadores/IkerIbarluzea.png",zones:{1:"champion",2:"promotion",3:"promotion",14:"relegation",15:"relegation",16:"relegation"}},
  {name:"Derio Fem B",competition:"DERIO B FEM",max:16,coach:"Ibai Mateos",photo:SB+"/entrenadores/IbaiMateos2.png",zones:{1:"champion",2:"playoff",15:"relegation",16:"relegation"}},
  {name:"Juvenil A",competition:"JUVENIL A",max:18,coach:"Peio Garcia",photo:SB+"/entrenadores/PeioGarcia2.png",zones:{1:"champion",2:"promotion",16:"relegation",17:"relegation",18:"relegation"}},
@@ -93,7 +93,7 @@ const rivalCrests:Record<string,string>={
  "Derio Fem":SB+"/Escudos/Lakua.png",
  "Derio Fem B":SB+"/Escudos/IbaiondoNerbioi.png",
  "Derio B":SB+"/Escudos/Escolapios.png",
- "Juvenil A":SB+"/Escudos/ITURRIGORRI.png",
+ "Juvenil A":SB+"/Escudos/Iturrigorri.png",
  "Juvenil B":SB+"/Escudos/SD%20LEIOA.png"
 }
 const confirmedFixtures:Record<string,Partial<Fixture>>={
