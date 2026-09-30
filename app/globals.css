@@ -3176,3 +3176,14 @@ html[data-theme="light"] .roundPredictionTabs{background:transparent!important;b
 
 /* Refresh success: same fluorescent green feedback as submitted quiniela */
 .gameToast{background:#16d96b!important;background-image:none!important;border:1px solid #54ff9a!important;color:#fff!important;box-shadow:0 8px 24px rgba(22,217,107,.26),0 0 18px rgba(84,255,154,.16)!important}
+
+/* Fix rival predictions mobile layout: intro above, cards full width */
+.rivalsPanel.rivalsTab{display:block!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;align-items:initial!important;justify-content:initial!important}
+.rivalsPanel.rivalsTab>div:first-child{width:100%!important;max-width:none!important;margin:0 0 14px!important}
+.rivalsPanel.rivalsTab .rivalSeasonList{width:100%!important;max-width:none!important;margin:0!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+.rivalsPanel.rivalsTab .rivalSeasonCard{width:100%!important;min-width:0!important;box-sizing:border-box!important}
+.rivalsPanel.rivalsTab .rivalPlayerHead b{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.rivalsPanel.rivalsTab .rivalSeasonPredictions{width:100%!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.rivalsPanel.rivalsTab .rivalSeasonPredictions>span{min-width:0!important}
+.rivalsPanel.rivalsTab .rivalSeasonPredictions small,.rivalsPanel.rivalsTab .rivalSeasonPredictions strong{min-width:0!important;overflow-wrap:anywhere!important}
+@media(max-width:390px){.rivalsPanel.rivalsTab{padding:12px!important}.rivalsPanel.rivalsTab .rivalSeasonPredictions{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}.rivalsPanel.rivalsTab .rivalSeasonPredictions>span{padding:7px!important}}
