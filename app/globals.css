@@ -3144,3 +3144,8 @@ html[data-theme="light"] .pushPrompt p{color:#5c7180!important}
  .seasonSetupScreen .rankGrid{grid-template-columns:repeat(6,minmax(0,1fr))!important}
  .seasonSetupScreen .rankGrid button{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
 }
+
+/* Account session actions */
+.sessionSection .logoutAccount span,.sessionSection .deleteAccount span{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;font-size:18px;font-weight:800}
+.sessionSection .logoutAccount span{background:rgba(66,153,225,.12);color:#72b9ef}.sessionSection .deleteAccount{color:#ef6262!important}.sessionSection .deleteAccount span{background:rgba(225,65,65,.12);color:#ef6262}.sessionSection .deleteAccount b{color:#ef6262!important}.sessionSection .deleteAccount small{color:rgba(239,98,98,.68)!important}
+html[data-theme="light"] .sessionSection .logoutAccount span{background:#eaf5fc;color:#167eb9}html[data-theme="light"] .sessionSection .deleteAccount span{background:#fff0f0;color:#d83f3f}html[data-theme="light"] .sessionSection .deleteAccount b{color:#d83f3f!important}html[data-theme="light"] .sessionSection .deleteAccount small{color:#b86666!important}
