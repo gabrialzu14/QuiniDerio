@@ -2975,3 +2975,26 @@ main.gameScreen>.confirmDock .submit:not(:disabled):hover,
 .seasonStickerGrid .teamSticker:nth-child(7){grid-column:1/-1!important}
 .seasonStickerGrid .teamSticker:nth-child(7){grid-template-columns:64px minmax(0,1fr)!important}
 .seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:70px!important}
+
+
+/* Restore compact scale for initial season predictions */
+@media(max-width:600px){
+  main.gameScreen:not(.dashboard){padding-left:16px!important;padding-right:16px!important}
+  main.gameScreen:not(.dashboard)>.seasonHead{padding:16px 15px!important}
+  main.gameScreen:not(.dashboard)>.seasonHead h1{font-size:26px!important}
+  main.gameScreen:not(.dashboard)>.seasonHead>p:last-child{font-size:11px!important}
+  main.gameScreen:not(.dashboard)>.season{gap:9px!important}
+  main.gameScreen:not(.dashboard) .predictionIntro{margin:10px 0 6px!important;padding:10px 3px 8px!important}
+  main.gameScreen:not(.dashboard) .predictionIntro h2{font-size:16px!important}
+  main.gameScreen:not(.dashboard) .positionCards{gap:8px!important}
+  main.gameScreen:not(.dashboard) .positionCard{grid-template-columns:68px minmax(0,1fr)!important;column-gap:9px!important;row-gap:7px!important;padding:9px!important;border-radius:16px!important}
+  main.gameScreen:not(.dashboard) .positionCard .coachPhoto{width:68px!important;height:80px!important;border-radius:13px!important}
+  main.gameScreen:not(.dashboard) .positionCard .clubInfo{min-height:80px!important;padding:2px!important}
+  main.gameScreen:not(.dashboard) .positionCard .clubInfo h3{font-size:15px!important}
+  main.gameScreen:not(.dashboard) .positionCard .clubInfo p{font-size:9px!important}
+  main.gameScreen:not(.dashboard) .positionPicker{padding:8px!important;border-radius:13px!important}
+  main.gameScreen:not(.dashboard) .rankGrid button{height:30px!important;min-height:30px!important;font-size:10px!important}
+  main.gameScreen:not(.dashboard) .categoryLabel{margin:12px 0 5px!important;padding:7px 3px!important}
+  main.gameScreen:not(.dashboard)>.season .visualChoice{padding:11px!important;border-radius:15px!important}
+  main.gameScreen:not(.dashboard)>.season .optionCards button{min-height:42px!important;padding:6px 7px!important}
+}
