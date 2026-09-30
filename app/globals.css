@@ -3064,3 +3064,9 @@ html[data-theme="light"] .settingIcon,
 html[data-theme="light"] .profileNameButton strong{color:#315c78!important}
 html[data-theme="light"] .pushPrompt h2{color:#142532!important}
 html[data-theme="light"] .pushPrompt p{color:#5c7180!important}
+
+/* Push permission success */
+.pushPrompt.pushSuccess{animation:pushSuccessCard .38s cubic-bezier(.2,.9,.25,1.15) both}.pushPrompt.pushSuccess .pushBell{color:#fff!important;background:linear-gradient(145deg,#1678bd,#174b72)!important;border-color:#50bfff!important;animation:pushBellRing .72s ease-in-out 2;box-shadow:0 0 0 7px rgba(62,177,244,.08),0 0 28px rgba(47,164,231,.22)}.pushPrompt.pushSuccess h2{animation:pushSuccessText .4s .12s both}.pushPrompt.pushSuccess p{animation:pushSuccessText .4s .2s both}.pushPrompt.pushSuccess .pushBell:after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#55d98b;right:7px;top:7px;border:2px solid #0c1624}.pushBell{position:relative}
+@keyframes pushBellRing{0%,100%{transform:rotate(0) scale(1)}20%{transform:rotate(13deg) scale(1.08)}40%{transform:rotate(-12deg) scale(1.08)}60%{transform:rotate(8deg)}80%{transform:rotate(-5deg)}}@keyframes pushSuccessCard{from{transform:scale(.96);opacity:.7}to{transform:scale(1);opacity:1}}@keyframes pushSuccessText{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+/* Match the simple camera glyph used in 3RFEF */
+.photoAction .cameraIcon{width:16px!important;height:16px!important;border:0!important;background:transparent!important;border-radius:0!important;display:grid!important;place-items:center!important;box-shadow:none!important}.photoAction .cameraIcon:before,.photoAction .cameraIcon:after{content:none!important}.photoAction .cameraIcon svg{display:block}
