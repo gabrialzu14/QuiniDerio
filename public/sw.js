@@ -1,0 +1,4 @@
+self.addEventListener('install',()=>self.skipWaiting());
+self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
+self.addEventListener('push',e=>{let d={};try{d=e.data?e.data.json():{}}catch{}e.waitUntil(self.registration.showNotification(d.title||'QuiniDerio',{body:d.body||'Tienes un nuevo aviso.',icon:'https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png',badge:'https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png',tag:d.tag||'quiniderio',data:{url:d.url||'/'}}))});
+self.addEventListener('notificationclick',e=>{e.notification.close();e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(cs=>{if(cs.length)return cs[0].focus();return self.clients.openWindow(e.notification.data?.url||'/')}))});
