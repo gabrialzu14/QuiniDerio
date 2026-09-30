@@ -3162,3 +3162,6 @@ html[data-theme="light"] .sessionSection .logoutAccount span{background:#eaf5fc;
 @media(max-width:600px){.authWrap{width:calc(100% - 28px);margin:30px auto 36px;transform:none!important}.authForm{transform:none!important;zoom:1!important}}
 
 .pushPromptBackdrop{transition:opacity .36s ease,backdrop-filter .36s ease}.pushPromptBackdrop.isLeaving{opacity:0;backdrop-filter:blur(0);pointer-events:none}.pushPromptBackdrop.isLeaving .pushPrompt{transform:translateY(-8px) scale(.985);filter:blur(3px);opacity:0}.pushPrompt{transition:transform .36s ease,filter .36s ease,opacity .36s ease}.accountMonoIcon{display:grid!important;place-items:center;color:#58bff3}.accountMonoIcon svg{display:block}
+
+/* Compact standings metadata on home fixtures */
+.qdClubName{display:flex;flex-direction:column;gap:2px;min-width:0}.qdClubName>b{line-height:1.15}.qdClubName>small{font-size:10px;font-weight:600;line-height:1;color:var(--muted,#8d96a8);opacity:.82;white-space:nowrap}.qdClub.home .qdClubName{align-items:flex-end}.qdFixture .qdClub:not(.home) .qdClubName{align-items:flex-start}
