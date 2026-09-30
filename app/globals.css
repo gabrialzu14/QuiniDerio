@@ -2903,3 +2903,32 @@ html[data-theme="light"] .predictionSummary:nth-child(odd),
 html[data-theme="light"] .predictionSummary:nth-child(even){
   box-shadow:0 8px 24px rgba(44,87,113,.055)!important;
 }
+
+/* 2026-09-30 season onboarding spacing — mobile */
+@media(max-width:600px){
+  main.gameScreen{padding-left:14px!important;padding-right:14px!important;box-sizing:border-box!important}
+  main.gameScreen>.brandBar,main.gameScreen>.setupProgress,main.gameScreen>.seasonHead,main.gameScreen>.season{width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
+  main.gameScreen>.brandBar{margin-top:12px!important;border-radius:18px!important}
+  main.gameScreen>.setupProgress{margin-top:10px!important;padding:12px 14px!important;border-radius:16px!important}
+  main.gameScreen>.seasonHead{margin-top:14px!important;padding:20px 16px!important;border-radius:18px!important}
+  main.gameScreen>.seasonHead h1{font-size:31px!important;line-height:1.05!important;margin:8px 0 9px!important}
+  main.gameScreen>.seasonHead>p:last-child{font-size:13px!important;line-height:1.45!important;max-width:34em!important}
+  main.gameScreen>.season{padding:0 0 92px!important}
+  main.gameScreen .predictionIntro{margin:14px 0 10px!important;padding:15px 4px 12px!important;border-radius:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+  main.gameScreen .predictionIntro h2{font-size:19px!important;line-height:1.16!important;margin:9px 0 4px!important}
+  main.gameScreen .predictionIntro p{font-size:11px!important;line-height:1.4!important}
+  main.gameScreen .stepBadge{width:29px!important;height:29px!important;font-size:10px!important;border-radius:10px!important}
+  main.gameScreen .positionCards{display:grid!important;gap:12px!important}
+  main.gameScreen .positionCard{grid-template-columns:82px minmax(0,1fr)!important;column-gap:12px!important;row-gap:10px!important;padding:12px!important;border-radius:20px!important}
+  main.gameScreen .positionCard .coachPhoto{width:82px!important;height:96px!important;border-radius:16px!important}
+  main.gameScreen .positionCard .clubInfo{min-height:96px!important;padding:4px 2px!important;align-self:center!important}
+  main.gameScreen .positionCard .clubInfo small{font-size:9px!important}
+  main.gameScreen .positionCard .clubInfo h3{font-size:18px!important;line-height:1.08!important;margin:5px 0 2px!important}
+  main.gameScreen .positionCard .clubInfo p{font-size:11px!important}
+  main.gameScreen .positionPicker{grid-column:1/-1!important;padding:11px!important;border-radius:16px!important}
+  main.gameScreen .positionPicker>span{font-size:8px!important;letter-spacing:.12em!important}
+  main.gameScreen .zoneLegend{margin:6px 0 9px!important;font-size:7px!important;gap:7px!important}
+  main.gameScreen .rankGrid{gap:5px!important}
+  main.gameScreen .rankGrid button{height:34px!important;min-width:0!important;border-radius:10px!important;font-size:11px!important}
+  main.gameScreen .categoryLabel{margin:18px 0 8px!important;padding:10px 4px!important}
+}
