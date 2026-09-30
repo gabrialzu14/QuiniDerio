@@ -22,7 +22,7 @@ const teamData=[
 const teams=teamData.map(t=>t.name);
 const weeklyTeams=teams;
 const coaches=["Nando Alonso","Gorka Barrio","Iker Ibarluzea","Ibai Mateos","Peio Garcia","Mikel Tara","Gaizka Garcia"];
-const delegates=["Gabri Alzueta","Mikel Elejalde","Omar El Kabouri","Aner Taranilla","Koldo Corral","Asel Ibañez"];
+const delegates=["Gabri Alzueta","Mikel Elejalde","Omar El Kabouri","Aner Taranilla","Koldo Corral","Asel Ibañez","Galder Carreras"];
 type Season={positions:Record<string,string>,highest:string,lowest:string,firstCoach:string,coachCards:string,firstDelegate:string,delegateCards:string};
 const empty:Season={positions:{},highest:"",lowest:"",firstCoach:"",coachCards:"",firstDelegate:"",delegateCards:""};
 
