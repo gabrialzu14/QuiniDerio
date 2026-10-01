@@ -134,7 +134,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
  3:{}
 };
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>void}){
- const [saving,setSaving]=useState(false); const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round][team]||{})}));
+ const [saving,setSaving]=useState(false); const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round][team]||{})})).map(game=>game.name==="Cadete B"&&round===1?{...game,status:"rest",opponent:undefined,date:undefined,time:undefined,venue:undefined}:game);
  const playableGames=games.filter(game=>game.status!=="rest");
  const done=playableGames.filter(game=>picks[`${round}:${game.name}`]).length;
  const pending=playableGames.filter(game=>!game.opponent).length;
