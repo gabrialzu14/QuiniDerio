@@ -210,7 +210,7 @@ function Ranking({_mode,_setMode}:{_mode:"general"|"jornada",_setMode:(m:"genera
   supabase.from("quini_standings").select("user_id,username,hits").order("hits",{ascending:false}),
   supabase.from("quini_pot_standings").select("user_id,username,pot_euros").order("pot_euros",{ascending:false}),
   supabase.from("quini_public_profiles").select("user_id,username,profile_pic")
- ]);const map:Record<string,{username:string,profile_pic:string}>={};for(const x of ps||[])map[x.user_id]={username:x.username,profile_pic:x.profile_pic||""};setProfiles(map);setBoard((b||[]) as any);setPot((p||[]) as any)})()},[]);
+ ]);const map:Record<string,{username:string,profile_pic:string}>={};for(const x of ps||[])map[x.user_id]={username:x.username,profile_pic:x.profile_pic||""};try{const {data:{user}}=await supabase.auth.getUser();if(user){const local=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");const localPic=typeof local.profilePic==="string"?local.profilePic.trim():"";if(localPic&&map[user.id]&&!map[user.id].profile_pic)map[user.id].profile_pic=localPic}}catch{}setProfiles(map);setBoard((b||[]) as any);setPot((p||[]) as any)})()},[]);
  const openPlayer=async(row:any)=>{setSelected(row);setDetail([]);setDetailLoading(true);const{data}=await supabase.from("quini_finished_pick_stats").select("round,team,pick,opponent,home_score,away_score,result").eq("user_id",row.user_id).order("round").order("team");setDetail((data||[]) as any);setDetailLoading(false)};
  const rows=view==="hits"?board:pot;
  const correct=detail.filter(x=>x.pick===x.result).length,total=detail.length,pct=total?Math.round(correct/total*100):0;
