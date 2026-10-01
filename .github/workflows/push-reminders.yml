@@ -12,24 +12,13 @@ concurrency:
 jobs:
   send:
     runs-on: ubuntu-slim
-    timeout-minutes: 5
-    env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      NEXT_PUBLIC_VAPID_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_VAPID_PUBLIC_KEY }}
-      VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
-      VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+    timeout-minutes: 3
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Preparar worker push
+      - name: Ejecutar recordatorios en producción
+        env:
+          PUSH_AUTH: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          mkdir -p /tmp/quiniderio-push
-          cp scripts/send-push-reminders.mjs /tmp/quiniderio-push/
-          cd /tmp/quiniderio-push
-          npm init -y >/dev/null 2>&1
-          npm install --silent web-push@3.6.7
-      - name: Enviar recordatorios
-        run: cd /tmp/quiniderio-push && node send-push-reminders.mjs
+          test -n "$PUSH_AUTH" || { echo "::error::Falta SUPABASE_SERVICE_ROLE_KEY"; exit 1; }
+          response=$(curl --fail-with-body --silent --show-error             --retry 2 --retry-delay 2             -H "Authorization: Bearer $PUSH_AUTH"             "https://quiniderio.vercel.app/api/push/reminders")
+          echo "$response"
+          echo "$response" | grep -q '"ok":true' || { echo "::error::El endpoint push no confirmó el envío"; exit 1; }
