@@ -3735,3 +3735,14 @@ html[data-theme="light"] .predictionsPage{--prediction-surface:#fff;--prediction
 /* Consistent card geometry across the dashboard */
 .dashboard .rankingRow,.dashboard .accountProfileCard,.dashboard .accountSection,.dashboard .matchCard,.dashboard .seasonPredictionCard{border-radius:20px!important;box-sizing:border-box;min-width:0}
 html[data-theme="light"] .dashboard .rankingRow,html[data-theme="light"] .dashboard .accountProfileCard,html[data-theme="light"] .dashboard .accountSection,html[data-theme="light"] .dashboard .matchCard,html[data-theme="light"] .dashboard .seasonPredictionCard{background:#fff!important;color:#152a38!important;border-color:rgba(22,58,82,.14)!important}
+
+/* Align visible coach portraits despite different transparent canvas margins. */
+.teamSticker .stickerPhoto img[src*="NandoAlonso2.png"]{position:absolute!important;width:123.335%!important;height:auto!important;max-width:none!important;left:-8.358%!important;bottom:5.000%!important;padding:0!important;object-fit:contain!important;transform:none!important;border-radius:0!important;}
+.teamSticker .stickerPhoto img[src*="GorkaBarrio2.png"]{position:absolute!important;width:108.741%!important;height:auto!important;max-width:none!important;left:-11.269%!important;bottom:5.000%!important;padding:0!important;object-fit:contain!important;transform:none!important;border-radius:0!important;}
+.teamSticker .stickerPhoto img[src*="IkerIbarluzea.png"]{position:absolute!important;width:108.599%!important;height:auto!important;max-width:none!important;left:-4.256%!important;bottom:5.000%!important;padding:0!important;object-fit:contain!important;transform:none!important;border-radius:0!important;}
+.teamSticker .stickerPhoto img[src*="IbaiMateos2.png"]{position:absolute!important;width:96.959%!important;height:auto!important;max-width:none!important;left:5.000%!important;bottom:5.000%!important;padding:0!important;object-fit:contain!important;transform:none!important;border-radius:0!important;}
+.teamSticker .stickerPhoto img[src*="MikelTara.png"]{position:absolute!important;width:100.806%!important;height:auto!important;max-width:none!important;left:-0.790%!important;bottom:5.000%!important;padding:0!important;object-fit:contain!important;transform:none!important;border-radius:0!important;}
+.teamSticker .stickerPhoto img[src*="GaizkaGarcia.png"]{position:absolute!important;width:72.353%!important;height:auto!important;max-width:none!important;left:14.712%!important;bottom:5.000%!important;padding:0!important;object-fit:contain!important;transform:none!important;border-radius:0!important;}
+.seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:82px!important}
+@media(max-width:390px){.seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:76px!important}}
+@media(max-width:350px){.seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:72px!important}}
