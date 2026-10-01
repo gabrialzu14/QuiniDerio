@@ -3,6 +3,7 @@ import webpush from "web-push";
 
 const base=process.env.NEXT_PUBLIC_SUPABASE_URL||"";
 const key=process.env.SUPABASE_SERVICE_ROLE_KEY||"";
+const cronToken=process.env.PUSH_CRON_TOKEN||"";
 const rounds=[{number:1,first:"2026-10-03T18:15:00+02:00"}];
 
 function configurePush(){
@@ -29,7 +30,7 @@ function activeReminder(){
  return null;
 }
 export async function GET(req:NextRequest){
- if(req.headers.get("authorization")!=="Bearer "+key)return NextResponse.json({error:"unauthorized"},{status:401});
+ if(!cronToken||req.headers.get("authorization")!=="Bearer "+cronToken)return NextResponse.json({error:"unauthorized"},{status:401});
  try{
   configurePush();
   const reminder=activeReminder();
