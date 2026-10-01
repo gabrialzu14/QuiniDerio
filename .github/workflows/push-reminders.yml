@@ -16,9 +16,9 @@ jobs:
     steps:
       - name: Ejecutar recordatorios en producción
         env:
-          PUSH_AUTH: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          PUSH_AUTH: ${{ secrets.PUSH_CRON_TOKEN }}
         run: |
-          test -n "$PUSH_AUTH" || { echo "::error::Falta SUPABASE_SERVICE_ROLE_KEY"; exit 1; }
+          test -n "$PUSH_AUTH" || { echo "::error::Falta PUSH_CRON_TOKEN"; exit 1; }
           response=$(curl --fail-with-body --silent --show-error             --retry 2 --retry-delay 2             -H "Authorization: Bearer $PUSH_AUTH"             "https://quiniderio.vercel.app/api/push/reminders")
           echo "$response"
           echo "$response" | grep -q '"ok":true' || { echo "::error::El endpoint push no confirmó el envío"; exit 1; }
