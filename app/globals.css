@@ -3410,3 +3410,57 @@ html[data-theme="light"] .removePhoto{color:#a22d3b!important}
 .adminAccountSection .adminPanelEntry>span{background:rgba(255,255,255,.08)!important;color:#fff!important}
 .adminAccountSection .adminPanelEntry b{color:#fff!important}
 html[data-theme="light"] .adminAccountSection .adminPanelEntry b{color:#172b38!important}
+
+
+/* Light mode — home + quiniela contrast corrections from mobile QA */
+html[data-theme="light"] .qdSummary>article,
+html[data-theme="light"] .qdSummary>button{background:#fff!important;color:#173247!important;border-color:#d7e2e9!important;box-shadow:0 8px 24px rgba(23,50,71,.05)!important}
+html[data-theme="light"] .qdSummary small{color:#55758d!important}
+html[data-theme="light"] .qdSummary b{color:#173247!important}
+html[data-theme="light"] .qdSummary span{color:#688399!important}
+html[data-theme="light"] .qdSummary .qdAction{background:#f6fbfd!important;border-color:#cce5e0!important}
+html[data-theme="light"] .qdSummary .qdAction small,
+html[data-theme="light"] .qdSummary .qdAction em{color:#087d67!important}
+
+html[data-theme="light"] .qdRound{background:#fff!important;border-color:#d4e0e7!important;box-shadow:0 12px 30px rgba(23,50,71,.06)!important}
+html[data-theme="light"] .qdRoundHead h2{color:#173247!important}
+html[data-theme="light"] .qdRoundHead span{color:#607d92!important}
+html[data-theme="light"] .qdRoundHead button{color:#07836b!important}
+html[data-theme="light"] .qdRoundTabs span{background:#f3f7f9!important;border-color:#cedde6!important;color:#58758a!important}
+html[data-theme="light"] .qdRoundTabs span.active{background:#e8f6fc!important;border-color:#7bc7ed!important;color:#087fbd!important}
+html[data-theme="light"] .qdFixture{border-top-color:#dce6ec!important}
+html[data-theme="light"] .qdClub{color:#173247!important}
+html[data-theme="light"] .qdClub b{color:#173247!important}
+html[data-theme="light"] .qdClubName>small{color:#667f91!important;opacity:1!important}
+html[data-theme="light"] .qdKick small{color:#66849a!important}
+html[data-theme="light"] .qdKick strong{background:#eef4f7!important;color:#173247!important}
+html[data-theme="light"] .qdRestLabel b{color:#173247!important}
+
+html[data-theme="light"] .matchCard{background:#fff!important;border-color:#d5e0e7!important;box-shadow:0 10px 28px rgba(23,50,71,.06)!important}
+html[data-theme="light"] .matchCard.picked{border-color:#83bfe3!important}
+html[data-theme="light"] .matchMeta span{color:#58768d!important}
+html[data-theme="light"] .matchMeta em{color:#087fbd!important}
+html[data-theme="light"] .fixtureInfo{background:#eef3f6!important;border-color:#dce5ea!important}
+html[data-theme="light"] .fixtureInfo span,
+html[data-theme="light"] .fixtureInfo span:last-child{color:#55748a!important}
+html[data-theme="light"] .versus b{color:#152d3d!important}
+html[data-theme="light"] .versus small{color:#607b8f!important}
+html[data-theme="light"] .versus>strong{color:#6c8495!important}
+html[data-theme="light"] .pickHint{color:#58768d!important}
+html[data-theme="light"] .pickFeedback{color:#4f6f86!important;border-top-color:#d8e4ea!important;background:#f6fbfd!important}
+html[data-theme="light"] .pickFeedback b{color:#075f98!important}
+html[data-theme="light"] .pickFeedback span{color:#536f83!important}
+html[data-theme="light"] .roundProgress{background:#fff!important;color:#173247!important}
+html[data-theme="light"] .roundProgress span{color:#58758a!important}
+html[data-theme="light"] .roundDock{background:rgba(255,255,255,.94)!important;border-color:#cddce5!important;color:#173247!important;box-shadow:0 12px 34px rgba(23,50,71,.14)!important}
+html[data-theme="light"] .roundDock small{color:#58758a!important}
+html[data-theme="light"] .restCard .restTeam b,
+html[data-theme="light"] .restNotice{color:#173247!important}
+
+/* Selected 1/X/2 must stay readable in light mode */
+html[data-theme="light"] .oneXtwo button.active,
+html[data-theme="light"] .oneXtwo button[aria-pressed="true"]{color:#fff!important}
+html[data-theme="light"] .oneXtwo button.active small,
+html[data-theme="light"] .oneXtwo button[aria-pressed="true"] small{color:rgba(255,255,255,.9)!important}
+html[data-theme="light"] .oneXtwo button[aria-pressed="true"]:nth-child(2){color:#142433!important}
+html[data-theme="light"] .oneXtwo button[aria-pressed="true"]:nth-child(2) small{color:#526979!important}
