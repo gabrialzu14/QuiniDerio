@@ -3547,3 +3547,16 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
   animation:none!important;
   border:0!important;
 }
+
+
+/* Splash crest: remove transient image box/background */
+.appSplash.matchdaySplash .splashCrestWrap,
+.appSplash.matchdaySplash .splashCrestWrap>img{
+  background:transparent!important;
+  background-color:transparent!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+.appSplash.matchdaySplash .splashCrestWrap{overflow:visible!important}
+.appSplash.matchdaySplash .splashCrestWrap>img{display:block!important;clip-path:none!important}
