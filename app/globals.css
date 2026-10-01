@@ -3560,3 +3560,73 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 }
 .appSplash.matchdaySplash .splashCrestWrap{overflow:visible!important}
 .appSplash.matchdaySplash .splashCrestWrap>img{display:block!important;clip-path:none!important}
+
+
+/* QuiniDerio motion + neon ambience */
+:root{--qd-motion:cubic-bezier(.22,.8,.24,1)}
+html:not([data-theme="light"]) body{
+ background:
+  radial-gradient(ellipse 78% 42% at 106% 8%,rgba(0,136,255,.18),transparent 64%),
+  radial-gradient(ellipse 72% 40% at -8% 38%,rgba(255,24,61,.13),transparent 66%),
+  radial-gradient(ellipse 65% 36% at 92% 78%,rgba(0,112,255,.11),transparent 68%),
+  #070d12!important;
+ background-attachment:fixed!important;
+}
+html:not([data-theme="light"]) .dashboard:before{
+ content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:
+  radial-gradient(circle at 102% 26%,rgba(20,132,255,.12),transparent 27%),
+  radial-gradient(circle at -4% 64%,rgba(238,31,64,.10),transparent 29%);
+ filter:blur(10px);
+}
+button,.accountList button,.profileNameButton,.rankingRow,.matchCard,.seasonPredictionCard,.oneXtwo button,.liquidNav button{
+ -webkit-tap-highlight-color:transparent;
+ transition:transform .14s var(--qd-motion),opacity .14s ease,border-color .2s ease,background-color .2s ease,box-shadow .22s ease!important;
+}
+button:not(:disabled):active,.accountList button:active,.profileNameButton:active,.rankingRow:active,.matchCard:active,.seasonPredictionCard:active{
+ transform:scale(.975)!important;
+}
+.oneXtwo button:not(:disabled):active{transform:scale(.94)!important}
+.oneXtwo button[aria-pressed="true"],.oneXtwo button.active{
+ animation:qdPick .22s var(--qd-motion);
+}
+@keyframes qdPick{0%{transform:scale(.94)}65%{transform:scale(1.035)}100%{transform:scale(1)}}
+
+.detailBackdrop,.modalBackdrop,.sheetBackdrop,.avatarCropOverlay,.assistantPredictionOverlay{
+ animation:qdBackdropIn .2s ease both;
+}
+.modal,.sheet,.playerStatsModal,.detailModal,.avatarCropModal,.assistantPredictionModal{
+ transform-origin:50% 65%;
+ animation:qdModalIn .25s var(--qd-motion) both;
+}
+@keyframes qdBackdropIn{from{opacity:0}to{opacity:1}}
+@keyframes qdModalIn{from{opacity:0;transform:translate3d(0,10px,0) scale(.975)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+
+.dashboard>section,.dashboard>main,.tabContent{
+ animation:qdPageIn .2s var(--qd-motion) both;
+}
+@keyframes qdPageIn{from{opacity:.55;transform:translate3d(0,5px,0)}to{opacity:1;transform:none}}
+
+.dashboard .liquidNav button.active svg,.dashboard .liquidNav button.active img{
+ animation:qdNavPop .24s var(--qd-motion);
+ filter:drop-shadow(0 0 7px rgba(27,142,255,.34));
+}
+@keyframes qdNavPop{0%{transform:scale(.9)}65%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+html:not([data-theme="light"]) .matchCard,
+html:not([data-theme="light"]) .seasonPredictionCard,
+html:not([data-theme="light"]) .rankingRow{
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 12px 34px rgba(0,0,0,.12)!important;
+}
+html:not([data-theme="light"]) .matchCard:hover,
+html:not([data-theme="light"]) .rankingRow:hover{
+ border-color:rgba(37,137,213,.18)!important;
+}
+html:not([data-theme="light"]) .liquidNav{
+ box-shadow:0 14px 42px rgba(0,0,0,.34),0 0 28px rgba(18,123,210,.08),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+
+img{transition:opacity .2s ease}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+}
