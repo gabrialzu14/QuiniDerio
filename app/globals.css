@@ -3634,3 +3634,26 @@ img{transition:opacity .2s ease}
 /* Header account avatar uses the saved profile photo */
 .userChip.avatar>span{overflow:hidden!important;display:grid!important;place-items:center!important}
 .userChip .headerAvatarImg{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;border-radius:50%!important;opacity:1!important}
+
+
+/* iOS scroll hardening — Pronosticos */
+html,body{min-height:100%!important;height:auto!important}
+body{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
+.gameScreen.dashboard{min-height:100dvh!important;height:auto!important;overflow:visible!important;touch-action:pan-y!important}
+.predictionsPage,.predictionsPage *:not(button):not(input):not(.avatarCropStage){
+ touch-action:pan-y;
+}
+.predictionsPage{
+ height:auto!important;
+ min-height:0!important;
+ overflow:visible!important;
+ overscroll-behavior-y:auto!important;
+ -webkit-overflow-scrolling:touch!important;
+}
+.predictionsPage .predictionScopeTabs,
+.predictionsPage .predictionTabs,
+.predictionsPage .seasonStickerGrid,
+.predictionsPage .seasonPredictionList,
+.predictionsPage .rivalsPanel{
+ touch-action:pan-y!important;
+}
