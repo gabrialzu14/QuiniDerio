@@ -3405,3 +3405,8 @@ html[data-theme="light"] .playerStatsModal small,
 html[data-theme="light"] .modal small,
 html[data-theme="light"] .sheet small{color:#5b7180!important}
 html[data-theme="light"] .removePhoto{color:#a22d3b!important}
+
+/* Admin entry: neutral monochrome */
+.adminAccountSection .adminPanelEntry>span{background:rgba(255,255,255,.08)!important;color:#fff!important}
+.adminAccountSection .adminPanelEntry b{color:#fff!important}
+html[data-theme="light"] .adminAccountSection .adminPanelEntry b{color:#172b38!important}
