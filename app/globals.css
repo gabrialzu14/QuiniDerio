@@ -3657,3 +3657,28 @@ body{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
 .predictionsPage .rivalsPanel{
  touch-action:pan-y!important;
 }
+
+
+/* Android / Chromium PWA scroll hardening — Pronosticos */
+@supports (-webkit-tap-highlight-color: transparent){
+ html,body,#__next{max-width:100%;overflow-x:hidden!important}
+ body{position:static!important;height:auto!important;min-height:100dvh!important;overflow-y:auto!important;touch-action:pan-y!important}
+ .gameScreen.dashboard,.dashboard,.tabPage.predictionsPage{
+  position:relative!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow-y:visible!important;
+  overflow-x:clip!important;
+  touch-action:pan-y!important;
+ }
+ .predictionsPage .predictionScopeTabs,
+ .predictionsPage .predictionTabs,
+ .predictionsPage .seasonSticker,
+ .predictionsPage .seasonPredictionRow,
+ .predictionsPage .rivalSeasonCard,
+ .predictionsPage .myPick{
+  touch-action:pan-y!important;
+  overscroll-behavior:auto!important;
+ }
+ .predictionsPage button{touch-action:manipulation!important}
+}
