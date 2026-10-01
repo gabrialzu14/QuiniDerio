@@ -3464,3 +3464,31 @@ html[data-theme="light"] .oneXtwo button.active small,
 html[data-theme="light"] .oneXtwo button[aria-pressed="true"] small{color:rgba(255,255,255,.9)!important}
 html[data-theme="light"] .oneXtwo button[aria-pressed="true"]:nth-child(2){color:#142433!important}
 html[data-theme="light"] .oneXtwo button[aria-pressed="true"]:nth-child(2) small{color:#526979!important}
+
+
+/* Bottom navigation position lock — must never move when account modals/panels open */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.dashboard .liquidNav{
+  position:fixed!important;
+  left:50%!important;
+  right:auto!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  transform:translate3d(-50%,0,0)!important;
+  transform-origin:center center!important;
+  width:min(338px,calc(100vw - 42px))!important;
+  max-width:calc(100vw - 24px)!important;
+  box-sizing:border-box!important;
+  contain:layout paint!important;
+  will-change:auto!important;
+}
+.detailBackdrop~.liquidNav,
+.dashboard:has(.detailBackdrop) .liquidNav,
+.porraAccount~.liquidNav{
+  left:50%!important;
+  right:auto!important;
+  transform:translate3d(-50%,0,0)!important;
+}
+@media(max-width:380px){
+ .dashboard .liquidNav{width:calc(100vw - 42px)!important;left:50%!important;right:auto!important;transform:translate3d(-50%,0,0)!important}
+}
