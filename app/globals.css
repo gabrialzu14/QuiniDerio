@@ -3682,3 +3682,25 @@ body{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
  }
  .predictionsPage button{touch-action:manipulation!important}
 }
+
+
+/* Android / Chromium baseline */
+@media (pointer:coarse){
+ html{width:100%;min-height:100%;overflow-x:hidden!important;scroll-behavior:auto;touch-action:pan-y!important}
+ body{width:100%;min-height:100%;height:auto!important;overflow-x:hidden!important;overflow-y:auto!important;touch-action:pan-y!important;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+ main,.gameScreen,.dashboard,.tabPage{width:100%;max-width:100%;height:auto!important;max-height:none!important;box-sizing:border-box}
+ .dashboard{overflow:visible!important}
+ .tabPage{overflow-x:clip!important;overflow-y:visible!important}
+ .predictionsPage{contain:none!important;isolation:auto!important;touch-action:pan-y!important}
+ .predictionsPage>*:not(button){touch-action:pan-y}
+ .predictionsPage button{touch-action:manipulation}
+ input,select,textarea{font-size:max(16px,1em)}
+ img,svg{max-width:100%}
+ .liquidNav{max-width:calc(100% - 16px)!important}
+}
+@media (max-width:430px) and (pointer:coarse){
+ .dashboard{padding-left:max(10px,env(safe-area-inset-left))!important;padding-right:max(10px,env(safe-area-inset-right))!important}
+ .predictionsPage,.ranking,.moreScreen,.gameQuiniela{min-width:0!important}
+ .predictionScopeTabs,.predictionTabs,.rankingTabs{max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none}
+ .predictionScopeTabs::-webkit-scrollbar,.predictionTabs::-webkit-scrollbar,.rankingTabs::-webkit-scrollbar{display:none}
+}
