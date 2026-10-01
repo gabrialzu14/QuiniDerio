@@ -3630,3 +3630,7 @@ img{transition:opacity .2s ease}
 @media(prefers-reduced-motion:reduce){
  *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
 }
+
+/* Header account avatar uses the saved profile photo */
+.userChip.avatar>span{overflow:hidden!important;display:grid!important;place-items:center!important}
+.userChip .headerAvatarImg{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;border-radius:50%!important;opacity:1!important}
