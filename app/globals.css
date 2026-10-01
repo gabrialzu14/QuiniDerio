@@ -3538,3 +3538,12 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 @media(max-width:430px){
  .appSplash.matchdaySplash .splashCrestWrap{width:172px!important;height:172px!important}
 }
+
+
+/* Splash: remove decorative orbit circles completely */
+.appSplash.matchdaySplash .splashOrbit,
+.appSplash.matchdaySplash .splashOrbit.two{
+  display:none!important;
+  animation:none!important;
+  border:0!important;
+}
