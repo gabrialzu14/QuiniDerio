@@ -1,0 +1,4 @@
+.dashboard .rankingRows .rankingRow.rankingUpper{background:rgba(47,128,237,.18)!important;border-color:rgba(69,149,255,.35)!important}
+.dashboard .rankingRows .rankingRow.rankingLower{background:rgba(225,65,79,.18)!important;border-color:rgba(240,92,104,.35)!important}
+html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingUpper{background:rgba(47,128,237,.13)!important;border-color:rgba(47,128,237,.28)!important}
+html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingLower{background:rgba(225,65,79,.13)!important;border-color:rgba(225,65,79,.28)!important}
