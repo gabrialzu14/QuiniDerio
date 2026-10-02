@@ -3897,3 +3897,9 @@ html,body{min-height:100%!important}
 .qdBanner img,.quiniCover img,.coachPhoto img,.coachAvatar img,.stickerPhoto img,.crestBox img{
  background:transparent;
 }
+
+.tabLoadingOverlay{position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(145deg,#0a1c2b 0%,#102b42 52%,#12243b 100%);color:#eef8ff;animation:tabLoadIn .12s ease-out}
+.tabLoadingOverlay:before,.tabLoadingOverlay:after{content:"";position:absolute;width:58vw;height:58vw;border-radius:50%;filter:blur(70px);opacity:.2;pointer-events:none}.tabLoadingOverlay:before{background:#1596d2;right:-24vw;top:8vh}.tabLoadingOverlay:after{background:#e43e57;left:-28vw;bottom:10vh}
+.tabLoadingMark{position:relative;width:68px;height:68px;display:grid;place-items:center}.tabLoadingMark img{width:54px;height:54px;border-radius:17px;object-fit:cover;position:relative;z-index:2}.tabLoadingMark i{position:absolute;inset:-2px;border:2px solid rgba(255,255,255,.12);border-top-color:#67d8ff;border-radius:50%;animation:tabSpin .65s linear infinite}.tabLoadingOverlay>b{font-size:11px;letter-spacing:.13em;text-transform:uppercase;position:relative;z-index:2}
+@keyframes tabSpin{to{transform:rotate(360deg)}}@keyframes tabLoadIn{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.tabLoadingMark i{animation:none}.tabLoadingOverlay{animation:none}}
