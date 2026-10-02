@@ -3758,3 +3758,17 @@ html[data-theme="light"] .dashboard .rankingRow,html[data-theme="light"] .dashbo
 .avatarCropTop{position:sticky!important;top:0!important;z-index:5!important}
 .avatarCropTop>button{display:grid!important;place-items:center!important;flex:0 0 34px!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;padding:0!important;border-radius:50%!important;font-size:22px!important;line-height:1!important}
 @media(max-width:600px){.porraAccount .detailSheet{max-height:76dvh!important}.avatarCropModal{max-height:80dvh!important}}
+
+
+/* Android season-setup scroll fix */
+@media (pointer:coarse){
+ html,body{height:auto!important;min-height:100%!important;overflow-y:auto!important;touch-action:pan-y!important}
+ main.gameScreen:not(.dashboard){position:relative!important;height:auto!important;min-height:100dvh!important;max-height:none!important;overflow-x:hidden!important;overflow-y:visible!important;touch-action:pan-y!important;overscroll-behavior-y:auto!important}
+ main.gameScreen:not(.dashboard)>.season,
+ main.gameScreen:not(.dashboard)>.season>*,
+ main.gameScreen:not(.dashboard) .positionCards,
+ main.gameScreen:not(.dashboard) .positionCard,
+ main.gameScreen:not(.dashboard) .positionPicker{touch-action:pan-y!important}
+ main.gameScreen:not(.dashboard) button{touch-action:manipulation!important}
+ main.gameScreen:not(.dashboard)>.confirmDock{touch-action:manipulation!important}
+}
