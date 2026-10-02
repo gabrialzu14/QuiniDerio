@@ -3889,3 +3889,11 @@ html,body{min-height:100%!important}
  .liquidNav small{font-size:8px}
  .liveRoundCounters{gap:6px}
 }
+
+/* Never expose black image slots while remote assets decode */
+.qdBanner,.quiniCover,.coachPhoto,.coachAvatar,.stickerPhoto,.crestBox{
+ background:linear-gradient(145deg,rgba(24,72,98,.72),rgba(24,43,73,.78));
+}
+.qdBanner img,.quiniCover img,.coachPhoto img,.coachAvatar img,.stickerPhoto img,.crestBox img{
+ background:transparent;
+}
