@@ -84,9 +84,10 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches}:{name:string,cu
  const playable=homeGames.filter(g=>g.status!=="rest");
  const firstKickoff=playable.length?Math.min(...playable.map(fixtureTs)):Number.MAX_SAFE_INTEGER;
  const liveCount=playable.filter(g=>liveMatches[g.name]?.status==="live").length;
- const finalCount=playable.filter(g=>liveMatches[g.name]?.status==="final").length;
+ const finalCount=playable.filter(g=>["final","finished"].includes(liveMatches[g.name]?.status)).length;
  const started=now>=firstKickoff||liveCount>0||finalCount>0;
  const finished=playable.length>0&&finalCount===playable.length;
+ const provisionalHits=playable.reduce((n,g)=>{const db=liveMatches[g.name];if(!db||!["live","final","finished"].includes(db.status))return n;const actual=Number(db.home_score)===Number(db.away_score)?"X":Number(db.home_score)>Number(db.away_score)?"1":"2";return n+(picks["1:"+g.name]===actual?1:0)},0);
  const pendingCount=Math.max(0,playable.length-liveCount-finalCount);
  return <div className="qdHome">
   <aside className="qdSide">
@@ -106,8 +107,8 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches}:{name:string,cu
    </section>
    {started&&<section className={"liveRoundHub "+(finished?"finished":"playing")}>
     <div className="liveRoundHero"><small>JORNADA 1</small><h2>{finished?"FINALIZADA":"EN JUEGO"}</h2><p>{finished?"Resultados y puntuación de la jornada":liveCount+" partidos en directo"}</p></div>
-    <div className="liveRoundCounters"><span><b>{liveCount}</b>EN JUEGO</span><span><b>{finalCount}</b>FINALIZADOS</span><span><b>{pendingCount}</b>PENDIENTES</span></div>
-    <div className="liveRoundMatches">{playable.map(game=>{const db=liveMatches[game.name];const rival=game.opponent||"Por confirmar";const home=game.isHome===false?rival:game.name;const away=game.isHome===false?game.name:rival;const pick=picks["1:"+game.name]||"—";const actual=db?Number(db.home_score)===Number(db.away_score)?"X":Number(db.home_score)>Number(db.away_score)?"1":"2":"";const state=db?.status==="final"?"FINAL":db?.status==="live"?"EN JUEGO":"PENDIENTE";return <button key={"live-"+game.name} type="button" onClick={()=>onTab("quiniela")} className={"liveRoundMatch "+state.toLowerCase().replace(" ","-")}><small>{game.competition||game.name}<em>{state}</em></small><div><span>{home}</span><strong>{db&&state!=="PENDIENTE"?db.home_score+" - "+db.away_score:"— : —"}</strong><span>{away}</span></div><footer><span>Mi pronóstico</span><b>{pick}</b>{db&&state!=="PENDIENTE"&&<em className={pick===actual?"hit":"miss"}>{pick===actual?"+ puntos":"0 provisional"}</em>}</footer></button>})}</div>
+    <div className="liveRoundCounters"><span><b>{liveCount}</b>EN JUEGO</span><span><b>{finalCount}</b>FINALIZADOS</span><span><b>{pendingCount}</b>PENDIENTES</span><span><b>{provisionalHits}</b>PTS PROV.</span></div>
+    <div className="liveRoundMatches">{playable.map(game=>{const db=liveMatches[game.name];const rival=game.opponent||"Por confirmar";const home=game.isHome===false?rival:game.name;const away=game.isHome===false?game.name:rival;const pick=picks["1:"+game.name]||"—";const actual=db?Number(db.home_score)===Number(db.away_score)?"X":Number(db.home_score)>Number(db.away_score)?"1":"2":"";const state=db&&["final","finished"].includes(db.status)?"FINAL":db?.status==="live"?"EN JUEGO":"PENDIENTE";return <button key={"live-"+game.name} type="button" onClick={()=>onTab("quiniela")} className={"liveRoundMatch "+state.toLowerCase().replace(" ","-")}><small>{game.competition||game.name}<em>{state}</em></small><div><span>{home}</span><strong>{db&&state!=="PENDIENTE"?db.home_score+" - "+db.away_score:"— : —"}</strong><span>{away}</span></div><footer><span>Mi pronóstico</span><b>{pick}</b>{db&&state!=="PENDIENTE"&&<em className={pick===actual?"hit":"miss"}>{pick===actual?"+1 provisional":"0 provisional"}</em>}</footer></button>})}</div>
    </section>}
    <section className="qdSummary">
     <button className="qdAction" onClick={()=>onTab("quiniela")}><small>HAZ TU PRONÓSTICO</small><b>Jornada 1</b><span>Completa los 6 partidos de la jornada.</span><em>Ir a mi quiniela</em></button>
