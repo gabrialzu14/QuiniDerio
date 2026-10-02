@@ -1,6 +1,6 @@
 // deployment-sync: 2026-09-25
-import ConnectionStatus from "./components/ConnectionStatus";
 "use client";
+import ConnectionStatus from "./components/ConnectionStatus";
 import {useCallback,useEffect,useMemo,useState} from "react";
 import {createPortal} from "react-dom";
 import "./ranking-bands.css";
