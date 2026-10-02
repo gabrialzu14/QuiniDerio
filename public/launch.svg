@@ -4,4 +4,5 @@
 <circle cx="160" cy="1500" r="520" fill="#b21f3d" opacity=".10"/><circle cx="1160" cy="1080" r="560" fill="#1269b0" opacity=".12"/>
 <text x="645" y="1430" text-anchor="middle" font-family="Arial,sans-serif" font-size="88" font-weight="900" letter-spacing="7"><tspan fill="#ffffff">QUINI</tspan><tspan fill="#ef334f">DE</tspan><tspan fill="#338de0">RIO</tspan></text>
 <text x="645" y="1500" text-anchor="middle" fill="#8292a1" font-family="Arial,sans-serif" font-size="25" font-weight="700" letter-spacing="9">LA QUINIELA DEL CD DERIO</text>
+<!-- deployment refresh 2026-10-02 -->
 </svg>
