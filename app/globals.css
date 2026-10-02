@@ -3870,3 +3870,22 @@ html,body{min-height:100%!important}
 .adminPending{margin:18px auto 0;max-width:760px;padding:18px;border-radius:20px;border:1px solid rgba(84,137,177,.2);background:rgba(10,28,43,.72)}.adminPending>div:first-child{display:flex;align-items:center;justify-content:space-between}.adminPending h2{margin:0;font-size:17px}.adminPending>div:first-child>strong{display:grid;place-items:center;min-width:34px;height:34px;border-radius:12px;background:rgba(215,45,65,.14);color:#ff6d79}.adminPending>p{margin:12px 0 0;color:#8299ab;font-size:11px}.adminPendingList{display:grid;gap:7px;margin-top:13px}.adminPendingList span{display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:0 11px;border-radius:12px;background:rgba(5,19,31,.55);border:1px solid rgba(83,132,169,.13)}.adminPendingList b{font-size:11px}.adminPendingList em{font-style:normal;font-size:9px;color:#ff7c86;font-weight:800}
 
 .offlineBanner{position:fixed;z-index:9999;top:max(8px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 24px);padding:8px 12px;border-radius:12px;background:rgba(20,25,31,.94);border:1px solid rgba(255,255,255,.13);box-shadow:0 8px 28px rgba(0,0,0,.28);font-size:10px;font-weight:800;letter-spacing:.01em;color:#eef6fc;text-align:center;pointer-events:none}
+
+/* Mobile interaction hardening */
+@media (max-width:430px){
+ html,body{width:100%;max-width:100%;overflow-x:hidden}
+ .qdHomeMain,.gameScreen,.porraAccount{max-width:100%;overflow-x:hidden}
+ .liveRoundCounters{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .liveRoundMatch{min-width:0}
+ .liveRoundMatch>div span,.qdClubName b{overflow:hidden;text-overflow:ellipsis}
+ .detailBackdrop{padding:max(12px,env(safe-area-inset-top)) 10px max(12px,env(safe-area-inset-bottom))}
+ .detailSheet{max-height:calc(100dvh - 24px);overscroll-behavior:contain}
+ .liquidNav{bottom:max(10px,env(safe-area-inset-bottom));max-width:calc(100vw - 20px)}
+ .liquidNav button{min-width:0;touch-action:manipulation}
+ input,select,textarea{font-size:16px}
+}
+@media (max-width:360px){
+ .liquidNav{max-width:calc(100vw - 12px)}
+ .liquidNav small{font-size:8px}
+ .liveRoundCounters{gap:6px}
+}
