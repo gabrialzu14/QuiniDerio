@@ -3926,3 +3926,14 @@ html,body{min-height:100%!important}
   outline:0!important;
 }
 .qdFixture .crestBox img{border-radius:0!important}
+
+/* Ranking loading: layered reveal instead of a false empty state */
+.rankingSkeleton{display:grid;gap:7px;margin-top:8px;overflow:hidden}
+.rankingSkeletonRow{min-height:58px;display:grid;grid-template-columns:34px minmax(0,1fr) 54px;align-items:center;gap:11px;padding:8px 12px;border:1px solid rgba(105,151,184,.13);border-radius:13px;background:rgba(18,48,70,.48);opacity:0;transform:translateY(-8px);animation:rankingLayerIn .42s cubic-bezier(.2,.8,.2,1) forwards}
+.rankingSkeletonRow i{width:24px;height:24px;border-radius:50%;background:rgba(140,175,199,.14)}
+.rankingSkeletonRow span{height:12px;width:min(150px,68%);border-radius:8px;background:linear-gradient(90deg,rgba(140,175,199,.09),rgba(177,209,230,.2),rgba(140,175,199,.09));background-size:220% 100%;animation:rankingShimmer 1.15s ease-in-out infinite}
+.rankingSkeletonRow b{height:18px;border-radius:8px;background:rgba(140,175,199,.12)}
+.rankingRows .rankingRow{opacity:0;transform:translateY(-7px);animation:rankingRealIn .32s cubic-bezier(.2,.8,.2,1) forwards}
+.rankingRows .rankingRow:nth-child(1){animation-delay:0ms}.rankingRows .rankingRow:nth-child(2){animation-delay:45ms}.rankingRows .rankingRow:nth-child(3){animation-delay:90ms}.rankingRows .rankingRow:nth-child(4){animation-delay:135ms}.rankingRows .rankingRow:nth-child(5){animation-delay:180ms}.rankingRows .rankingRow:nth-child(6){animation-delay:225ms}.rankingRows .rankingRow:nth-child(n+7){animation-delay:270ms}
+@keyframes rankingLayerIn{to{opacity:1;transform:none}}@keyframes rankingRealIn{to{opacity:1;transform:none}}@keyframes rankingShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+@media(prefers-reduced-motion:reduce){.rankingSkeletonRow,.rankingRows .rankingRow{opacity:1;transform:none;animation:none}.rankingSkeletonRow span{animation:none}}
