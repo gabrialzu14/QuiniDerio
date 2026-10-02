@@ -3772,3 +3772,38 @@ html[data-theme="light"] .dashboard .rankingRow,html[data-theme="light"] .dashbo
  main.gameScreen:not(.dashboard) button{touch-action:manipulation!important}
  main.gameScreen:not(.dashboard)>.confirmDock{touch-action:manipulation!important}
 }
+
+
+/* Robust onboarding scroller — Android Chrome/PWA */
+html,body{min-height:100%!important}
+.seasonSetupScreen{
+ display:block!important;
+ position:relative!important;
+ width:min(100%,520px)!important;
+ height:100dvh!important;
+ min-height:100dvh!important;
+ max-height:100dvh!important;
+ overflow-x:hidden!important;
+ overflow-y:auto!important;
+ overscroll-behavior-y:contain!important;
+ -webkit-overflow-scrolling:touch!important;
+ touch-action:pan-y!important;
+ scroll-behavior:auto!important;
+ padding-bottom:140px!important;
+}
+.seasonSetupScreen>.brandBar,
+.seasonSetupScreen>.setupProgress,
+.seasonSetupScreen>.seasonHead,
+.seasonSetupScreen>.season{touch-action:pan-y!important}
+.seasonSetupScreen .positionCards,
+.seasonSetupScreen .positionCard,
+.seasonSetupScreen .positionPicker,
+.seasonSetupScreen .rankGrid,
+.seasonSetupScreen .visualChoice,
+.seasonSetupScreen .optionCards{touch-action:pan-y!important}
+.seasonSetupScreen button{touch-action:manipulation!important}
+.seasonSetupScreen>.confirmDock{position:fixed!important;pointer-events:none!important}
+.seasonSetupScreen>.confirmDock .submit{pointer-events:auto!important}
+@supports not (height:100dvh){
+ .seasonSetupScreen{height:100vh!important;min-height:100vh!important;max-height:100vh!important}
+}
