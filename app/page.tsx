@@ -189,8 +189,7 @@ function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{
  const roundClosed=firstKickoff!==null&&Date.now()>=firstKickoff;
  return <section className="tabPage">
   <div className="pageTop compactTop"><div className="roundBadge"><i/> {roundClosed?"JORNADA CERRADA":round===1?"JORNADA ABIERTA":"PRÓXIMAMENTE"}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
-  <div className="quizRounds singleRound" role="group" aria-label="Jornada publicada"><button type="button" aria-pressed="true" className="active">Jornada 1</button></div>
-  <div className={"roundProgress "+(done===6?"complete":"")}><b>{done}/6</b><div><i style={{width:`${done/6*100}%`}}/></div><span>{done===6?"¡Jornada completada!":"Te faltan "+(6-done)+" pronósticos"}</span></div>
+  <div className={"roundProgress centeredProgress "+(done===playableGames.length&&playableGames.length>0?"complete":"")}><b>{done}/{playableGames.length}</b><div><i style={{width:`${playableGames.length?done/playableGames.length*100:0}%`}}/></div><span>{done===playableGames.length&&playableGames.length>0?"Jornada completada":`Te faltan ${Math.max(0,playableGames.length-done)} pronósticos`}</span></div>
   <div className="matchStack">{games.map((game,i)=>{
    const {name:team,date="",time="",venue="",federationRound,competition}=game;
    const rival=game.opponent||"Rival por confirmar";
