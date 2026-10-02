@@ -1,6 +1,19 @@
 import {NextRequest,NextResponse} from "next/server";
 import {createClient} from "@supabase/supabase-js";
+import webpush from "web-push";
 const url=process.env.NEXT_PUBLIC_SUPABASE_URL||"";const key=process.env.SUPABASE_SERVICE_ROLE_KEY||"";const ADMIN="gabrialzueta@gmail.com";
 function db(){if(!url||!key)throw new Error("supabase_env");return createClient(url,key,{auth:{persistSession:false}})}
 async function admin(req:NextRequest){const token=req.headers.get("authorization")?.replace(/^Bearer\s+/i,"");if(!token)return null;const {data}=await db().auth.getUser(token);return data.user?.email?.toLowerCase()===ADMIN?data.user:null}
 export async function GET(req:NextRequest){try{if(!await admin(req))return NextResponse.json({error:"forbidden"},{status:403});const round=Math.max(1,Number(req.nextUrl.searchParams.get("round")||1));const client=db();const [{data:profiles,error:pe},{data:picks,error:qe},{data:matches,error:me}]=await Promise.all([client.from("quini_profiles").select("user_id,username,profile_pic").eq("completed",true).order("username"),client.from("quini_picks").select("user_id,team").eq("round",round),client.from("quini_live_matches").select("team").eq("round",round)]);if(pe||qe)throw pe||qe;const expected=new Set((matches||[]).map((m:any)=>m.team));if(me||expected.size===0){["Derio A","Derio B","Derio Fem","Derio Fem B","Juvenil A","Juvenil B"].forEach(t=>expected.add(t))}const byUser=new Map<string,Set<string>>();for(const p of picks||[]){if(!byUser.has(p.user_id))byUser.set(p.user_id,new Set());if(expected.has(p.team))byUser.get(p.user_id)!.add(p.team)}const pending=(profiles||[]).map((p:any)=>({user_id:p.user_id,username:p.username,profile_pic:p.profile_pic||"",sent:byUser.get(p.user_id)?.size||0,total:expected.size})).filter((p:any)=>p.sent<p.total);return NextResponse.json({round,totalParticipants:(profiles||[]).length,pending})}catch(e){console.error(e);return NextResponse.json({error:"pending"},{status:500})}}
+
+export async function POST(req:NextRequest){try{
+ if(!await admin(req))return NextResponse.json({error:"forbidden"},{status:403});
+ const body=await req.json();const playerId=String(body.playerId||"");const round=Math.max(1,Number(body.round||1));if(!playerId)return NextResponse.json({error:"player"},{status:400});
+ const client=db();const [{data:profile},{data:subs}]=await Promise.all([client.from("quini_profiles").select("username").eq("user_id",playerId).maybeSingle(),client.from("players").select("id").eq("auth_user_id",playerId).maybeSingle().then(async({data})=>data?client.from("push_subscriptions").select("id,endpoint,p256dh,auth").eq("player_id",data.id).eq("enabled",true):({data:[]} as any))]);
+ const subscriptions=(subs||[]) as any[];if(!subscriptions.length)return NextResponse.json({error:"no_subscription"},{status:409});
+ const pub=process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY||"";const priv=process.env.VAPID_PRIVATE_KEY||"";const subject=process.env.VAPID_SUBJECT||"mailto:gabrialzueta@gmail.com";if(!pub||!priv)return NextResponse.json({error:"vapid"},{status:500});webpush.setVapidDetails(subject,pub,priv);
+ const payload=JSON.stringify({title:"QUINIDERIO",body:`Tienes pronósticos pendientes de la Jornada ${round}.`,url:"/",tag:`pending-${round}`});let sent=0;
+ for(const s of subscriptions){try{await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},payload);sent++}catch(e:any){if(e?.statusCode===404||e?.statusCode===410)await client.from("push_subscriptions").update({enabled:false}).eq("id",s.id)}}
+ if(!sent)return NextResponse.json({error:"not_delivered"},{status:502});
+ return NextResponse.json({ok:true,sent,name:profile?.username||""});
+ }catch(e){console.error(e);return NextResponse.json({error:"reminder"},{status:500})}}
