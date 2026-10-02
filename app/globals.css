@@ -3937,3 +3937,15 @@ html,body{min-height:100%!important}
 .rankingRows .rankingRow:nth-child(1){animation-delay:0ms}.rankingRows .rankingRow:nth-child(2){animation-delay:45ms}.rankingRows .rankingRow:nth-child(3){animation-delay:90ms}.rankingRows .rankingRow:nth-child(4){animation-delay:135ms}.rankingRows .rankingRow:nth-child(5){animation-delay:180ms}.rankingRows .rankingRow:nth-child(6){animation-delay:225ms}.rankingRows .rankingRow:nth-child(n+7){animation-delay:270ms}
 @keyframes rankingLayerIn{to{opacity:1;transform:none}}@keyframes rankingRealIn{to{opacity:1;transform:none}}@keyframes rankingShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 @media(prefers-reduced-motion:reduce){.rankingSkeletonRow,.rankingRows .rankingRow{opacity:1;transform:none;animation:none}.rankingSkeletonRow span{animation:none}}
+
+/* Predictions loading: layered reveal, never a false empty state */
+.predictionsSkeleton{display:grid;gap:8px;margin-top:12px}
+.predictionsSkeletonRow{min-height:62px;display:grid;grid-template-columns:38px minmax(0,1fr) 42px;align-items:center;gap:11px;padding:10px 12px;border:1px solid rgba(105,151,184,.13);border-radius:14px;background:rgba(18,48,70,.45);opacity:0;transform:translateY(-8px);animation:predictionLayerIn .4s cubic-bezier(.2,.8,.2,1) forwards}
+.predictionsSkeletonRow>i{width:36px;height:36px;border-radius:50%;background:rgba(140,175,199,.14)}
+.predictionsSkeletonRow>span{display:grid;gap:7px}.predictionsSkeletonRow>span>b{display:block;width:min(145px,72%);height:11px;border-radius:7px;background:linear-gradient(90deg,rgba(140,175,199,.09),rgba(177,209,230,.2),rgba(140,175,199,.09));background-size:220% 100%;animation:rankingShimmer 1.15s ease-in-out infinite}.predictionsSkeletonRow>span>small{display:block;width:min(95px,50%);height:8px;border-radius:6px;background:rgba(140,175,199,.1)}
+.predictionsSkeletonRow>em{width:36px;height:25px;border-radius:8px;background:rgba(140,175,199,.12)}
+.predictionsSkeleton.compact{margin:10px 0 2px}.predictionsSkeleton.compact .predictionsSkeletonRow{min-height:48px;padding:7px 9px}
+.rivalPredictionBlock,.matchRivalsPlayers>li{animation:predictionRealIn .32s cubic-bezier(.2,.8,.2,1) both}
+.rivalPredictionBlock:nth-child(2){animation-delay:45ms}.rivalPredictionBlock:nth-child(3){animation-delay:90ms}.rivalPredictionBlock:nth-child(n+4){animation-delay:135ms}
+@keyframes predictionLayerIn{to{opacity:1;transform:none}}@keyframes predictionRealIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.predictionsSkeletonRow,.rivalPredictionBlock,.matchRivalsPlayers>li{opacity:1;transform:none;animation:none}.predictionsSkeletonRow>span>b{animation:none}}
