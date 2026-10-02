@@ -3958,3 +3958,18 @@ body.qd-entering .qdBanner{animation:qdHeroEnter .68s cubic-bezier(.16,.84,.28,1
 @keyframes qdHomeEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes qdHeroEnter{from{opacity:.15;transform:scale(1.018)}to{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){body.qd-entering .dashboard,body.qd-entering .qdHomeMain,body.qd-entering .qdBanner{animation:none}}
+
+/* Unified QuiniDeRio wordmark — splash + top bar */
+.qdWordmark,.brandBar .logo{
+ font-family:var(--font-inter),Inter,system-ui,sans-serif!important;
+ font-weight:900!important;
+ letter-spacing:-.055em!important;
+ line-height:1!important;
+ font-style:normal!important;
+ text-transform:none!important;
+}
+.qdWordmark .qd-quini,.brandBar .logo .qd-quini{color:#fff!important}
+.qdWordmark .qd-de,.brandBar .logo .qd-de{color:#ef334f!important}
+.qdWordmark .qd-rio,.brandBar .logo .qd-rio{color:#338de0!important}
+.appSplash.matchdaySplash .qdWordmark{font-size:clamp(30px,8vw,44px)!important}
+.brandBar .logo{font-size:clamp(20px,5.4vw,27px)!important}
