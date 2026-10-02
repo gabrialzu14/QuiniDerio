@@ -3862,3 +3862,7 @@ html,body{min-height:100%!important}
 .liveRoundMatch footer em{font-style:normal;font-weight:850;font-size:8px;padding:4px 7px;border-radius:8px}.liveRoundMatch footer em.hit{color:#65dda0;background:rgba(35,174,104,.12)}.liveRoundMatch footer em.miss{color:#899eae;background:rgba(105,130,149,.1)}
 @media(max-width:360px){.liveRoundHub{border-radius:18px}.liveRoundHero{padding:16px 10px 13px}.liveRoundHero h2{font-size:23px}.liveRoundMatches{padding:7px}.liveRoundMatch{padding:10px 9px}.liveRoundMatch>div{gap:5px;font-size:10px}.liveRoundMatch>div strong{font-size:16px}}
 @media(min-width:361px) and (max-width:430px){.liveRoundHub{margin-left:0;margin-right:0}}
+
+.adminBulk{margin:18px auto 110px;max-width:760px;padding:18px;border-radius:20px;border:1px solid rgba(84,137,177,.2);background:rgba(10,28,43,.72)}.adminBulk h2{margin:0 0 4px;font-size:17px}.adminBulk p{margin:0 0 13px;color:#8299ab;font-size:11px}.adminBulk button{min-height:44px;border-radius:12px;padding:0 14px;font-weight:800}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+@media (pointer:coarse){button,a,[role="button"]{-webkit-tap-highlight-color:transparent}.bottomNav button,.qdSide button{touch-action:manipulation}}
