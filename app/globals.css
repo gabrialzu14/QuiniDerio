@@ -3916,3 +3916,13 @@ html,body{min-height:100%!important}
 @keyframes porraLoaderBar{0%{transform:translateX(-110%)}100%{transform:translateX(350%)}}
 @keyframes porraLoaderIn{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.porraStyleLoader{animation:none}.porraLoaderBar i{animation:none;width:100%}}
+
+/* Home fixtures: crests float cleanly without square image tiles */
+.qdFixture .crestBox,
+.qdFixture .crestBox img{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+.qdFixture .crestBox img{border-radius:0!important}
