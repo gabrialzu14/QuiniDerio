@@ -4005,3 +4005,22 @@ html[data-theme="light"] .pendingPushButton{background:#edf6ff;color:#185b91;bor
 @keyframes qdRefreshReady{0%{transform:translateY(2px) rotate(0);opacity:.7}100%{transform:translateY(0) rotate(180deg);opacity:1}}
 html[data-theme="light"] .refreshOverlay{background:rgba(250,253,255,.78)!important;border-color:rgba(35,130,188,.16)!important;box-shadow:0 6px 20px rgba(42,91,120,.10)!important}
 @media(prefers-reduced-motion:reduce){.refreshOverlay,.refreshOverlay i{animation:none!important}}
+
+
+/* Predictions background consistency — keep the same canvas in every Season/Round subtab */
+.predictionsPage .rivalsPanel,
+.predictionsPage .rivalsTab,
+.predictionsPage .matchRivalsPanel{
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  border-color:transparent!important;
+}
+html[data-theme="light"] .predictionsPage .rivalsPanel,
+html[data-theme="light"] .predictionsPage .rivalsTab,
+html[data-theme="light"] .predictionsPage .matchRivalsPanel{
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  border-color:transparent!important;
+}
