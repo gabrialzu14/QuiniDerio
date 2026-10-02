@@ -4,8 +4,8 @@
   "description": "La quiniela de los equipos del CD Derio",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#070b14",
-  "theme_color": "#070b14",
+  "background_color": "#07131f",
+  "theme_color": "#07131f",
   "icons": [
     {
       "src": "https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png",
