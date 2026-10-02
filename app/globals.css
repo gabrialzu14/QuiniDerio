@@ -3746,3 +3746,15 @@ html[data-theme="light"] .dashboard .rankingRow,html[data-theme="light"] .dashbo
 .seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:82px!important}
 @media(max-width:390px){.seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:76px!important}}
 @media(max-width:350px){.seasonStickerGrid .teamSticker:nth-child(7) .stickerPhoto{height:72px!important}}
+
+
+/* Account modal hardening — centered overlays, locked background, explicit close */
+.porraAccount .detailBackdrop{position:fixed!important;inset:0!important;display:grid!important;place-items:center!important;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))!important;overflow:hidden!important;overscroll-behavior:none!important;touch-action:none!important}
+.porraAccount .detailSheet{position:relative!important;inset:auto!important;margin:0!important;width:min(calc(100vw - 32px),410px)!important;max-height:min(78dvh,680px)!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch}
+.porraAccount .detailSheetHead{position:sticky!important;top:0!important;z-index:5!important}
+.porraAccount .detailSheetHead>button{display:grid!important;place-items:center!important;flex:0 0 34px!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;padding:0!important;border-radius:50%!important;font-size:22px!important;line-height:1!important;cursor:pointer!important}
+.avatarCropOverlay{position:fixed!important;inset:0!important;z-index:10000!important;display:grid!important;place-items:center!important;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))!important;overflow:hidden!important;overscroll-behavior:none!important;touch-action:none!important}
+.avatarCropModal{position:relative!important;margin:0!important;width:min(calc(100vw - 32px),410px)!important;max-height:82dvh!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;touch-action:pan-y!important}
+.avatarCropTop{position:sticky!important;top:0!important;z-index:5!important}
+.avatarCropTop>button{display:grid!important;place-items:center!important;flex:0 0 34px!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;padding:0!important;border-radius:50%!important;font-size:22px!important;line-height:1!important}
+@media(max-width:600px){.porraAccount .detailSheet{max-height:76dvh!important}.avatarCropModal{max-height:80dvh!important}}
