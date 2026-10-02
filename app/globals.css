@@ -3903,3 +3903,16 @@ html,body{min-height:100%!important}
 .tabLoadingMark{position:relative;width:68px;height:68px;display:grid;place-items:center}.tabLoadingMark img{width:54px;height:54px;border-radius:17px;object-fit:cover;position:relative;z-index:2}.tabLoadingMark i{position:absolute;inset:-2px;border:2px solid rgba(255,255,255,.12);border-top-color:#67d8ff;border-radius:50%;animation:tabSpin .65s linear infinite}.tabLoadingOverlay>b{font-size:11px;letter-spacing:.13em;text-transform:uppercase;position:relative;z-index:2}
 @keyframes tabSpin{to{transform:rotate(360deg)}}@keyframes tabLoadIn{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.tabLoadingMark i{animation:none}.tabLoadingOverlay{animation:none}}
+
+/* 3 RFEF-style fast transition loader */
+.porraStyleLoader{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;background:#070b14;backdrop-filter:none;-webkit-backdrop-filter:none;animation:porraLoaderIn .12s ease-out both}
+.porraLoaderCore{display:flex;flex-direction:column;align-items:center;justify-content:center;width:min(230px,62vw);transform:translateY(-2vh)}
+.porraLoaderCore>img{width:74px;height:74px;object-fit:contain;border-radius:18px;box-shadow:0 12px 36px rgba(0,0,0,.28)}
+.porraLoaderCore>b{margin-top:16px;font-size:22px;line-height:1;font-weight:900;letter-spacing:-.04em;color:#f6f9fc}
+.porraLoaderCore>b span{color:#e43142}
+.porraLoaderCore>small{margin-top:7px;font-size:8px;font-weight:800;letter-spacing:.2em;color:#7f8b99}
+.porraLoaderBar{position:relative;width:104px;height:3px;margin-top:22px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.1)}
+.porraLoaderBar i{position:absolute;inset:0 auto 0 0;width:42%;border-radius:inherit;background:#f5f8fb;animation:porraLoaderBar .58s ease-in-out infinite}
+@keyframes porraLoaderBar{0%{transform:translateX(-110%)}100%{transform:translateX(350%)}}
+@keyframes porraLoaderIn{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.porraStyleLoader{animation:none}.porraLoaderBar i{animation:none;width:100%}}
