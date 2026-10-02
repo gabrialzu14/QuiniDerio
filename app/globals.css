@@ -3949,3 +3949,12 @@ html,body{min-height:100%!important}
 .rivalPredictionBlock:nth-child(2){animation-delay:45ms}.rivalPredictionBlock:nth-child(3){animation-delay:90ms}.rivalPredictionBlock:nth-child(n+4){animation-delay:135ms}
 @keyframes predictionLayerIn{to{opacity:1;transform:none}}@keyframes predictionRealIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.predictionsSkeletonRow,.rivalPredictionBlock,.matchRivalsPlayers>li{opacity:1;transform:none;animation:none}.predictionsSkeletonRow>span>b{animation:none}}
+
+/* Startup handoff: smooth splash -> ready home */
+body.qd-entering .dashboard{animation:qdAppEnter .58s cubic-bezier(.2,.8,.2,1) both}
+body.qd-entering .qdHomeMain{animation:qdHomeEnter .62s cubic-bezier(.2,.8,.2,1) both}
+body.qd-entering .qdBanner{animation:qdHeroEnter .68s cubic-bezier(.16,.84,.28,1) both}
+@keyframes qdAppEnter{from{opacity:.35}to{opacity:1}}
+@keyframes qdHomeEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes qdHeroEnter{from{opacity:.15;transform:scale(1.018)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){body.qd-entering .dashboard,body.qd-entering .qdHomeMain,body.qd-entering .qdBanner{animation:none}}
