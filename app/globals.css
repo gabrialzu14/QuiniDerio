@@ -3807,3 +3807,47 @@ html,body{min-height:100%!important}
 @supports not (height:100dvh){
  .seasonSetupScreen{height:100vh!important;min-height:100vh!important;max-height:100vh!important}
 }
+
+
+/* Android onboarding native-scroll performance */
+.seasonSetupScreen{
+ -webkit-overflow-scrolling:auto!important;
+ overscroll-behavior-y:auto!important;
+ contain:none!important;
+}
+.seasonSetupScreen .positionCard,
+.seasonSetupScreen .coachPhoto,
+.seasonSetupScreen .setupProgress,
+.seasonSetupScreen .seasonHead,
+.seasonSetupScreen .confirmDock{
+ animation:none!important;
+}
+.seasonSetupScreen .coachPhoto,
+.seasonSetupScreen .coachPhoto img{
+ transform:none!important;
+ transition:none!important;
+ will-change:auto!important;
+}
+.seasonSetupScreen>.setupProgress{
+ backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;
+}
+.seasonSetupScreen>.confirmDock,
+.seasonSetupScreen>.confirmDock:before{
+ backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;
+ filter:none!important;
+}
+@media (pointer:coarse){
+ .seasonSetupScreen *,
+ .seasonSetupScreen *:before,
+ .seasonSetupScreen *:after{
+  scroll-behavior:auto!important;
+ }
+ .seasonSetupScreen .positionCard,
+ .seasonSetupScreen .visualChoice,
+ .seasonSetupScreen .choice,
+ .seasonSetupScreen .optionCards button{
+  box-shadow:none!important;
+ }
+}
