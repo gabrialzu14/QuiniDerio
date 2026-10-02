@@ -4024,3 +4024,62 @@ html[data-theme="light"] .predictionsPage .matchRivalsPanel{
   box-shadow:none!important;
   border-color:transparent!important;
 }
+
+
+/* Pronosticos/Jornadas visual consistency — one canvas, clean crests */
+.predictionsPage{
+  background:transparent!important;
+  background-image:none!important;
+}
+.predictionsPage .rivalsPanel,
+.predictionsPage .rivalsTab,
+.predictionsPage .matchRivalsPanel{
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+}
+/* Keep the same page canvas when switching Mine/Rivals and Season/Rounds. */
+.predictionsPage .rivalFullPredictions,
+.predictionsPage .matchRivalsList,
+.predictionsPage .seasonStickerGrid,
+.predictionsPage .fixturePicks{
+  background:transparent!important;
+  background-image:none!important;
+}
+/* Jornada fixtures: crests must float with no square/tile behind them. */
+.predictionsPage .fixturePick .crestBox,
+.predictionsPage .fixturePick .crestBox img,
+.predictionsPage .matchRivalsFixture .crestBox,
+.predictionsPage .matchRivalsFixture .crestBox img,
+.predictionsPage .roundPredictionTabs .crestBox,
+.predictionsPage .roundPredictionTabs .crestBox img{
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+.predictionsPage .fixturePick .crestBox img,
+.predictionsPage .matchRivalsFixture .crestBox img,
+.predictionsPage .roundPredictionTabs .crestBox img{
+  border-radius:0!important;
+}
+/* J1/J2/J3... selectors: remove the square/card treatment. */
+.predictionsPage .roundPredictionTabs button{
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+}
+.predictionsPage .roundPredictionTabs button.active{
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  color:#62cfff!important;
+  border-color:rgba(98,207,255,.52)!important;
+}
+html[data-theme="light"] .predictionsPage .roundPredictionTabs button,
+html[data-theme="light"] .predictionsPage .roundPredictionTabs button.active{
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+}
