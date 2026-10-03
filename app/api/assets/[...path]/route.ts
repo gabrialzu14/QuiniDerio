@@ -16,13 +16,8 @@ export async function GET(req:NextRequest,{params}:{params:Promise<{path:string[
   const width=folder==="entrenadores"?480:folder==="escudos"?192:folder==="branding"?1200:640;
   const quality=folder==="escudos"?82:78;
   try{
-   const exportMode=req.nextUrl.searchParams.get("export")==="1";
-   const fmt=req.nextUrl.searchParams.get("fmt")==="png"?"png":"webp";
-   const pipeline=sharp(raw,{failOn:"none"}).resize({width,withoutEnlargement:true,fit:"inside"});
-   const body=fmt==="png"?await pipeline.png({compressionLevel:9,palette:true}).toBuffer():await pipeline.webp({quality,effort:4}).toBuffer();
-   const mime=fmt==="png"?"image/png":"image/webp";
-   if(exportMode)return NextResponse.json({mime,data:body.toString("base64")},{headers:{"Cache-Control":"no-store"}});
-   return new NextResponse(new Uint8Array(body),{status:200,headers:{"Content-Type":mime,"Cache-Control":"public, max-age=31536000, s-maxage=31536000, immutable","Vercel-CDN-Cache-Control":"public, max-age=31536000, immutable"}});
+   const body=await sharp(raw,{failOn:"none"}).resize({width,withoutEnlargement:true,fit:"inside"}).webp({quality,effort:4}).toBuffer();
+   return new NextResponse(new Uint8Array(body),{status:200,headers:{"Content-Type":"image/webp","Cache-Control":"public, max-age=31536000, s-maxage=31536000, immutable","Vercel-CDN-Cache-Control":"public, max-age=31536000, immutable"}});
   }catch{
    return new NextResponse(new Uint8Array(raw),{status:200,headers:{"Content-Type":r.headers.get("content-type")||"application/octet-stream","Cache-Control":"public, max-age=86400, s-maxage=86400"}});
   }
