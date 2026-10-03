@@ -233,7 +233,7 @@ function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,st
   void(async()=>{try{
    const {data:{user},error:authError}=await supabase.auth.getUser();
    if(authError||!user)throw new Error("session");
-   const profileQuery=supabase.from("quini_public_profiles").select(scope==="season"?"user_id,username,season,dinio":"user_id,username").order("username").abortSignal(controller.signal);
+   const profileQuery=supabase.from("quini_public_profiles").select(scope==="season"?"user_id,username,season,dinio,has_profile_pic":"user_id,username,has_profile_pic").order("username").abortSignal(controller.signal);
    const [profiles,predictions,results]=await Promise.all([
     profileQuery,
     scope==="rounds"?supabase.from("quini_picks").select("user_id,team,pick").eq("round",selectedRound).abortSignal(controller.signal):Promise.resolve({data:[],error:null}),
@@ -241,7 +241,7 @@ function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,st
    ]);
    if(controller.signal.aborted)return;
    if(profiles.error||predictions.error||results.error)throw new Error("load");
-   setRivalSeasons(((profiles.data||[]) as any[]).filter(p=>p.user_id!==user.id).map(p=>({...p,profile_pic:publicAvatar(p.user_id)})));
+   setRivalSeasons(((profiles.data||[]) as any[]).filter(p=>p.user_id!==user.id).map(p=>({...p,profile_pic:p.has_profile_pic?publicAvatar(p.user_id):""})));
    setRivalPicks(predictions.data||[]);setRivalResults(results.data||[]);
   }catch{if(!controller.signal.aborted)setRivalsError(true)}finally{if(!controller.signal.aborted)setRivalsLoading(false)}})();
   return()=>controller.abort();
@@ -307,8 +307,8 @@ function Ranking({_mode,_setMode}:{_mode:"general"|"jornada",_setMode:(m:"genera
  useEffect(()=>{void(async()=>{const [{data:b},{data:p},{data:ps}]=await Promise.all([
   supabase.from("quini_standings").select("user_id,username,hits").order("hits",{ascending:false}),
   supabase.from("quini_pot_standings").select("user_id,username,pot_euros").order("pot_euros",{ascending:false}),
-  supabase.from("quini_public_profiles").select("user_id,username")
- ]);const map:Record<string,{username:string,profile_pic:string}>={};for(const x of ps||[])map[x.user_id]={username:x.username,profile_pic:publicAvatar(x.user_id)};try{const user=await currentSessionUser();if(user){const local=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");const localPic=typeof local.profilePic==="string"?local.profilePic.trim():"";if(localPic&&map[user.id])map[user.id].profile_pic=localPic}}catch{}setProfiles(map);setBoard((b||[]) as any);setPot((p||[]) as any);setRankingLoading(false)})()},[]);
+  supabase.from("quini_public_profiles").select("user_id,username,has_profile_pic")
+ ]);const map:Record<string,{username:string,profile_pic:string}>={};for(const x of ps||[])map[x.user_id]={username:x.username,profile_pic:x.has_profile_pic?publicAvatar(x.user_id):""};try{const user=await currentSessionUser();if(user){const local=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");const localPic=typeof local.profilePic==="string"?local.profilePic.trim():"";if(localPic&&map[user.id])map[user.id].profile_pic=localPic}}catch{}setProfiles(map);setBoard((b||[]) as any);setPot((p||[]) as any);setRankingLoading(false)})()},[]);
  const openPlayer=async(row:any)=>{setSelected(row);setDetail([]);setDetailLoading(true);const{data}=await supabase.from("quini_finished_pick_stats").select("round,team,pick,opponent,home_score,away_score,result").eq("user_id",row.user_id).order("round").order("team");setDetail((data||[]) as any);setDetailLoading(false)};
  const rows=view==="hits"?board:pot;
  const profileFor=(row:any)=>profiles[row.user_id]||Object.values(profiles).find(p=>p.username?.trim().toLowerCase()===String(row.username||"").trim().toLowerCase());
