@@ -4853,3 +4853,26 @@ html:not([data-theme="light"]) .qdHome .qdRound .qdFixture::after{
 html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlayerPick{
   box-shadow:inset 3px 0 0 rgba(91,185,241,.42)!important;
 }
+
+
+/* Home fixture integration v2 — soften row boundaries into the parent surface */
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture{
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.012) 18%,rgba(255,255,255,.012) 82%,transparent 100%)!important;
+  position:relative!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture:not(:first-of-type)::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  top:0!important;
+  left:7%!important;
+  right:7%!important;
+  height:1px!important;
+  background:linear-gradient(90deg,transparent,rgba(132,175,207,.10) 22%,rgba(132,175,207,.10) 78%,transparent)!important;
+  pointer-events:none!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture::after{content:none!important;display:none!important}
+html:not([data-theme="light"]) .qdHome .qdRound{overflow:hidden!important}
