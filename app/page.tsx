@@ -42,9 +42,8 @@ export default function Home(){
  useEffect(()=>{const {data:{subscription}}=supabase.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){setRecovering(true);setProfileStatus("")}});return()=>subscription.unsubscribe()},[]);
  useEffect(()=>{let disposed=false;
  const critical=[asset("branding/ImagenPortada.png?v=202609281638"),asset("branding/LogoApp.png")];
- const warm=[...teamData.map(t=>t.photo),...Object.values(rivalCrests),asset("Escudos/cd_derio.png")];
  const loadImage=(src:string,high=false)=>new Promise<void>(resolve=>{const im=new Image();if(high)im.fetchPriority="high";im.decoding="async";im.onload=()=>resolve();im.onerror=()=>resolve();im.src=src;if(im.complete)resolve()});
- Promise.all(critical.map(src=>loadImage(src,true))).then(()=>{if(!disposed){setAssetsReady(true);setImagesReady(true)}});window.setTimeout(()=>{warm.forEach(src=>void loadImage(src,false))},50);
+ Promise.all(critical.map(src=>loadImage(src,true))).then(()=>{if(!disposed){setAssetsReady(true);setImagesReady(true)}});
  const saved=localStorage.getItem("quiniderio-player");if(saved){try{const x=JSON.parse(saved);if(x.name){setName(x.name);setDinio(x.dinio||"");if(x.season)setSeason(x.season);setStep(x.completed?"home":(x.onboardingStep==="surprise"?"surprise":"season"))}}catch{}}
  try{const raw=localStorage.getItem("quiniderio-picks");if(raw)setPicks(JSON.parse(raw));const rounds=localStorage.getItem("quiniderio-saved-rounds");if(rounds)setSavedRounds(JSON.parse(rounds))}catch{}
  setHydrated(true);
