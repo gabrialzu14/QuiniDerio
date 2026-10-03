@@ -4772,3 +4772,30 @@ html:not([data-theme="light"]) .predictionsPage .predictionOwnerSection{
   border-color:rgba(122,165,207,.10) !important;
   box-shadow:none !important;
 }
+
+
+/* ===== Home depth: solid cards over the Derio ambient canvas ===== */
+html:not([data-theme="light"]) .qdHome .qdSummary article,
+html:not([data-theme="light"]) .qdHome .qdSummary button,
+html:not([data-theme="light"]) .qdHome .qdRound,
+html:not([data-theme="light"]) .qdHome .qdFixture,
+html:not([data-theme="light"]) .qdHome .liveRoundHub,
+html:not([data-theme="light"]) .qdHome .gameHero,
+html:not([data-theme="light"]) .qdHome .streak,
+html:not([data-theme="light"]) .qdHome .emptyCard{
+  background:#102944 !important;
+  background-image:none !important;
+  border:1px solid rgba(147,184,219,.10) !important;
+  box-shadow:
+    0 14px 30px rgba(2,10,22,.28),
+    0 3px 8px rgba(2,10,22,.18),
+    inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+html:not([data-theme="light"]) .qdHome .qdFixture::before,
+html:not([data-theme="light"]) .qdHome .qdSummary article::before,
+html:not([data-theme="light"]) .qdHome .qdSummary button::before,
+html:not([data-theme="light"]) .qdHome .qdRound::before,
+html:not([data-theme="light"]) .qdHome .liveRoundHub::before{
+  background:none !important;
+  content:none !important;
+}
