@@ -4956,3 +4956,27 @@ html:not([data-theme="light"]) .qdHome .qdRound .qdFixture:not(:first-of-type)::
 }
 .quizPage .matchCard .crestBox img,
 .quizPage .restNotice .crestBox img{border-radius:0!important}
+
+
+/* Home summary cards: remove the remaining visible rectangular outlines */
+html:not([data-theme="light"]) .qdHome .qdSummary,
+html:not([data-theme="light"]) .qdHome .qdSummary>article,
+html:not([data-theme="light"]) .qdHome .qdSummary>button{
+  border:0!important;
+  outline:0!important;
+}
+html:not([data-theme="light"]) .qdHome .qdSummary>article,
+html:not([data-theme="light"]) .qdHome .qdSummary>button{
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+html:not([data-theme="light"]) .qdHome .qdSummary>article::before,
+html:not([data-theme="light"]) .qdHome .qdSummary>article::after,
+html:not([data-theme="light"]) .qdHome .qdSummary>button::before,
+html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
+  content:none!important;
+  display:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
