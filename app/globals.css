@@ -4941,3 +4941,18 @@ html:not([data-theme="light"]) .qdHome .qdRound .qdFixture{
 html:not([data-theme="light"]) .qdHome .qdRound .qdFixture:not(:first-of-type)::before{
   background:linear-gradient(90deg,transparent,rgba(132,175,207,.045) 30%,rgba(132,175,207,.045) 70%,transparent)!important;
 }
+
+
+/* Quiniela rest fixture: Derio Cadete B crest without image tile */
+.quizPage .matchCard .crestBox,
+.quizPage .matchCard .crestBox img,
+.quizPage .restNotice .crestBox,
+.quizPage .restNotice .crestBox img{
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+.quizPage .matchCard .crestBox img,
+.quizPage .restNotice .crestBox img{border-radius:0!important}
