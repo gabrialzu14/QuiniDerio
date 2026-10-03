@@ -4421,3 +4421,99 @@ nav,
     background-attachment:fixed !important;
   }
 }
+
+
+/* ===== Dark blue ambient pass — no pure black ===== */
+:root{
+  --qd-bg-0:#0a1730;
+  --qd-bg-1:#0d1f3d;
+  --qd-bg-2:#12284a;
+  --qd-red:#ef4052;
+  --qd-red-soft:rgba(239,64,82,.14);
+  --qd-blue:#2c7df3;
+  --qd-blue-soft:rgba(44,125,243,.18);
+}
+
+html,
+body{
+  background:
+    radial-gradient(circle at 10% 10%,rgba(239,64,82,.18),transparent 30%),
+    radial-gradient(circle at 92% 16%,rgba(44,125,243,.34),transparent 34%),
+    radial-gradient(circle at 18% 74%,rgba(239,64,82,.10),transparent 34%),
+    radial-gradient(circle at 86% 78%,rgba(44,125,243,.18),transparent 38%),
+    linear-gradient(180deg,#10264a 0%,#0a1730 48%,#0d1f3d 100%) !important;
+  background-attachment:fixed !important;
+}
+
+body::after{
+  background:
+    radial-gradient(circle at 20% 38%,rgba(239,64,82,.09),transparent 30%),
+    radial-gradient(circle at 82% 42%,rgba(44,125,243,.13),transparent 33%),
+    radial-gradient(circle at 50% 95%,rgba(44,125,243,.09),transparent 36%) !important;
+}
+
+.dashboard::before{
+  background:
+    radial-gradient(circle at 8% 14%,rgba(239,64,82,.12),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(44,125,243,.18),transparent 34%),
+    radial-gradient(circle at 15% 85%,rgba(239,64,82,.07),transparent 28%),
+    radial-gradient(circle at 84% 82%,rgba(44,125,243,.12),transparent 32%) !important;
+}
+
+.hero,.seasonHead,.identity,.season,.summary,.miniScore,.dashGrid article,
+.emptyCard,.choice,.setupProgress,.confirmDock,.gameHero,.streak,.roundProgress,
+.matchCard,.podiumGhost>div,.rankingEmpty,.profileCard,.menuCards button,.roundDock,
+.liveRoundHub,.qdSummary article,.qdSummary button,.qdRound,.qdFixture,.coachesPanel,
+.quiniCover,.adminGrid article,.adminPending,.adminBulk,.detailSheet,.rivalsPanel,
+.seasonSticker,.playerStatsModal,.authWrap,.authForm,.qdCardsTable{
+  background:
+    linear-gradient(155deg,rgba(20,42,74,.88) 0%,rgba(13,31,58,.86) 58%,rgba(15,35,65,.90) 100%) !important;
+  border-color:rgba(124,171,230,.14) !important;
+}
+
+.brandBar,
+nav,
+.bottomNav,
+.glassHeader{
+  background:rgba(11,29,55,.78) !important;
+  border-color:rgba(125,172,231,.13) !important;
+}
+
+.qdBanner,.liveRoundHub,.qdRound,.gameHero{
+  background:
+    radial-gradient(circle at 10% 18%,rgba(239,64,82,.15),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(44,125,243,.24),transparent 34%),
+    linear-gradient(155deg,rgba(21,44,79,.95),rgba(12,29,55,.93)) !important;
+}
+
+/* Red cards must stay visibly red */
+.redCardMark,
+.cardDot.red,
+.qdCardsRow em.red i{
+  background:#ef4052 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  box-shadow:0 0 10px rgba(239,64,82,.35) !important;
+}
+
+.redCardMark{
+  display:block !important;
+  min-width:10px !important;
+  min-height:15px !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+}
+
+.adminCardPicker.red{
+  box-shadow:inset 3px 0 0 #ef4052 !important;
+}
+
+@media(max-width:620px){
+  html,body{
+    background:
+      radial-gradient(circle at -6% 10%,rgba(239,64,82,.19),transparent 36%),
+      radial-gradient(circle at 106% 18%,rgba(44,125,243,.36),transparent 40%),
+      radial-gradient(circle at 0% 74%,rgba(239,64,82,.09),transparent 36%),
+      radial-gradient(circle at 100% 82%,rgba(44,125,243,.16),transparent 40%),
+      linear-gradient(180deg,#11294f 0%,#0a1730 48%,#0d1f3d 100%) !important;
+  }
+}
