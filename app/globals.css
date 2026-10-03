@@ -4819,3 +4819,37 @@ html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlay
 /* Classification format modal */
 .classificationFormat{padding:2px 2px 4px}.classificationFormat>p{margin:0 0 16px;color:#91a6b9;font-size:11px;line-height:1.55}.classificationFormatGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.classificationFormatRow{display:flex;align-items:center;justify-content:space-between;min-height:38px;padding:8px 11px;border:1px solid rgba(145,177,207,.10);border-radius:11px;background:rgba(15,38,65,.76)}.classificationFormatRow span{font-size:11px;font-weight:800;color:#b7c6d4}.classificationFormatRow b{font-size:12px}.classificationFormatRow b.reduce{color:#62d49c}.classificationFormatRow b.increase{color:#ff7180}.classificationFormatRow b.neutral{color:#aab9c7}@media(max-width:380px){.classificationFormatGrid{grid-template-columns:1fr}.classificationFormatRow{min-height:34px}}
 html[data-theme="light"] .classificationFormat>p{color:#607184}html[data-theme="light"] .classificationFormatRow{background:#f7f9fb;border-color:#dfe6ec}html[data-theme="light"] .classificationFormatRow span{color:#31475b}
+
+
+/* Home: one continuous card surface; fixture rows must not render nested square cards */
+html:not([data-theme="light"]) .qdHome .qdRound{
+  background:#102944!important;
+  border:1px solid rgba(147,184,219,.10)!important;
+  box-shadow:0 14px 30px rgba(2,10,22,.28),0 3px 8px rgba(2,10,22,.18),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture{
+  background:transparent!important;
+  background-image:none!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-bottom:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture::before,
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* Rival predictions: align the current-user blue cue inside the list gutters */
+.predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  margin-left:0!important;
+  margin-right:0!important;
+  padding-left:10px!important;
+  padding-right:0!important;
+  box-sizing:border-box!important;
+}
+html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  box-shadow:inset 3px 0 0 rgba(91,185,241,.42)!important;
+}
