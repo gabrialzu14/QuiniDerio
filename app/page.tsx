@@ -126,7 +126,7 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches,liveCards,totalP
     <div className="qdBannerContent"><span><i/> TEMPORADA 2026/27</span><h1><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></h1><p>LA QUINIELA DEL CD DERIO</p></div>
    </section>:<section className={"liveRoundHub liveRoundSummary "+(finished?"finished":"playing")}>
     <div className="liveRoundHero"><small>JORNADA 1</small><h2>{finished?"FINALIZADA":"EN JUEGO"}</h2><p>{finished?"Jornada completada":liveCount?liveCount+" partidos en directo":"Jornada en curso"}</p></div>
-    <div className="liveRoundCounters"><span><b>{liveCount}</b>EN JUEGO</span><span><b>{finalCount}</b>DISPUTADOS</span><span><b>{pendingCount}</b>PENDIENTES</span><span><b>{provisionalHits}</b>PTS PROV.</span></div>
+    <div className="liveRoundCounters"><span><b>{liveCount}</b>EN JUEGO</span><span><b>{finalCount}</b>DISPUTADOS</span><span><b>{pendingCount}</b>PENDIENTES</span><span><b>{provisionalHits}</b>ACIERTOS</span></div>
    </section>}
    <section className="qdSummary">
     <button className="qdAction" onClick={()=>onTab("quiniela")}><small>HAZ TU PRONÓSTICO</small><b>Jornada 1</b><span>Completa los 6 partidos de la jornada.</span><em>Ir a mi quiniela</em></button>
