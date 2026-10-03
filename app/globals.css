@@ -4876,3 +4876,33 @@ html:not([data-theme="light"]) .qdHome .qdRound .qdFixture:not(:first-of-type)::
 }
 html:not([data-theme="light"]) .qdHome .qdRound .qdFixture::after{content:none!important;display:none!important}
 html:not([data-theme="light"]) .qdHome .qdRound{overflow:hidden!important}
+
+
+/* Own prediction row: integrated highlight aligned with every rival row */
+.predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  position:relative!important;
+  margin:0!important;
+  padding:10px 0!important;
+  background:transparent!important;
+  border-top:1px solid rgba(128,128,128,.15)!important;
+  box-shadow:none!important;
+}
+.predictionsPage .matchRivalsPlayers .currentPlayerPick::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  top:18%!important;
+  bottom:18%!important;
+  width:2px!important;
+  border-radius:999px!important;
+  background:rgba(75,174,230,.62)!important;
+  box-shadow:0 0 8px rgba(75,174,230,.16)!important;
+}
+.predictionsPage .matchRivalsPlayers .currentPlayerPick .currentUserAvatar{
+  margin-left:0!important;
+}
+html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  background:transparent!important;
+  border-color:rgba(128,128,128,.15)!important;
+  box-shadow:none!important;
+}
