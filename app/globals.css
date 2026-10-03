@@ -4153,3 +4153,6 @@ html[data-theme="light"] .predictionsPage .roundPredictionTabs button.active{
 .qdFixture.isLive .qdKick strong{font-size:21px!important;color:#fff!important}
 .qdFixture.isFinished .qdKick strong{font-size:21px!important}
 html[data-theme="light"] .qdFixture .qdMatchState.finished{color:rgba(15,34,50,.58)!important}
+
+/* Final score is secondary to live score on Home */
+.qdFixture.isFinished .qdKick strong{font-size:16px!important;line-height:1.05!important;font-weight:800!important}
