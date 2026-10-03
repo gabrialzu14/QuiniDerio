@@ -4236,3 +4236,18 @@ html[data-theme="light"] .gameScreen.dashboard:has(.predictionsPage) .prediction
 .qdFixture .qdMatchState.suspended{color:#f59e0b!important}
 .qdFixture.isSuspended{border-color:rgba(245,158,11,.34)!important}
 .qdFixture.isSuspended .qdKick strong{font-size:16px!important;color:#f59e0b!important}
+
+
+/* Staff cards */
+.adminCardPicker{margin-top:12px;padding:12px;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.04)}
+.adminCardPicker>small{display:block;margin-bottom:9px;font-size:10px;font-weight:800;letter-spacing:.12em;opacity:.72}
+.adminCardPicker>div{display:flex;flex-wrap:wrap;gap:7px}
+.adminCardPicker button{border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(255,255,255,.07);padding:8px 11px;font-size:12px;font-weight:700;color:inherit}
+.adminCardPicker.yellow{box-shadow:inset 3px 0 0 #f4ce25}.adminCardPicker.red{box-shadow:inset 3px 0 0 #ed4040}
+.adminCardLog{margin-top:12px;border-top:1px solid rgba(255,255,255,.08);padding-top:10px}.adminCardLog>small{display:block;margin-bottom:7px;font-size:10px;font-weight:800;letter-spacing:.1em;opacity:.55}
+.adminCardLog>div{display:grid;grid-template-columns:14px minmax(0,1fr) auto 28px;align-items:center;gap:7px;padding:6px 0}.adminCardLog b{font-size:12px}.adminCardLog em{font-size:11px;font-style:normal;opacity:.62}.adminCardLog button{width:26px;height:26px;border:0;border-radius:8px;background:rgba(255,255,255,.08);color:inherit;font-size:18px;line-height:1}
+.cardDot{display:block;width:9px;height:13px;border-radius:2px}.cardDot.yellow{background:#f5d21f}.cardDot.red{background:#ed3e45}
+.qdCardsTable{margin-top:16px;border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;background:rgba(12,17,28,.62);backdrop-filter:blur(18px)}
+.qdCardsHead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}.qdCardsHead small{display:block;font-size:9px;letter-spacing:.15em;opacity:.48;font-weight:800}.qdCardsHead h2{margin:2px 0 0;font-size:18px}.qdCardsHead>span{display:grid;place-items:center;min-width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,.08);font-size:12px;font-weight:800}
+.qdCardsHeaderRow,.qdCardsRow{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.8fr) auto;align-items:center;gap:12px;padding:10px 18px}.qdCardsHeaderRow{font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:800;opacity:.42}.qdCardsRow{border-top:1px solid rgba(255,255,255,.055);font-size:12px}.qdCardsRow b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.qdCardsRow>span{opacity:.68}.qdCardsRow em{display:inline-flex;align-items:center;justify-self:end;gap:7px;font-style:normal;font-weight:750}.qdCardsRow em i{width:8px;height:12px;border-radius:2px}.qdCardsRow em.yellow i{background:#f5d21f}.qdCardsRow em.red i{background:#ed3e45}
+@media(max-width:620px){.qdCardsTable{margin-top:12px;border-radius:17px}.qdCardsHeaderRow,.qdCardsRow{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) auto;padding-left:13px;padding-right:13px;gap:8px}.qdCardsRow{font-size:11px}.qdCardsRow em{font-size:10px}}
