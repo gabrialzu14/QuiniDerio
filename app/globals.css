@@ -4651,3 +4651,53 @@ html,body{
       linear-gradient(180deg,#10233f 0%,#0c1b32 50%,#10233f 100%)!important;
   }
 }
+
+
+/* ===== Dark mode canvas: CD Derio blue + red, cards untouched ===== */
+html:not([data-theme="light"]),
+html:not([data-theme="light"]) body{
+  background:
+    radial-gradient(ellipse 70% 42% at -8% 8%,rgba(224,42,61,.22) 0%,rgba(224,42,61,.08) 38%,transparent 70%),
+    radial-gradient(ellipse 82% 48% at 108% 20%,rgba(24,105,222,.34) 0%,rgba(24,105,222,.13) 42%,transparent 72%),
+    radial-gradient(ellipse 68% 40% at -5% 72%,rgba(224,42,61,.12) 0%,transparent 70%),
+    radial-gradient(ellipse 78% 44% at 105% 86%,rgba(31,111,226,.22) 0%,transparent 72%),
+    linear-gradient(180deg,#10294d 0%,#0b2241 42%,#0d294c 100%) !important;
+  background-attachment:fixed !important;
+}
+html:not([data-theme="light"]) body::after{
+  background:
+    radial-gradient(circle at 18% 34%,rgba(225,45,65,.08),transparent 30%),
+    radial-gradient(circle at 84% 48%,rgba(35,116,235,.13),transparent 34%),
+    linear-gradient(180deg,rgba(8,31,59,.04),rgba(9,35,65,.12)) !important;
+}
+html:not([data-theme="light"]) .dashboard::before,
+html:not([data-theme="light"]) .dashboard::after{
+  background:
+    radial-gradient(circle at 7% 16%,rgba(225,45,65,.10),transparent 32%),
+    radial-gradient(circle at 94% 23%,rgba(35,116,235,.16),transparent 36%),
+    radial-gradient(circle at 8% 84%,rgba(225,45,65,.06),transparent 30%),
+    radial-gradient(circle at 92% 82%,rgba(35,116,235,.10),transparent 34%) !important;
+}
+html:not([data-theme="light"]) main,
+html:not([data-theme="light"]) .dashboard,
+html:not([data-theme="light"]) .tabPage,
+html:not([data-theme="light"]) .predictionsPage,
+html:not([data-theme="light"]) .qdHome,
+html:not([data-theme="light"]) .qdHomeMain,
+html:not([data-theme="light"]) .gameScreen,
+html:not([data-theme="light"]) .adminPage,
+html:not([data-theme="light"]) .accountPage{
+  background-color:transparent !important;
+}
+@media(max-width:620px){
+  html:not([data-theme="light"]),
+  html:not([data-theme="light"]) body{
+    background:
+      radial-gradient(ellipse 82% 42% at -18% 8%,rgba(224,42,61,.23) 0%,rgba(224,42,61,.07) 42%,transparent 72%),
+      radial-gradient(ellipse 94% 48% at 118% 20%,rgba(24,105,222,.37) 0%,rgba(24,105,222,.13) 44%,transparent 74%),
+      radial-gradient(ellipse 78% 42% at -12% 76%,rgba(224,42,61,.11) 0%,transparent 72%),
+      radial-gradient(ellipse 90% 46% at 115% 88%,rgba(31,111,226,.20) 0%,transparent 74%),
+      linear-gradient(180deg,#112d54 0%,#0b2342 48%,#0e2b50 100%) !important;
+    background-attachment:fixed !important;
+  }
+}
