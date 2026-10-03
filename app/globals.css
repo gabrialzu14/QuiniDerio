@@ -4906,3 +4906,18 @@ html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlay
   border-color:rgba(128,128,128,.15)!important;
   box-shadow:none!important;
 }
+
+
+/* Home Jornada card: remove visible shadow rectangle/halo edge */
+html:not([data-theme="light"]) .qdHome .qdRound{
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound::before,
+html:not([data-theme="light"]) .qdHome .qdRound::after{
+  content:none!important;
+  display:none!important;
+  box-shadow:none!important;
+  background:none!important;
+}
