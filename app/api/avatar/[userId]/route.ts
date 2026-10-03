@@ -22,7 +22,7 @@ export async function GET(_request:Request,{params}:{params:Promise<{userId:stri
     const value=rows[0]?.profile_pic?.trim()||"";
     if(!value)return new NextResponse("Not found",{status:404});
 
-    const data=value.match(/^data:([^;]+);base64,(.+)$/s);
+    const data=value.match(/^data:([^;]+);base64,([\\s\\S]+)$/);
     if(data){
       const body=Buffer.from(data[2],"base64");
       return new NextResponse(new Uint8Array(body),{
