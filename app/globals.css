@@ -4206,3 +4206,25 @@ html[data-theme="light"] .gameScreen.dashboard:has(.predictionsPage) .prediction
   border-color:rgba(91,185,241,.38)!important;
   color:#82d1ff!important;
 }
+
+
+/* Once a result is final, only the correct 1/X/2 remains highlighted */
+.predictionsPage .pickResult.hasPick.resultKnown:not(.predictionCorrect){
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  color:inherit!important;
+}
+.predictionsPage .matchRivalsPlayers .pickResult.hasPick.resultKnown:not(.predictionCorrect){
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  color:inherit!important;
+}
+.predictionsPage .pickResult.hasPick.resultKnown.predictionCorrect,
+.predictionsPage .matchRivalsPlayers .pickResult.hasPick.resultKnown.predictionCorrect{
+  background:rgba(54,183,123,.18)!important;
+  border:2px solid #36b77b!important;
+  color:#69dda5!important;
+  box-shadow:none!important;
+}
