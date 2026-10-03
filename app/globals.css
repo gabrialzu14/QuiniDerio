@@ -4228,3 +4228,11 @@ html[data-theme="light"] .gameScreen.dashboard:has(.predictionsPage) .prediction
   color:#69dda5!important;
   box-shadow:none!important;
 }
+
+
+/* Home score sizing + suspended state */
+.qdFixture.isLive .qdKick strong,
+.qdFixture.isFinished .qdKick strong{font-size:16px!important;line-height:1.05!important;font-weight:800!important}
+.qdFixture .qdMatchState.suspended{color:#f59e0b!important}
+.qdFixture.isSuspended{border-color:rgba(245,158,11,.34)!important}
+.qdFixture.isSuspended .qdKick strong{font-size:16px!important;color:#f59e0b!important}
