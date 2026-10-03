@@ -4113,3 +4113,30 @@ html[data-theme="light"] .predictionsPage .roundPredictionTabs button.active{
   font-size:9px!important;
   line-height:1.25!important;
 }
+
+
+/* Rival 1/X/2 prediction coding: 1 blue, X neutral, 2 red; correct overrides green */
+.predictionsPage .matchRivalsPlayers .pickResult.hasPick.pick1{
+  background:rgba(34,139,230,.18)!important;
+  border:1px solid rgba(72,172,255,.72)!important;
+  color:#66c2ff!important;
+  box-shadow:none!important;
+}
+.predictionsPage .matchRivalsPlayers .pickResult.hasPick.pickX{
+  background:transparent!important;
+  border:1px solid rgba(148,163,184,.28)!important;
+  color:var(--prediction-text)!important;
+  box-shadow:none!important;
+}
+.predictionsPage .matchRivalsPlayers .pickResult.hasPick.pick2{
+  background:rgba(226,55,71,.16)!important;
+  border:1px solid rgba(244,78,94,.72)!important;
+  color:#ff6977!important;
+  box-shadow:none!important;
+}
+.predictionsPage .matchRivalsPlayers .pickResult.hasPick.predictionCorrect{
+  background:rgba(54,183,123,.18)!important;
+  border:2px solid #36b77b!important;
+  color:#69dda5!important;
+  box-shadow:none!important;
+}
