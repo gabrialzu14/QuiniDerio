@@ -4921,3 +4921,23 @@ html:not([data-theme="light"]) .qdHome .qdRound::after{
   box-shadow:none!important;
   background:none!important;
 }
+
+
+/* Home: remove hard outlines between cards and sections */
+html:not([data-theme="light"]) .qdHome .qdSummary article,
+html:not([data-theme="light"]) .qdHome .qdSummary button,
+html:not([data-theme="light"]) .qdHome .qdRound,
+html:not([data-theme="light"]) .qdHome .liveRoundHub,
+html:not([data-theme="light"]) .qdHome .gameHero,
+html:not([data-theme="light"]) .qdHome .streak,
+html:not([data-theme="light"]) .qdHome .emptyCard{
+  border-color:transparent!important;
+  outline:0!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture{
+  border:0!important;
+  outline:0!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound .qdFixture:not(:first-of-type)::before{
+  background:linear-gradient(90deg,transparent,rgba(132,175,207,.045) 30%,rgba(132,175,207,.045) 70%,transparent)!important;
+}
