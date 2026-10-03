@@ -4980,3 +4980,25 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
   border:0!important;
   box-shadow:none!important;
 }
+
+
+/* Own prediction: subtle integrated identity, no blue side line */
+.predictionsPage .matchRivalsPlayers .currentPlayerPick::before{
+  content:none!important;
+  display:none!important;
+}
+.predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  background:rgba(255,255,255,.018)!important;
+  border-top-color:rgba(128,128,128,.15)!important;
+  box-shadow:none!important;
+}
+.predictionsPage .matchRivalsPlayers .currentPlayerPick .currentUserAvatar{
+  background:rgba(55,151,213,.12)!important;
+  border:1px solid rgba(105,190,238,.28)!important;
+  color:#9edcff!important;
+  box-shadow:0 0 0 3px rgba(62,158,218,.035)!important;
+}
+.predictionsPage .matchRivalsPlayers .currentPlayerPick>b{
+  color:#f4f8fc!important;
+  font-weight:850!important;
+}
