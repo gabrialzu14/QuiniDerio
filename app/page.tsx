@@ -130,7 +130,7 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches,liveCards,totalP
    </section>}
    <section className="qdSummary">
     <button className="qdAction" onClick={()=>onTab("quiniela")}><small>HAZ TU PRONÓSTICO</small><b>Jornada 1</b><span>Completa los 6 partidos de la jornada.</span><em>Ir a mi quiniela</em></button>
-    <button onClick={()=>onTab("clasificacion")}><small>BOTE ACUMULADO</small><b>{totalPot.toLocaleString("es-ES")} €</b><span>Total en tiempo real</span></button>
+    <button onClick={()=>onTab("clasificacion")}><small>BOTE ACUMULADO</small><b>{totalPot.toLocaleString("es-ES")} €</b><span>Bote total</span></button>
     <button onClick={()=>onTab("clasificacion")}><small>LÍDER ACTUAL</small><b>—</b><span>Clasificación general</span></button>
     <button onClick={()=>onTab("clasificacion")}><small>TU POSICIÓN</small><b>—</b><span>0 PTS</span></button>
    </section>
@@ -216,85 +216,86 @@ function QuiniCover(){return <section className="quiniCover uploadedCover mobile
 function CoachesPanel(){return <section className="coachesPanel"><div className="coachesIntro"><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="CD Derio"/><div><p className="eyebrow">CD DERIO</p><h2>El equipo</h2><small>Entrenadores de la temporada</small></div></div><div className="coachGrid">{teamData.map(t=><article key={t.name}><div className="coachAvatar"><img src={t.photo} alt={`Entrenador ${t.coach}`} /></div><b>{t.coach}</b><small>{t.name}</small></article>)}</div></section>}
 function ClubCrest({src,name}:{src?:string,name:string}){const iturrigorri=/iturrigorri/i.test(name)||/Iturrigorri\.png/i.test(src||"");return src?<span className={"crestBox "+(iturrigorri?"crestIturrigorri":"")}><img src={src} alt={`Escudo de ${name}`} loading="eager" decoding="async"/></span>:<i aria-hidden="true">?</i>}
 function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,string>,round:number,dinio:string,season:Season,onEdit:()=>void}){
- const [rivalSeasons,setRivalSeasons]=useState<Array<{user_id:string,username:string,season:Season,dinio:string,profile_pic:string}>>([]);
-
- const [scope,setScope]=useState<"season"|"rounds">("season");
- const [view,setView]=useState<"mine"|"rivals">("mine");
- const [selectedRound,setSelectedRound]=useState(round);
+ const [selectedScope,setSelectedScope]=useState<"season"|number>("season");
  const availableRounds=[1,2,3,4,5,6,7,8];
+ const selectedRound=typeof selectedScope==="number"?selectedScope:round;
+ const [rivalSeasons,setRivalSeasons]=useState<Array<{user_id:string,username:string,season:Season,dinio:string,profile_pic:string}>>([]);
  const [rivalPicks,setRivalPicks]=useState<Array<{user_id:string,team:string,pick:string}>>([]);
+ const [rivalResults,setRivalResults]=useState<Array<{team:string,home_score:number,away_score:number,status:string}>>([]);
  const [rivalsLoading,setRivalsLoading]=useState(false);
  const [rivalsError,setRivalsError]=useState(false);
  const [rivalsRefresh,setRivalsRefresh]=useState(0);
 
- const [rivalResults,setRivalResults]=useState<Array<{team:string,home_score:number,away_score:number,status:string}>>([]);
  useEffect(()=>{
-  if(view!=="rivals")return;
   const controller=new AbortController();
   setRivalsLoading(true);setRivalsError(false);setRivalPicks([]);setRivalResults([]);
   void(async()=>{try{
    const {data:{user},error:authError}=await supabase.auth.getUser();
    if(authError||!user)throw new Error("session");
-   const profileQuery=supabase.from("quini_public_profiles").select(scope==="season"?"user_id,username,season,dinio,has_profile_pic":"user_id,username,has_profile_pic").order("username").abortSignal(controller.signal);
+   const seasonMode=selectedScope==="season";
    const [profiles,predictions,results]=await Promise.all([
-    profileQuery,
-    scope==="rounds"?supabase.from("quini_picks").select("user_id,team,pick").eq("round",selectedRound).abortSignal(controller.signal):Promise.resolve({data:[],error:null}),
-    scope==="rounds"?supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",selectedRound).abortSignal(controller.signal):Promise.resolve({data:[],error:null})
+    supabase.from("quini_public_profiles").select(seasonMode?"user_id,username,season,dinio,has_profile_pic":"user_id,username,has_profile_pic").order("username").abortSignal(controller.signal),
+    !seasonMode?supabase.from("quini_picks").select("user_id,team,pick").eq("round",selectedRound).abortSignal(controller.signal):Promise.resolve({data:[],error:null}),
+    !seasonMode?supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",selectedRound).abortSignal(controller.signal):Promise.resolve({data:[],error:null})
    ]);
    if(controller.signal.aborted)return;
    if(profiles.error||predictions.error||results.error)throw new Error("load");
-   setRivalSeasons(((profiles.data||[]) as any[]).filter(p=>p.user_id!==user.id).map(p=>({...p,profile_pic:p.has_profile_pic?publicAvatar(p.user_id):""})));
-   setRivalPicks(predictions.data||[]);setRivalResults(results.data||[]);
-  }catch{if(!controller.signal.aborted)setRivalsError(true)}finally{if(!controller.signal.aborted)setRivalsLoading(false)}})();
+   setRivalSeasons(((profiles.data||[]) as any[]).filter(x=>x.user_id!==user.id).map(x=>({...x,profile_pic:x.has_profile_pic?publicAvatar(x.user_id):""})));
+   setRivalPicks((predictions.data||[]) as any);
+   setRivalResults((results.data||[]) as any);
+  }catch{if(!controller.signal.aborted)setRivalsError(true)}
+  finally{if(!controller.signal.aborted)setRivalsLoading(false)}})();
   return()=>controller.abort();
- },[scope,view,selectedRound,rivalsRefresh]);
- useEffect(()=>{
-  if(scope!=="rounds"||view!=="mine")return;
-  const controller=new AbortController();setRivalResults([]);
-  void(async()=>{const {data,error}=await supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",selectedRound).abortSignal(controller.signal);if(!controller.signal.aborted&&!error)setRivalResults(data||[])})();
-  return()=>controller.abort();
- },[scope,view,selectedRound]);
- const filteredRivals=rivalSeasons;
+ },[selectedScope,selectedRound,rivalsRefresh]);
+
  const playableTeams=teams.filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest");
  const roundKickoffs=playableTeams.map(team=>{const game=quizFixtures[selectedRound]?.[team];if(!game?.date||!game?.time)return null;const [d,m,y]=game.date.split("/").map(Number);const [h,min]=game.time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()}).filter((v):v is number=>v!==null);
  const firstRoundKickoff=roundKickoffs.length?Math.min(...roundKickoffs):null;
  const hasStartedMatch=rivalResults.some(result=>result.status==="live"||result.status==="finished");
  const rivalsUnlocked=hasStartedMatch||(firstRoundKickoff!==null&&Date.now()>=firstRoundKickoff);
- const picksByPlayerTeam=useMemo(()=>new Map(rivalPicks.map(p=>[`${p.user_id}:${p.team}`,p.pick])),[rivalPicks]);
- const total=playableTeams.filter(team=>picks[`${selectedRound}:${team}`]).length;
- const seasonRows=[
-  ...teamData.map(t=>({label:`${t.name} · Posición final`,value:season.positions[t.name]?season.positions[t.name]+"º":"—"})),
-  {label:"Derio que queda más arriba",value:season.highest||"—"},
-  {label:"Derio que queda más abajo",value:season.lowest||"—"},
-  {label:"Primer entrenador expulsado",value:season.firstCoach||"—"},
-  {label:"Entrenador con más tarjetas",value:season.coachCards||"—"},
-  {label:"Primer 2º entrenador expulsado",value:season.assistantCoachExpulsions||"—"},
-  {label:"Segundo entrenador con más tarjetas",value:season.assistantCoachCards||"—"},
-  {label:"Primer delegado expulsado",value:season.firstDelegate||"—"},
-  {label:"Delegado con más tarjetas",value:season.delegateCards||"—"},
-  {label:"¿Dimitirá Dinio esta temporada?",value:dinio||"—"}
- ];
- return <section className="tabPage predictionsPage">
-  <div className="pageTop porraPageTop"><p className="eyebrow">PRONÓSTICOS</p><h1>{scope==="season"?"Temporada":`Jornada ${selectedRound}`}</h1><p>{scope==="season"?"Consulta las predicciones iniciales de toda la temporada.":"Consulta los pronósticos 1/X/2 de cada jornada."}</p></div>
-  <div className="predictionScopeTabs" role="tablist"><button role="tab" aria-selected={scope==="season"} className={scope==="season"?"active":""} onClick={()=>setScope("season")}>Temporada</button><button role="tab" aria-selected={scope==="rounds"} className={scope==="rounds"?"active":""} onClick={()=>setScope("rounds")}>Jornadas</button></div>
-  <div className="predictionTabs" role="tablist"><button role="tab" aria-selected={view==="mine"} className={view==="mine"?"active":""} onClick={()=>setView("mine")}>Mis pronósticos</button><button role="tab" aria-selected={view==="rivals"} className={view==="rivals"?"active":""} onClick={()=>setView("rivals")}>Pronósticos rivales</button></div>
-  {scope==="season"?(view==="mine"?<div className="seasonStickerGrid">{teamData.map(t=><article className="seasonSticker teamSticker" key={t.name}><div className="stickerPhoto"><img src={t.photo} alt={t.coach}/><span>{t.name}</span></div><div className="stickerCopy"><small>POSICIÓN FINAL</small><strong>{season.positions[t.name]?season.positions[t.name]+"º":"—"}</strong><b>{t.coach}</b></div></article>)}<article className="seasonSticker miniSticker"><small>MÁS ARRIBA</small><strong>↑</strong><b>{season.highest||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS ABAJO</small><strong>↓</strong><b>{season.lowest||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{season.firstCoach||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{season.coachCards||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER 2º ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{season.assistantCoachExpulsions||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · SEGUNDO ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{season.assistantCoachCards||"—"}</b></article><article className="seasonSticker miniSticker"><small>PRIMER DELEGADO EXPULSADO</small><strong className="redCardMark"></strong><b>{season.firstDelegate||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS TARJETAS · DELEGADO</small><strong className="cardsMark" aria-hidden="true"></strong><b>{season.delegateCards||"—"}</b></article><article className="seasonSticker dinioSticker"><img src={asset("entrenadores/DinioDerio.jpeg")} alt="Dinio"/><div><small>EXTRA · TEMPORADA</small><b>¿Dimitirá Dinio?</b><strong>{dinio||"—"}</strong></div></article></div>:<section className="rivalsPanel rivalsTab"><div><p className="eyebrow">TEMPORADA</p><h2>Pronósticos de los participantes</h2><p>Predicciones iniciales de quienes ya han completado el acceso al juego.</p></div>{rivalsLoading?<div className="predictionsSkeleton" role="status" aria-label="Cargando pronósticos">{Array.from({length:6},(_,i)=><div className="predictionsSkeletonRow" key={i} style={{animationDelay:`${i*70}ms`}}><i/><span><b/><small/></span><em/></div>)}</div>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:filteredRivals.length?<div className="rivalFullPredictions">{filteredRivals.map(p=><section className="rivalPredictionBlock" key={p.user_id}><div className="rivalPlayerBanner"><span className="rankingAvatar">{p.profile_pic?<img src={p.profile_pic} alt={p.username}/>:p.username?.[0]?.toUpperCase()}</span><div><small>PARTICIPANTE</small><b>{p.username}</b></div></div><div className="seasonStickerGrid">{teamData.map(t=><article className="seasonSticker teamSticker" key={t.name}><div className="stickerPhoto"><img src={t.photo} alt={t.coach}/><span>{t.name}</span></div><div className="stickerCopy"><small>POSICIÓN FINAL</small><strong>{p.season?.positions?.[t.name]?p.season.positions[t.name]+"º":"—"}</strong><b>{t.coach}</b></div></article>)}<article className="seasonSticker miniSticker"><small>MÁS ARRIBA</small><strong>↑</strong><b>{p.season?.highest||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS ABAJO</small><strong>↓</strong><b>{p.season?.lowest||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{p.season?.firstCoach||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{p.season?.coachCards||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER 2º ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{p.season?.assistantCoachExpulsions||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · SEGUNDO ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{p.season?.assistantCoachCards||"—"}</b></article><article className="seasonSticker miniSticker"><small>PRIMER DELEGADO EXPULSADO</small><strong className="redCardMark"></strong><b>{p.season?.firstDelegate||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS TARJETAS · DELEGADO</small><strong className="cardsMark" aria-hidden="true"></strong><b>{p.season?.delegateCards||"—"}</b></article><article className="seasonSticker dinioSticker"><img src={asset("entrenadores/DinioDerio.jpeg")} alt="Dinio"/><div><small>EXTRA · TEMPORADA</small><b>¿Dimitirá Dinio?</b><strong>{p.dinio||"—"}</strong></div></article></div></section>)}</div>:<div className="rivalsEmpty"><UsersIcon/><b>Aún no hay otros pronósticos publicados</b><small>Aparecerán al completar el acceso al juego.</small></div>}</section>):<>
-   <div className="roundPredictionTabs">{availableRounds.map(n=><button type="button" className={selectedRound===n?"active":""} onClick={()=>setSelectedRound(n)} key={n}>J{n}</button>)}</div>
-   {view==="mine"?<><div className="predictionSummary"><div><small>COMPLETADOS</small><b>{total}<em>/{playableTeams.length}</em></b></div><span>{total===playableTeams.length?"Jornada completa":"Te faltan "+(playableTeams.length-total)}</span></div><div className="myPicks fixturePicks">{playableTeams.map(team=>{const game={name:team,...(quizFixtures[selectedRound]?.[team]||{})};const rival=game.opponent||"Rival por confirmar";const isHome=game.isHome!==false;const home=isHome?team:rival,away=isHome?rival:team;
-const result=rivalResults.find(r=>r.team===team);const finished=result?.status==="finished";const winner=finished&&result?(result.home_score>result.away_score?"1":result.home_score<result.away_score?"2":"X"):null;
-return <button type="button" className="myPick fixturePick" onClick={onEdit} key={team}><div className="fixtureCrests"><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away}/></div><div className="fixturePickCopy"><b><span>{home}</span><em>vs</em><span>{away}</span></b><small>{game.date||"Fecha pendiente"} · {game.time||"Hora pendiente"}{finished&&result?` · Final ${result.home_score}–${result.away_score}`:""}</small></div><strong className={"pickResult "+(picks[`${selectedRound}:${team}`]?"hasPick pick"+picks[`${selectedRound}:${team}`]+" ":"")+(finished?"resultKnown ":"")+(winner===picks[`${selectedRound}:${team}`]?"predictionCorrect":"")}>{picks[`${selectedRound}:${team}`]||"—"}</strong></button>})}</div></>:<section className="rivalsPanel rivalsTab matchRivalsPanel"><div className="matchRivalsIntro"><div><p className="eyebrow">JORNADA {selectedRound}</p><h2>Pronósticos de los rivales</h2><p>Compara las predicciones de cada partido.</p></div><button type="button" disabled={rivalsLoading} onClick={()=>setRivalsRefresh(n=>n+1)}>Actualizar</button></div>{rivalsLoading?<p role="status">Cargando pronósticos…</p>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:<div className="matchRivalsList">{[...teams].filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest").sort((a,b)=>{const ga=quizFixtures[selectedRound]?.[a],gb=quizFixtures[selectedRound]?.[b];const toTs=(g:any)=>{if(!g?.date||!g?.time)return Number.MAX_SAFE_INTEGER;const [d,m,y]=g.date.split("/").map(Number),[h,min]=g.time.split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};return toTs(ga)-toTs(gb)}).map(team=>{
- const game=quizFixtures[selectedRound]?.[team]||{};
- const opponent=game.opponent||"Rival por confirmar",isHome=game.isHome!==false;
- const home=isHome?team:opponent,away=isHome?opponent:team;
- if(game.status==="rest")return null;
- const result=rivalResults.find(r=>r.team===team);
- const finished=result?.status==="finished";
- const winningPick=finished&&result?(result.home_score>result.away_score?"1":result.home_score<result.away_score?"2":"X"):null;
- const myPick=picks[`${selectedRound}:${team}`];
- const entries=filteredRivals.map(player=>({player,pick:picksByPlayerTeam.get(`${player.user_id}:${team}`)})).filter(entry=>entry.pick);
- return <article className="matchRivalsCard" key={team}><header className="matchRivalsFixture"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b></div><span className="matchRivalsScore">{finished&&result?`${result.home_score}–${result.away_score}`:"vs"}</span><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away}/><b>{away}</b></div></header><small className="matchRivalsDate">{game.date||"Fecha pendiente"} · {game.time||"Hora pendiente"}</small>{!rivalsUnlocked?<p className="matchRivalsEmpty">Los pronósticos de los rivales estarán disponibles cuando comience la jornada.</p>:rivalsLoading?<div className="predictionsSkeleton compact" role="status" aria-label="Cargando pronósticos">{Array.from({length:3},(_,i)=><div className="predictionsSkeletonRow" key={i} style={{animationDelay:`${i*70}ms`}}><i/><span><b/><small/></span><em/></div>)}</div>:<ul className="matchRivalsPlayers">{myPick&&<li className="currentPlayerPick"><span className="rankingAvatar currentUserAvatar">TÚ</span><b>Mi pronóstico</b><strong className={"pickResult hasPick pick"+myPick+" "+(finished?"resultKnown ":"")+(winningPick===myPick?"predictionCorrect":"")} aria-label={`Mi predicción: ${myPick}${winningPick===myPick?", acertada":""}`}>{myPick}</strong></li>}{entries.map(({player,pick})=><li key={player.user_id}><span className="rankingAvatar">{player.profile_pic?<img loading="lazy" src={player.profile_pic} alt=""/>:player.username?.[0]?.toUpperCase()}</span><b>{player.username}</b><strong className={"pickResult hasPick pick"+pick+" "+(finished?"resultKnown ":"")+(winningPick===pick?"predictionCorrect":"")} aria-label={`Predicción de ${player.username}: ${pick}${winningPick===pick?", acertada":""}`}>{pick}</strong></li>)}{!myPick&&!entries.length&&<li className="matchRivalsEmpty">Aún no hay pronósticos para este partido.</li>}</ul>}</article>
- })}</div>}</section>}
-  </>}
+ const picksByPlayerTeam=useMemo(()=>new Map(rivalPicks.map(x=>[`${x.user_id}:${x.team}`,x.pick])),[rivalPicks]);
+
+ return <section className="tabPage predictionsPage unifiedPredictionsPage">
+  <div className="pageTop porraPageTop"><p className="eyebrow">TEMPORADA 2026/27</p><h1>Todos los Pronósticos</h1><p>Consulta tus predicciones y las de los demás participantes.</p></div>
+  <div className="predictionUnifiedTabs" role="tablist">
+   <button type="button" role="tab" aria-selected={selectedScope==="season"} className={selectedScope==="season"?"active":""} onClick={()=>setSelectedScope("season")}>Temporada</button>
+   {availableRounds.map(n=><button type="button" role="tab" aria-selected={selectedScope===n} className={selectedScope===n?"active":""} onClick={()=>setSelectedScope(n)} key={n}>J{n}</button>)}
+  </div>
+
+  {selectedScope==="season"?<>
+   <section className="predictionOwnerSection">
+    <div className="predictionSectionTitle"><div><small>MI PRONÓSTICO</small><h2>Temporada</h2></div></div>
+    <div className="seasonStickerGrid">
+     {teamData.map(t=><article className="seasonSticker teamSticker" key={t.name}><div className="stickerPhoto"><img src={t.photo} alt={t.coach}/><span>{t.name}</span></div><div className="stickerCopy"><small>POSICIÓN FINAL</small><strong>{season.positions[t.name]?season.positions[t.name]+"º":"—"}</strong><b>{t.coach}</b></div></article>)}
+     <article className="seasonSticker miniSticker"><small>MÁS ARRIBA</small><strong>↑</strong><b>{season.highest||"—"}</b></article>
+     <article className="seasonSticker miniSticker"><small>MÁS ABAJO</small><strong>↓</strong><b>{season.lowest||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>PRIMER ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{season.firstCoach||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{season.coachCards||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>PRIMER 2º ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{season.assistantCoachExpulsions||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · SEGUNDO ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{season.assistantCoachCards||"—"}</b></article>
+     <article className="seasonSticker miniSticker"><small>PRIMER DELEGADO EXPULSADO</small><strong className="redCardMark"></strong><b>{season.firstDelegate||"—"}</b></article>
+     <article className="seasonSticker miniSticker"><small>MÁS TARJETAS · DELEGADO</small><strong className="cardsMark" aria-hidden="true"></strong><b>{season.delegateCards||"—"}</b></article>
+     <article className="seasonSticker dinioSticker"><img src={asset("entrenadores/DinioDerio.jpeg")} alt="Dinio"/><div><small>EXTRA · TEMPORADA</small><b>¿Dimitirá Dinio?</b><strong>{dinio||"—"}</strong></div></article>
+    </div>
+   </section>
+   <section className="rivalsPanel rivalsTab unifiedRivalsSection">
+    <div className="predictionSectionTitle"><div><small>PARTICIPANTES</small><h2>Pronósticos de temporada</h2></div><button type="button" disabled={rivalsLoading} onClick={()=>setRivalsRefresh(n=>n+1)}>Actualizar</button></div>
+    {rivalsLoading?<div className="predictionsSkeleton" role="status" aria-label="Cargando pronósticos">{Array.from({length:6},(_,i)=><div className="predictionsSkeletonRow" key={i}><i/><span><b/><small/></span><em/></div>)}</div>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:rivalSeasons.length?<div className="rivalFullPredictions">{rivalSeasons.map(x=><section className="rivalPredictionBlock" key={x.user_id}><div className="rivalPlayerBanner"><span className="rankingAvatar">{x.profile_pic?<img src={x.profile_pic} alt={x.username}/>:x.username?.[0]?.toUpperCase()}</span><div><small>PARTICIPANTE</small><b>{x.username}</b></div></div><div className="seasonStickerGrid">{teamData.map(t=><article className="seasonSticker teamSticker" key={t.name}><div className="stickerPhoto"><img src={t.photo} alt={t.coach}/><span>{t.name}</span></div><div className="stickerCopy"><small>POSICIÓN FINAL</small><strong>{x.season?.positions?.[t.name]?x.season.positions[t.name]+"º":"—"}</strong><b>{t.coach}</b></div></article>)}<article className="seasonSticker miniSticker"><small>MÁS ARRIBA</small><strong>↑</strong><b>{x.season?.highest||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS ABAJO</small><strong>↓</strong><b>{x.season?.lowest||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{x.season?.firstCoach||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{x.season?.coachCards||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER 2º ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{x.season?.assistantCoachExpulsions||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · SEGUNDO ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{x.season?.assistantCoachCards||"—"}</b></article><article className="seasonSticker miniSticker"><small>PRIMER DELEGADO EXPULSADO</small><strong className="redCardMark"></strong><b>{x.season?.firstDelegate||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS TARJETAS · DELEGADO</small><strong className="cardsMark" aria-hidden="true"></strong><b>{x.season?.delegateCards||"—"}</b></article><article className="seasonSticker dinioSticker"><img src={asset("entrenadores/DinioDerio.jpeg")} alt="Dinio"/><div><small>EXTRA · TEMPORADA</small><b>¿Dimitirá Dinio?</b><strong>{x.dinio||"—"}</strong></div></article></div></section>)}</div>:<div className="rivalsEmpty"><UsersIcon/><b>Aún no hay otros pronósticos publicados</b></div>}
+   </section>
+  </>:<section className="rivalsPanel rivalsTab matchRivalsPanel unifiedRoundPredictions">
+   <div className="predictionSectionTitle"><div><small>JORNADA {selectedRound}</small><h2>Pronósticos</h2><p>Tu pronóstico y el de los demás participantes, partido a partido.</p></div><button type="button" disabled={rivalsLoading} onClick={()=>setRivalsRefresh(n=>n+1)}>Actualizar</button></div>
+   {rivalsLoading?<p role="status">Cargando pronósticos…</p>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:<div className="matchRivalsList">{[...teams].filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest").sort((a,b)=>{const ga=quizFixtures[selectedRound]?.[a],gb=quizFixtures[selectedRound]?.[b];const toTs=(g:any)=>{if(!g?.date||!g?.time)return Number.MAX_SAFE_INTEGER;const [d,m,y]=g.date.split("/").map(Number),[h,min]=g.time.split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};return toTs(ga)-toTs(gb)}).map(team=>{
+    const game=quizFixtures[selectedRound]?.[team]||{};
+    const opponent=game.opponent||"Rival por confirmar",isHome=game.isHome!==false;
+    const home=isHome?team:opponent,away=isHome?opponent:team;
+    const result=rivalResults.find(r=>r.team===team);
+    const finished=result?.status==="finished";
+    const winningPick=finished&&result?(result.home_score>result.away_score?"1":result.home_score<result.away_score?"2":"X"):null;
+    const myPick=picks[`${selectedRound}:${team}`];
+    const entries=rivalSeasons.map(player=>({player,pick:picksByPlayerTeam.get(`${player.user_id}:${team}`)})).filter(entry=>entry.pick);
+    return <article className="matchRivalsCard" key={team}><header className="matchRivalsFixture"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b></div><span className="matchRivalsScore">{finished&&result?`${result.home_score}–${result.away_score}`:"vs"}</span><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away}/><b>{away}</b></div></header><small className="matchRivalsDate">{game.date||"Fecha pendiente"} · {game.time||"Hora pendiente"}</small>{!rivalsUnlocked?<p className="matchRivalsEmpty">Los pronósticos de los rivales estarán disponibles cuando comience la jornada.</p>:<ul className="matchRivalsPlayers">{myPick&&<li className="currentPlayerPick"><span className="rankingAvatar currentUserAvatar">TÚ</span><b>Mi pronóstico</b><strong className={"pickResult hasPick pick"+myPick+" "+(finished?"resultKnown ":"")+(winningPick===myPick?"predictionCorrect":"")}>{myPick}</strong></li>}{entries.map(({player,pick})=><li key={player.user_id}><span className="rankingAvatar">{player.profile_pic?<img loading="lazy" src={player.profile_pic} alt=""/>:player.username?.[0]?.toUpperCase()}</span><b>{player.username}</b><strong className={"pickResult hasPick pick"+pick+" "+(finished?"resultKnown ":"")+(winningPick===pick?"predictionCorrect":"")}>{pick}</strong></li>)}{!myPick&&!entries.length&&<li className="matchRivalsEmpty">Aún no hay pronósticos para este partido.</li>}</ul>}</article>
+   })}</div>}
+  </section>}
  </section>
 }
 function Ranking({_mode,_setMode}:{_mode:"general"|"jornada",_setMode:(m:"general"|"jornada")=>void}){
