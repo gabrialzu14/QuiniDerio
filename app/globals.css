@@ -4140,3 +4140,16 @@ html[data-theme="light"] .predictionsPage .roundPredictionTabs button.active{
   color:#69dda5!important;
   box-shadow:none!important;
 }
+
+
+/* Home live jornada: compact summary above the canonical fixture list */
+.liveRoundHub.liveRoundSummary .liveRoundMatches{display:none!important}
+.qdFixture .qdKick{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.qdFixture .qdKick em{font-style:normal;font-size:9px;opacity:.56}
+.qdFixture .qdMatchState{font-weight:900;letter-spacing:.08em}
+.qdFixture .qdMatchState.live{color:#45dda0!important}
+.qdFixture .qdMatchState.finished{color:rgba(255,255,255,.58)!important}
+.qdFixture.isLive{border-color:rgba(69,221,160,.34)!important}
+.qdFixture.isLive .qdKick strong{font-size:21px!important;color:#fff!important}
+.qdFixture.isFinished .qdKick strong{font-size:21px!important}
+html[data-theme="light"] .qdFixture .qdMatchState.finished{color:rgba(15,34,50,.58)!important}
