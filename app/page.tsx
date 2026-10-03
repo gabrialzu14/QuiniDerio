@@ -257,7 +257,8 @@ function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,st
  const playableTeams=teams.filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest");
  const roundKickoffs=playableTeams.map(team=>{const game=quizFixtures[selectedRound]?.[team];if(!game?.date||!game?.time)return null;const [d,m,y]=game.date.split("/").map(Number);const [h,min]=game.time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()}).filter((v):v is number=>v!==null);
  const firstRoundKickoff=roundKickoffs.length?Math.min(...roundKickoffs):null;
- const rivalsUnlocked=firstRoundKickoff!==null&&Date.now()>=firstRoundKickoff;
+ const hasStartedMatch=rivalResults.some(result=>result.status==="live"||result.status==="finished");
+ const rivalsUnlocked=hasStartedMatch||(firstRoundKickoff!==null&&Date.now()>=firstRoundKickoff);
  const picksByPlayerTeam=useMemo(()=>new Map(rivalPicks.map(p=>[`${p.user_id}:${p.team}`,p.pick])),[rivalPicks]);
  const total=playableTeams.filter(team=>picks[`${selectedRound}:${team}`]).length;
  const seasonRows=[
