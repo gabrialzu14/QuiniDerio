@@ -4156,3 +4156,38 @@ html[data-theme="light"] .qdFixture .qdMatchState.finished{color:rgba(15,34,50,.
 
 /* Final score is secondary to live score on Home */
 .qdFixture.isFinished .qdKick strong{font-size:16px!important;line-height:1.05!important;font-weight:800!important}
+
+
+/* Pronosticos: lock one identical page canvas across every internal view.
+   Mine/Rivals and Season/Jornadas must never recolor the screen. */
+.gameScreen.dashboard:has(.predictionsPage),
+.gameScreen.dashboard:has(.predictionsPage) .predictionsPage{
+  background:transparent!important;
+  background-image:none!important;
+}
+.predictionsPage::before,
+.predictionsPage::after,
+.predictionsPage .rivalsPanel::before,
+.predictionsPage .rivalsPanel::after,
+.predictionsPage .matchRivalsPanel::before,
+.predictionsPage .matchRivalsPanel::after{
+  content:none!important;
+  display:none!important;
+}
+.predictionsPage .rivalsPanel,
+.predictionsPage .rivalsTab,
+.predictionsPage .matchRivalsPanel,
+.predictionsPage .rivalFullPredictions,
+.predictionsPage .rivalPredictionBlock,
+.predictionsPage .matchRivalsList,
+.predictionsPage .myPicks,
+.predictionsPage .fixturePicks,
+.predictionsPage .seasonStickerGrid{
+  background:transparent!important;
+  background-image:none!important;
+}
+html[data-theme="light"] .gameScreen.dashboard:has(.predictionsPage),
+html[data-theme="light"] .gameScreen.dashboard:has(.predictionsPage) .predictionsPage{
+  background:#f3f6f8!important;
+  background-image:none!important;
+}
