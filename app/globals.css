@@ -4191,3 +4191,18 @@ html[data-theme="light"] .gameScreen.dashboard:has(.predictionsPage) .prediction
   background:#f3f6f8!important;
   background-image:none!important;
 }
+
+
+/* Current player's pick inside Jornada rival comparison */
+.predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  border-color:rgba(91,185,241,.30)!important;
+  background:rgba(48,137,196,.08)!important;
+}
+.predictionsPage .matchRivalsPlayers .currentPlayerPick .currentUserAvatar{
+  font-size:7px!important;
+  font-weight:900!important;
+  letter-spacing:.02em!important;
+  background:rgba(53,150,215,.16)!important;
+  border-color:rgba(91,185,241,.38)!important;
+  color:#82d1ff!important;
+}
