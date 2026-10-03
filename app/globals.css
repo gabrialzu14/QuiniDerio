@@ -4251,3 +4251,173 @@ html[data-theme="light"] .gameScreen.dashboard:has(.predictionsPage) .prediction
 .qdCardsHead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}.qdCardsHead small{display:block;font-size:9px;letter-spacing:.15em;opacity:.48;font-weight:800}.qdCardsHead h2{margin:2px 0 0;font-size:18px}.qdCardsHead>span{display:grid;place-items:center;min-width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,.08);font-size:12px;font-weight:800}
 .qdCardsHeaderRow,.qdCardsRow{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.8fr) auto;align-items:center;gap:12px;padding:10px 18px}.qdCardsHeaderRow{font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:800;opacity:.42}.qdCardsRow{border-top:1px solid rgba(255,255,255,.055);font-size:12px}.qdCardsRow b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.qdCardsRow>span{opacity:.68}.qdCardsRow em{display:inline-flex;align-items:center;justify-self:end;gap:7px;font-style:normal;font-weight:750}.qdCardsRow em i{width:8px;height:12px;border-radius:2px}.qdCardsRow em.yellow i{background:#f5d21f}.qdCardsRow em.red i{background:#ed3e45}
 @media(max-width:620px){.qdCardsTable{margin-top:12px;border-radius:17px}.qdCardsHeaderRow,.qdCardsRow{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) auto;padding-left:13px;padding-right:13px;gap:8px}.qdCardsRow{font-size:11px}.qdCardsRow em{font-size:10px}}
+
+
+/* ===== QuiniDerio ambient red + blue redesign ===== */
+:root{
+  --qd-bg-0:#07101d;
+  --qd-bg-1:#0a1424;
+  --qd-bg-2:#0d1830;
+  --qd-red:rgba(238,51,76,.24);
+  --qd-red-soft:rgba(238,51,76,.12);
+  --qd-blue:rgba(38,116,255,.28);
+  --qd-blue-soft:rgba(38,116,255,.13);
+  --qd-glass:rgba(10,18,32,.74);
+  --qd-glass-strong:rgba(9,17,30,.88);
+  --qd-line:rgba(255,255,255,.085);
+  --qd-line-strong:rgba(255,255,255,.13);
+}
+
+html{
+  min-height:100%;
+  background:
+    radial-gradient(circle at 12% 8%,rgba(238,51,76,.24),transparent 28%),
+    radial-gradient(circle at 88% 14%,rgba(38,116,255,.30),transparent 30%),
+    linear-gradient(180deg,#091426 0%,#07101d 48%,#0a1424 100%);
+  background-attachment:fixed;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 8% 16%,var(--qd-red),transparent 30%),
+    radial-gradient(circle at 92% 12%,var(--qd-blue),transparent 31%),
+    radial-gradient(circle at 24% 72%,var(--qd-red-soft),transparent 34%),
+    radial-gradient(circle at 82% 78%,var(--qd-blue-soft),transparent 36%),
+    linear-gradient(180deg,var(--qd-bg-2) 0%,var(--qd-bg-0) 42%,var(--qd-bg-1) 100%) !important;
+  background-attachment:fixed !important;
+  color:#f7f9fc;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 42%,rgba(255,57,83,.10),transparent 28%),
+    radial-gradient(circle at 83% 44%,rgba(42,123,255,.12),transparent 30%),
+    radial-gradient(circle at 50% 92%,rgba(100,77,255,.08),transparent 34%);
+  filter:blur(2px);
+}
+
+main,
+.dashboard,
+.tabPage,
+.qdHome,
+.qdHomeMain,
+.adminPage,
+.authScreen,
+.gameScreen{
+  background:transparent !important;
+}
+
+.dashboard::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 12% 15%,rgba(238,51,76,.13),transparent 27%),
+    radial-gradient(circle at 88% 20%,rgba(38,116,255,.15),transparent 30%),
+    radial-gradient(circle at 20% 82%,rgba(238,51,76,.08),transparent 28%),
+    radial-gradient(circle at 80% 80%,rgba(38,116,255,.10),transparent 32%) !important;
+}
+
+.hero,.seasonHead,.identity,.season,.summary,.miniScore,.dashGrid article,
+.emptyCard,.choice,.setupProgress,.confirmDock,.gameHero,.streak,.roundProgress,
+.matchCard,.podiumGhost>div,.rankingEmpty,.profileCard,.menuCards button,.roundDock,
+.liveRoundHub,.qdSummary article,.qdSummary button,.qdRound,.qdFixture,.coachesPanel,
+.quiniCover,.adminGrid article,.adminPending,.adminBulk,.detailSheet,.rivalsPanel,
+.seasonSticker,.playerStatsModal,.authWrap,.authForm,.qdCardsTable{
+  background:
+    linear-gradient(155deg,rgba(18,28,47,.86) 0%,rgba(9,17,30,.82) 56%,rgba(10,20,37,.88) 100%) !important;
+  border-color:var(--qd-line) !important;
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+.matchCard,.qdFixture,.adminGrid article,.seasonSticker,.qdSummary article,.qdSummary button{
+  position:relative;
+  overflow:hidden;
+}
+
+.matchCard::before,.qdFixture::before,.adminGrid article::before,
+.seasonSticker::before,.qdSummary article::before,.qdSummary button::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:
+    linear-gradient(135deg,rgba(238,51,76,.10),transparent 35%,rgba(38,116,255,.11));
+}
+
+.brandBar,
+nav,
+.bottomNav,
+.glassHeader{
+  background:rgba(8,17,31,.72) !important;
+  border-color:rgba(255,255,255,.09) !important;
+  box-shadow:
+    0 12px 34px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(22px) saturate(135%);
+  -webkit-backdrop-filter:blur(22px) saturate(135%);
+}
+
+.qdBanner,.liveRoundHub,.qdRound,.gameHero{
+  background:
+    radial-gradient(circle at 10% 18%,rgba(238,51,76,.17),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(38,116,255,.20),transparent 32%),
+    linear-gradient(155deg,rgba(18,28,48,.93),rgba(8,17,30,.90)) !important;
+}
+
+.savePrediction,.saveRound,.submit,.confirm,
+.identity button,.surprise button,.qdRoundHead button,.adminActions button{
+  background:linear-gradient(110deg,#df3449 0%,#8c3ab7 48%,#2476f2 100%) !important;
+  border-color:transparent !important;
+  color:#fff !important;
+  box-shadow:0 9px 24px rgba(31,74,170,.22);
+}
+
+.oneXtwo button,
+.rankGrid button,
+.optionCards button{
+  background:rgba(10,22,38,.78) !important;
+  border-color:rgba(255,255,255,.09) !important;
+}
+
+.oneXtwo button.active,
+.rankGrid button.active,
+.optionCards button.active{
+  background:
+    linear-gradient(135deg,rgba(224,52,74,.20),rgba(38,116,255,.28)) !important;
+  border-color:rgba(92,153,255,.48) !important;
+  box-shadow:0 8px 22px rgba(31,91,190,.16);
+}
+
+.adminCardPicker,
+.adminCardLog,
+.qdCardsRows,
+.playerMatchList,
+.rivalFullPredictions{
+  background:rgba(8,17,30,.38);
+}
+
+@media (max-width:620px){
+  body{
+    background:
+      radial-gradient(circle at -8% 10%,rgba(238,51,76,.25),transparent 35%),
+      radial-gradient(circle at 108% 18%,rgba(38,116,255,.30),transparent 38%),
+      radial-gradient(circle at 0% 72%,rgba(238,51,76,.11),transparent 34%),
+      radial-gradient(circle at 100% 80%,rgba(38,116,255,.13),transparent 36%),
+      linear-gradient(180deg,#0b1730 0%,#07101d 46%,#0a1424 100%) !important;
+    background-attachment:fixed !important;
+  }
+}
