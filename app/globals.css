@@ -4701,3 +4701,74 @@ html:not([data-theme="light"]) .accountPage{
     background-attachment:fixed !important;
   }
 }
+
+
+/* ===== Compact dark surfaces — preserve the Derio ambient canvas ===== */
+html:not([data-theme="light"]) .hero,
+html:not([data-theme="light"]) .seasonHead,
+html:not([data-theme="light"]) .identity,
+html:not([data-theme="light"]) .season,
+html:not([data-theme="light"]) .summary,
+html:not([data-theme="light"]) .miniScore,
+html:not([data-theme="light"]) .dashGrid article,
+html:not([data-theme="light"]) .emptyCard,
+html:not([data-theme="light"]) .choice,
+html:not([data-theme="light"]) .setupProgress,
+html:not([data-theme="light"]) .confirmDock,
+html:not([data-theme="light"]) .gameHero,
+html:not([data-theme="light"]) .streak,
+html:not([data-theme="light"]) .roundProgress,
+html:not([data-theme="light"]) .matchCard,
+html:not([data-theme="light"]) .podiumGhost>div,
+html:not([data-theme="light"]) .rankingEmpty,
+html:not([data-theme="light"]) .profileCard,
+html:not([data-theme="light"]) .menuCards button,
+html:not([data-theme="light"]) .roundDock,
+html:not([data-theme="light"]) .liveRoundHub,
+html:not([data-theme="light"]) .qdSummary article,
+html:not([data-theme="light"]) .qdSummary button,
+html:not([data-theme="light"]) .qdRound,
+html:not([data-theme="light"]) .qdFixture,
+html:not([data-theme="light"]) .coachesPanel,
+html:not([data-theme="light"]) .quiniCover,
+html:not([data-theme="light"]) .adminGrid article,
+html:not([data-theme="light"]) .adminPending,
+html:not([data-theme="light"]) .adminBulk,
+html:not([data-theme="light"]) .detailSheet,
+html:not([data-theme="light"]) .rivalsPanel,
+html:not([data-theme="light"]) .seasonSticker,
+html:not([data-theme="light"]) .playerStatsModal,
+html:not([data-theme="light"]) .authWrap,
+html:not([data-theme="light"]) .authForm,
+html:not([data-theme="light"]) .qdCardsTable,
+html:not([data-theme="light"]) .matchRivalsCard,
+html:not([data-theme="light"]) .rankingRow{
+  background:#102641 !important;
+  background-image:none !important;
+  border-color:rgba(139,177,215,.11) !important;
+  box-shadow:0 10px 28px rgba(3,13,27,.14) !important;
+}
+
+/* Home: remove seams/marks showing through between cards */
+html:not([data-theme="light"]) .qdHome,
+html:not([data-theme="light"]) .qdHomeMain,
+html:not([data-theme="light"]) .qdHome::before,
+html:not([data-theme="light"]) .qdHome::after,
+html:not([data-theme="light"]) .qdHomeMain::before,
+html:not([data-theme="light"]) .qdHomeMain::after{
+  background-color:transparent !important;
+  background-image:none !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+}
+
+/* Predictions: current user's outline should be a subtle cue, not a blue frame */
+html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  border-color:rgba(122,165,207,.13) !important;
+  background:#112943 !important;
+  box-shadow:none !important;
+}
+html:not([data-theme="light"]) .predictionsPage .predictionOwnerSection{
+  border-color:rgba(122,165,207,.10) !important;
+  box-shadow:none !important;
+}
