@@ -4517,3 +4517,137 @@ nav,
       linear-gradient(180deg,#11294f 0%,#0a1730 48%,#0d1f3d 100%) !important;
   }
 }
+
+
+/* ===== Background-only correction + unified predictions ===== */
+/* Keep cards/buttons in their established colors. Only the canvas behind them becomes blue. */
+html,body{
+  background:
+    radial-gradient(circle at 8% 10%,rgba(224,48,72,.13),transparent 30%),
+    radial-gradient(circle at 92% 16%,rgba(32,112,235,.28),transparent 36%),
+    radial-gradient(circle at 14% 76%,rgba(224,48,72,.07),transparent 34%),
+    radial-gradient(circle at 88% 82%,rgba(32,112,235,.15),transparent 38%),
+    linear-gradient(180deg,#10233f 0%,#0c1b32 46%,#10233f 100%) !important;
+  background-attachment:fixed!important;
+}
+.dashboard,
+.tabPage,
+.predictionsPage,
+.qdHome,
+.qdHomeMain,
+.gameScreen,
+.adminPage,
+.authScreen{
+  background:transparent!important;
+}
+.qdHome{
+  border-color:rgba(91,139,180,.13)!important;
+}
+.qdSide{
+  background:rgba(8,24,43,.72)!important;
+  backdrop-filter:blur(14px);
+}
+.dashboard:after{
+  background:
+    radial-gradient(circle at 10% 18%,rgba(224,48,72,.10),transparent 34%),
+    radial-gradient(circle at 90% 20%,rgba(32,112,235,.16),transparent 36%),
+    linear-gradient(180deg,rgba(11,29,52,.34),rgba(11,29,52,.54))!important;
+}
+
+/* Restore established component surfaces so the redesign only affects the background canvas. */
+.predictionUnifiedTabs,
+.predictionUnifiedTabs button,
+.matchRivalsCard,
+.rivalsPanel,
+.predictionOwnerSection,
+.seasonSticker,
+.qdFixture,
+.qdSummary article,
+.qdSummary button,
+.qdRound,
+.matchCard,
+.profileCard,
+.menuCards button,
+.rankingRow,
+.roundProgress{
+  box-shadow:initial;
+}
+.predictionUnifiedTabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  padding:2px 0 10px;
+  margin:0 0 16px;
+  -webkit-overflow-scrolling:touch;
+}
+.predictionUnifiedTabs::-webkit-scrollbar{display:none}
+.predictionUnifiedTabs button{
+  flex:0 0 auto;
+  min-width:64px;
+  min-height:42px;
+  padding:0 16px;
+  border:1px solid #294055;
+  border-radius:14px;
+  background:#132335;
+  color:#9eb1c3;
+  font-size:11px;
+  font-weight:850;
+}
+.predictionUnifiedTabs button:first-child{min-width:104px}
+.predictionUnifiedTabs button.active{
+  background:#173b5e;
+  border-color:#386d9a;
+  color:#fff;
+}
+.predictionOwnerSection{margin-bottom:18px}
+.predictionSectionTitle{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  margin:0 0 12px;
+}
+.predictionSectionTitle small{
+  display:block;
+  font-size:8px;
+  letter-spacing:1.15px;
+  font-weight:850;
+  color:#758fa6;
+}
+.predictionSectionTitle h2{
+  margin:3px 0 0;
+  font-size:18px;
+}
+.predictionSectionTitle p{
+  margin:4px 0 0;
+  color:#758fa6;
+  font-size:9px;
+}
+.predictionSectionTitle>button{
+  border:1px solid #294055;
+  border-radius:10px;
+  background:#132335;
+  color:#9eb1c3;
+  padding:8px 10px;
+  font-size:9px;
+  font-weight:800;
+}
+.unifiedRivalsSection,
+.unifiedRoundPredictions{
+  margin-top:18px!important;
+}
+.unifiedRoundPredictions .matchRivalsList{
+  display:grid;
+  gap:12px;
+}
+@media(max-width:600px){
+  html,body{
+    background:
+      radial-gradient(circle at -10% 12%,rgba(224,48,72,.12),transparent 38%),
+      radial-gradient(circle at 110% 18%,rgba(32,112,235,.30),transparent 42%),
+      radial-gradient(circle at 0% 78%,rgba(224,48,72,.06),transparent 38%),
+      radial-gradient(circle at 100% 84%,rgba(32,112,235,.14),transparent 42%),
+      linear-gradient(180deg,#10233f 0%,#0c1b32 50%,#10233f 100%)!important;
+  }
+}
