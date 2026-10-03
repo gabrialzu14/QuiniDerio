@@ -4799,3 +4799,18 @@ html:not([data-theme="light"]) .qdHome .liveRoundHub::before{
   background:none !important;
   content:none !important;
 }
+
+
+/* My pick in rivals: identify it without a blue boxed frame */
+html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlayerPick{
+  background:rgba(17,41,67,.52) !important;
+  border-color:transparent !important;
+  box-shadow:
+    inset 3px 0 0 rgba(91,185,241,.32),
+    inset 0 0 22px rgba(58,142,204,.035) !important;
+}
+html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlayerPick .currentUserAvatar{
+  background:rgba(53,150,215,.09) !important;
+  border-color:rgba(91,185,241,.16) !important;
+  color:#9bd8fa !important;
+}
