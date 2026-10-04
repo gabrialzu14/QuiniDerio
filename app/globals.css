@@ -5201,3 +5201,61 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
 .roundPendingFixtureText{grid-template-columns:1fr!important;justify-items:center!important;gap:7px!important;text-align:center!important;padding:10px 12px!important}
 .roundPendingFixtureText>b{max-width:none!important;font-size:10px!important;line-height:1.3!important;color:#e9f3fb!important}
 .roundPendingFixtureText>span{justify-self:center!important}
+
+
+/* 2026-10-05 — classification modal final compact layout */
+html:has(body.qdModalOpen),body.qdModalOpen{overflow:hidden!important;overscroll-behavior:none!important}
+body.qdModalOpen{touch-action:none}
+body.qdModalOpen .detailBackdrop{touch-action:none}
+
+.porraAccount .detailBackdrop{
+ padding:max(20px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left))!important;
+ background:rgba(1,8,17,.76)!important;
+ backdrop-filter:blur(18px) saturate(.9)!important;
+ -webkit-backdrop-filter:blur(18px) saturate(.9)!important;
+}
+.porraAccount .detailSheet:has(.classificationFormat){
+ width:min(100%,360px)!important;
+ max-width:360px!important;
+ max-height:calc(100dvh - max(40px,env(safe-area-inset-top)) - max(40px,env(safe-area-inset-bottom)))!important;
+ padding:15px 14px 14px!important;
+ border-radius:21px!important;
+ overflow:hidden!important;
+ box-shadow:0 24px 70px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+.porraAccount .detailSheet:has(.classificationFormat) .detailSheetHead{
+ min-height:40px!important;
+ margin:0 0 7px!important;
+ padding:0!important;
+ gap:8px!important;
+}
+.porraAccount .detailSheet:has(.classificationFormat) .detailSheetHead>div{min-width:0!important}
+.porraAccount .detailSheet:has(.classificationFormat) .detailSheetHead small{
+ font-size:6.5px!important;letter-spacing:.18em!important;line-height:1!important
+}
+.porraAccount .detailSheet:has(.classificationFormat) .detailSheetHead h2{
+ font-size:17px!important;line-height:1.05!important;margin:4px 0 0!important;letter-spacing:-.025em!important
+}
+.porraAccount .detailSheet:has(.classificationFormat) .detailSheetHead button{
+ flex:0 0 30px!important;width:30px!important;height:30px!important;font-size:18px!important;border-radius:50%!important
+}
+.classificationFormat>p{
+ font-size:8.5px!important;line-height:1.35!important;margin:0 1px 9px!important;color:rgba(219,233,246,.68)!important
+}
+.classificationFormatGrid{gap:4px 6px!important}
+.classificationFormatRow{
+ min-height:31px!important;height:31px!important;padding:4px 9px!important;border-radius:10px!important
+}
+.classificationFormatRow span,.classificationFormatRow b{font-size:9.5px!important;line-height:1!important}
+.classificationFormatRow b{letter-spacing:-.01em!important}
+@media(max-width:390px){
+ .porraAccount .detailBackdrop{padding-left:16px!important;padding-right:16px!important}
+ .porraAccount .detailSheet:has(.classificationFormat){width:100%!important;max-width:350px!important}
+}
+@media(max-height:700px){
+ .porraAccount .detailSheet:has(.classificationFormat){padding:12px!important}
+ .porraAccount .detailSheet:has(.classificationFormat) .detailSheetHead{margin-bottom:5px!important}
+ .classificationFormat>p{font-size:8px!important;margin-bottom:7px!important}
+ .classificationFormatRow{min-height:28px!important;height:28px!important}
+ .classificationFormatGrid{gap:3px 5px!important}
+}
