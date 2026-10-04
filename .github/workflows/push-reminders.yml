@@ -1,8 +1,7 @@
 name: Recordatorios push QuiniDerio
 on:
   schedule:
-    - cron: "4,34 8-23 * * *"
-      timezone: "Europe/Madrid"
+    - cron: "4,34 * * * *"
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   send:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
       - name: Ejecutar recordatorios en producción
@@ -19,6 +18,9 @@ jobs:
           PUSH_AUTH: ${{ secrets.PUSH_CRON_TOKEN }}
         run: |
           test -n "$PUSH_AUTH" || { echo "::error::Falta PUSH_CRON_TOKEN"; exit 1; }
-          response=$(curl --fail-with-body --silent --show-error             --retry 2 --retry-delay 2             -H "Authorization: Bearer $PUSH_AUTH"             "https://quiniderio.vercel.app/api/push/reminders")
+          response=$(curl --fail-with-body --silent --show-error \
+            --retry 2 --retry-delay 2 \
+            -H "Authorization: Bearer $PUSH_AUTH" \
+            "https://quiniderio.vercel.app/api/push/reminders")
           echo "$response"
           echo "$response" | grep -q '"ok":true' || { echo "::error::El endpoint push no confirmó el envío"; exit 1; }
