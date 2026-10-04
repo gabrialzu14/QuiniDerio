@@ -5063,8 +5063,8 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
 
 
 /* Jornada finalizada con partido suspendido pendiente */
-.roundPendingOverlay{position:fixed;inset:0;z-index:140;display:grid;place-items:center;padding:20px;background:rgba(2,9,18,.76);backdrop-filter:blur(12px)}
-.roundPendingModal{position:relative;width:min(100%,430px);padding:27px 24px 22px;border-radius:24px;background:linear-gradient(155deg,#102a45,#0b1d31);border:1px solid rgba(124,174,216,.14);box-shadow:0 28px 80px rgba(0,0,0,.48);color:#f4f8fc}
+.roundPendingOverlay{position:fixed!important;inset:0!important;z-index:140;display:flex!important;align-items:center!important;justify-content:center!important;width:100vw!important;height:100dvh!important;padding:20px;background:rgba(2,9,18,.76);backdrop-filter:blur(12px);overflow:hidden!important;overscroll-behavior:none!important;touch-action:none!important}
+.roundPendingModal{position:relative!important;top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;margin:0!important;transform:none!important;width:min(100%,430px);max-height:calc(100dvh - 40px);padding:27px 24px 22px;border-radius:24px;background:linear-gradient(155deg,#102a45,#0b1d31);border:1px solid rgba(124,174,216,.14);box-shadow:0 28px 80px rgba(0,0,0,.48);color:#f4f8fc;overflow:hidden!important;overscroll-behavior:none!important}
 .roundPendingModal>button:first-child{position:absolute;top:12px;right:13px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.055);color:#b8c9d8;font-size:22px;line-height:1}
 .roundPendingModal>small{display:block;padding-right:40px;color:#7fc5f0;font-size:9px;font-weight:850;letter-spacing:.12em}
 .roundPendingModal h2{margin:7px 0 13px;font-size:25px;letter-spacing:-.035em}
