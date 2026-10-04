@@ -218,6 +218,7 @@ function ClubCrest({src,name}:{src?:string,name:string}){const iturrigorri=/itur
 function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,string>,round:number,dinio:string,season:Season,onEdit:()=>void}){
  const [selectedScope,setSelectedScope]=useState<"season"|number>("season");
  const availableRounds=[1,2,3,4,5,6,7,8];
+ const enabledRounds=new Set([1]);
  const selectedRound=typeof selectedScope==="number"?selectedScope:round;
  const [rivalSeasons,setRivalSeasons]=useState<Array<{user_id:string,username:string,season:Season,dinio:string,profile_pic:string}>>([]);
  const [rivalPicks,setRivalPicks]=useState<Array<{user_id:string,team:string,pick:string}>>([]);
@@ -259,7 +260,7 @@ function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,st
   <div className="pageTop porraPageTop"><p className="eyebrow">TEMPORADA 2026/27</p><h1>Todos los Pronósticos</h1><p>Consulta tus predicciones y las de los demás participantes.</p></div>
   <div className="predictionUnifiedTabs" role="tablist">
    <button type="button" role="tab" aria-selected={selectedScope==="season"} className={selectedScope==="season"?"active":""} onClick={()=>setSelectedScope("season")}>Temporada</button>
-   {availableRounds.map(n=><button type="button" role="tab" aria-selected={selectedScope===n} className={selectedScope===n?"active":""} onClick={()=>setSelectedScope(n)} key={n}>J{n}</button>)}
+   {availableRounds.map(n=>{const enabled=enabledRounds.has(n);return <button type="button" role="tab" aria-selected={selectedScope===n} aria-disabled={!enabled} disabled={!enabled} className={(selectedScope===n?"active ":"")+(!enabled?"locked":"")} onClick={()=>enabled&&setSelectedScope(n)} key={n}>J{n}</button>})}
   </div>
 
   {selectedScope==="season"?<>
