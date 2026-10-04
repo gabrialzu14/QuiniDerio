@@ -5060,3 +5060,14 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
 .adminVenueOrder{margin:5px 0 0!important;font-size:9px!important;color:#7890a5!important;letter-spacing:.025em!important}
 .adminVenueOrder b{font-size:8px!important;color:#a8bbcb!important;letter-spacing:.08em!important}
 .adminVenueOrder span{margin:0 5px!important;opacity:.45!important}
+
+
+/* Jornada finalizada con partido suspendido pendiente */
+.roundPendingOverlay{position:fixed;inset:0;z-index:140;display:grid;place-items:center;padding:20px;background:rgba(2,9,18,.76);backdrop-filter:blur(12px)}
+.roundPendingModal{position:relative;width:min(100%,430px);padding:27px 24px 22px;border-radius:24px;background:linear-gradient(155deg,#102a45,#0b1d31);border:1px solid rgba(124,174,216,.14);box-shadow:0 28px 80px rgba(0,0,0,.48);color:#f4f8fc}
+.roundPendingModal>button:first-child{position:absolute;top:12px;right:13px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.055);color:#b8c9d8;font-size:22px;line-height:1}
+.roundPendingModal>small{display:block;padding-right:40px;color:#7fc5f0;font-size:9px;font-weight:850;letter-spacing:.12em}
+.roundPendingModal h2{margin:7px 0 13px;font-size:25px;letter-spacing:-.035em}
+.roundPendingModal p{margin:0 0 11px;color:#b8c7d4;font-size:13px;line-height:1.55}
+.roundPendingModal p b{color:#fff}
+.roundPendingModal .roundPendingClose{width:100%;margin-top:9px;padding:12px 16px;border:0;border-radius:14px;background:#e9f2f8;color:#0b2034;font-weight:850;font-size:12px}
