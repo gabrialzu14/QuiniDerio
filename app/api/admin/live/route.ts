@@ -23,7 +23,7 @@ async function sendFinalPush(round:number,team:string,home:number,away:number){
 async function sendRoundCompletePush(round:number){
  const client=db();const {data:matches}=await client.from("quini_live_matches").select("team,status").eq("round",round);
  const expected=["Derio A","Derio B","Derio Fem","Derio Fem B","Juvenil A","Juvenil B"];
- if(!expected.every(team=>["finished","final"].includes(String((matches||[]).find(m=>m.team===team)?.status||""))))return;
+ if(!expected.every(team=>["finished","final","suspended"].includes(String((matches||[]).find(m=>m.team===team)?.status||""))))return;
  const pub=process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY||"",priv=process.env.VAPID_PRIVATE_KEY||"";if(!pub||!priv)return;
  webpush.setVapidDetails(process.env.VAPID_SUBJECT||"mailto:admin@quiniderio.app",pub,priv);
  await sendToAllPlayerEndpoints(client,"round_complete:"+round,"round_complete","Jornada "+round+" finalizada","Ya están disponibles los resultados y la clasificación.");
