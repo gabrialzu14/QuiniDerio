@@ -5197,3 +5197,7 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
  .classificationFormatRow{min-height:35px!important;padding:5px 9px!important}
  .classificationFormatGrid{gap:4px 6px!important}
 }
+
+.roundPendingFixtureText{grid-template-columns:1fr!important;justify-items:center!important;gap:7px!important;text-align:center!important;padding:10px 12px!important}
+.roundPendingFixtureText>b{max-width:none!important;font-size:10px!important;line-height:1.3!important;color:#e9f3fb!important}
+.roundPendingFixtureText>span{justify-self:center!important}
