@@ -5043,3 +5043,14 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
   border-radius:50%!important;
   transform:scale(1.04);
 }
+
+
+/* Future prediction rounds stay visible but unavailable until configured */
+.predictionsPage .predictionUnifiedTabs button.locked,
+.predictionsPage .predictionUnifiedTabs button:disabled{
+  opacity:.34!important;
+  cursor:default!important;
+  pointer-events:none!important;
+  filter:saturate(.35)!important;
+  box-shadow:none!important;
+}
