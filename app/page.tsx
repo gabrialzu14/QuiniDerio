@@ -113,7 +113,7 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches,liveCards,totalP
  const pendingCount=Math.max(0,playable.length-liveCount-resolvedCount);
  const [roundNoticeOpen,setRoundNoticeOpen]=useState(false);
  useEffect(()=>{if(!finished||!suspendedCount)return;try{if(sessionStorage.getItem("qd-round1-pending-result")!=="seen")setRoundNoticeOpen(true)}catch{setRoundNoticeOpen(true)}},[finished,suspendedCount]);
- useEffect(()=>{if(finished)void fetch("/api/push/round-complete",{method:"POST"}).catch(()=>{})},[finished]);
+
  return <div className="qdHome">
   {roundNoticeOpen&&<div className="roundPendingOverlay" role="dialog" aria-modal="true" aria-labelledby="roundPendingTitle"><section className="roundPendingModal"><button type="button" aria-label="Cerrar" onClick={()=>{setRoundNoticeOpen(false);try{sessionStorage.setItem("qd-round1-pending-result","seen")}catch{}}}>×</button><small>JORNADA 1 · FINALIZADA</small><h2 id="roundPendingTitle">Resultado pendiente</h2><p>La Jornada 1 se da por finalizada, pero queda pendiente el resultado del <b>Ibaiondo Nerbioi A – Derio Fem B</b>, suspendido por la lluvia.</p><p>Cuando se dispute el partido, actualizaremos automáticamente el resultado, la puntuación y la clasificación de la Jornada 1.</p><button type="button" className="roundPendingClose" onClick={()=>{setRoundNoticeOpen(false);try{sessionStorage.setItem("qd-round1-pending-result","seen")}catch{}}}>Entendido</button></section></div>}
   <aside className="qdSide">
