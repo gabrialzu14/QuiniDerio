@@ -13,11 +13,21 @@ export async function GET(req:NextRequest,{params}:{params:Promise<{path:string[
   if(!r.ok)return new NextResponse("Asset not found",{status:r.status});
   const raw=Buffer.from(await r.arrayBuffer());
   const folder=parts[0]?.toLowerCase();
-  const width=folder==="entrenadores"?480:folder==="escudos"?192:folder==="branding"?1200:640;
-  const quality=folder==="escudos"?82:78;
+  const filename=(parts.at(-1)||"").toLowerCase();
+  const isSplash=folder==="branding"&&filename.includes("escudocarga");
+  const isLogo=folder==="branding"&&filename.includes("logoapp");
+  const width=folder==="entrenadores"?384:folder==="escudos"?160:isSplash?320:isLogo?640:640;
+  const quality=folder==="escudos"?78:folder==="branding"?72:74;
   try{
-   const body=await sharp(raw,{failOn:"none"}).resize({width,withoutEnlargement:true,fit:"inside"}).webp({quality,effort:4}).toBuffer();
-   return new NextResponse(new Uint8Array(body),{status:200,headers:{"Content-Type":"image/webp","Cache-Control":"public, max-age=31536000, s-maxage=31536000, immutable","Vercel-CDN-Cache-Control":"public, max-age=31536000, immutable"}});
+   const body=await sharp(raw,{failOn:"none"})
+    .resize({width,withoutEnlargement:true,fit:"inside"})
+    .webp({quality,effort:5,smartSubsample:true})
+    .toBuffer();
+   return new NextResponse(new Uint8Array(body),{status:200,headers:{
+    "Content-Type":"image/webp",
+    "Cache-Control":"public, max-age=31536000, s-maxage=31536000, immutable",
+    "Vercel-CDN-Cache-Control":"public, max-age=31536000, immutable"
+   }});
   }catch{
    return new NextResponse(new Uint8Array(raw),{status:200,headers:{"Content-Type":r.headers.get("content-type")||"application/octet-stream","Cache-Control":"public, max-age=86400, s-maxage=86400"}});
   }
