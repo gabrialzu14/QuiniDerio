@@ -15,7 +15,7 @@ async function compressProfileImage(file:File){return new Promise<string>((resol
 const SB="/api/assets";
 const publicAvatar=(userId:string)=>`/api/avatar/${userId}`;
 async function currentSessionUser(){const {data:{session}}=await supabase.auth.getSession();return session?.user||null}
-const asset=(path:string)=>`${SB}/${path}${path.includes("?")?"&":"?"}opt=3`;
+const asset=(path:string)=>`${SB}/${path}${path.includes("?")?"&":"?"}opt=4`;
 const teamData=[
  {name:"Derio A",competition:"3ª RFEF",max:18,coach:"Nando Alonso",photo:asset("entrenadores/NandoAlonso2.png"),zones:{1:"champion",2:"playoff",3:"playoff",4:"playoff",5:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
  {name:"Derio B",competition:"DERIO B",max:18,coach:"Gorka Barrio",photo:asset("entrenadores/GorkaBarrio2.png?v=20260930-2"),zones:{1:"champion",2:"promotion",3:"playoff",16:"relegation",17:"relegation",18:"relegation"}},
