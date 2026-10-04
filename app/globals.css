@@ -5054,3 +5054,9 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
   filter:saturate(.35)!important;
   box-shadow:none!important;
 }
+
+
+/* Admin fixture orientation follows Quiniela: local left, visitor right */
+.adminVenueOrder{margin:5px 0 0!important;font-size:9px!important;color:#7890a5!important;letter-spacing:.025em!important}
+.adminVenueOrder b{font-size:8px!important;color:#a8bbcb!important;letter-spacing:.08em!important}
+.adminVenueOrder span{margin:0 5px!important;opacity:.45!important}
