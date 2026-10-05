@@ -5583,3 +5583,27 @@ html[data-theme="light"] .teamFormDots i.draw{background:#9ba9b5}
 .qdFixture .qdClub:not(.home) .teamFormDots{
   justify-content:flex-end!important;
 }
+
+
+/* Quiniela: match Inicio's compact recent-form indicators */
+.gameCard .teamFormDots,
+.gameCard .versus .teamFormDots{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  height:7px!important;
+  margin-top:3px!important;
+  line-height:0!important;
+}
+.gameCard .teamFormDots i,
+.gameCard .versus .teamFormDots i{
+  width:5px!important;
+  height:5px!important;
+  min-width:5px!important;
+  min-height:5px!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:50%!important;
+  box-shadow:none!important;
+}
