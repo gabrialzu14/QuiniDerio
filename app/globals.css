@@ -5562,3 +5562,24 @@ html[data-theme="light"] .qdHome .qdFixtureList{
 .teamFormDots i.loss{background:#ff3f50}
 .teamFormDots i.draw{background:#93a5b5}
 html[data-theme="light"] .teamFormDots i.draw{background:#9ba9b5}
+
+
+/* Compact recent-form dots across Quiniela and Inicio */
+.teamFormDots{
+  gap:3px!important;
+  height:7px!important;
+  margin-top:3px!important;
+  line-height:0!important;
+}
+.teamFormDots i{
+  width:5px!important;
+  height:5px!important;
+  min-width:5px!important;
+  border-radius:50%!important;
+}
+.qdFixture .teamFormDots{
+  justify-content:flex-start!important;
+}
+.qdFixture .qdClub:not(.home) .teamFormDots{
+  justify-content:flex-end!important;
+}
