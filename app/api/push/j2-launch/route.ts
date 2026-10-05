@@ -18,7 +18,7 @@ export async function GET(req:NextRequest){
   const {data:already}=await db.from("push_notification_log").select("id").eq("notification_key",playerKey).limit(1);
   if(already?.length){skipped++;continue}
   let ok=false;
-  for(const s of endpoints){try{await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},JSON.stringify({title:"Jornada 2 disponible",body:"Ya puedes hacer tus pronósticos de la Jornada 2 en QuiniDerio.",url:"/",tag:"quiniderio-round-open-2"}),{TTL:86400,urgency:"high"});ok=true}catch(e:any){if(e?.statusCode===404||e?.statusCode===410)await db.from("push_subscriptions").update({enabled:false,updated_at:new Date().toISOString()}).eq("endpoint",s.endpoint)}}
+  for(const s of endpoints){try{await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},JSON.stringify({title:"Jornada 2 disponible",body:"Ya puedes hacer tus pronósticos de la Jornada 2.",url:"/",tag:"quiniderio-round-open-2"}),{TTL:86400,urgency:"high"});ok=true}catch(e:any){if(e?.statusCode===404||e?.statusCode===410)await db.from("push_subscriptions").update({enabled:false,updated_at:new Date().toISOString()}).eq("endpoint",s.endpoint)}}
   if(ok){await db.from("push_notification_log").insert({player_id:playerId,round_id:null,kind:"round_open",notification_key:playerKey});delivered++}else failed++;
  }
  return NextResponse.json({ok:true,delivered,skipped,failed});
