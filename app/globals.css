@@ -5385,3 +5385,25 @@ html:not([data-theme="light"]) .qdHome .qdRound{
   filter:none!important;
   -webkit-filter:none!important;
 }
+
+
+/* Let the home-card neon render outside the cards without being clipped by wrapper layers */
+html:not([data-theme="light"]) .qdHome,
+html:not([data-theme="light"]) .qdHomeMain,
+html:not([data-theme="light"]) .qdSummary{
+  overflow:visible!important;
+}
+html:not([data-theme="light"]) .qdHome .qdRound{
+  overflow:visible!important;
+}
+html:not([data-theme="light"]) .qdHome .qdFixtureList{
+  overflow:hidden!important;
+  border-radius:0 0 17px 17px;
+}
+html:not([data-theme="light"]) .qdHome .qdSummary,
+html:not([data-theme="light"]) .qdHomeMain{
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
