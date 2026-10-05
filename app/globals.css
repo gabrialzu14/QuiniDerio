@@ -5553,3 +5553,12 @@ html[data-theme="light"] .qdHome .qdFixtureList{
 .adminPage>.adminRoundTabs button.active{
   box-shadow:none;
 }
+
+
+/* Recent team form under club name/standings */
+.teamFormDots{display:flex;align-items:center;justify-content:center;gap:5px;height:12px;margin-top:5px}
+.teamFormDots i{display:block;width:8px;height:8px;border-radius:50%;background:#93a5b5;box-shadow:none}
+.teamFormDots i.win{background:#18c88b}
+.teamFormDots i.loss{background:#ff3f50}
+.teamFormDots i.draw{background:#93a5b5}
+html[data-theme="light"] .teamFormDots i.draw{background:#9ba9b5}
