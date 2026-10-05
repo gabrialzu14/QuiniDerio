@@ -171,7 +171,7 @@ const rivalCrests:Record<string,string>={
  "Juvenil A":asset("Escudos/Iturrigorri.png"),
  "Juvenil B":asset("Escudos/SD%20LEIOA.png")
 }
-const currentStandings:Record<string,string>={"Derio A":"2º · 8 pts","Beasain":"15º · 4 pts","Derio B":"13º · 1 pto","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"7º · 3 pts","Iturrigorri A":"8º · 3 pts"};
+const currentStandings:Record<string,string>={"Cultural Durango":"10º · 6 pts","Derio A":"2º · 11 pts","Zamudio B":"16º · 0 pts","Derio B":"15º · 1 pto","Gaztelueta B":"0º · 0 pts","Cadete B":"0º · 0 pts"};
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF",federationRound:5},
  "Derio B":{opponent:"Escolapios",date:"03/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",federationRound:3},
