@@ -128,7 +128,7 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches,liveCards,totalP
   </aside>
   <div className="qdHomeMain">
    <section className="qdBanner">
-    <img src={asset("branding/ImagenPortada.png?v=202609281638")} alt="QuiniDerio · CD Derio" loading="eager" decoding="sync" fetchPriority="high"/>
+    <img src={asset("branding/ImagenPortada.webp")} alt="QuiniDerio · CD Derio" loading="eager" decoding="sync" fetchPriority="high"/>
     <div className="qdBannerShade"/>
     <div className="qdBannerContent"><span><i/> TEMPORADA 2026/27</span><h1><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></h1><p>LA QUINIELA DEL CD DERIO</p></div>
    </section>
