@@ -97,9 +97,9 @@ export default function Home(){
 }}/>} {tab==="pronosticos"&&<MyPredictions picks={picks} round={quizRound} dinio={dinio} season={season} onEdit={()=>navigateTab("quiniela")}/>} {tab==="clasificacion"&&<Ranking _mode={rankMode} _setMode={setRankMode}/>} {tab==="mas"&&<More name={name} dinio={dinio} season={season} onTab={navigateTab} onProfilePicChange={setHeaderProfilePic}/>}<BottomNavigation tab={tab} onNavigate={navigateTab}/></main>
 }
 function HomeOverview({name,currentDone,onTab,picks,liveMatches,liveCards,totalPot}:{name:string,currentDone:number,onTab:(tab:"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas")=>void,picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,liveCards:LiveCard[],totalPot:number}){
- const standings=homeRound===2?currentStandings:{"Derio A":"2º · 8 pts","Beasain":"15º · 4 pts","Derio B":"13º · 1 pto","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"7º · 3 pts","Iturrigorri A":"8º · 3 pts"};
  const currentRound=2;
  const [homeRound,setHomeRound]=useState(currentRound);
+ const standings=homeRound===2?currentStandings:{"Derio A":"2º · 8 pts","Beasain":"15º · 4 pts","Derio B":"13º · 1 pto","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"7º · 3 pts","Iturrigorri A":"8º · 3 pts"};
  const [homeLiveMatches,setHomeLiveMatches]=useState(liveMatches);
  const [homeRanking,setHomeRanking]=useState<Array<{user_id:string,username:string,hits:number}>>([]);
  const [homeUserId,setHomeUserId]=useState("");
