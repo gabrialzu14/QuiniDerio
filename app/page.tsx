@@ -326,7 +326,8 @@ function Ranking({_mode,_setMode}:{_mode:"general"|"jornada",_setMode:(m:"genera
  const[profiles,setProfiles]=useState<Record<string,{username:string,profile_pic:string}>>({});
  const[view,setView]=useState<"hits"|"pot">("hits");
  const[selected,setSelected]=useState<any>(null);
- const[detail,setDetail]=useState<Array<{round:number,team:string,pick:string,opponent:string,home_score:number,away_score:number,result:string}>>([]);\n const[potDetail,setPotDetail]=useState<Array<{round:number,amount:number}>>([]);
+ const[detail,setDetail]=useState<Array<{round:number,team:string,pick:string,opponent:string,home_score:number,away_score:number,result:string}>>([]);
+ const[potDetail,setPotDetail]=useState<Array<{round:number,amount:number}>>([]);
  const[detailLoading,setDetailLoading]=useState(false);
  const[rankingLoading,setRankingLoading]=useState(true);
  useEffect(()=>{void(async()=>{const [{data:b},{data:p},{data:ps}]=await Promise.all([
