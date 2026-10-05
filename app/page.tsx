@@ -181,13 +181,13 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Cadete B":confirmedFixtures["Cadete B"]
  },
  2:{
-  "Derio A":{opponent:"Cultural Durango",date:"10/10/2026",time:"12:00",venue:"Tabira, Durango",isHome:false,competition:"3ª RFEF",crest:"/api/assets/Escudos/CulturalDurango.png"},
-  "Derio B":{opponent:"Zamudio B",date:"12/10/2026",time:"18:00",venue:"Errekalde, Zamudio",isHome:false,competition:"Derio B",crest:"/api/assets/Escudos/Zamudio.png"},
-  "Derio Fem":{opponent:"Erandioko Betiko Neskak",date:"11/10/2026",time:"17:30",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM Liga Vasca",crest:"/api/assets/Escudos/BetikoNeskak.png"},
-  "Derio Fem B":{opponent:"Montefuerte A",date:"10/10/2026",time:"17:00",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",crest:"/api/assets/Escudos/Montefuerte.png"},
-  "Juvenil A":{opponent:"Ariz A",date:"11/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",crest:"/api/assets/Escudos/Ariz.png"},
-  "Juvenil B":{opponent:"Neguri",date:"10/10/2026",time:"16:00",venue:"Bolue 2, Getxo",isHome:false,competition:"Juvenil B",crest:"/api/assets/Escudos/Neguri.png"},
-  "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.png"}
+  "Derio A":{opponent:"Cultural Durango",date:"10/10/2026",time:"12:00",venue:"Tabira, Durango",isHome:false,competition:"3ª RFEF",crest:"/api/assets/Escudos/CulturalDurango.webp"},
+  "Derio B":{opponent:"Zamudio B",date:"12/10/2026",time:"18:00",venue:"Errekalde, Zamudio",isHome:false,competition:"Derio B",crest:"/api/assets/Escudos/Zamudio.webp"},
+  "Derio Fem":{opponent:"Erandioko Betiko Neskak",date:"11/10/2026",time:"17:30",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM Liga Vasca",crest:"/api/assets/Escudos/BetikoNeskak.webp"},
+  "Derio Fem B":{opponent:"Montefuerte A",date:"10/10/2026",time:"17:00",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",crest:"/api/assets/Escudos/Montefuerte.webp"},
+  "Juvenil A":{opponent:"Ariz A",date:"11/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",crest:"/api/assets/Escudos/Ariz.webp"},
+  "Juvenil B":{opponent:"Neguri",date:"10/10/2026",time:"16:00",venue:"Bolue 2, Getxo",isHome:false,competition:"Juvenil B",crest:"/api/assets/Escudos/Neguri.webp"},
+  "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
  },
  3:{}
 };
