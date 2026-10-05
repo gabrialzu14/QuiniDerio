@@ -5415,3 +5415,15 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button,
 html:not([data-theme="light"]) .qdHome .qdRound{
   background:linear-gradient(145deg,#123455 0%,#102d49 55%,#0e2943 100%)!important;
 }
+
+
+/* Home cards: remove neon effect, keep a clean subtle blue outline */
+html:not([data-theme="light"]) .qdHome .qdSummary>article,
+html:not([data-theme="light"]) .qdHome .qdSummary>button,
+html:not([data-theme="light"]) .qdHome .qdRound{
+  border:1px solid rgba(83,151,205,.42)!important;
+  outline:0!important;
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
