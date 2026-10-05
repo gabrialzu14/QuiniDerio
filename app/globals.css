@@ -5407,3 +5407,11 @@ html:not([data-theme="light"]) .qdHomeMain{
   filter:none!important;
   -webkit-filter:none!important;
 }
+
+
+/* Home cards: slightly bluer surface so cards separate from the page background */
+html:not([data-theme="light"]) .qdHome .qdSummary>article,
+html:not([data-theme="light"]) .qdHome .qdSummary>button,
+html:not([data-theme="light"]) .qdHome .qdRound{
+  background:linear-gradient(145deg,#123455 0%,#102d49 55%,#0e2943 100%)!important;
+}
