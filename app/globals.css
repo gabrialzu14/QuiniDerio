@@ -5465,3 +5465,12 @@ html[data-theme="light"] .oneXtwo button.active.pick2{
   box-shadow:0 3px 12px rgba(201,45,64,.28),inset 0 0 0 1px rgba(255,255,255,.18)!important;
 }
 .oneXtwo button.active b,.oneXtwo button.active small{color:#fff!important;opacity:1!important}
+
+
+/* Keep EMPATE label white when X is selected in both themes */
+.oneXtwo button.active.pickX small,
+html[data-theme="light"] .oneXtwo button.active.pickX small,
+html:not([data-theme="light"]) .oneXtwo button.active.pickX small{
+  color:#fff!important;
+  opacity:1!important;
+}
