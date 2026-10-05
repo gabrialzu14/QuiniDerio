@@ -16,8 +16,9 @@ export async function GET(req:NextRequest,{params}:{params:Promise<{path:string[
   const filename=(parts.at(-1)||"").toLowerCase();
   const isSplash=folder==="branding"&&filename.includes("escudocarga");
   const isLogo=folder==="branding"&&filename.includes("logoapp");
-  const width=folder==="entrenadores"?384:folder==="escudos"?160:isSplash?320:isLogo?640:640;
-  const quality=folder==="escudos"?78:folder==="branding"?72:74;
+  const isHomeCover=folder==="branding"&&filename.includes("imagenportada");
+  const width=folder==="entrenadores"?384:folder==="escudos"?160:isHomeCover?1672:isSplash?320:isLogo?640:640;
+  const quality=folder==="escudos"?78:isHomeCover?90:folder==="branding"?82:74;
   try{
    const body=await sharp(raw,{failOn:"none"})
     .resize({width,withoutEnlargement:true,fit:"inside"})
