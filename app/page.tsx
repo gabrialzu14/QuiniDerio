@@ -54,7 +54,7 @@ export default function Home(){
  fetch("/api/federation",{signal:controller.signal,cache:"default"}).then(r=>{if(!r.ok)throw new Error("federation");return r.json()}).then(d=>{const next=d.teams||[];setFedGames(next);try{localStorage.setItem("quiniderio-federation-cache",JSON.stringify({teams:next,at:Date.now()}))}catch{}setOffline(false)}).catch(()=>setOffline(true)).finally(()=>{window.clearTimeout(timeout);setDataLoading(false)});
  return()=>{disposed=true;controller.abort();window.clearTimeout(timeout)};
 },[]);
- const [season,setSeason]=useState<Season>(empty); const [assistantPrompt,setAssistantPrompt]=useState(false); const [fedGames,setFedGames]=useState<Array<{name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number}>>([]); const [dataLoading,setDataLoading]=useState(true); const [offline,setOffline]=useState(false); const [surprise,setSurprise]=useState<"intro"|"vote">("intro"); const [dinio,setDinio]=useState(""); const [toast,setToast]=useState(""); const [submitToast,setSubmitToast]=useState<"Enviado!"|"Actualizado!"|"">(""); const [tab,setTab]=useState<"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas">("inicio"); const [tabLoading,setTabLoading]=useState(false); const [picks,setPicks]=useState<Record<string,string>>({}); const [liveMatches,setLiveMatches]=useState<Record<string,{home_score:number,away_score:number,status:string}>>({}); const [liveCards,setLiveCards]=useState<LiveCard[]>([]); const [totalPot,setTotalPot]=useState(0); const [quizRound,setQuizRound]=useState(1); const [savedRounds,setSavedRounds]=useState<Record<number,boolean>>({});
+ const [season,setSeason]=useState<Season>(empty); const [assistantPrompt,setAssistantPrompt]=useState(false); const [fedGames,setFedGames]=useState<Array<{name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number}>>([]); const [dataLoading,setDataLoading]=useState(true); const [offline,setOffline]=useState(false); const [surprise,setSurprise]=useState<"intro"|"vote">("intro"); const [dinio,setDinio]=useState(""); const [toast,setToast]=useState(""); const [submitToast,setSubmitToast]=useState<"Enviado!"|"Actualizado!"|"">(""); const [tab,setTab]=useState<"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas">("inicio"); const [tabLoading,setTabLoading]=useState(false); const [picks,setPicks]=useState<Record<string,string>>({}); const [liveMatches,setLiveMatches]=useState<Record<string,{home_score:number,away_score:number,status:string}>>({}); const [liveCards,setLiveCards]=useState<LiveCard[]>([]); const [totalPot,setTotalPot]=useState(0); const [quizRound,setQuizRound]=useState(2); const [savedRounds,setSavedRounds]=useState<Record<number,boolean>>({});
  useEffect(()=>{if(!imagesReady||!hydrated||!splashMinElapsed)return;document.body.classList.add("qd-entering");setShowSplash(false);const t=window.setTimeout(()=>document.body.classList.remove("qd-entering"),650);return()=>window.clearTimeout(t)},[imagesReady,hydrated,splashMinElapsed]);
  const refreshData=useCallback(async()=>{setDataLoading(true);try{const r=await fetch("/api/federation",{cache:"reload"});if(!r.ok)throw new Error("refresh");const d=await r.json();const next=d.teams||[];setFedGames(next);try{localStorage.setItem("quiniderio-federation-cache",JSON.stringify({teams:next,at:Date.now()}))}catch{}setOffline(false);setToast("Actualizado");window.setTimeout(()=>setToast(""),1100)}catch{setOffline(true);try{const cached=JSON.parse(localStorage.getItem("quiniderio-federation-cache")||"{}");if(Array.isArray(cached.teams))setFedGames(cached.teams)}catch{}setToast("Sin conexión · mostrando datos guardados");window.setTimeout(()=>setToast(""),2200)}finally{setRefreshing(false);setRefreshReady(false);setDataLoading(false)}},[]);
  const navigateTab=(next:typeof tab)=>{if(next===tab){window.scrollTo({top:0,behavior:"smooth"});return}setTabLoading(true);window.setTimeout(()=>{setTab(next);window.scrollTo({top:0,behavior:"auto"});window.setTimeout(()=>setTabLoading(false),360)},120);};
@@ -183,7 +183,15 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Juvenil B":confirmedFixtures["Juvenil B"],
   "Cadete B":confirmedFixtures["Cadete B"]
  },
- 2:{},
+ 2:{
+  "Derio A":{opponent:"Cultural Durango",date:"10/10/2026",time:"12:00",venue:"Tabira, Durango",isHome:false,competition:"3ª RFEF",crest:"/api/assets/Escudos/CulturalDurango.png"},
+  "Derio B":{opponent:"Zamudio B",date:"12/10/2026",time:"18:00",venue:"Errekalde, Zamudio",isHome:false,competition:"Derio B",crest:"/api/assets/Escudos/Zamudio.png"},
+  "Derio Fem":{opponent:"Erandioko Betiko Neskak",date:"11/10/2026",time:"17:30",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM Liga Vasca",crest:"/api/assets/Escudos/BetikoNeskak.png"},
+  "Derio Fem B":{opponent:"Montefuerte A",date:"10/10/2026",time:"17:00",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",crest:"/api/assets/Escudos/Montefuerte.png"},
+  "Juvenil A":{opponent:"Ariz A",date:"11/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",crest:"/api/assets/Escudos/Ariz.png"},
+  "Juvenil B":{opponent:"Neguri",date:"10/10/2026",time:"16:00",venue:"Bolue 2, Getxo",isHome:false,competition:"Juvenil B",crest:"/api/assets/Escudos/Neguri.png"},
+  "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.png"}
+ },
  3:{}
 };
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
@@ -196,7 +204,7 @@ function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{
  const firstKickoff=kickoffs.length?Math.min(...kickoffs):null;
  const roundClosed=firstKickoff!==null&&Date.now()>=firstKickoff;
  return <section className="tabPage">
-  <div className="pageTop compactTop"><div className="roundBadge"><i/> {roundClosed?"JORNADA CERRADA":round===1?"JORNADA ABIERTA":"PRÓXIMAMENTE"}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
+  <div className="pageTop compactTop"><div className="roundBadge"><i/> {roundClosed?"JORNADA CERRADA":round<=2?"JORNADA ABIERTA":"PRÓXIMAMENTE"}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
   <div className={"roundProgress centeredProgress "+(done===playableGames.length&&playableGames.length>0?"complete":"")}><b>{done}/{playableGames.length}</b><div><i style={{width:`${playableGames.length?done/playableGames.length*100:0}%`}}/></div><span>{done===playableGames.length&&playableGames.length>0?"Jornada completada":`Te faltan ${Math.max(0,playableGames.length-done)} pronósticos`}</span></div>
   <div className="matchStack">{games.map((game,i)=>{
    const {name:team,date="",time="",venue="",federationRound,competition}=game;
@@ -225,7 +233,7 @@ function ClubCrest({src,name}:{src?:string,name:string}){const iturrigorri=/itur
 function MyPredictions({picks,round,dinio,season,onEdit}:{picks:Record<string,string>,round:number,dinio:string,season:Season,onEdit:()=>void}){
  const [selectedScope,setSelectedScope]=useState<"season"|number>("season");
  const availableRounds=[1,2,3,4,5,6,7,8];
- const enabledRounds=new Set([1]);
+ const enabledRounds=new Set([1,2]);
  const selectedRound=typeof selectedScope==="number"?selectedScope:round;
  const [rivalSeasons,setRivalSeasons]=useState<Array<{user_id:string,username:string,season:Season,dinio:string,profile_pic:string}>>([]);
  const [rivalPicks,setRivalPicks]=useState<Array<{user_id:string,team:string,pick:string}>>([]);
