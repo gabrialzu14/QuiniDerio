@@ -191,7 +191,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Derio Fem B":{opponent:"Montefuerte A",date:"10/10/2026",time:"17:00",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",crest:"/api/assets/Escudos/Montefuerte.webp"},
   "Juvenil A":{opponent:"Ariz A",date:"11/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",crest:"/api/assets/Escudos/Ariz.webp"},
   "Juvenil B":{opponent:"Neguri",date:"10/10/2026",time:"16:00",venue:"Bolue 2, Getxo",isHome:false,competition:"Juvenil B",crest:"/api/assets/Escudos/Neguri.webp"},
-  "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
+  "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",venue:"Gaztelueta, Leioa",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
  },
  3:{}
 };
