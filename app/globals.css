@@ -5517,3 +5517,14 @@ html[data-theme="light"] .qdHome .qdFixtureList{
   overflow:hidden!important;
   border-radius:0 0 17px 17px;
 }
+
+
+/* Admin round navigation */
+.adminRoundTabs{display:flex;gap:7px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}
+.adminRoundTabs::-webkit-scrollbar{display:none}
+.adminRoundTabs button{flex:0 0 48px;height:38px;border-radius:12px;border:1px solid rgba(103,164,214,.22);background:rgba(16,55,88,.55);color:#8da9bd;font-weight:800}
+.adminRoundTabs button.active{background:#1595e8;color:#fff;border-color:#3cb0fa;box-shadow:0 4px 14px rgba(21,149,232,.24)}
+.adminPendingList>span{display:flex!important;align-items:center;justify-content:space-between;gap:12px}
+.adminPendingList>span>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.adminPendingList .pendingPushButton{flex:0 0 auto;border:1px solid rgba(53,169,240,.35);border-radius:10px;background:rgba(28,132,204,.16);color:#5fc2ff;font-weight:800;padding:8px 11px}
+.adminPendingList .pendingPushButton:disabled{opacity:.55}
