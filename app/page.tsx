@@ -101,7 +101,14 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches,liveCards,totalP
  const currentRound=2;
  const [homeRound,setHomeRound]=useState(currentRound);
  const [homeLiveMatches,setHomeLiveMatches]=useState(liveMatches);
+ const [homeRanking,setHomeRanking]=useState<Array<{user_id:string,username:string,hits:number}>>([]);
+ const [homeUserId,setHomeUserId]=useState("");
  useEffect(()=>{if(homeRound===currentRound){setHomeLiveMatches(liveMatches);return}let active=true;void supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",homeRound).then(({data})=>{if(!active)return;const next:Record<string,{home_score:number,away_score:number,status:string}>={};for(const m of data||[])next[m.team]={home_score:Number(m.home_score||0),away_score:Number(m.away_score||0),status:String(m.status||"scheduled")};setHomeLiveMatches(next)});return()=>{active=false}},[homeRound,liveMatches]);
+ useEffect(()=>{let active=true;let timer:number|undefined;const load=async()=>{const [{data:b},{data:{user}}]=await Promise.all([supabase.from("quini_standings").select("user_id,username,hits").order("hits",{ascending:false}).order("username",{ascending:true}),supabase.auth.getUser()]);if(!active)return;setHomeRanking((b||[]) as any);setHomeUserId(user?.id||"")};const refresh=()=>{if(timer)window.clearTimeout(timer);timer=window.setTimeout(()=>void load(),500)};void load();const channel=supabase.channel("home-ranking-live").on("postgres_changes",{event:"*",schema:"public",table:"quini_live_matches"},refresh).on("postgres_changes",{event:"*",schema:"public",table:"quini_picks"},refresh).subscribe();return()=>{active=false;if(timer)window.clearTimeout(timer);void supabase.removeChannel(channel)}},[]);
+ const leader=homeRanking[0];
+ const myRankIndex=homeRanking.findIndex(r=>r.user_id===homeUserId);
+ const myRank=myRankIndex>=0?homeRanking[myRankIndex]:null;
+
  const fixtureTs=(g:{date?:string,time?:string})=>{if(!g.date)return Number.MAX_SAFE_INTEGER;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};
  const homeGames=weeklyTeams.map(team=>({name:team,...(quizFixtures[homeRound]?.[team]||{})})).sort((a,b)=>fixtureTs(a)-fixtureTs(b));
  const now=Date.now();
@@ -139,8 +146,8 @@ function HomeOverview({name,currentDone,onTab,picks,liveMatches,liveCards,totalP
    <section className="qdSummary">
     <button className="qdAction" onClick={()=>onTab("quiniela")}><small>HAZ TU PRONÓSTICO</small><b>Jornada 2</b><span>Completa los partidos de la jornada.</span><em>Ir a mi quiniela</em></button>
     <button onClick={()=>onTab("clasificacion")}><small>BOTE ACUMULADO</small><b>{totalPot.toLocaleString("es-ES")} €</b><span>Bote total</span></button>
-    <button onClick={()=>onTab("clasificacion")}><small>LÍDER ACTUAL</small><b>—</b><span>Clasificación general</span></button>
-    <button onClick={()=>onTab("clasificacion")}><small>TU POSICIÓN</small><b>—</b><span>0 PTS</span></button>
+    <button onClick={()=>onTab("clasificacion")}><small>LÍDER ACTUAL</small><b>{leader?.username||"—"}</b><span>{leader?leader.hits+" PTS":"Clasificación general"}</span></button>
+    <button onClick={()=>onTab("clasificacion")}><small>TU POSICIÓN</small><b>{myRankIndex>=0?(myRankIndex+1)+"º":"—"}</b><span>{myRank?myRank.hits+" PTS":"0 PTS"}</span></button>
    </section>
    <section className="qdRound">
     <div className="qdRoundHead"><div><h2>Jornada {homeRound}</h2><span>Temporada 2026/27</span></div></div>
