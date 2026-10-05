@@ -5427,3 +5427,41 @@ html:not([data-theme="light"]) .qdHome .qdRound{
   filter:none!important;
   -webkit-filter:none!important;
 }
+
+
+/* Quiniela 1/X/2 selected state — strong and consistent in dark/light modes */
+.oneXtwo button.active.pick1{
+  background:rgba(25,132,230,.34)!important;
+  border:2px solid #2798f2!important;
+  color:#fff!important;
+  box-shadow:0 0 0 1px rgba(39,152,242,.16),0 0 16px rgba(39,152,242,.28),inset 0 0 18px rgba(39,152,242,.16)!important;
+}
+.oneXtwo button.active.pickX{
+  background:rgba(126,139,153,.30)!important;
+  border:2px solid #8b98a6!important;
+  color:#fff!important;
+  box-shadow:0 0 0 1px rgba(139,152,166,.14),0 0 14px rgba(139,152,166,.20),inset 0 0 16px rgba(139,152,166,.12)!important;
+}
+.oneXtwo button.active.pick2{
+  background:rgba(218,48,66,.34)!important;
+  border:2px solid #e54859!important;
+  color:#fff!important;
+  box-shadow:0 0 0 1px rgba(229,72,89,.16),0 0 16px rgba(229,72,89,.28),inset 0 0 18px rgba(229,72,89,.16)!important;
+}
+.oneXtwo button.active.pick1:after{background:#2798f2!important;box-shadow:0 0 9px #2798f2!important}
+.oneXtwo button.active.pickX:after{background:#8b98a6!important;box-shadow:0 0 8px #8b98a6!important}
+.oneXtwo button.active.pick2:after{background:#e54859!important;box-shadow:0 0 9px #e54859!important}
+
+html[data-theme="light"] .oneXtwo button.active.pick1{
+  background:#238bd9!important;border-color:#137ac8!important;color:#fff!important;
+  box-shadow:0 3px 12px rgba(19,122,200,.30),inset 0 0 0 1px rgba(255,255,255,.18)!important;
+}
+html[data-theme="light"] .oneXtwo button.active.pickX{
+  background:#7f8b97!important;border-color:#697683!important;color:#fff!important;
+  box-shadow:0 3px 12px rgba(70,82,94,.22),inset 0 0 0 1px rgba(255,255,255,.16)!important;
+}
+html[data-theme="light"] .oneXtwo button.active.pick2{
+  background:#dc3f51!important;border-color:#c92d40!important;color:#fff!important;
+  box-shadow:0 3px 12px rgba(201,45,64,.28),inset 0 0 0 1px rgba(255,255,255,.18)!important;
+}
+.oneXtwo button.active b,.oneXtwo button.active small{color:#fff!important;opacity:1!important}
