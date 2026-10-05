@@ -5336,3 +5336,19 @@ body.qdModalOpen>.detailBackdrop .classificationFormatRow b{font-size:9.5px!impo
  body.qdModalOpen>.detailBackdrop .classificationFormatRow{min-height:28px!important;height:28px!important}
  body.qdModalOpen>.detailBackdrop .classificationFormatGrid{gap:3px 5px!important}
 }
+
+
+/* Pending-result notice uses the same viewport modal geometry as account dialogs */
+body>.roundPendingOverlay{
+ position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;z-index:99999!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;
+ padding:max(18px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left))!important;
+ overflow:hidden!important;overscroll-behavior:none!important;touch-action:none!important;
+ background:rgba(1,8,17,.76)!important;backdrop-filter:blur(18px) saturate(.9)!important;-webkit-backdrop-filter:blur(18px) saturate(.9)!important;
+}
+body>.roundPendingOverlay>.roundPendingModal{
+ position:relative!important;inset:auto!important;margin:0!important;transform:none!important;
+ width:min(100%,360px)!important;max-width:360px!important;max-height:calc(100dvh - 40px)!important;
+ overflow:hidden!important;border-radius:21px!important;
+ box-shadow:0 24px 70px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
