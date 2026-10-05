@@ -5496,3 +5496,24 @@ html[data-theme="light"] .playerStatsOverlay .playerStatsModal{
 .playerPotDetail article b{font-size:13px}
 .playerPotDetail article strong{font-size:15px}
 html[data-theme="light"] .playerPotDetail article{background:rgba(24,80,120,.035);border-color:rgba(24,80,120,.12)}
+
+
+/* Light home: remove lateral wrapper marks/layers around cards */
+html[data-theme="light"] .qdHome,
+html[data-theme="light"] .qdHomeMain,
+html[data-theme="light"] .qdHome .qdSummary{
+  overflow:visible!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+html[data-theme="light"] .qdHome .qdRound{
+  overflow:visible!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+html[data-theme="light"] .qdHome .qdFixtureList{
+  overflow:hidden!important;
+  border-radius:0 0 17px 17px;
+}
