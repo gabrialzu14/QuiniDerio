@@ -5474,3 +5474,25 @@ html:not([data-theme="light"]) .oneXtwo button.active.pickX small{
   color:#fff!important;
   opacity:1!important;
 }
+
+
+/* Player detail modal: remove square background/shadow layer */
+.playerStatsOverlay .playerStatsModal,
+html:not([data-theme="light"]) .playerStatsOverlay .playerStatsModal,
+html[data-theme="light"] .playerStatsOverlay .playerStatsModal{
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+.playerStatsOverlay .playerMatchList,
+.playerStatsOverlay .playerPotDetail{
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+.playerPotDetail{margin-top:14px;border-top:1px solid rgba(128,160,190,.18);padding-top:12px}
+.playerPotDetail article{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:0 14px;border:1px solid rgba(128,160,190,.16);border-radius:14px;margin-top:8px;background:rgba(255,255,255,.025)}
+.playerPotDetail article b{font-size:13px}
+.playerPotDetail article strong{font-size:15px}
+html[data-theme="light"] .playerPotDetail article{background:rgba(24,80,120,.035);border-color:rgba(24,80,120,.12)}
