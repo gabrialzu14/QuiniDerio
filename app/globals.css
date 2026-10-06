@@ -5808,3 +5808,32 @@ nav button.active svg {
     transition: none !important;
   }
 }
+
+
+/* Android hardening: season/initial predictions must always retain native vertical pan */
+@media (pointer:coarse){
+  html,body{
+    position:static!important;
+    height:auto!important;
+    min-height:100%!important;
+    overflow-y:auto!important;
+    overscroll-behavior-y:auto!important;
+    touch-action:pan-y!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  main.seasonSetupScreen,
+  .seasonSetupScreen,
+  .seasonSetupScreen>.season,
+  .seasonSetupScreen .positionPicker,
+  .seasonSetupScreen .optionCards{
+    position:relative!important;
+    height:auto!important;
+    max-height:none!important;
+    overflow-y:visible!important;
+    overscroll-behavior-y:auto!important;
+    touch-action:pan-y!important;
+  }
+  .seasonSetupScreen>.confirmDock{
+    touch-action:pan-y!important;
+  }
+}
