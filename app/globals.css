@@ -5837,3 +5837,37 @@ nav button.active svg {
     touch-action:pan-y!important;
   }
 }
+
+
+/* Global Android/coarse-pointer scroll safety.
+   Only explicit modal overlays may lock the viewport. */
+@media (pointer:coarse){
+  html:not(:has(body.qdModalOpen)),
+  body:not(.qdModalOpen){
+    height:auto!important;
+    min-height:100%!important;
+    max-height:none!important;
+    overflow-y:auto!important;
+    overscroll-behavior-y:auto!important;
+    touch-action:pan-y!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  body:not(.qdModalOpen) main,
+  body:not(.qdModalOpen) .dashboard,
+  body:not(.qdModalOpen) .tabPage,
+  body:not(.qdModalOpen) .predictionsPage,
+  body:not(.qdModalOpen) .qdHome,
+  body:not(.qdModalOpen) .qdHomeMain,
+  body:not(.qdModalOpen) .porraAccount{
+    height:auto!important;
+    max-height:none!important;
+    overflow-y:visible!important;
+    touch-action:pan-y!important;
+  }
+  body:not(.qdModalOpen) main button,
+  body:not(.qdModalOpen) nav button,
+  body:not(.qdModalOpen) .bottomNav button,
+  body:not(.qdModalOpen) .liquidNav button{
+    touch-action:manipulation!important;
+  }
+}
