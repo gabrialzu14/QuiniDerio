@@ -5638,7 +5638,7 @@ html[data-theme="light"] .teamFormDots i.draw{background:#9ba9b5}
 @keyframes qdTabEnter {
   0% {
     opacity: 0;
-    transform: translate3d(0, 12px, 0) scale(.994);
+    transform: translate3d(0, 10px, 0) scale(.995);
     filter: blur(2px);
   }
   100% {
@@ -5651,7 +5651,7 @@ html[data-theme="light"] .teamFormDots i.draw{background:#9ba9b5}
 @keyframes qdTabSectionEnter {
   0% {
     opacity: 0;
-    transform: translate3d(0, 16px, 0);
+    transform: translate3d(0, 18px, 0);
   }
   100% {
     opacity: 1;
@@ -5662,7 +5662,7 @@ html[data-theme="light"] .teamFormDots i.draw{background:#9ba9b5}
 @keyframes qdTabRowEnter {
   0% {
     opacity: 0;
-    transform: translate3d(10px, 0, 0);
+    transform: translate3d(12px, 0, 0);
   }
   100% {
     opacity: 1;
@@ -5672,7 +5672,7 @@ html[data-theme="light"] .teamFormDots i.draw{background:#9ba9b5}
 
 .qdTabEnter {
   width: 100%;
-  animation: qdTabEnter .38s cubic-bezier(.22,1,.36,1) both;
+  animation: qdTabEnter .36s cubic-bezier(.22,1,.36,1) both;
   transform-origin: 50% 18%;
 }
 
@@ -5870,4 +5870,17 @@ nav button.active svg {
   body:not(.qdModalOpen) .liquidNav button{
     touch-action:manipulation!important;
   }
+}
+
+
+/* Match 3ª RFEF dialog/navigation motion */
+@keyframes qdDialogEnter{
+  0%{opacity:0;transform:translate3d(0,14px,0) scale(.975)}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+.qdTabEnter [role="dialog"],
+body>[role="dialog"],
+body>.detailBackdrop>[role="dialog"]{
+  animation:qdDialogEnter .3s cubic-bezier(.22,1,.36,1) both;
+  transform-origin:50% 50%;
 }
