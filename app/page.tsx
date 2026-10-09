@@ -92,7 +92,7 @@ export default function Home(){
   const {error}=await supabase.from("quini_picks").upsert(rows,{onConflict:"user_id,round,team"});
   if(error)throw error;
   const wasSaved=!!savedRounds[quizRound];setSavedRounds(v=>({...v,[quizRound]:true}));setToast("");setSubmitToast(wasSaved?"Actualizado!":"Enviado!");window.setTimeout(()=>setSubmitToast(""),1800);
-  void fetch("/api/push",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"submitted",playerId:user.id,name,round:quizRound})}).catch(()=>{});
+  void supabase.auth.getSession().then(({data:{session}})=>{if(!session?.access_token)return;return fetch("/api/push",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({action:"submitted",round:quizRound})})}).catch(()=>{});
  }catch{setSubmitToast("");setToast("No se pudo guardar. Revisa tu conexión y vuelve a intentarlo.");window.setTimeout(()=>setToast(""),5000)}
 }}/>} {tab==="pronosticos"&&<MyPredictions picks={picks} round={quizRound} dinio={dinio} season={season} onEdit={()=>navigateTab("quiniela")} onRequireLogin={()=>{setRegister(false);setStep("name")}}/>} {tab==="clasificacion"&&<Ranking _mode={rankMode} _setMode={setRankMode}/>} {tab==="mas"&&<More name={name} dinio={dinio} season={season} onTab={navigateTab} onProfilePicChange={setHeaderProfilePic} onRequireLogin={()=>{setRegister(false);setStep("name")}}/>}</div><BottomNavigation tab={tab} onNavigate={navigateTab}/></main>
 }
