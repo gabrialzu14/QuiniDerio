@@ -353,7 +353,46 @@ function More({name,dinio,season,onTab,onProfilePicChange}:{name:string,dinio:st
  const [panel,setPanel]=useState<"season"|"extra"|"rules"|"potRules"|"classificationFormat"|"name"|"pending"|null>(null); const [pendingPlayers,setPendingPlayers]=useState<Array<{user_id:string,username:string,profile_pic:string,sent:number,total:number}>>([]); const [pendingRound,setPendingRound]=useState(2); const [pendingLoading,setPendingLoading]=useState(false); const [reminderSending,setReminderSending]=useState<string>(""); const [reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
  const [theme,setTheme]=useState<"dark"|"light">("dark");
  const [pushEnabled,setPushEnabled]=useState(false); const [editName,setEditName]=useState(name); const [profilePic,setProfilePic]=useState(""); const [profileStatus,setProfileStatus]=useState(""); const [accountEmail,setAccountEmail]=useState(""); const [pushTestBusy,setPushTestBusy]=useState(false); const [cropSrc,setCropSrc]=useState(""); const [cropZoom,setCropZoom]=useState(1); const [cropX,setCropX]=useState(0); const [cropY,setCropY]=useState(0); const [cropRatio,setCropRatio]=useState(1); const [cropDrag,setCropDrag]=useState<{x:number,y:number,ox:number,oy:number}|null>(null);
- useEffect(()=>{const t=(localStorage.getItem("quiniderio-theme") as "dark"|"light")||"dark";document.documentElement.dataset.nav="bottom";localStorage.removeItem("quiniderio-nav");setTheme(t);setPushEnabled(localStorage.getItem("quiniderio-notifications")==="true");try{const x=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");setProfilePic(x.profilePic||"");setAccountEmail((x.email||"").trim().toLowerCase())}catch{} void supabase.auth.getSession().then(({data})=>{const e=data.session?.user?.email?.trim().toLowerCase();if(e)setAccountEmail(e)});const {data:listener}=supabase.auth.onAuthStateChange((_event,session)=>{const e=session?.user?.email?.trim().toLowerCase();setAccountEmail(e||"")});return()=>listener.subscription.unsubscribe()},[]);
+ useEffect(()=>{
+    const t=(localStorage.getItem("quiniderio-theme") as "dark"|"light")||"dark";
+    document.documentElement.dataset.nav="bottom";
+    localStorage.removeItem("quiniderio-nav");
+    setTheme(t);
+    setPushEnabled(localStorage.getItem("quiniderio-notifications")==="true");
+    try{
+      const x=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");
+      setProfilePic(x.profilePic||"");
+    }catch{}
+    // Verificar contra Supabase Auth: los datos de localStorage no deben controlar
+    // la visibilidad de los accesos administrativos.
+    let active=true;
+    let check=0;
+    const refreshAdmin=async()=>{
+      const id=++check;
+      try{
+        const {data:{user},error}=await supabase.auth.getUser();
+        if(active&&id===check)setAccountEmail(!error?(user?.email||"").trim().toLowerCase():"");
+      }catch{
+        if(active&&id===check)setAccountEmail("");
+      }
+    };
+    const onVisible=()=>{if(document.visibilityState==="visible")void refreshAdmin()};
+    const onFocus=()=>void refreshAdmin();
+    void refreshAdmin();
+    const {data:listener}=supabase.auth.onAuthStateChange((event)=>{
+      if(event==="SIGNED_OUT"){check++;setAccountEmail("");return}
+      // Esperar al fin del callback para evitar competir con el bloqueo de Auth.
+      window.setTimeout(()=>{if(active)void refreshAdmin()},0);
+    });
+    document.addEventListener("visibilitychange",onVisible);
+    window.addEventListener("focus",onFocus);
+    return()=>{
+      active=false;
+      listener.subscription.unsubscribe();
+      document.removeEventListener("visibilitychange",onVisible);
+      window.removeEventListener("focus",onFocus);
+    };
+  },[]);
  useEffect(()=>{document.documentElement.dataset.theme=theme;localStorage.setItem("quiniderio-theme",theme)},[theme]);
  useEffect(()=>{void getPushState().then(s=>{setPushEnabled(s.enabled);localStorage.setItem("quiniderio-notifications",String(s.enabled))})},[]);
  useEffect(()=>{if(!cropSrc)return;const y=window.scrollY;const body=document.body;const prev={position:body.style.position,top:body.style.top,width:body.style.width,overflow:body.style.overflow};body.style.position="fixed";body.style.top=`-${y}px`;body.style.width="100%";body.style.overflow="hidden";return()=>{body.style.position=prev.position;body.style.top=prev.top;body.style.width=prev.width;body.style.overflow=prev.overflow;window.scrollTo(0,y)}},[cropSrc]);
