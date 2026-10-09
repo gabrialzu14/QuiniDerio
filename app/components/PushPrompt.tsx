@@ -31,7 +31,7 @@ export default function PushPrompt(){const[show,setShow]=useState(false),[busy,s
     try{player=JSON.parse(localStorage.getItem("quiniderio-player")||"null")}catch{}
     if(!player?.userId||!player.completed){timer=setTimeout(()=>void check(),1000);return}
     const state=await getPushState();
-    if(!mounted||dismissedThisVisit.current||state.enabled||document.visibilityState==="hidden")return;
+    if(!mounted||dismissedThisVisit.current||state.enabled)return;
     // Let any other blocking dialog finish, without depending on the old Jornada 1 notice.
     if(document.querySelector(".roundPendingOverlay")){timer=setTimeout(()=>void check(),600);return}
     setLeaving(false);setSuccess(false);
