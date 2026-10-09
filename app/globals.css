@@ -5884,3 +5884,40 @@ body>.detailBackdrop>[role="dialog"]{
   animation:qdDialogEnter .3s cubic-bezier(.22,1,.36,1) both;
   transform-origin:50% 50%;
 }
+
+
+/* Mobile viewport boundary lock — retain native scrolling of app content.
+   Override the older coarse-pointer scroll rules which re-enabled bounce. */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none !important;
+  overscroll-behavior-y: none !important;
+}
+@media (pointer: coarse) {
+  html:not(:has(body.qdModalOpen)),
+  body:not(.qdModalOpen) {
+    overscroll-behavior-x: none !important;
+    overscroll-behavior-y: none !important;
+  }
+
+  /* These surfaces remain scrollable; reaching an edge never drags the viewport. */
+  .seasonSetupScreen,
+  .gameScreen.dashboard,
+  .tabPage,
+  .qdHomeMain {
+    overscroll-behavior-x: none !important;
+    overscroll-behavior-y: none !important;
+  }
+
+  /* Scrollable sheets/lists do not rubber-band or drag the page beneath them. */
+  .detailSheet,
+  .porraAccount .detailSheet,
+  .avatarCropModal,
+  .adminPendingList,
+  .adminRoundTabs {
+    overscroll-behavior: none !important;
+  }
+}
