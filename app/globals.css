@@ -5921,3 +5921,9 @@ body {
     overscroll-behavior: none !important;
   }
 }
+
+/* Classification: season total and completed matchdays */
+.rankingRoundTabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rankingRoundTabs::-webkit-scrollbar{display:none}
+.rankingRoundTabs button{flex:0 0 auto;border:1px solid rgba(140,166,220,.24);background:rgba(30,53,93,.36);color:inherit;border-radius:12px;padding:9px 13px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.rankingRoundTabs button.active{background:linear-gradient(120deg,#1d5ca7,#273e8c);border-color:#6089cf;color:#fff;box-shadow:0 3px 12px rgba(15,50,110,.24)}
