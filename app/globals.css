@@ -5927,3 +5927,11 @@ body {
 .rankingRoundTabs::-webkit-scrollbar{display:none}
 .rankingRoundTabs button{flex:0 0 auto;border:1px solid rgba(140,166,220,.24);background:rgba(30,53,93,.36);color:inherit;border-radius:12px;padding:9px 13px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
 .rankingRoundTabs button.active{background:linear-gradient(120deg,#1d5ca7,#273e8c);border-color:#6089cf;color:#fff;box-shadow:0 3px 12px rgba(15,50,110,.24)}
+
+/* Android scroll repair: prevent viewport rubber-band without disabling vertical gestures. */
+@media (pointer:coarse){
+  html:not(:has(body.qdModalOpen)),body:not(.qdModalOpen){overflow-y:auto!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important}
+  body:not(.qdModalOpen) .qdTabEnter,body:not(.qdModalOpen) .dashboard,body:not(.qdModalOpen) .tabPage,body:not(.qdModalOpen) .qdHome,body:not(.qdModalOpen) .qdHomeMain,body:not(.qdModalOpen) main{touch-action:pan-y!important;overflow-y:visible!important}
+  body:not(.qdModalOpen) .qdTabEnter button,body:not(.qdModalOpen) .rankingRows button,body:not(.qdModalOpen) .matchCard,body:not(.qdModalOpen) .predictionRow{touch-action:pan-y!important}
+  body:not(.qdModalOpen) .liquidNav button{touch-action:manipulation!important}
+}
