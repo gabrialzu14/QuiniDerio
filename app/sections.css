@@ -91,6 +91,7 @@ html body.qdModern :is(button,a,input,select):focus-visible {outline:2px solid v
 .qdLaunchEmblem {width:112px;height:128px;border-radius:0;background:none;box-shadow:none;}
 .qdLaunchEmblem img {display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 24px #0003);}
 .qdLaunchWordmark {font-size:34px;letter-spacing:-1.8px;}
+html[data-theme="light"] body.qdModern .qdLaunchWordmark .qd-quini {color:var(--qd-text)!important;}
 .qdLaunchTrack {width:180px;margin-top:32px;}
 .qdLaunch>small {font-size:12px;letter-spacing:.5px;}
 @media(hover:hover) {html body.qdModern :is(.rankingRowButton,.accountList>button):hover {background:var(--qd-surface-raised)!important;}html body.qdModern .oneXtwo button:not(:disabled):hover {border-color:var(--qd-blue)!important;}}
