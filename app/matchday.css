@@ -1,13 +1,13 @@
 /* Quiniderio Matchday — shared with the responsive MagicPath design.
    Scoped to the new shell so legacy/admin surfaces keep their own layout. */
-html:has(body.qdModern) {background:#080f1c!important;}
+html:has(body.qdModern) {background:#15202b!important;}
 html[data-theme="light"]:has(body.qdModern) {background:#f2f5fa!important;}
 html:not([data-theme="light"]) body.qdModern,
 html[data-theme="light"] body.qdModern {background:var(--qd-bg)!important;}
 body.qdModern {
-  --qd-bg:#080f1c;
-  --qd-surface:#101c2e;
-  --qd-surface-raised:#16243a;
+  --qd-bg:#15202b;
+  --qd-surface:#192734;
+  --qd-surface-raised:#223446;
   --qd-border:rgba(157,185,225,.13);
   --qd-text:#eef4ff;
   --qd-muted:#9bacc5;
