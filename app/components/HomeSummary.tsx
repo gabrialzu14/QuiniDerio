@@ -11,11 +11,16 @@ type Props={
 export default function HomeSummary({round,submitted,totalPot,leader,myRank,position,onQuiniela,onRanking}:Props){
   const action=submitted?"Revisar mi quiniela":"Hacer mi quiniela";
   return <section className="qdOverviewSummary" aria-label="Resumen de tu quiniela">
-    <button type="button" className="qdOverviewAction" onClick={onQuiniela}>
-      <span className="qdOverviewActionHead"><span className="qdOverviewEyebrow">TU QUINIELA</span><span className="qdOverviewRound">Jornada {round}</span></span>
-      <span className="qdOverviewActionBody"><span><strong>{submitted?"Quiniela enviada":"Quiniela pendiente"}</strong><span className="qdOverviewDescription">{submitted?"Ya has participado en esta jornada.":"Envía tu quiniela para participar en esta jornada."}</span></span><span className="qdOverviewActionIcon" aria-hidden="true"><SummaryIcon kind="target"/></span></span>
-      <span className="qdOverviewActionFooter"><span>{action}</span><Arrow/></span>
-    </button>
+    <article className={"qdOverviewFeature "+(submitted?"is-submitted":"")}>
+      <div className="qdOverviewFeatureCopy">
+        <span className="qdOverviewEyebrow">{submitted?"JUGADA COMPLETADA":"TU PRÓXIMA JUGADA"}</span>
+        <h2>{submitted?<>Tu quiniela.<br/>Lista para la jornada.</>:<>La quiniela<br/>te está esperando.</>}</h2>
+        <p>{submitted?"Ya has participado. Puedes consultar tus elecciones.":"Elige tus resultados y vive la jornada con los tuyos."}</p>
+        <button type="button" className="qdOverviewCta" onClick={onQuiniela}>{action}<Arrow/></button>
+      </div>
+      <div className="qdOverviewRoundArt" aria-hidden="true"><i/><strong>{String(round).padStart(2,"0")}</strong><span>JORNADA</span></div>
+      <span className="qdOverviewFeatureStatus">{submitted?"✓ QUINIELA ENVIADA":"QUINIELA PENDIENTE"}</span>
+    </article>
     <div className="qdOverviewStats">
       <Stat label="Bote acumulado" value={`${totalPot.toLocaleString("es-ES")} €`} detail="Bote total" icon="pot" onClick={onRanking}/>
       <Stat label="Líder actual" value={leader?.username||"—"} detail={leader?`${leader.hits} PTS`:"Clasificación general"} icon="leader" onClick={onRanking}/>
