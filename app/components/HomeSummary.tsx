@@ -1,24 +1,19 @@
 "use client";
-import type {CSSProperties} from "react";
 import "./home-summary.css";
 
 type Standing={username:string;hits:number};
 type Props={
-  round:number; selected:number; total:number; totalPot:number;
+  round:number; submitted:boolean; totalPot:number;
   leader?:Standing; myRank:Standing|null; position:number|null;
   onQuiniela:()=>void; onRanking:()=>void;
 };
 
-export default function HomeSummary({round,selected,total,totalPot,leader,myRank,position,onQuiniela,onRanking}:Props){
-  const done=Math.max(0,Math.min(selected,total));
-  const complete=total>0&&done===total;
-  const progress=total>0?done/total:0;
-  const action=complete?"Revisar mi quiniela":done>0?"Continuar mi quiniela":"Ir a mi quiniela";
+export default function HomeSummary({round,submitted,totalPot,leader,myRank,position,onQuiniela,onRanking}:Props){
+  const action=submitted?"Revisar mi quiniela":"Hacer mi quiniela";
   return <section className="qdOverviewSummary" aria-label="Resumen de tu quiniela">
     <button type="button" className="qdOverviewAction" onClick={onQuiniela}>
       <span className="qdOverviewActionHead"><span className="qdOverviewEyebrow">TU QUINIELA</span><span className="qdOverviewRound">Jornada {round}</span></span>
-      <span className="qdOverviewActionBody"><span><strong>{complete?"Tus elecciones, listas":done>0?"Sigue con tu pronóstico":"Cada partido cuenta"}</strong><span className="qdOverviewDescription">{total>0?`${done} de ${total} partidos elegidos · revisa y envía tu quiniela.`:"Consulta los partidos de esta jornada."}</span></span><span className="qdOverviewActionIcon" aria-hidden="true"><SummaryIcon kind="target"/></span></span>
-      <span className="qdOverviewProgress" aria-hidden="true"><span style={{"--progress":progress} as CSSProperties}/></span>
+      <span className="qdOverviewActionBody"><span><strong>{submitted?"Quiniela enviada":"Quiniela pendiente"}</strong><span className="qdOverviewDescription">{submitted?"Ya has participado en esta jornada.":"Envía tu quiniela para participar en esta jornada."}</span></span><span className="qdOverviewActionIcon" aria-hidden="true"><SummaryIcon kind="target"/></span></span>
       <span className="qdOverviewActionFooter"><span>{action}</span><Arrow/></span>
     </button>
     <div className="qdOverviewStats">
