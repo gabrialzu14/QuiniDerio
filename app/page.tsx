@@ -64,53 +64,8 @@ export default function Home(){
  useEffect(()=>{if(tab!=="clasificacion")setRankingDestination(null)},[tab]);
  useEffect(()=>{if(!imagesReady||!hydrated||!splashMinElapsed)return;document.body.classList.add("qd-entering");setShowSplash(false);const t=window.setTimeout(()=>document.body.classList.remove("qd-entering"),650);return()=>window.clearTimeout(t)},[imagesReady,hydrated,splashMinElapsed]);
  const refreshData=useCallback(async()=>{setDataLoading(true);try{const r=await fetch("/api/federation",{cache:"reload"});if(!r.ok)throw new Error("refresh");const d=await r.json();const next=d.teams||[];setFedGames(next);try{localStorage.setItem("quiniderio-federation-cache",JSON.stringify({teams:next,at:Date.now()}))}catch{}setOffline(false);setToast("Actualizado");window.setTimeout(()=>setToast(""),1100)}catch{setOffline(true);try{const cached=JSON.parse(localStorage.getItem("quiniderio-federation-cache")||"{}");if(Array.isArray(cached.teams))setFedGames(cached.teams)}catch{}setToast("Sin conexión · mostrando datos guardados");window.setTimeout(()=>setToast(""),2200)}finally{setRefreshing(false);setRefreshReady(false);setDataLoading(false)}},[]);
- useEffect(()=>{
-  let startY=0,startX=0,armed=false,inFlight=false;
-  let scrollSurface:Element|null=null;
-  const atTop=()=>window.scrollY<=1&&(document.scrollingElement?.scrollTop||0)<=1&&(!scrollSurface||scrollSurface.scrollTop<=1);
-  const reset=()=>{armed=false;if(!inFlight){setRefreshing(false);setRefreshReady(false);setToast("")}};
-  const onStart=(e:TouchEvent)=>{
-   armed=false;scrollSurface=null;
-   if(inFlight||e.touches.length!==1||document.body.classList.contains("qdModalOpen"))return;
-   // Inspect the touched scroll surface, not just window.scrollY: installed
-   // mobile versions can keep the document at zero while main is scrolled.
-   for(let node=e.target instanceof Element?e.target:null;node&&node!==document.body;node=node.parentElement){
-    if(node.matches('[role="dialog"],.detailBackdrop,.avatarCropOverlay'))return;
-    const style=getComputedStyle(node);
-    if(/auto|scroll/.test(style.overflowY)&&node.scrollHeight>node.clientHeight){
-     if(!node.matches('main.dashboard.gameScreen'))return;
-     scrollSurface=node;
-    }
-   }
-   if(!atTop())return;
-   startY=e.touches[0].clientY;startX=e.touches[0].clientX;armed=true;setRefreshReady(false);
-  };
-  const onMove=(e:TouchEvent)=>{
-   if(!armed||inFlight)return;
-   if(e.touches.length!==1){reset();return}
-   const d=e.touches[0].clientY-startY;
-   // A gesture that began below the top stays disarmed, even if it reaches
-   // the top. Require a new, deliberate downward pull from the top edge.
-   if(!atTop()||d<0||Math.abs(e.touches[0].clientX-startX)>Math.abs(d)){reset();return}
-   if(d>12){setRefreshing(true);setRefreshReady(d>75);setToast(d>75?"Suelta para actualizar":"Desliza para actualizar")}
-   else{setRefreshing(false);setRefreshReady(false);setToast("")}
-  };
-  const onEnd=(e:TouchEvent)=>{
-   if(inFlight)return;
-   const touch=e.changedTouches[0];
-   const ready=armed&&atTop()&&touch&&touch.clientY-startY>75&&Math.abs(touch.clientX-startX)<touch.clientY-startY;
-   armed=false;
-   if(ready){
-    inFlight=true;setRefreshing(true);setRefreshReady(true);setToast("Actualizando…");
-    void refreshData().finally(()=>{inFlight=false});
-   }else reset();
-  };
-  window.addEventListener("touchstart",onStart,{passive:true});
-  window.addEventListener("touchmove",onMove,{passive:true});
-  window.addEventListener("touchend",onEnd,{passive:true});
-  window.addEventListener("touchcancel",reset,{passive:true});
-  return()=>{window.removeEventListener("touchstart",onStart);window.removeEventListener("touchmove",onMove);window.removeEventListener("touchend",onEnd);window.removeEventListener("touchcancel",reset)};
- },[refreshData]);
+ // Native browser scrolling and pull-to-refresh avoid rerendering during touch gestures.
+
  const complete=useMemo(()=>teams.every(t=>season.positions[t])&&season.highest&&season.lowest&&season.firstCoach&&season.coachCards&&season.assistantCoachExpulsions&&season.assistantCoachCards&&season.firstDelegate&&season.delegateCards,[season]);
  const select=(key:keyof Season,value:string)=>setSeason(s=>{const next={...s,[key]:value};const saved=localStorage.getItem("quiniderio-player");if(saved){try{const x=JSON.parse(saved);localStorage.setItem("quiniderio-player",JSON.stringify({...x,season:next,onboardingStep:"season"}))}catch{}}return next;});
  useEffect(()=>{if(!hydrated)return;try{localStorage.setItem("quiniderio-picks",JSON.stringify(picks))}catch{}},[picks,hydrated]);

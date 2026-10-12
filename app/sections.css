@@ -127,3 +127,21 @@ html body.qdModern .rankingRows .rankingPlayer{gap:9px!important;font-size:12px!
 html body.qdModern .rankingRows .rankingAvatar{width:30px!important;height:30px!important;min-width:30px!important;flex:0 0 30px!important;font-size:12px!important}
 html body.qdModern .rankingRows .rankingAvatar img{width:100%!important;height:100%!important;object-fit:cover!important}
 @media(max-width:480px){html body.qdModern .rankingRows .rankingRowButton,html body.qdModern .rankingHeader{grid-template-columns:22px minmax(0,1fr) 54px!important;gap:7px!important;padding-left:10px!important;padding-right:10px!important}}
+
+/* Native touch scrolling: the document owns the page; dialogs own their contents. */
+html:has(body.qdModern):not(:has(body.qdModalOpen)),html body.qdModern:not(.qdModalOpen){touch-action:auto!important;overscroll-behavior-y:auto!important;scroll-behavior:auto!important}
+html body.qdModern .dashboard,html body.qdModern .qdTabEnter,html body.qdModern .tabPage{touch-action:auto!important;overscroll-behavior:auto!important;overflow:visible!important}
+html body.qdModern .qdTabEnter{animation:none!important;transform:none!important;filter:none!important;will-change:auto!important}
+html body.qdModern .qdTabEnter :is(button,article,section,ul,li){touch-action:manipulation!important}
+html body.qdModern :is(.detailBackdrop,.avatarCropOverlay,.playerStatsOverlay,.roundPendingOverlay,.assistantPredictionOverlay){touch-action:auto!important}
+html body.qdModern :is(.detailSheet,.avatarCropModal,.playerStatsModal,.roundPendingModal,.assistantPredictionModal){touch-action:pan-y pinch-zoom!important;overflow-y:auto!important;overscroll-behavior-y:contain!important}
+html body.qdModern .rankingTabs{position:sticky!important;top:max(8px,env(safe-area-inset-top))!important;bottom:auto!important;transform:none!important;z-index:30!important;margin:0 0 16px!important;backdrop-filter:none!important}
+html body.qdModern .qdMotionNav.liquidNav{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html:not([data-theme="light"]) body.qdModern .predictionsPage{--prediction-surface:var(--qd-surface);--prediction-text:var(--qd-text);--prediction-border:var(--qd-border)}
+html:not([data-theme="light"]) body.qdModern .predictionsPage :is(.predictionOwnerSection,.predictionRoundSection,.rivalPredictionBlock,.myPick){background:var(--qd-surface)!important;background-image:none!important;border-color:var(--qd-border)!important;box-shadow:none!important}
+html:not([data-theme="light"]) body.qdModern .predictionUnifiedTabs button{background:var(--qd-surface)!important;color:var(--qd-muted)!important;border-color:var(--qd-border)!important;box-shadow:none!important}
+html:not([data-theme="light"]) body.qdModern .predictionUnifiedTabs button.active{background:var(--qd-blue)!important;color:#fff!important}
+html:not([data-theme="light"]) body.qdModern .predictionUnifiedTabs button:disabled{background:var(--qd-bg)!important;color:#729acc!important;opacity:1!important}
+@media(pointer:coarse){html body.qdModern .qdTabEnter :is(button,article,section){transition:none!important}html body.qdModern .qdTabEnter button:active{transform:none!important}}
+html:not([data-theme="light"]) body.qdModern .predictionsPage .predictionUnifiedTabs button:disabled{filter:none!important;background-image:none!important}
+html:not([data-theme="light"]) body.qdModern .predictionsPage .unifiedRoundPredictions{background:var(--qd-surface)!important;background-image:none!important;border-color:var(--qd-border)!important;box-shadow:none!important}
