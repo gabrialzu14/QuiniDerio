@@ -1,0 +1,46 @@
+/* Keep the club's glass navigation; move one shared highlight between items. */
+.dashboard .liquidNav.qdMotionNav {
+  padding: 3px !important;
+  gap: 0 !important;
+}
+.qdMotionNav .navIndicator {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc((100% - 6px) / 5);
+  border-radius: 24px;
+  background: rgba(202,225,240,.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 3px 10px rgba(4,18,27,.08);
+  transform: translateX(calc(var(--active-index) * 100%));
+  transition: transform .28s cubic-bezier(.22,1,.36,1);
+}
+html .dashboard .liquidNav.qdMotionNav button.active {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none;
+}
+.dashboard .liquidNav.qdMotionNav button {
+  height: 100% !important;
+  min-height: 44px !important;
+  will-change: auto;
+}
+.dashboard .liquidNav.qdMotionNav button:focus-visible {
+  outline: 2px solid #82caff;
+  outline-offset: -3px;
+}
+.dashboard .liquidNav.qdMotionNav button.active svg {
+  animation: none !important;
+}
+html[data-theme="light"] .qdMotionNav .navIndicator {
+  background: rgba(28,126,190,.12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
+}
+@media (prefers-reduced-motion: reduce) {
+  .qdMotionNav .navIndicator { transition: none; }
+  .dashboard .liquidNav.qdMotionNav button,
+  .dashboard .liquidNav.qdMotionNav .navIcon { transition: none !important; }
+  .dashboard .liquidNav.qdMotionNav button:active { transform: none !important; }
+}
