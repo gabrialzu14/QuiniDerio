@@ -13,9 +13,9 @@ export default function HomeSummary({round,submitted,totalPot,leader,myRank,posi
   return <section className="qdOverviewSummary" aria-label="Resumen de tu quiniela">
     <article className={"qdOverviewFeature "+(submitted?"is-submitted":"")}>
       <div className="qdOverviewFeatureCopy">
-        <span className="qdOverviewEyebrow">{submitted?"JUGADA COMPLETADA":"TU PRÓXIMA JUGADA"}</span>
-        <h2>{submitted?<>Tu quiniela.<br/>Lista para la jornada.</>:<>La quiniela<br/>te está esperando.</>}</h2>
-        <p>{submitted?"Ya has participado. Puedes consultar tus elecciones.":"Elige tus resultados y vive la jornada con los tuyos."}</p>
+        <span className="qdOverviewEyebrow">TU QUINIELA</span>
+        <h2>{submitted?"Quiniela enviada":"Quiniela pendiente"}</h2>
+        <p>{submitted?"Consulta los resultados seleccionados.":"Selecciona un resultado para cada partido."}</p>
         <button type="button" className="qdOverviewCta" onClick={onQuiniela}>{action}<Arrow/></button>
       </div>
       <div className="qdOverviewRoundArt" aria-hidden="true"><i/><strong>{String(round).padStart(2,"0")}</strong><span>JORNADA</span></div>
