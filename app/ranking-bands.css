@@ -2,3 +2,7 @@
 .dashboard .rankingRows .rankingRow.rankingLower{background:rgba(225,65,79,.18)!important;border-color:rgba(240,92,104,.35)!important}
 html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingUpper{background:rgba(47,128,237,.13)!important;border-color:rgba(47,128,237,.28)!important}
 html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingLower{background:rgba(225,65,79,.13)!important;border-color:rgba(225,65,79,.28)!important}
+
+.dashboard .rankingRows .rankingRow.rankingSelf{outline:3px solid #66baff;outline-offset:2px;scroll-margin-block:110px}
+.rankingSelfBadge{display:inline-block;margin-left:8px;padding:3px 6px;border-radius:6px;background:#1764ce;color:#fff;font-size:10px;line-height:1.2;vertical-align:middle}
+html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingSelf{outline-color:#1764ce}

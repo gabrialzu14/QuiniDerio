@@ -1,11 +1,13 @@
 "use client";
 import "./home-summary.css";
 
+export type RankingDestination="pot"|"hits"|"self";
+
 type Standing={username:string;hits:number};
 type Props={
   round:number; submitted:boolean; totalPot:number;
   leader?:Standing; myRank:Standing|null; position:number|null;
-  onQuiniela:()=>void; onRanking:()=>void;
+  onQuiniela:()=>void; onRanking:(destination:RankingDestination)=>void;
 };
 
 export default function HomeSummary({round,submitted,totalPot,leader,myRank,position,onQuiniela,onRanking}:Props){
@@ -22,9 +24,9 @@ export default function HomeSummary({round,submitted,totalPot,leader,myRank,posi
       <span className="qdOverviewFeatureStatus">{submitted?"✓ QUINIELA ENVIADA":"QUINIELA PENDIENTE"}</span>
     </article>
     <div className="qdOverviewStats">
-      <Stat label="Bote acumulado" value={`${totalPot.toLocaleString("es-ES")} €`} detail="Bote total" icon="pot" onClick={onRanking}/>
-      <Stat label="Líder actual" value={leader?.username||"—"} detail={leader?`${leader.hits} PTS`:"Clasificación general"} icon="leader" onClick={onRanking}/>
-      <Stat label="Tu posición" value={position!==null?`${position}º`:"—"} detail={myRank?`${myRank.hits} PTS`:"Sin posición disponible"} icon="rank" onClick={onRanking}/>
+      <Stat label="Bote acumulado" value={`${totalPot.toLocaleString("es-ES")} €`} detail="Bote total" icon="pot" onClick={()=>onRanking("pot")}/>
+      <Stat label="Líder actual" value={leader?.username||"—"} detail={leader?`${leader.hits} PTS`:"Clasificación general"} icon="leader" onClick={()=>onRanking("hits")}/>
+      <Stat label="Tu posición" value={position!==null?`${position}º`:"—"} detail={myRank?`${myRank.hits} PTS`:"Sin posición disponible"} icon="rank" onClick={()=>onRanking("self")}/>
     </div>
   </section>;
 }
