@@ -151,9 +151,8 @@ html body.qdModern .authLogo {margin:12px auto 24px!important;}
 .qdLaunchEmblem i {position:absolute;inset:-18px;border:1px solid var(--qd-border);border-radius:50%;animation:qdLaunchPulse 1.8s ease-out infinite;}
 .qdLaunchWordmark {font-size:30px;letter-spacing:-1.5px;}
 .qdLaunchWordmark>span {color:var(--qd-red);}
-.qdLaunch>p {font-size:13px;color:var(--qd-muted);margin:10px 0 28px;}
 .qdLaunch>small {font-size:10px;color:var(--qd-muted);margin-top:15px;}
-.qdLaunchTrack {height:3px;width:160px;border-radius:8px;background:var(--qd-border);overflow:hidden;}
+.qdLaunchTrack {height:3px;width:160px;margin-top:28px;border-radius:8px;background:var(--qd-border);overflow:hidden;}
 .qdLaunchTrack i {display:block;height:100%;width:40%;background:var(--qd-blue);border-radius:8px;animation:qdLoadingSweep 1.3s ease-in-out infinite;}
 .qdDataLoading {display:flex;align-items:center;gap:10px;position:relative;overflow:hidden;padding:13px 16px;margin-bottom:22px;border:1px solid var(--qd-border);border-radius:12px;background:var(--qd-surface);font-size:11px;color:var(--qd-muted);}
 .qdLoadingDot {height:6px;width:6px;flex:0 0 6px;border-radius:50%;background:var(--qd-blue);}
