@@ -13,8 +13,9 @@ html body.qdModern .roundProgress>span {color:var(--qd-muted)!important;}
 html body.qdModern .matchStack {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px!important;}
 html body.qdModern .matchCard {margin:0!important;padding:22px!important;overflow:hidden;}
 html body.qdModern .matchCard.picked {border-color:color-mix(in srgb,var(--qd-blue) 65%,transparent)!important;}
-html body.qdModern .fixtureInfo {display:flex;justify-content:space-between;gap:12px;padding:0 0 16px!important;border-bottom:1px solid var(--qd-border)!important;color:var(--qd-muted)!important;font-size:10px!important;}
-html body.qdModern .fixtureInfo span {min-width:0;overflow-wrap:anywhere;}
+html body.qdModern .fixtureInfo {display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:12px!important;margin:0!important;padding:12px!important;border:1px solid var(--qd-border)!important;border-radius:10px;background:var(--qd-surface-raised)!important;color:var(--qd-muted)!important;}
+html body.qdModern .fixtureInfo span {display:block!important;min-width:0;font-size:11px!important;line-height:1.5!important;white-space:normal;overflow-wrap:break-word;text-align:left;}
+html body.qdModern .fixtureInfo span:last-child {text-align:right;}
 html body.qdModern .versus {padding:22px 0!important;gap:12px!important;}
 html body.qdModern .versus>div {min-width:0;flex:1;}
 html body.qdModern .versus b {color:var(--qd-text)!important;font-size:14px!important;overflow-wrap:anywhere;}
@@ -56,7 +57,7 @@ html body.qdModern :is(.matchRivalsDate,.matchRivalsEmpty) {color:var(--qd-muted
 html body.qdModern .matchRivalsPlayers li {border-color:var(--qd-border)!important;}
 html body.qdModern .rankingHeader {color:var(--qd-muted)!important;padding:18px 22px!important;font-size:10px!important;letter-spacing:1px;}
 html body.qdModern .rankingRows {display:grid;gap:8px!important;}
-html body.qdModern .rankingRowButton {min-height:78px!important;margin:0!important;padding:14px 22px!important;color:var(--qd-text)!important;border-radius:14px!important;}
+html body.qdModern .rankingRowButton {min-height:78px!important;margin:0!important;padding:14px 22px!important;color:var(--qd-text)!important;border-radius:14px!important;opacity:1!important;transform:none!important;}
 html body.qdModern .rankingRowButton:first-child {border-color:color-mix(in srgb,var(--qd-blue) 55%,transparent)!important;background:var(--qd-surface-raised)!important;}
 html body.qdModern .rankingRowButton>span:first-child {color:var(--qd-muted)!important;font-variant-numeric:tabular-nums;}
 html body.qdModern .rankingRowButton>strong {color:var(--qd-text)!important;font-size:22px!important;font-variant-numeric:tabular-nums;}
