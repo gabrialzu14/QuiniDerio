@@ -5954,3 +5954,7 @@ body {
 .rankingRow.rankingPotTwo{background:rgba(208,48,64,.17)!important;border-color:rgba(233,69,82,.40)!important}
 .rankingRow.rankingPotOne{background:rgba(237,141,34,.16)!important;border-color:rgba(246,157,49,.40)!important}
 .rankingRow.rankingPotOther{background:rgba(36,108,201,.17)!important;border-color:rgba(71,142,236,.36)!important}
+
+/* Scoped exclusively to the per-matchday pot table; never color Aciertos or General. */
+.rankingRows .rankingRowButton.rankingPotTwo{background:rgba(220,46,61,.30)!important;border:1px solid rgba(244,72,85,.72)!important;box-shadow:inset 4px 0 0 #e94b58!important}
+.rankingRows .rankingRowButton.rankingPotOne{background:rgba(241,159,37,.27)!important;border:1px solid rgba(255,191,73,.70)!important;box-shadow:inset 4px 0 0 #f6ad35!important}
