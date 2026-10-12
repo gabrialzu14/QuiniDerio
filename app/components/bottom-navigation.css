@@ -1,46 +1,94 @@
-/* Keep the club's glass navigation; move one shared highlight between items. */
-.dashboard .liquidNav.qdMotionNav {
-  padding: 3px !important;
+/* QuiniDerio: edge-aligned iOS-inspired Liquid Glass bottom dock. */
+html body .dashboard .liquidNav.qdMotionNav {
+  --qd-nav-inset: 5px;
+  box-sizing: border-box !important;
+  position: fixed;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0 !important;
+  padding: var(--qd-nav-inset) !important;
+  border: 1px solid rgba(196, 222, 255, .29) !important;
+  border-radius: 30px !important;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(145deg, rgba(40, 83, 140, .40), rgba(9, 27, 61, .59)) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(175%) !important;
+  backdrop-filter: blur(26px) saturate(175%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), inset 0 -1px 0 rgba(255,255,255,.05), 0 12px 36px rgba(1,10,29,.30) !important;
 }
-.qdMotionNav .navIndicator {
+html body .dashboard .liquidNav.qdMotionNav::before {
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(155deg, rgba(255,255,255,.14), transparent 42%, rgba(102,166,255,.07)) !important;
+  pointer-events: none;
+}
+html body .dashboard .liquidNav.qdMotionNav .navIndicator {
   position: absolute;
   z-index: 1;
   pointer-events: none;
-  top: 3px;
-  bottom: 3px;
-  left: 3px;
-  width: calc((100% - 6px) / 5);
+  top: var(--qd-nav-inset);
+  bottom: var(--qd-nav-inset);
+  left: var(--qd-nav-inset);
+  box-sizing: border-box;
+  width: calc((100% - 2 * var(--qd-nav-inset)) / 5);
+  border: 1px solid rgba(178,215,255,.15);
   border-radius: 24px;
-  background: rgba(202,225,240,.14);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 3px 10px rgba(4,18,27,.08);
-  transform: translateX(calc(var(--active-index) * 100%));
-  transition: transform .28s cubic-bezier(.22,1,.36,1);
+  background: linear-gradient(145deg, rgba(62,142,255,.34), rgba(55,116,205,.17));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 3px 16px rgba(28,91,198,.14);
+  transform: translate3d(calc(var(--active-index) * 100%),0,0);
+  transition: transform .36s cubic-bezier(.2,.8,.2,1);
 }
-html .dashboard .liquidNav.qdMotionNav button.active {
+html body .dashboard .liquidNav.qdMotionNav button {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-width: 0;
+  height: 100% !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 5px 2px !important;
+  border: 0 !important;
+  border-radius: 24px !important;
   background: transparent !important;
   box-shadow: none !important;
   transform: none;
+  touch-action: manipulation;
 }
-.dashboard .liquidNav.qdMotionNav button {
-  height: 100% !important;
-  min-height: 44px !important;
-  will-change: auto;
+html body .dashboard .liquidNav.qdMotionNav button.active {
+  color: #eff7ff !important;
 }
-.dashboard .liquidNav.qdMotionNav button:focus-visible {
-  outline: 2px solid #82caff;
-  outline-offset: -3px;
+html body .dashboard .liquidNav.qdMotionNav button.active::before,
+html body .dashboard .liquidNav.qdMotionNav button.active::after {
+  display: none !important;
 }
-.dashboard .liquidNav.qdMotionNav button.active svg {
+html body .dashboard .liquidNav.qdMotionNav button:focus-visible {
+  outline: 2px solid #a4d7ff;
+  outline-offset: -4px;
+}
+html body .dashboard .liquidNav.qdMotionNav button.active svg {
   animation: none !important;
 }
-html[data-theme="light"] .qdMotionNav .navIndicator {
-  background: rgba(28,126,190,.12);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
+html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav {
+  background: linear-gradient(145deg,rgba(235,246,255,.70),rgba(178,211,245,.58)) !important;
+  border-color: rgba(255,255,255,.78) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.9),0 12px 32px rgba(43,95,150,.16) !important;
+}
+html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav .navIndicator {
+  background: linear-gradient(145deg,rgba(81,156,244,.30),rgba(77,147,230,.16));
+  border-color: rgba(255,255,255,.6);
+}
+@media (max-width: 390px) {
+  html body .dashboard .liquidNav.qdMotionNav {
+    --qd-nav-inset: 4px;
+    border-radius: 26px !important;
+  }
+  html body .dashboard .liquidNav.qdMotionNav .navIndicator,
+  html body .dashboard .liquidNav.qdMotionNav button {
+    border-radius: 21px !important;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .qdMotionNav .navIndicator { transition: none; }
-  .dashboard .liquidNav.qdMotionNav button,
-  .dashboard .liquidNav.qdMotionNav .navIcon { transition: none !important; }
-  .dashboard .liquidNav.qdMotionNav button:active { transform: none !important; }
+  html body .dashboard .liquidNav.qdMotionNav .navIndicator {transition: none !important;}
+  html body .dashboard .liquidNav.qdMotionNav button {transition: none !important;}
 }
