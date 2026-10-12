@@ -105,7 +105,7 @@ export default function Home(){
 function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatches,liveCards,totalPot}:{savedRounds:Record<number,boolean>,onOpenQuiniela:(round:number)=>void,onTab:(tab:"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas")=>void,picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,liveCards:LiveCard[],totalPot:number,onRanking:(destination:RankingDestination)=>void}){
  const currentRound=2;
  const [homeRound,setHomeRound]=useState(currentRound);
- const standings=homeRound===2?currentStandings:{"Derio A":"2º · 8 pts","Beasain":"15º · 4 pts","Derio B":"13º · 1 pto","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"7º · 3 pts","Iturrigorri A":"8º · 3 pts"};
+ const standings=homeRound===2?currentStandings:{"Derio A":"EVVVE","Beasain":"15º · 4 pts","Derio B":"EDDE","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"VDDV","Iturrigorri A":"8º · 3 pts"};
  const [homeLiveMatches,setHomeLiveMatches]=useState(liveMatches);
  const [homeRanking,setHomeRanking]=useState<Array<{user_id:string,username:string,hits:number}>>([]);
  const [homeUserId,setHomeUserId]=useState("");
@@ -168,8 +168,8 @@ const rivalCrests:Record<string,string>={
  "Juvenil A":asset("Escudos/Iturrigorri.png"),
  "Juvenil B":asset("Escudos/SD%20LEIOA.png")
 }
-const currentStandings:Record<string,string>={"Cultural Durango":"10º · 6 pts","Derio A":"2º · 11 pts","Zamudio B":"16º · 0 pts","Derio B":"15º · 1 pto","Gaztelueta B":"0º · 0 pts","Cadete B":"0º · 0 pts","Derio Fem":"7º · 4 pts","Erandioko Betiko Neskak":"1º · 9 pts","Neguri":"1º · 3 pts","Juvenil B":"4º · 3 pts","Juvenil A":"11º · 3 pts","Ariz A":"12º · 3 pts"};
-const currentForm:Record<string,string>={"Cultural Durango":"EDEVE","Derio A":"EEVVV","Derio Fem":"DEV","Erandioko Betiko Neskak":"VVV","Derio B":"EDD","Zamudio B":"DDD","Juvenil A":"VDD","Ariz A":"VD","Juvenil B":"V","Neguri":"V","Gaztelueta B":"D"};
+const currentStandings:Record<string,string>={"Cultural Durango":"10º · 6 pts","Derio A":"2º · 11 pts","Zamudio B":"16º · 0 pts","Derio B":"15º · 1 pto","Gaztelueta B":"0º · 0 pts","Cadete B":"D","Derio Fem":"7º · 4 pts","Erandioko Betiko Neskak":"1º · 9 pts","Neguri":"1º · 3 pts","Juvenil B":"VE","Juvenil A":"11º · 3 pts","Ariz A":"12º · 3 pts"};
+const currentForm:Record<string,string>={"Ugeraga B":"VV","Askartza B":"DV","Artibai A":"DEDV","Derio Fem B":"E","Balmaseda":"DV","Bermeo B":"DVVE","Touring":"EVVED","Cultural Durango":"EDEVE","Derio A":"EEVVV","Derio Fem":"EVVVE","Erandioko Betiko Neskak":"VVV","Derio B":"EDD","Zamudio B":"DDD","Juvenil A":"VDD","Ariz A":"VD","Juvenil B":"V","Neguri":"V","Gaztelueta B":"D"};
 function FormDots({team}:{team:string}){const form=currentForm[team];if(!form)return null;return <span className="teamFormDots" aria-label={`Últimos resultados: ${form}`}>{[...form].map((r,i)=><i key={i} className={r==="V"?"win":r==="D"?"loss":"draw"}/>)}</span>}
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF",federationRound:5},
@@ -199,7 +199,15 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Juvenil B":{opponent:"Neguri",date:"10/10/2026",time:"16:00",venue:"Bolue 2, Getxo",isHome:false,competition:"Juvenil B",crest:"/api/assets/Escudos/Neguri.webp"},
   "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",venue:"Gaztelueta, Leioa",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
  },
- 3:{}
+3:{
+  "Derio A":{opponent:"Touring",date:"17/10/2026",time:"16:30",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
+  "Derio B":{opponent:"Bermeo B",date:"18/10/2026",time:"15:15",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
+  "Derio Fem":{opponent:"Zumaiako",date:"17/10/2026",time:"16:30",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
+  "Derio Fem B":{opponent:"Balmaseda",date:"18/10/2026",time:"17:40",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
+  "Juvenil A":{opponent:"Artibai A",date:"17/10/2026",time:"20:00",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
+  "Juvenil B":{opponent:"Askartza B",date:"18/10/2026",time:"20:00",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
+  "Cadete B":{opponent:"Ugeraga B",date:"18/10/2026",time:"13:00",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
+ }
 };
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
  const [saving,setSaving]=useState(false); const [clock,setClock]=useState(()=>Date.now()); useEffect(()=>{const id=window.setInterval(()=>setClock(Date.now()),30000);return()=>window.clearInterval(id)},[]); const fixtureOrder=(g:{date?:string,time?:string,status?:string})=>{if(g.status==="rest")return Number.MAX_SAFE_INTEGER;if(!g.date)return Number.MAX_SAFE_INTEGER-1;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()}; const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round]?.[team]||{})})).map(game=>game.name==="Cadete B"&&round===1?{...game,status:"rest",opponent:undefined,date:undefined,time:undefined,venue:undefined}:game).sort((a,b)=>fixtureOrder(a)-fixtureOrder(b));
