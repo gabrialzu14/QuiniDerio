@@ -1,0 +1,224 @@
+/* Quiniderio Matchday — shared with the responsive MagicPath design.
+   Scoped to the new shell so legacy/admin surfaces keep their own layout. */
+html:has(body.qdModern) {background:#080f1c!important;}
+html[data-theme="light"]:has(body.qdModern) {background:#f2f5fa!important;}
+html:not([data-theme="light"]) body.qdModern,
+html[data-theme="light"] body.qdModern {background:var(--qd-bg)!important;}
+body.qdModern {
+  --qd-bg:#080f1c;
+  --qd-surface:#101c2e;
+  --qd-surface-raised:#16243a;
+  --qd-border:rgba(157,185,225,.13);
+  --qd-text:#eef4ff;
+  --qd-muted:#9bacc5;
+  --qd-blue:#2878ef;
+  --qd-red:#ff5269;
+  --qd-ease:cubic-bezier(.22,1,.36,1);
+  background:var(--qd-bg)!important;
+  color:var(--qd-text)!important;
+}
+html[data-theme="light"] body.qdModern {
+  --qd-bg:#f2f5fa;
+  --qd-surface:#fff;
+  --qd-surface-raised:#eaf0f9;
+  --qd-border:rgba(24,53,87,.13);
+  --qd-text:#152d4b;
+  --qd-muted:#536984;
+  color-scheme:light;
+}
+html body.qdModern::after,
+html body.qdModern .dashboard::before,
+html body.qdModern .dashboard::after { background:none!important;box-shadow:none!important; }
+html body.qdModern main.dashboard {
+  width:calc(100% - 64px)!important;
+  max-width:1240px!important;
+  margin:0 auto!important;
+  padding:0 0 110px!important;
+  background:transparent!important;
+}
+html body.qdModern .brandBar.glassHeader {
+  position:relative!important;top:auto!important;
+  display:flex!important;align-items:center!important;
+  min-height:96px!important;
+  margin:0 0 32px!important;padding:0!important;
+  border:0!important;border-bottom:1px solid var(--qd-border)!important;
+  border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;backdrop-filter:none!important;
+}
+html body.qdModern .brandMark .logo { font-size:24px!important;letter-spacing:-1px!important; }
+html[data-theme="light"] body.qdModern .brandMark .qd-quini {color:var(--qd-text)!important;}
+html[data-theme="light"] body.qdModern .qdHome,
+html[data-theme="light"] body.qdModern .qdHomeMain {border:0!important;outline:none!important;box-shadow:none!important;background:transparent!important;}
+html[data-theme="light"] body.qdModern .qdHome .qdFixture {background:transparent!important;background-image:none!important;}
+html[data-theme="light"] body.qdModern .qdHome .qdFixture::before {content:none!important;}
+html body.qdModern .brandMark small { font-size:7px!important;color:var(--qd-muted)!important;letter-spacing:1.3px!important; }
+html body.qdModern .brandMark>img { width:40px!important;height:40px!important;border-radius:12px!important; }
+html body.qdModern .userChip { border:1px solid var(--qd-border)!important;background:var(--qd-surface)!important;color:var(--qd-text)!important; }
+html body.qdModern .qdHome { display:grid!important;grid-template-columns:190px minmax(0,1fr)!important;gap:44px!important;max-width:none!important;padding:0!important; }
+html body.qdModern .qdHomeMain { min-width:0!important;padding:0!important; }
+html body.qdModern .qdSide { position:sticky!important;top:24px!important;align-self:start!important;display:block!important;padding:4px 0!important;background:transparent!important;border:0!important;box-shadow:none!important; }
+html body.qdModern .qdSideTitle { color:var(--qd-muted)!important;font-size:9px!important;letter-spacing:2px!important;padding:0 12px 20px!important; }
+html body.qdModern .qdSide>button { display:flex!important;align-items:center!important;gap:12px!important;width:100%!important;min-height:48px!important;margin:4px 0!important;padding:12px!important;background:transparent!important;border:1px solid transparent!important;border-radius:12px!important;color:var(--qd-muted)!important;font-size:12px!important;box-shadow:none!important; }
+html body.qdModern .qdSide>button.active { color:#90baff!important;background:rgba(40,120,239,.12)!important; }
+html[data-theme="light"] body.qdModern .qdSide>button.active {color:#175caf!important;}
+html body.qdModern .qdSide>button svg {width:18px!important;height:18px!important;}
+html body.qdModern .qdSeason {margin:48px 12px 0!important;border-top:1px solid var(--qd-border)!important;padding-top:20px!important;background:none!important;}
+html body.qdModern .qdSeason small {color:var(--qd-muted)!important;letter-spacing:1.5px!important;}
+html body.qdModern .qdSeason b {color:var(--qd-text)!important;}
+.qdMatchdayHeading {display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 28px;}
+.qdMatchdayEyebrow {font-size:9px;line-height:1.5;letter-spacing:1.7px;font-weight:700;color:var(--qd-muted);margin:0;}
+.qdMatchdayHeading h1 {font-size:clamp(36px,4vw,54px);line-height:1.04;letter-spacing:-2.5px;font-weight:800;margin:13px 0 0;}
+.qdMatchdayHeading h1>span {color:var(--qd-muted);}
+.qdMatchdayBadge {display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:9px;letter-spacing:1px;font-weight:700;}
+.qdMatchdayBadge i {height:6px;width:6px;border-radius:50%;background:var(--qd-red);}
+html body.qdModern .qdOverviewSummary {display:grid;gap:16px;padding:0 0 28px;--summary-text:var(--qd-text);--summary-muted:var(--qd-muted);--summary-line:var(--qd-border);--summary-surface:var(--qd-surface);}
+.qdOverviewFeature {position:relative;display:grid;grid-template-columns:1.3fr 1fr;min-width:0;overflow:hidden;border:1px solid rgba(76,128,188,.25);border-radius:24px;background:radial-gradient(ellipse at 80% 30%,#23477c80,transparent 60%),linear-gradient(120deg,#16263e,#102037);padding:34px;color:#eef4ff;}
+.qdOverviewFeatureCopy {position:relative;z-index:1;min-width:0;}
+.qdOverviewFeature .qdOverviewEyebrow {color:#f795a4;font-size:9px;letter-spacing:1.7px;}
+.qdOverviewFeature h2 {font-size:clamp(26px,3vw,36px);line-height:1.12;letter-spacing:-1.2px;margin:16px 0;color:#fff;}
+.qdOverviewFeature p {max-width:310px;color:#b8c9e1;line-height:1.65;font-size:13px;margin:0 0 24px;}
+html body.qdModern .qdOverviewSummary .qdOverviewCta {display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:48px;border:1px solid #6aa8ff40;border-radius:12px;padding:13px 18px;background:var(--qd-blue);color:#fff;font-size:12px;font-weight:750;box-shadow:0 6px 20px #1265dc30;}
+.qdOverviewRoundArt {position:relative;align-self:center;justify-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;width:210px;height:210px;border:1px solid #85afff30;border-radius:50%;transform:rotate(-12deg);box-shadow:0 0 0 24px #6398ff06,0 0 0 48px #6398ff04;color:#92b8ee;pointer-events:none;}
+.qdOverviewRoundArt i {position:absolute;inset:18px;border:1px dashed #85afff30;border-radius:50%;}
+.qdOverviewRoundArt strong {font-size:100px;line-height:1.1;font-style:italic;font-weight:850;letter-spacing:-7px;margin-left:-8px;}
+.qdOverviewRoundArt>span {font-size:8px;letter-spacing:5px;}
+.qdOverviewFeatureStatus {position:absolute;right:24px;bottom:16px;font-size:7px;letter-spacing:1.5px;color:#9ebce3;}
+.qdOverviewFeature.is-submitted .qdOverviewEyebrow {color:#91dfbf;}
+html body.qdModern .qdOverviewSummary .qdOverviewStats {grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+html body.qdModern .qdOverviewSummary .qdOverviewStat {display:grid;grid-template-columns:1fr;grid-column:auto;gap:13px;padding:22px;border-radius:18px;background:var(--qd-surface);border:1px solid var(--qd-border);box-shadow:none;}
+html body.qdModern .qdOverviewStat>strong {grid-column:auto;grid-row:auto;font-size:28px;color:var(--qd-text);}
+html body.qdModern .qdOverviewStat-leader>strong {font-size:23px;}
+html body.qdModern .qdOverviewStatHead,.qdModern .qdOverviewStatDetail {grid-column:auto;}
+html body.qdModern .qdOverviewStatLabel {font-size:8px;letter-spacing:.7px;}
+html body.qdModern .qdOverviewStatHead>svg {width:16px;height:16px;color:#7faaf0;}
+html body.qdModern .qdOverviewStatDetail {font-size:10px;justify-content:space-between;}
+html body.qdModern .qdHome .qdRound {background:var(--qd-surface)!important;border:1px solid var(--qd-border)!important;border-radius:22px!important;box-shadow:none!important;outline:none!important;overflow:hidden!important;margin:0!important;padding:0!important;}
+html body.qdModern .qdRoundHead {display:flex!important;align-items:center!important;justify-content:space-between!important;padding:24px 24px 12px!important;border:0!important;background:none!important;}
+html body.qdModern .qdRoundHead h2 {font-size:20px!important;letter-spacing:-.5px!important;margin:6px 0 0!important;color:var(--qd-text)!important;}
+html body.qdModern .qdRoundHead .qdMatchdayEyebrow {font-size:8px!important;letter-spacing:1.4px!important;color:var(--qd-muted)!important;}
+html body.qdModern .qdMatchdayPill {font-size:10px!important;color:#8bb8fb!important;background:#2474ed18!important;border:1px solid #528fe430!important;border-radius:8px!important;padding:7px 10px!important;white-space:nowrap;}
+html[data-theme="light"] body.qdModern .qdMatchdayPill {color:#175caf!important;}
+html body.qdModern .qdRoundTabs {padding:10px 24px 18px!important;gap:7px!important;border-bottom:1px solid var(--qd-border)!important;background:none!important;}
+html body.qdModern .qdRoundTabs button {min-height:38px!important;min-width:40px!important;background:transparent!important;border:1px solid var(--qd-border)!important;border-radius:9px!important;box-shadow:none!important;color:var(--qd-muted)!important;}
+html body.qdModern .qdRoundTabs button.active {background:var(--qd-blue)!important;color:#fff!important;border-color:var(--qd-blue)!important;}
+html body.qdModern .qdHome .qdFixture {background:transparent!important;border:0!important;border-bottom:1px solid var(--qd-border)!important;border-radius:0!important;padding:20px 24px!important;box-shadow:none!important;min-height:94px!important;}
+html body.qdModern .qdHome .qdFixture:last-child {border-bottom:0!important;}
+html body.qdModern .qdClub b {color:var(--qd-text)!important;font-size:12px!important;line-height:1.4!important;}
+html body.qdModern .qdClub small {color:var(--qd-muted)!important;font-size:9px!important;}
+html body.qdModern .qdKick {background:none!important;}
+html body.qdModern .qdKick strong {font-size:18px!important;color:var(--qd-text)!important;}
+html body.qdModern .qdKick small {font-size:8px!important;color:var(--qd-muted)!important;}
+html body.qdModern .qdFixture.isLive .qdKick strong {color:#5ee0ab!important;}
+html body.qdModern .qdMotionNav.liquidNav {background:rgba(16,29,48,.96)!important;border:1px solid rgba(157,185,225,.2)!important;border-radius:20px!important;box-shadow:0 12px 35px #0003!important;backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;min-height:66px!important;padding:6px!important;bottom:max(12px,env(safe-area-inset-bottom))!important;}
+html body.qdModern .qdMotionNav .navIndicator {top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/5);border-radius:14px;background:rgba(40,120,239,.16);box-shadow:none;transition:transform .26s var(--qd-ease);}
+html body.qdModern .qdMotionNav.liquidNav button {color:#98adca!important;border-radius:14px!important;gap:4px!important;}
+html body.qdModern .qdMotionNav.liquidNav button.active {color:#a6caff!important;background:transparent!important;box-shadow:none!important;}
+html body.qdModern .qdMotionNav .navIcon {filter:none!important;}
+html body.qdModern .qdMotionNav button .navIcon {color:inherit!important;}
+html body.qdModern .qdMotionNav button svg {width:21px!important;height:21px!important;filter:none!important;}
+html body.qdModern .qdMotionNav button small {font-size:8px!important;letter-spacing:0!important;}
+html[data-theme="light"] body.qdModern .qdMotionNav.liquidNav {background:rgba(255,255,255,.96)!important;}
+html[data-theme="light"] body.qdModern .qdMotionNav.liquidNav button {color:#536984!important;}
+html[data-theme="light"] body.qdModern .qdMotionNav.liquidNav button.active {color:#175caf!important;}
+/* Consistent surfaces for picks, predictions, ranking and account settings. */
+html body.qdModern :is(.matchCard,.matchRivalsCard,.rankingRowButton,.accountIdentity,.settingsCard,.profileCard,.visualChoice,.positionCard,.emptyCard) {background:var(--qd-surface)!important;border:1px solid var(--qd-border)!important;border-radius:18px!important;box-shadow:none!important;animation:none!important;}
+html body.qdModern :is(.pageTop,.porraPageTop) {margin-bottom:24px!important;background:none!important;border:0!important;box-shadow:none!important;}
+html body.qdModern :is(.pageTop,.porraPageTop) h1 {font-size:clamp(27px,3vw,38px)!important;letter-spacing:-1.2px!important;color:var(--qd-text)!important;}
+html body.qdModern :is(.pageTop,.porraPageTop)>p:not(.eyebrow) {color:var(--qd-muted)!important;line-height:1.6!important;}
+html body.qdModern .tabPage {max-width:900px!important;margin:0 auto!important;}
+html body.qdModern .oneXtwo button {min-height:58px!important;border:1px solid var(--qd-border)!important;background:var(--qd-surface-raised)!important;border-radius:12px!important;box-shadow:none!important;}
+html body.qdModern .oneXtwo button.active {background:var(--qd-blue)!important;border-color:#78abff!important;color:#fff!important;box-shadow:0 4px 14px #2878ef25!important;}
+html body.qdModern :is(.roundDock,.confirmDock) {background:var(--qd-surface)!important;border:1px solid var(--qd-border)!important;border-radius:18px!important;box-shadow:0 12px 32px #0002!important;}
+html body.qdModern :is(.savePrediction,.authContinue,.assistantPredictionSave,.roundPendingClose) {min-height:48px!important;background:var(--qd-blue)!important;border:1px solid #6aa8ff40!important;border-radius:12px!important;color:#fff!important;box-shadow:0 6px 18px #2878ef20!important;}
+html body.qdModern .optionCards button {min-height:48px!important;border-radius:12px!important;border:1px solid var(--qd-border)!important;background:var(--qd-surface-raised)!important;}
+html body.qdModern .optionCards button.active {border-color:#76aaff!important;background:#2878ef24!important;}
+html body.qdModern :is(.rankingTabs,.predictionUnifiedTabs,.authTabs,.segmented) {background:var(--qd-surface-raised)!important;border:1px solid var(--qd-border)!important;border-radius:12px!important;padding:4px!important;box-shadow:none!important;}
+html body.qdModern :is(.rankingTabs,.predictionUnifiedTabs,.authTabs,.segmented) button {min-height:40px!important;border-radius:8px!important;box-shadow:none!important;}
+html body.qdModern :is(.rankingTabs,.predictionUnifiedTabs,.authTabs,.segmented) button.active {background:var(--qd-blue)!important;color:white!important;}
+html body.qdModern :is(.detailSheet,.roundPendingModal,.assistantPredictionModal) {background:var(--qd-surface)!important;border:1px solid var(--qd-border)!important;border-radius:22px!important;color:var(--qd-text)!important;box-shadow:0 24px 70px #0005!important;}
+html body.qdModern :is(.detailSheetHead h2,.accountIdentity b,.settingRow b,.settingsCard h2) {color:var(--qd-text)!important;}
+html body.qdModern :is(.gameToast,.submitSuccessToast) {background:var(--qd-surface)!important;color:var(--qd-text)!important;border:1px solid var(--qd-border)!important;border-radius:14px!important;box-shadow:0 12px 40px #0003!important;}
+/* Auth and a self-contained launch screen, including a network-stall fallback. */
+html body.qdModern main.authScreen {max-width:520px!important;padding:0 24px 48px!important;}
+html body.qdModern .authWrap {background:none!important;box-shadow:none!important;border:0!important;padding:12px 0!important;}
+html body.qdModern .authForm {border:1px solid var(--qd-border)!important;background:var(--qd-surface)!important;padding:26px!important;border-radius:24px!important;box-shadow:0 16px 40px #0002!important;}
+html body.qdModern .authForm h1 {font-size:30px!important;letter-spacing:-1px!important;color:var(--qd-text)!important;}
+html body.qdModern .authForm input:not([type="checkbox"]):not([type="file"]) {min-height:50px!important;border-radius:11px!important;border:1px solid var(--qd-border)!important;background:var(--qd-bg)!important;color:var(--qd-text)!important;font-size:16px!important;}
+html body.qdModern .authLogo {margin:12px auto 24px!important;}
+.qdLaunch {position:fixed;inset:0;z-index:100000;min-width:100%;max-width:none;min-height:100dvh;margin:0;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--qd-bg);color:var(--qd-text);}
+.qdLaunchEmblem {position:relative;display:grid;place-items:center;width:80px;height:90px;border-radius:22px 22px 36px 36px;background:linear-gradient(140deg,#ef4961,#be2346);box-shadow:0 14px 40px #e43d5025;margin-bottom:26px;}
+.qdLaunchEmblem span {font-size:28px;font-weight:850;color:#fff;letter-spacing:-1px;}
+.qdLaunchEmblem i {position:absolute;inset:-18px;border:1px solid var(--qd-border);border-radius:50%;animation:qdLaunchPulse 1.8s ease-out infinite;}
+.qdLaunchWordmark {font-size:30px;letter-spacing:-1.5px;}
+.qdLaunchWordmark>span {color:var(--qd-red);}
+.qdLaunch>p {font-size:13px;color:var(--qd-muted);margin:10px 0 28px;}
+.qdLaunch>small {font-size:10px;color:var(--qd-muted);margin-top:15px;}
+.qdLaunchTrack {height:3px;width:160px;border-radius:8px;background:var(--qd-border);overflow:hidden;}
+.qdLaunchTrack i {display:block;height:100%;width:40%;background:var(--qd-blue);border-radius:8px;animation:qdLoadingSweep 1.3s ease-in-out infinite;}
+.qdDataLoading {display:flex;align-items:center;gap:10px;position:relative;overflow:hidden;padding:13px 16px;margin-bottom:22px;border:1px solid var(--qd-border);border-radius:12px;background:var(--qd-surface);font-size:11px;color:var(--qd-muted);}
+.qdLoadingDot {height:6px;width:6px;flex:0 0 6px;border-radius:50%;background:var(--qd-blue);}
+.qdLoadingLine {position:absolute;bottom:0;left:0;height:2px;width:25%;background:var(--qd-blue);animation:qdLoadingSweep 1.5s ease-in-out infinite;}
+/* Animate composited properties only. No delayed rows or scroll interception. */
+html body.qdModern .qdTabEnter {animation:qdModernEnter .24s var(--qd-ease) both!important;}
+html body.qdModern .qdTabEnter :is(.porraHero,.matchCard,.pageTop,.dashGrid article,.positionCard,.categoryLabel) {animation:none!important;}
+html body.qdModern button:not(:disabled) {transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s var(--qd-ease)!important;}
+html body.qdModern button:not(:disabled):active {transform:scale(.98)!important;}
+html body.qdModern button:focus-visible,html body.qdModern input:focus-visible {outline:3px solid #81b6ff!important;outline-offset:3px!important;}
+html body.qdModern button:disabled {cursor:default!important;}
+@media(hover:hover) and (pointer:fine) {
+  html body.qdModern .qdOverviewSummary button:hover {border-color:#629bea80;transform:translateY(-2px);}
+  html body.qdModern .qdOverviewCta:hover {background:#3c8afa;}
+  html body.qdModern .qdSide>button:hover {background:var(--qd-surface)!important;color:var(--qd-text)!important;}
+}
+@keyframes qdModernEnter {from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes qdLaunchPulse {0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.15);opacity:0}}
+@keyframes qdLoadingSweep {0%{transform:translateX(-110%)}100%{transform:translateX(410%)}}
+@media(max-width:800px) {
+  html body.qdModern main.dashboard {width:100%!important;max-width:600px!important;padding:0 max(18px,env(safe-area-inset-left)) calc(110px + env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-right))!important;}
+  html body.qdModern .brandBar.glassHeader {min-height:80px!important;margin-bottom:26px!important;padding-top:env(safe-area-inset-top)!important;}
+  html body.qdModern .brandMark .logo {font-size:22px!important;}
+  html body.qdModern .qdHome {display:block!important;}
+  html body.qdModern .qdSide {display:none!important;}
+  .qdMatchdayHeading {margin-bottom:22px;}
+  .qdMatchdayHeading h1 {font-size:40px;letter-spacing:-1.8px;}
+  .qdMatchdayEyebrow {font-size:8px;letter-spacing:1.1px;}
+  .qdMatchdayBadge {font-size:8px;gap:7px;}
+  .qdOverviewFeature {padding:26px;grid-template-columns:1fr;border-radius:22px;}
+  .qdOverviewFeature h2 {font-size:29px;}
+  .qdOverviewFeature p {max-width:230px;font-size:12px;}
+  .qdOverviewRoundArt {position:absolute;right:-95px;top:36px;opacity:.25;}
+  .qdOverviewFeatureStatus {right:18px;bottom:14px;font-size:6px;letter-spacing:1px;}
+  html body.qdModern .qdOverviewSummary .qdOverviewStats {gap:8px;}
+  html body.qdModern .qdOverviewSummary .qdOverviewStat {padding:16px 12px;border-radius:14px;gap:12px;}
+  html body.qdModern .qdOverviewStatLabel {font-size:7px;letter-spacing:.1px;}
+  html body.qdModern .qdOverviewStat>strong {font-size:24px;}
+  html body.qdModern .qdOverviewStat-leader>strong {font-size:18px;}
+  html body.qdModern .qdOverviewStatDetail {font-size:9px;line-height:1.4;}
+  html body.qdModern .qdOverviewStatDetail>svg {display:none;}
+  html body.qdModern .qdRoundHead {padding:22px 16px 10px!important;gap:8px;}
+  html body.qdModern .qdRoundHead h2 {font-size:17px!important;}
+  html body.qdModern .qdRoundTabs {padding:10px 16px 16px!important;gap:6px!important;flex-wrap:wrap!important;}
+  html body.qdModern .qdRoundTabs button {min-width:32px!important;flex:1!important;font-size:10px!important;}
+  html body.qdModern .qdHome .qdFixture {padding:18px 12px!important;grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr)!important;gap:6px!important;}
+  html body.qdModern .qdClub b {font-size:10px!important;}
+  html body.qdModern .qdClub small {font-size:8px!important;}
+  html body.qdModern .qdKick strong {font-size:16px!important;}
+  html body.qdModern .qdKick small {font-size:7px!important;}
+  html body.qdModern .qdClub .crestBox {width:24px!important;height:28px!important;flex:0 0 24px!important;}
+  html body.qdModern .qdMotionNav.liquidNav {width:min(calc(100% - 24px),500px)!important;}
+}
+@media(max-width:360px) {
+  html body.qdModern main.dashboard {padding-left:14px!important;padding-right:14px!important;}
+  .qdMatchdayHeading h1 {font-size:35px;}
+  .qdMatchdayBadge {font-size:7px;}
+  .qdOverviewFeature {padding:22px;}
+  html body.qdModern .qdOverviewStatHead>svg {display:none;}
+  html body.qdModern .qdOverviewSummary .qdOverviewStat {padding:14px 10px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  html body.qdModern *,html body.qdModern *::before,html body.qdModern *::after {animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+  html body.qdModern .qdTabEnter,
+  html body.qdModern .qdMotionNav .navIndicator,
+  html body.qdModern button:not(:disabled) {animation:none!important;transition:none!important;}
+  html body.qdModern button:active,html body.qdModern button:hover {transform:none!important;}
+}

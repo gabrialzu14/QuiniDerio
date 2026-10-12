@@ -5779,18 +5779,44 @@ body {
   body:not(.qdModalOpen) .liquidNav button{touch-action:manipulation!important}
 }
 
-/* Android PWA: dedicated scrolling viewport. Chromium installed apps may not scroll document body. */
-@media (pointer:coarse){
-  body:not(.qdModalOpen) main.dashboard.gameScreen{
-    display:block!important;position:relative!important;
-    height:100dvh!important;min-height:0!important;max-height:100dvh!important;
-    overflow-x:hidden!important;overflow-y:auto!important;
-    overscroll-behavior-y:contain!important;
-    touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
-    padding-bottom:calc(115px + env(safe-area-inset-bottom))!important;
-  }
-  body:not(.qdModalOpen) main.dashboard.gameScreen>.qdTabEnter{height:auto!important;min-height:0!important;overflow:visible!important;touch-action:pan-y!important}
-  body.qdModalOpen main.dashboard.gameScreen{overflow-y:hidden!important}
+/* One scroll owner on desktop, touch browsers and installed PWAs.
+   A viewport-sized main created a second scroll surface while refresh and
+   modal restoration still read window.scrollY. Keep content in document flow. */
+html:not(:has(body.qdModalOpen)) {
+  overflow-x:clip!important;
+  overflow-y:auto!important;
+}
+body:not(.qdModalOpen) {
+  overflow-x:clip!important;
+  overflow-y:visible!important;
+}
+body:not(.qdModalOpen) main.dashboard.gameScreen {
+  display:block!important;
+  position:relative!important;
+  height:auto!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  overflow:visible!important;
+  touch-action:pan-y!important;
+  padding-bottom:calc(115px + env(safe-area-inset-bottom))!important;
+}
+body:not(.qdModalOpen) main.dashboard.gameScreen>.qdTabEnter {
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+}
+/* The page is locked by usePageScrollLock; long dialogs still need native pan. */
+body.qdModalOpen,
+body.qdModalOpen>.detailBackdrop,
+.detailBackdrop,.porraAccount .detailBackdrop {
+  touch-action:pan-y!important;
+}
+.detailBackdrop .detailSheet,
+body.qdModalOpen>.detailBackdrop>.detailSheet:has(.classificationFormat) {
+  max-height:calc(100dvh - 40px)!important;
+  overflow-y:auto!important;
+  touch-action:pan-y!important;
+  overscroll-behavior-y:contain!important;
 }
 
 /* Per-round pot contribution: 2 EUR red, 1 EUR orange, remaining blue. */
