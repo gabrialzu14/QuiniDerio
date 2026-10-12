@@ -5958,3 +5958,19 @@ body {
 /* Scoped exclusively to the per-matchday pot table; never color Aciertos or General. */
 .rankingRows .rankingRowButton.rankingPotTwo{background:rgba(220,46,61,.30)!important;border:1px solid rgba(244,72,85,.72)!important;box-shadow:inset 4px 0 0 #e94b58!important}
 .rankingRows .rankingRowButton.rankingPotOne{background:rgba(241,159,37,.27)!important;border:1px solid rgba(255,191,73,.70)!important;box-shadow:inset 4px 0 0 #f6ad35!important}
+
+/* QuiniDerio admin: clear, stateful match controls */
+.adminPage .adminGrid article{border:1px solid rgba(112,160,226,.24);border-radius:24px;box-shadow:0 14px 36px rgba(2,9,27,.15);transition:border-color .2s,transform .2s}
+.adminPage .adminActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+.adminPage .adminActions button{min-height:52px;padding:12px 10px;border:1px solid rgba(100,157,225,.34);border-radius:15px;background:linear-gradient(120deg,rgba(32,82,144,.55),rgba(23,49,97,.75));color:#f4f8ff;font-size:13px;font-weight:750;letter-spacing:.01em;cursor:pointer;transition:transform .16s,background .2s,box-shadow .2s}
+.adminPage .adminActions button:active:not(:disabled){transform:scale(.96)}
+.adminPage .adminActions button:disabled{opacity:.32;cursor:not-allowed;filter:saturate(.45)}
+.adminPage .adminActions button:nth-child(2){background:linear-gradient(115deg,rgba(146,102,17,.48),rgba(77,64,37,.7));border-color:rgba(238,193,65,.32)}
+.adminPage .adminActions button:nth-child(3){background:linear-gradient(115deg,rgba(138,36,50,.5),rgba(73,34,55,.75));border-color:rgba(236,83,99,.34)}
+.adminPage .adminActions button:nth-child(4){background:linear-gradient(115deg,#a51f43,#d73c52);border-color:rgba(255,126,145,.4)}
+.adminPage .adminActions button:last-child:nth-child(5){grid-column:1/-1;background:rgba(35,72,117,.48)}
+.adminPage .adminScore button{min-width:44px;min-height:46px;border-radius:13px;font-size:23px;transition:transform .15s,background .2s}
+.adminPage .adminScore button:active:not(:disabled){transform:scale(.9)}
+.adminVenueControl{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding:8px 10px;background:rgba(40,79,128,.25);border-radius:12px}
+.adminVenueControl span{font-size:11px;color:#aebed6}
+.adminVenueControl button{flex-shrink:0;border:1px solid rgba(112,168,239,.4);border-radius:10px;padding:9px 11px;background:rgba(34,91,156,.36);color:#e5f1ff;font-size:11px;font-weight:700;cursor:pointer}
