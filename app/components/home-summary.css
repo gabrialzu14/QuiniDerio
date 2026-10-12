@@ -72,16 +72,6 @@
   background: rgba(125,191,255,.08);
 }
 .qdOverviewActionIcon svg { width: 26px; height: 26px; }
-.qdOverviewProgress { height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.12); }
-.qdOverviewProgress>span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: #87c9ff;
-  transform-origin: left;
-  transform: scaleX(var(--progress));
-  transition: transform .3s ease;
-}
 .qdOverviewActionFooter { font-size: 12px; font-weight: 750; }
 .qdOverviewArrow { flex-shrink: 0; transition: transform .2s ease; }
 .qdOverviewStats { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
@@ -119,7 +109,7 @@ html[data-theme="light"] .qdOverviewAction { color: #f2f7ff; }
 html[data-theme="light"] .qdOverviewAction .qdOverviewEyebrow { color: #bbd1e8; }
 html[data-theme="light"] .qdOverviewStatHead>svg { color: #316eaa; }
 @media (prefers-reduced-motion:reduce) {
-  .qdOverviewProgress>span,.qdOverviewArrow { transition: none; }
+  .qdOverviewArrow { transition: none; }
   .dashboard .qdOverviewSummary button:not(:disabled) { transition: none !important; }
   .dashboard .qdOverviewSummary button:not(:disabled):active { transform: none !important; }
   .qdOverviewSummary button:hover .qdOverviewArrow { transform: none; }
