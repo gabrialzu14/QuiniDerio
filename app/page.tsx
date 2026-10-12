@@ -9,6 +9,7 @@ import PushPrompt,{enablePush,disablePush,getPushState,testPush} from "./compone
 import PredictionReminder from "./components/PredictionReminder";
 import BottomNavigation from "./components/BottomNavigation";
 import useTabNavigation from "./components/useTabNavigation";
+import usePageScrollLock from "./components/usePageScrollLock";
 import HomeSummary from "./components/HomeSummary";
 
 
@@ -59,7 +60,53 @@ export default function Home(){
  const [season,setSeason]=useState<Season>(empty); const [assistantPrompt,setAssistantPrompt]=useState(false); const [fedGames,setFedGames]=useState<Array<{name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number}>>([]); const [dataLoading,setDataLoading]=useState(true); const [offline,setOffline]=useState(false); const [surprise,setSurprise]=useState<"intro"|"vote">("intro"); const [dinio,setDinio]=useState(""); const [toast,setToast]=useState(""); const [submitToast,setSubmitToast]=useState<"Enviado!"|"Actualizado!"|"">(""); const {tab,navigateTab,dashboardRef}=useTabNavigation(); const [picks,setPicks]=useState<Record<string,string>>({}); const [liveMatches,setLiveMatches]=useState<Record<string,{home_score:number,away_score:number,status:string}>>({}); const [liveCards,setLiveCards]=useState<LiveCard[]>([]); const [totalPot,setTotalPot]=useState(0); const [quizRound,setQuizRound]=useState(2); const [savedRounds,setSavedRounds]=useState<Record<number,boolean>>({});
  useEffect(()=>{if(!imagesReady||!hydrated||!splashMinElapsed)return;document.body.classList.add("qd-entering");setShowSplash(false);const t=window.setTimeout(()=>document.body.classList.remove("qd-entering"),650);return()=>window.clearTimeout(t)},[imagesReady,hydrated,splashMinElapsed]);
  const refreshData=useCallback(async()=>{setDataLoading(true);try{const r=await fetch("/api/federation",{cache:"reload"});if(!r.ok)throw new Error("refresh");const d=await r.json();const next=d.teams||[];setFedGames(next);try{localStorage.setItem("quiniderio-federation-cache",JSON.stringify({teams:next,at:Date.now()}))}catch{}setOffline(false);setToast("Actualizado");window.setTimeout(()=>setToast(""),1100)}catch{setOffline(true);try{const cached=JSON.parse(localStorage.getItem("quiniderio-federation-cache")||"{}");if(Array.isArray(cached.teams))setFedGames(cached.teams)}catch{}setToast("Sin conexión · mostrando datos guardados");window.setTimeout(()=>setToast(""),2200)}finally{setRefreshing(false);setRefreshReady(false);setDataLoading(false)}},[]);
- useEffect(()=>{let startY=0;let armed=false;const onStart=(e:TouchEvent)=>{if(window.scrollY===0){startY=e.touches[0].clientY;armed=true;setRefreshReady(false)}};const onMove=(e:TouchEvent)=>{if(!armed)return;const d=e.touches[0].clientY-startY;if(d>12){setRefreshing(true);const ready=d>75;setRefreshReady(ready);setToast(ready?"Suelta para actualizar":"Desliza para actualizar")}else{setRefreshing(false);setRefreshReady(false);setToast("")}};const onEnd=(e:TouchEvent)=>{const d=armed?e.changedTouches[0].clientY-startY:0;if(armed&&d>75){setRefreshReady(true);setToast("Actualizando…");void refreshData()}else{setRefreshing(false);setRefreshReady(false);setToast("")}armed=false};window.addEventListener("touchstart",onStart,{passive:true});window.addEventListener("touchmove",onMove,{passive:true});window.addEventListener("touchend",onEnd,{passive:true});return()=>{window.removeEventListener("touchstart",onStart);window.removeEventListener("touchmove",onMove);window.removeEventListener("touchend",onEnd)}} ,[refreshData]);
+ useEffect(()=>{
+  let startY=0,startX=0,armed=false,inFlight=false;
+  let scrollSurface:Element|null=null;
+  const atTop=()=>window.scrollY<=1&&(document.scrollingElement?.scrollTop||0)<=1&&(!scrollSurface||scrollSurface.scrollTop<=1);
+  const reset=()=>{armed=false;if(!inFlight){setRefreshing(false);setRefreshReady(false);setToast("")}};
+  const onStart=(e:TouchEvent)=>{
+   armed=false;scrollSurface=null;
+   if(inFlight||e.touches.length!==1||document.body.classList.contains("qdModalOpen"))return;
+   // Inspect the touched scroll surface, not just window.scrollY: installed
+   // mobile versions can keep the document at zero while main is scrolled.
+   for(let node=e.target instanceof Element?e.target:null;node&&node!==document.body;node=node.parentElement){
+    if(node.matches('[role="dialog"],.detailBackdrop,.avatarCropOverlay'))return;
+    const style=getComputedStyle(node);
+    if(/auto|scroll/.test(style.overflowY)&&node.scrollHeight>node.clientHeight){
+     if(!node.matches('main.dashboard.gameScreen'))return;
+     scrollSurface=node;
+    }
+   }
+   if(!atTop())return;
+   startY=e.touches[0].clientY;startX=e.touches[0].clientX;armed=true;setRefreshReady(false);
+  };
+  const onMove=(e:TouchEvent)=>{
+   if(!armed||inFlight)return;
+   if(e.touches.length!==1){reset();return}
+   const d=e.touches[0].clientY-startY;
+   // A gesture that began below the top stays disarmed, even if it reaches
+   // the top. Require a new, deliberate downward pull from the top edge.
+   if(!atTop()||d<0||Math.abs(e.touches[0].clientX-startX)>Math.abs(d)){reset();return}
+   if(d>12){setRefreshing(true);setRefreshReady(d>75);setToast(d>75?"Suelta para actualizar":"Desliza para actualizar")}
+   else{setRefreshing(false);setRefreshReady(false);setToast("")}
+  };
+  const onEnd=(e:TouchEvent)=>{
+   if(inFlight)return;
+   const touch=e.changedTouches[0];
+   const ready=armed&&atTop()&&touch&&touch.clientY-startY>75&&Math.abs(touch.clientX-startX)<touch.clientY-startY;
+   armed=false;
+   if(ready){
+    inFlight=true;setRefreshing(true);setRefreshReady(true);setToast("Actualizando…");
+    void refreshData().finally(()=>{inFlight=false});
+   }else reset();
+  };
+  window.addEventListener("touchstart",onStart,{passive:true});
+  window.addEventListener("touchmove",onMove,{passive:true});
+  window.addEventListener("touchend",onEnd,{passive:true});
+  window.addEventListener("touchcancel",reset,{passive:true});
+  return()=>{window.removeEventListener("touchstart",onStart);window.removeEventListener("touchmove",onMove);window.removeEventListener("touchend",onEnd);window.removeEventListener("touchcancel",reset)};
+ },[refreshData]);
  const complete=useMemo(()=>teams.every(t=>season.positions[t])&&season.highest&&season.lowest&&season.firstCoach&&season.coachCards&&season.assistantCoachExpulsions&&season.assistantCoachCards&&season.firstDelegate&&season.delegateCards,[season]);
  const select=(key:keyof Season,value:string)=>setSeason(s=>{const next={...s,[key]:value};const saved=localStorage.getItem("quiniderio-player");if(saved){try{const x=JSON.parse(saved);localStorage.setItem("quiniderio-player",JSON.stringify({...x,season:next,onboardingStep:"season"}))}catch{}}return next;});
  useEffect(()=>{if(!hydrated)return;try{localStorage.setItem("quiniderio-picks",JSON.stringify(picks))}catch{}},[picks,hydrated]);
@@ -124,7 +171,7 @@ function HomeOverview({savedRounds,onOpenQuiniela,onTab,picks,liveMatches,liveCa
  const pendingCount=Math.max(0,playable.length-liveCount-resolvedCount);
  const [roundNoticeOpen,setRoundNoticeOpen]=useState(false); const [roundNoticeLeaving,setRoundNoticeLeaving]=useState(false);
  useEffect(()=>{if(!finished||!suspendedCount)return;try{if(localStorage.getItem("qd-round1-pending-result-v1")!=="seen")setRoundNoticeOpen(true)}catch{setRoundNoticeOpen(true)}},[finished,suspendedCount]);
- useEffect(()=>{if(!roundNoticeOpen)return;const prevOverflow=document.documentElement.style.overflow,prevBodyOverflow=document.body.style.overflow,prevOverscroll=document.documentElement.style.overscrollBehavior;document.documentElement.style.overflow="hidden";document.body.style.overflow="hidden";document.documentElement.style.overscrollBehavior="none";return()=>{document.documentElement.style.overflow=prevOverflow;document.body.style.overflow=prevBodyOverflow;document.documentElement.style.overscrollBehavior=prevOverscroll}},[roundNoticeOpen]);
+ usePageScrollLock(roundNoticeOpen);
 
  return <div className="qdHome">
   {roundNoticeOpen&&typeof document!=="undefined"&&createPortal(<div className={"roundPendingOverlay "+(roundNoticeLeaving?"isLeaving":"")} role="dialog" aria-modal="true" aria-labelledby="roundPendingTitle"><section className="roundPendingModal"><button type="button" aria-label="Cerrar" onClick={()=>{setRoundNoticeLeaving(true);setTimeout(()=>{setRoundNoticeOpen(false);setRoundNoticeLeaving(false);try{localStorage.setItem("qd-round1-pending-result-v1","seen")}catch{}window.dispatchEvent(new CustomEvent("quiniderio-suspended-popup-closed"))},260)}}>×</button><small>JORNADA 1 · FINALIZADA</small><h2 id="roundPendingTitle">Resultado pendiente</h2><p>La Jornada 1 se da por finalizada, pero queda pendiente el partido suspendido por la lluvia.</p><div className="roundPendingFixture"><div><img src={asset("Escudos/IbaiondoNerbioi.png")} alt="Ibaiondo Nerbioi A"/><b>Ibaiondo Nerbioi A</b></div><span>SUSPENDIDO</span><div><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="Derio Fem B"/><b>Derio Fem B</b></div></div><p>Cuando se dispute, actualizaremos automáticamente el resultado, la puntuación y la clasificación de la Jornada 1.</p><button type="button" className="roundPendingClose" onClick={()=>{setRoundNoticeLeaving(true);setTimeout(()=>{setRoundNoticeOpen(false);setRoundNoticeLeaving(false);try{localStorage.setItem("qd-round1-pending-result-v1","seen")}catch{}window.dispatchEvent(new CustomEvent("quiniderio-suspended-popup-closed"))},260)}}>Entendido</button></section></div>,document.body)}
@@ -435,8 +482,9 @@ function More({name,dinio,season,onTab,onProfilePicChange,onRequireLogin}:{name:
   },[]);
  useEffect(()=>{document.documentElement.dataset.theme=theme;localStorage.setItem("quiniderio-theme",theme)},[theme]);
  useEffect(()=>{void getPushState().then(s=>{setPushEnabled(s.enabled);localStorage.setItem("quiniderio-notifications",String(s.enabled))})},[]);
- useEffect(()=>{if(!cropSrc)return;const y=window.scrollY;const body=document.body;const prev={position:body.style.position,top:body.style.top,width:body.style.width,overflow:body.style.overflow};body.style.position="fixed";body.style.top=`-${y}px`;body.style.width="100%";body.style.overflow="hidden";return()=>{body.style.position=prev.position;body.style.top=prev.top;body.style.width=prev.width;body.style.overflow=prev.overflow;window.scrollTo(0,y)}},[cropSrc]);
- useEffect(()=>{if(!panel)return;const close=(event:KeyboardEvent)=>{if(event.key==="Escape")setPanel(null)};const y=window.scrollY;const body=document.body;const html=document.documentElement;const prev={position:body.style.position,top:body.style.top,width:body.style.width,overflow:body.style.overflow,htmlOverflow:html.style.overflow,htmlOverscroll:html.style.overscrollBehavior};body.style.position="fixed";body.style.top=`-${y}px`;body.style.width="100%";body.style.overflow="hidden";html.style.overflow="hidden";html.style.overscrollBehavior="none";body.classList.add("qdModalOpen");window.addEventListener("keydown",close);return()=>{window.removeEventListener("keydown",close);body.classList.remove("qdModalOpen");body.style.position=prev.position;body.style.top=prev.top;body.style.width=prev.width;body.style.overflow=prev.overflow;html.style.overflow=prev.htmlOverflow;html.style.overscrollBehavior=prev.htmlOverscroll;window.scrollTo(0,y)}},[panel]);
+ usePageScrollLock(!!cropSrc);
+ usePageScrollLock(!!panel);
+ useEffect(()=>{if(!panel)return;const close=(event:KeyboardEvent)=>{if(event.key==="Escape")setPanel(null)};window.addEventListener("keydown",close);return()=>window.removeEventListener("keydown",close)},[panel]);
  const toggleNotifications=async()=>{setProfileStatus("");try{if(pushEnabled){await disablePush();setPushEnabled(false);setProfileStatus("Notificaciones desactivadas")}else if(await enablePush()){setPushEnabled(true);setProfileStatus("Notificaciones activadas")}}catch(e){const m=e instanceof Error?e.message:"";setProfileStatus(m==="denied"?"Las notificaciones están bloqueadas en iOS. Actívalas en Ajustes > Notificaciones > QuiniDerio.":m==="install"?"En iPhone, abre QuiniDerio desde el icono instalado en la pantalla de inicio para activar notificaciones.":m==="unsupported"?"Este dispositivo no admite notificaciones web push.":m==="vapid"?"La configuración push de QuiniDerio no está completa.":m==="subscribe"?"iOS no ha podido crear la suscripción. Cierra y vuelve a abrir QuiniDerio desde su icono.":m==="save"?"El permiso se ha concedido, pero no se ha podido registrar este dispositivo.":"No se han podido activar las notificaciones. Vuelve a intentarlo.")}};
  return <section className="tabPage profilePage porraAccount">
   <div className="accountTitle"><p className="eyebrow">TEMPORADA 2026/27</p><h1>Mi cuenta</h1><p>Gestiona tu perfil, apariencia y datos de tu cuenta.</p></div>

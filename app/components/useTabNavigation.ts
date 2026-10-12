@@ -16,7 +16,7 @@ export default function useTabNavigation(){
     }
     setTab(next);
   };
-  // Mobile PWA content scrolls inside main; desktop may scroll the document.
+  // The document owns scrolling on desktop and installed mobile apps.
   useLayoutEffect(()=>{scrollToTop("instant")},[tab]);
   return {tab,navigateTab,dashboardRef};
 }
