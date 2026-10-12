@@ -59,14 +59,20 @@ html body.qdModern .rankingHeader {color:var(--qd-muted)!important;padding:18px 
 html body.qdModern .rankingRows {display:grid;gap:8px!important;}
 html body.qdModern .rankingRowButton {min-height:78px!important;margin:0!important;padding:14px 22px!important;color:var(--qd-text)!important;border-radius:14px!important;opacity:1!important;transform:none!important;}
 html body.qdModern .rankingRowButton:first-child {border-color:color-mix(in srgb,var(--qd-blue) 55%,transparent)!important;background:var(--qd-surface-raised)!important;}
+html body.qdModern .rankingRows .rankingRowButton.rankingUpper {background:color-mix(in srgb,var(--qd-blue) 18%,var(--qd-surface))!important;border-color:color-mix(in srgb,var(--qd-blue) 45%,var(--qd-border))!important;}
+html body.qdModern .rankingRows .rankingRowButton.rankingLower {background:color-mix(in srgb,var(--qd-red) 18%,var(--qd-surface))!important;border-color:color-mix(in srgb,var(--qd-red) 45%,var(--qd-border))!important;}
+html body.qdModern .rankingRows .rankingRowButton.rankingMiddle {background:var(--qd-surface)!important;border-color:var(--qd-border)!important;}
 html body.qdModern .rankingRowButton>span:first-child {color:var(--qd-muted)!important;font-variant-numeric:tabular-nums;}
 html body.qdModern .rankingRowButton>strong {color:var(--qd-text)!important;font-size:22px!important;font-variant-numeric:tabular-nums;}
 html body.qdModern .rankingPlayer {min-width:0;gap:14px!important;color:var(--qd-text)!important;}
 html body.qdModern .rankingPlayer>span:last-child {overflow-wrap:anywhere;}
 html body.qdModern .rankingAvatar {background:var(--qd-surface-raised)!important;color:var(--qd-text)!important;border:1px solid var(--qd-border)!important;}
 html body.qdModern .accountProfileCard {padding:28px!important;border:1px solid var(--qd-border)!important;border-radius:24px!important;background:var(--qd-surface)!important;box-shadow:none!important;}
-html body.qdModern .accountIdentity {padding:0!important;background:none!important;border:0!important;}
-html body.qdModern .accountIdentity h2 {color:var(--qd-text)!important;font-size:28px!important;overflow-wrap:anywhere;}
+html body.qdModern .accountIdentity {display:grid!important;grid-template-columns:82px minmax(0,1fr);align-items:center!important;gap:20px!important;margin:0!important;padding:0!important;background:none!important;border:0!important;}
+html body.qdModern .accountIdentity>div:last-child {min-width:0;}
+html body.qdModern .accountIdentity h2 {margin:0!important;color:var(--qd-text)!important;font-size:clamp(22px,3vw,28px)!important;line-height:1.25!important;overflow-wrap:anywhere;}
+html body.qdModern .profilePhotoActions {margin:20px 0 0!important;padding:0!important;gap:12px!important;}
+html body.qdModern .photoHint {margin:0!important;padding:12px 0 0!important;line-height:1.5!important;}
 html body.qdModern .bigAvatar {background:var(--qd-surface-raised)!important;border:2px solid var(--qd-border)!important;box-shadow:none!important;}
 html body.qdModern :is(.photoAction,.removePhoto,.profileNameButton) {background:var(--qd-surface-raised)!important;color:var(--qd-text)!important;border:1px solid var(--qd-border)!important;border-radius:12px!important;min-height:44px;}
 html body.qdModern :is(.photoHint,.profileNameButton small,.profileNameButton em) {color:var(--qd-muted)!important;}
