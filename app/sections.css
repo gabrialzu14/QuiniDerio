@@ -1,0 +1,105 @@
+/* Matchday's visual language across the remaining player screens. */
+html body.qdModern .qdTabEnter:not(.qdTab-inicio) {--section-accent:var(--qd-blue);}
+html body.qdModern .qdTabEnter .tabPage {width:100%;max-width:1000px!important;padding:0 0 28px!important;min-width:0;}
+html body.qdModern :is(.pageTop,.accountTitle) {text-align:left!important;padding:10px 0 28px!important;margin:0 0 24px!important;border-bottom:1px solid var(--qd-border)!important;}
+html body.qdModern :is(.pageTop,.accountTitle) h1 {font-size:clamp(30px,4vw,48px)!important;letter-spacing:-1.8px!important;line-height:1.12!important;margin:12px 0!important;color:var(--qd-text)!important;}
+html body.qdModern :is(.pageTop,.accountTitle)>p {color:var(--qd-muted)!important;line-height:1.6;}
+html body.qdModern .eyebrow {color:var(--qd-muted)!important;font-size:10px!important;letter-spacing:1.7px!important;}
+html body.qdModern .roundBadge {display:inline-flex!important;padding:8px 12px!important;border:1px solid var(--qd-border)!important;border-radius:30px!important;background:var(--qd-surface)!important;color:var(--qd-text)!important;}
+html body.qdModern .roundProgress {display:flex!important;align-items:center;gap:16px;max-width:none!important;margin:0 0 24px!important;padding:18px 22px!important;background:var(--qd-surface)!important;border:1px solid var(--qd-border)!important;border-radius:16px!important;color:var(--qd-text)!important;}
+html body.qdModern .roundProgress>div {flex:1;max-width:280px;background:var(--qd-border)!important;}
+html body.qdModern .roundProgress>div>i {background:var(--qd-blue)!important;}
+html body.qdModern .roundProgress>span {color:var(--qd-muted)!important;}
+html body.qdModern .matchStack {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px!important;}
+html body.qdModern .matchCard {margin:0!important;padding:22px!important;overflow:hidden;}
+html body.qdModern .matchCard.picked {border-color:color-mix(in srgb,var(--qd-blue) 65%,transparent)!important;}
+html body.qdModern .fixtureInfo {display:flex;justify-content:space-between;gap:12px;padding:0 0 16px!important;border-bottom:1px solid var(--qd-border)!important;color:var(--qd-muted)!important;font-size:10px!important;}
+html body.qdModern .fixtureInfo span {min-width:0;overflow-wrap:anywhere;}
+html body.qdModern .versus {padding:22px 0!important;gap:12px!important;}
+html body.qdModern .versus>div {min-width:0;flex:1;}
+html body.qdModern .versus b {color:var(--qd-text)!important;font-size:14px!important;overflow-wrap:anywhere;}
+html body.qdModern .versus>strong {color:var(--qd-muted)!important;font-size:11px!important;letter-spacing:2px;}
+html body.qdModern .pickHint {color:var(--qd-muted)!important;letter-spacing:1.4px!important;font-size:9px!important;}
+html body.qdModern .oneXtwo {gap:8px!important;}
+html body.qdModern .oneXtwo button {color:var(--qd-text)!important;transition:background .18s,border-color .18s;}
+html body.qdModern .oneXtwo button small {color:var(--qd-muted)!important;font-size:8px!important;letter-spacing:.8px;}
+html body.qdModern .oneXtwo button.active :is(b,small) {color:#fff!important;}
+html body.qdModern button:disabled {cursor:not-allowed;}
+html body.qdModern .roundDock {position:relative!important;inset:auto!important;display:flex!important;align-items:center;justify-content:space-between;gap:20px;margin:24px 0 0!important;padding:18px 22px!important;z-index:20;}
+html body.qdModern .roundDock b {font-size:14px!important;}
+html body.qdModern .roundDock small {font-size:11px!important;line-height:1.5;}
+html body.qdModern .roundDock button {height:auto!important;font-size:13px!important;}
+html body.qdModern .roundDockStatus {min-width:0;color:var(--qd-text)!important;}
+html body.qdModern .roundDockStatus small {color:var(--qd-muted)!important;}
+html body.qdModern .savePrediction {width:auto!important;min-width:220px;padding:14px 22px!important;}
+html body.qdModern :is(.predictionUnifiedTabs,.rankingRoundTabs) {display:flex!important;gap:6px!important;overflow-x:auto!important;max-width:100%;scrollbar-width:thin;}
+html body.qdModern :is(.predictionUnifiedTabs,.rankingRoundTabs) button {flex:0 0 auto!important;min-width:44px;min-height:44px!important;color:var(--qd-muted)!important;}
+html body.qdModern .rankingRoundTabs button {background:var(--qd-surface)!important;border:1px solid var(--qd-border)!important;border-radius:10px!important;}
+html body.qdModern .rankingRoundTabs button.active {background:var(--qd-blue)!important;color:#fff!important;border-color:var(--qd-blue)!important;}
+html body.qdModern .predictionUnifiedTabs button.active {color:#fff!important;}
+html body.qdModern .predictionSessionNotice {padding:18px!important;margin-bottom:18px!important;}
+html body.qdModern .predictionSessionNotice p {color:var(--qd-muted)!important;font-size:13px!important;line-height:1.6;}
+html body.qdModern :is(.predictionSessionNotice,.rivalsEmpty) button {min-height:44px;padding:10px 16px;border:1px solid var(--qd-border);border-radius:10px;background:var(--qd-blue);color:#fff;font:inherit;font-size:12px;}
+html body.qdModern .predictionSectionTitle {margin:30px 0 18px!important;}
+html body.qdModern .predictionSectionTitle h2 {color:var(--qd-text)!important;font-size:24px!important;letter-spacing:-.7px;}
+html body.qdModern .predictionSectionTitle :is(small,p) {color:var(--qd-muted)!important;}
+html body.qdModern :is(.seasonSticker,.rivalSeasonCard,.matchRivalsCard,.predictionSessionNotice,.rivalsEmpty) {background:var(--qd-surface)!important;border:1px solid var(--qd-border)!important;border-radius:18px!important;box-shadow:none!important;color:var(--qd-text)!important;}
+html body.qdModern .seasonStickerGrid {display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important;}
+html body.qdModern .seasonSticker {min-width:0;overflow:hidden;}
+html body.qdModern .seasonSticker :is(b,strong) {color:var(--qd-text)!important;}
+html body.qdModern .seasonSticker small {color:var(--qd-muted)!important;}
+html body.qdModern .miniSticker {padding:20px!important;background:var(--qd-surface-raised)!important;}
+html body.qdModern .matchRivalsList {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+html body.qdModern .matchRivalsCard {margin:0!important;padding:20px!important;}
+html body.qdModern .matchRivalsFixture b {color:var(--qd-text)!important;overflow-wrap:anywhere;}
+html body.qdModern :is(.matchRivalsDate,.matchRivalsEmpty) {color:var(--qd-muted)!important;}
+html body.qdModern .matchRivalsPlayers li {border-color:var(--qd-border)!important;}
+html body.qdModern .rankingHeader {color:var(--qd-muted)!important;padding:18px 22px!important;font-size:10px!important;letter-spacing:1px;}
+html body.qdModern .rankingRows {display:grid;gap:8px!important;}
+html body.qdModern .rankingRowButton {min-height:78px!important;margin:0!important;padding:14px 22px!important;color:var(--qd-text)!important;border-radius:14px!important;}
+html body.qdModern .rankingRowButton:first-child {border-color:color-mix(in srgb,var(--qd-blue) 55%,transparent)!important;background:var(--qd-surface-raised)!important;}
+html body.qdModern .rankingRowButton>span:first-child {color:var(--qd-muted)!important;font-variant-numeric:tabular-nums;}
+html body.qdModern .rankingRowButton>strong {color:var(--qd-text)!important;font-size:22px!important;font-variant-numeric:tabular-nums;}
+html body.qdModern .rankingPlayer {min-width:0;gap:14px!important;color:var(--qd-text)!important;}
+html body.qdModern .rankingPlayer>span:last-child {overflow-wrap:anywhere;}
+html body.qdModern .rankingAvatar {background:var(--qd-surface-raised)!important;color:var(--qd-text)!important;border:1px solid var(--qd-border)!important;}
+html body.qdModern .accountProfileCard {padding:28px!important;border:1px solid var(--qd-border)!important;border-radius:24px!important;background:var(--qd-surface)!important;box-shadow:none!important;}
+html body.qdModern .accountIdentity {padding:0!important;background:none!important;border:0!important;}
+html body.qdModern .accountIdentity h2 {color:var(--qd-text)!important;font-size:28px!important;overflow-wrap:anywhere;}
+html body.qdModern .bigAvatar {background:var(--qd-surface-raised)!important;border:2px solid var(--qd-border)!important;box-shadow:none!important;}
+html body.qdModern :is(.photoAction,.removePhoto,.profileNameButton) {background:var(--qd-surface-raised)!important;color:var(--qd-text)!important;border:1px solid var(--qd-border)!important;border-radius:12px!important;min-height:44px;}
+html body.qdModern :is(.photoHint,.profileNameButton small,.profileNameButton em) {color:var(--qd-muted)!important;}
+html body.qdModern .accountSection {margin:30px 0!important;}
+html body.qdModern .accountSection h3 {color:var(--qd-muted)!important;font-size:11px!important;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px!important;}
+html body.qdModern .accountList {border:1px solid var(--qd-border)!important;border-radius:18px!important;background:var(--qd-surface)!important;overflow:hidden;box-shadow:none!important;}
+html body.qdModern .accountList>button {min-height:84px!important;padding:20px!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--qd-border)!important;color:var(--qd-text)!important;}
+html body.qdModern .accountList>button:last-child {border-bottom:0!important;}
+html body.qdModern .accountList>button>span {background:var(--qd-surface-raised)!important;color:var(--qd-blue)!important;border-radius:12px!important;}
+html body.qdModern .accountList b {color:var(--qd-text)!important;}
+html body.qdModern .accountList small {color:var(--qd-muted)!important;line-height:1.5!important;}
+html body.qdModern .accountList .deleteAccount :is(b,span) {color:var(--qd-red)!important;}
+html body.qdModern :is(button,a,input,select):focus-visible {outline:2px solid var(--qd-blue)!important;outline-offset:4px;}
+.qdLaunch {box-sizing:border-box;background:radial-gradient(ellipse at 50% 45%,var(--qd-surface-raised),var(--qd-bg) 65%);}
+.qdLaunch::before {content:"";position:absolute;width:min(74vw,380px);aspect-ratio:1;border:1px solid var(--qd-border);border-radius:50%;pointer-events:none;}
+.qdLaunchEmblem {width:88px;height:100px;border-radius:24px 24px 40px 40px;background:linear-gradient(145deg,#2878ef,#163d76);box-shadow:0 24px 80px #2878ef30;}
+.qdLaunchEmblem::after {content:"";position:absolute;bottom:17px;width:22px;height:3px;border-radius:2px;background:var(--qd-red);}
+.qdLaunchWordmark {font-size:34px;letter-spacing:-1.8px;}
+.qdLaunchTrack {width:180px;margin-top:32px;}
+.qdLaunch>small {font-size:12px;letter-spacing:.5px;}
+@media(hover:hover) {html body.qdModern :is(.rankingRowButton,.accountList>button):hover {background:var(--qd-surface-raised)!important;}html body.qdModern .oneXtwo button:not(:disabled):hover {border-color:var(--qd-blue)!important;}}
+@media(min-width:900px) {html body.qdModern .porraAccount {display:grid;grid-template-columns:1fr 1fr;column-gap:28px;align-items:start;}html body.qdModern .porraAccount>.accountTitle {grid-column:1/-1;}html body.qdModern .porraAccount>.accountProfileCard {grid-row:span 2;}html body.qdModern .porraAccount>.accountSection {margin:0 0 28px!important;}}
+@media(max-width:700px) {
+ html body.qdModern .matchStack,html body.qdModern .matchRivalsList {grid-template-columns:minmax(0,1fr);gap:16px!important;}
+ html body.qdModern .seasonStickerGrid {grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;}
+ html body.qdModern :is(.pageTop,.accountTitle) {padding-top:4px!important;margin-bottom:20px!important;}
+ html body.qdModern :is(.pageTop,.accountTitle) h1 {letter-spacing:-1.2px!important;}
+ html body.qdModern .roundProgress {flex-wrap:wrap;padding:16px!important;gap:12px;}
+ html body.qdModern .roundProgress>span {flex-basis:100%;text-align:left;}
+ html body.qdModern .roundDock {flex-direction:column;align-items:stretch;gap:12px;padding:16px!important;}
+ html body.qdModern .savePrediction {width:100%!important;min-width:0;}
+ html body.qdModern .accountProfileCard {padding:20px!important;}
+ html body.qdModern .rankingRowButton {padding:14px!important;min-height:72px!important;}
+ html body.qdModern .rankingPlayer {gap:10px!important;}
+ html body.qdModern .accountList>button {padding:16px!important;}
+}
+@media(prefers-reduced-motion:reduce) {.qdLaunchEmblem i,.qdLaunchTrack i {animation:none!important;}.qdLaunchTrack i {width:100%;}}

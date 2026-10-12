@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./matchday.css";
+import "./sections.css";
 import {Inter} from "next/font/google";
 const inter=Inter({subsets:["latin"],variable:"--font-inter",display:"swap"});
 const appIcon="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png";
