@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1290" height="2796" viewBox="0 0 1290 2796">
-<defs><radialGradient id="bg" cx="50%" cy="42%" r="72%"><stop offset="0" stop-color="#223446"/><stop offset=".45" stop-color="#192734"/><stop offset="1" stop-color="#15202b"/></radialGradient><linearGradient id="q" x1="0" x2="1"><stop stop-color="#ef334f"/><stop offset="1" stop-color="#338de0"/></linearGradient></defs>
+<defs><radialGradient id="bg" cx="50%" cy="42%" r="72%"><stop offset="0" stop-color="#10386d"/><stop offset=".45" stop-color="#0a2855"/><stop offset="1" stop-color="#061a3b"/></radialGradient><linearGradient id="q" x1="0" x2="1"><stop stop-color="#ef334f"/><stop offset="1" stop-color="#338de0"/></linearGradient></defs>
 <rect width="1290" height="2796" fill="url(#bg)"/>
 <circle cx="160" cy="1500" r="520" fill="#b21f3d" opacity=".10"/><circle cx="1160" cy="1080" r="560" fill="#1269b0" opacity=".12"/>
 <text x="645" y="1430" text-anchor="middle" font-family="Arial,sans-serif" font-size="88" font-weight="900" letter-spacing="7"><tspan fill="#ffffff">QUINI</tspan><tspan fill="#ef334f">DE</tspan><tspan fill="#338de0">RIO</tspan></text>

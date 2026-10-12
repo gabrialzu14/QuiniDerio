@@ -1,16 +1,16 @@
 /* Quiniderio Matchday — shared with the responsive MagicPath design.
    Scoped to the new shell so legacy/admin surfaces keep their own layout. */
-html:has(body.qdModern) {background:#15202b!important;}
+html:has(body.qdModern) {background:#061a3b!important;}
 html[data-theme="light"]:has(body.qdModern) {background:#f2f5fa!important;}
 html:not([data-theme="light"]) body.qdModern,
 html[data-theme="light"] body.qdModern {background:var(--qd-bg)!important;}
 body.qdModern {
-  --qd-bg:#15202b;
-  --qd-surface:#192734;
-  --qd-surface-raised:#223446;
-  --qd-border:rgba(157,185,225,.13);
+  --qd-bg:#061a3b;
+  --qd-surface:#0a2855;
+  --qd-surface-raised:#10386d;
+  --qd-border:rgba(88,157,255,.24);
   --qd-text:#eef4ff;
-  --qd-muted:#9bacc5;
+  --qd-muted:#9fc5f5;
   --qd-blue:#2878ef;
   --qd-red:#ff5269;
   --qd-ease:cubic-bezier(.22,1,.36,1);
@@ -72,7 +72,7 @@ html body.qdModern .qdSeason b {color:var(--qd-text)!important;}
 .qdMatchdayBadge {display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:9px;letter-spacing:1px;font-weight:700;}
 .qdMatchdayBadge i {height:6px;width:6px;border-radius:50%;background:var(--qd-red);}
 html body.qdModern .qdOverviewSummary {display:grid;gap:16px;padding:0 0 28px;--summary-text:var(--qd-text);--summary-muted:var(--qd-muted);--summary-line:var(--qd-border);--summary-surface:var(--qd-surface);}
-.qdOverviewFeature {position:relative;display:grid;grid-template-columns:1.3fr 1fr;min-width:0;overflow:hidden;border:1px solid rgba(76,128,188,.25);border-radius:24px;background:radial-gradient(ellipse at 80% 30%,#23477c80,transparent 60%),linear-gradient(120deg,#16263e,#102037);padding:34px;color:#eef4ff;}
+.qdOverviewFeature {position:relative;display:grid;grid-template-columns:1.3fr 1fr;min-width:0;overflow:hidden;border:1px solid rgba(76,128,188,.25);border-radius:24px;background:radial-gradient(ellipse at 80% 30%,#23477c80,transparent 60%),linear-gradient(120deg,#0c3979,#082653);padding:34px;color:#eef4ff;}
 .qdOverviewFeatureCopy {position:relative;z-index:1;min-width:0;}
 .qdOverviewFeature .qdOverviewEyebrow {color:#f795a4;font-size:9px;letter-spacing:1.7px;}
 .qdOverviewFeature h2 {font-size:clamp(26px,3vw,36px);line-height:1.12;letter-spacing:-1.2px;margin:16px 0;color:#fff;}
@@ -109,7 +109,7 @@ html body.qdModern .qdKick {background:none!important;}
 html body.qdModern .qdKick strong {font-size:18px!important;color:var(--qd-text)!important;}
 html body.qdModern .qdKick small {font-size:8px!important;color:var(--qd-muted)!important;}
 html body.qdModern .qdFixture.isLive .qdKick strong {color:#5ee0ab!important;}
-html body.qdModern .qdMotionNav.liquidNav {background:rgba(16,29,48,.96)!important;border:1px solid rgba(157,185,225,.2)!important;border-radius:20px!important;box-shadow:0 12px 35px #0003!important;backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;min-height:66px!important;padding:6px!important;bottom:max(12px,env(safe-area-inset-bottom))!important;}
+html body.qdModern .qdMotionNav.liquidNav {background:rgba(6,26,59,.96)!important;border:1px solid rgba(157,185,225,.2)!important;border-radius:20px!important;box-shadow:0 12px 35px #0003!important;backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;min-height:66px!important;padding:6px!important;bottom:max(12px,env(safe-area-inset-bottom))!important;}
 html body.qdModern .qdMotionNav .navIndicator {top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/5);border-radius:14px;background:rgba(40,120,239,.16);box-shadow:none;transition:transform .26s var(--qd-ease);}
 html body.qdModern .qdMotionNav.liquidNav button {color:#98adca!important;border-radius:14px!important;gap:4px!important;}
 html body.qdModern .qdMotionNav.liquidNav button.active {color:#a6caff!important;background:transparent!important;box-shadow:none!important;}
