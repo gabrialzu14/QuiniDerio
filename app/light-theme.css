@@ -1,0 +1,69 @@
+/* Light surfaces need their own readable ink, including dialogs portalled to body. */
+html[data-theme="light"] body.qdModern {
+ --qd-blue:#1764ce;
+ --qd-red:#bf2946;
+}
+html[data-theme="light"] body.qdModern :is(.qdOverviewCta,.authContinue,.nameEditor>button,.roundPendingClose) {background:var(--qd-blue)!important;color:#fff!important;}
+html[data-theme="light"] body.qdModern :is(.qdRoundTabs,.rankingTabs,.predictionUnifiedTabs,.authTabs,.segmented) button {color:var(--qd-muted)!important;background:transparent!important;}
+html[data-theme="light"] body.qdModern :is(.qdRoundTabs,.rankingTabs,.predictionUnifiedTabs,.authTabs,.segmented) button.active {background:var(--qd-blue)!important;color:#fff!important;}
+html[data-theme="light"] body.qdModern :is(.fixtureInfo span,.fixtureInfo span:last-child,.versus small,.roundDockStatus small,.eyebrow,.accountTitle .eyebrow,.accountSection h3,.settingRow small) {color:var(--qd-muted)!important;}
+html[data-theme="light"] body.qdModern .roundDockStatus b {color:var(--qd-text)!important;}
+html[data-theme="light"] body.qdModern :is(.accountList>button>span,.settingIcon) {background:var(--qd-surface-raised)!important;color:var(--qd-blue)!important;}
+html[data-theme="light"] body.qdModern .accountSection {background:transparent!important;box-shadow:none!important;}
+html[data-theme="light"] body.qdModern .deleteAccount :is(b,span,small) {color:var(--qd-red)!important;}
+html[data-theme="light"] body.qdModern .qdMotionNav small {font-size:9px!important;line-height:1.35!important;letter-spacing:-.2px!important;}
+html[data-theme="light"] body.qdModern .rankingTabs button {font-size:12px!important;min-height:44px!important;}
+html[data-theme="light"] body.qdModern .predictionUnifiedTabs button {font-size:12px!important;}
+html[data-theme="light"] body.qdModern :is(.detailSheetHead small,.detailRow span,.nameEditor label,.nameEditor small,.nameEditor>div>b,.classificationFormat>p) {color:var(--qd-muted)!important;}
+html[data-theme="light"] body.qdModern .detailRow {border-color:var(--qd-border)!important;gap:16px;}
+html[data-theme="light"] body.qdModern .detailRow b {color:var(--qd-blue)!important;}
+html[data-theme="light"] body.qdModern .detailRow :is(span,b) {font-size:13px!important;line-height:1.5!important;}
+html[data-theme="light"] body.qdModern :is(.detailBackdrop>.detailSheet .detailSheetHead button,.playerStatsModal>header>button) {width:44px!important;height:44px!important;flex:0 0 44px!important;font-size:25px!important;background:var(--qd-surface-raised)!important;color:var(--qd-text)!important;border:1px solid var(--qd-border)!important;border-radius:12px!important;}
+html[data-theme="light"] body.qdModern .detailBackdrop>.detailSheet .detailSheetHead small {font-size:10px!important;line-height:1.5!important;}
+html[data-theme="light"] body.qdModern .detailBackdrop>.detailSheet .detailSheetHead h2 {font-size:22px!important;line-height:1.25!important;}
+html[data-theme="light"] body.qdModern .classificationFormat>p {font-size:13px!important;line-height:1.6!important;}
+html[data-theme="light"] body.qdModern .classificationFormatRow {min-height:40px!important;height:auto!important;padding:9px 12px!important;}
+html[data-theme="light"] body.qdModern .classificationFormatRow :is(span,b) {font-size:13px!important;line-height:1.4!important;}
+html[data-theme="light"] body.qdModern .classificationFormatRow b.reduce {color:#15734b!important;}
+html[data-theme="light"] body.qdModern .classificationFormatRow b.increase {color:var(--qd-red)!important;}
+html[data-theme="light"] body.qdModern .classificationFormatRow b.neutral {color:var(--qd-muted)!important;}
+html[data-theme="light"] body.qdModern .nameEditor label {font-size:11px!important;}
+html[data-theme="light"] body.qdModern .nameEditor :is(small,div>b) {font-size:12px!important;line-height:1.5!important;}
+html[data-theme="light"] body.qdModern .nameEditor input {font-size:16px!important;min-height:48px!important;}
+html[data-theme="light"] body.qdModern .playerStatsAvatar {color:var(--qd-text)!important;background:var(--qd-surface-raised)!important;border-color:var(--qd-border)!important;}
+html[data-theme="light"] body.qdModern :is(.playerStatsCalculated,.playerStatsEmpty,.playerStatsLoading,.playerStatsSummary small,.playerMatchTitle>small,.playerMatchList article>div small) {color:var(--qd-muted)!important;}
+html[data-theme="light"] body.qdModern :is(.playerStatsCalculated,.playerStatsEmpty,.playerStatsLoading) {font-size:12px!important;line-height:1.6!important;}
+html[data-theme="light"] body.qdModern .playerStatsSummary small {font-size:9px!important;line-height:1.4!important;}
+html[data-theme="light"] body.qdModern .playerMatchTitle>div span {font-size:10px!important;color:#15734b!important;}
+html[data-theme="light"] body.qdModern .playerMatchList article {background:var(--qd-surface-raised)!important;border-color:var(--qd-border)!important;}
+html[data-theme="light"] body.qdModern .playerMatchList article>div :is(b,small) {font-size:11px!important;line-height:1.5!important;}
+html[data-theme="light"] body.qdModern .playerMatchList article>span strong {color:var(--qd-text)!important;}
+html[data-theme="light"] body.qdModern .playerMatchList article.hit>span strong {background:#15734b!important;color:#fff!important;}
+html[data-theme="light"] body.qdModern .authForm :is(p,label,.notificationOpt small,.authStatus) {color:var(--qd-muted)!important;}
+html[data-theme="light"] body.qdModern .authForm>label {font-size:12px!important;}
+html[data-theme="light"] body.qdModern .authForm>.later {color:var(--qd-blue)!important;min-height:44px;}
+html[data-theme="light"] body.qdModern .authForm input::placeholder {color:var(--qd-muted)!important;}
+html[data-theme="light"] body.qdModern .notificationOpt {background:var(--qd-surface-raised)!important;border-color:var(--qd-border)!important;}
+html[data-theme="light"] body.qdModern .notificationOpt b {color:var(--qd-text)!important;}
+html[data-theme="light"] body.qdModern .profileUpload b {background:var(--qd-surface-raised)!important;color:var(--qd-blue)!important;border-color:var(--qd-border)!important;}
+@media(max-width:800px) {
+ html[data-theme="light"] body.qdModern .qdOverviewStatLabel {font-size:9px!important;line-height:1.4!important;}
+ html[data-theme="light"] body.qdModern .qdOverviewStatHead {min-height:26px;align-items:flex-start;}
+ html[data-theme="light"] body.qdModern .qdOverviewStatDetail {font-size:10px!important;}
+ html[data-theme="light"] body.qdModern .qdClub b {font-size:11px!important;}
+ html[data-theme="light"] body.qdModern .qdClub small {font-size:10px!important;}
+ html[data-theme="light"] body.qdModern .qdKick small {font-size:9px!important;}
+ html[data-theme="light"] body.qdModern .qdRoundTabs button {min-height:44px!important;}
+}
+@media(max-width:360px) {html[data-theme="light"] body.qdModern .qdMotionNav small {font-size:8.5px!important;}}
+
+/* Keep team captions legible on every coach photo. */
+html[data-theme="light"] body.qdModern .stickerPhoto span {left:0!important;right:0!important;bottom:0!important;max-width:none!important;padding:4px 3px!important;background:#152d4b!important;color:#fff!important;font-size:9px!important;line-height:1.35!important;white-space:normal!important;text-align:center!important;overflow-wrap:anywhere;}
+html[data-theme="light"] body.qdModern .stickerCopy small {font-size:9px!important;line-height:1.4!important;}
+html[data-theme="light"] body.qdModern .seasonSticker b {font-size:11px!important;line-height:1.45!important;white-space:normal!important;overflow-wrap:anywhere;}
+html[data-theme="light"] body.qdModern .seasonSticker>small {font-size:10px!important;line-height:1.4!important;}
+html[data-theme="light"] body.qdModern :is(.avatarCropTop small,.avatarZoom small) {color:var(--qd-muted)!important;}
+html[data-theme="light"] body.qdModern .avatarCropTop b {color:var(--qd-text)!important;}
+html[data-theme="light"] body.qdModern .avatarCropTop button {color:var(--qd-text)!important;background:var(--qd-surface-raised)!important;min-width:44px!important;min-height:44px!important;}
+html[data-theme="light"] body.qdModern .avatarCropActions button {color:var(--qd-text)!important;background:var(--qd-surface-raised)!important;border-color:var(--qd-border)!important;min-height:44px!important;}
+html[data-theme="light"] body.qdModern .avatarCropActions button.primary {color:#fff!important;background:var(--qd-blue)!important;}
