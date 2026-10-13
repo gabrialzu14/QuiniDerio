@@ -6033,7 +6033,7 @@ html body .matchCard .oneXtwo button.active.pickX{
 }
 
 /* Team league position and points: Inicio reduced 10% from 12px to 10.8px; Quiniela remains 9.6px. */
-.dashboard .qdFixture .qdClubName > small{font-size:10.8px!important;line-height:1.2!important}
+.dashboard .qdFixture .qdClubName > small{font-size:10.26px!important;line-height:1.2!important}
 .dashboard .matchCard .versus > div > small{font-size:9.6px!important;line-height:1.2!important}
 
 /* Pronósticos: integrate date and ground around the central score, saving the former bottom metadata row. */
