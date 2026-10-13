@@ -5895,3 +5895,13 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotOne{backg
    Uniformly shrink both Derio and opponent marks without changing alignment. */
 .qdFixture .qdClub .crestBox{width:35px!important;height:35px!important;min-width:35px!important;flex:0 0 35px!important}
 @media(max-width:480px){.qdFixture .qdClub .crestBox{width:34px!important;height:34px!important;min-width:34px!important;flex-basis:34px!important}}
+
+/* Quiniela cards (distinct from home fixture list): compact J2-sized crests. */
+.matchCard .versus .crestBox{width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;margin:0 auto 6px!important;padding:0!important;overflow:visible!important}
+.matchCard .versus .crestBox img{display:block!important;width:40px!important;height:40px!important;max-width:40px!important;max-height:40px!important;object-fit:contain!important;margin:auto!important;padding:0!important}
+@media(max-width:480px){.matchCard .versus .crestBox{width:42px!important;height:42px!important;min-width:42px!important;max-width:42px!important}.matchCard .versus .crestBox img{width:38px!important;height:38px!important;max-width:38px!important;max-height:38px!important}}
+/* 1/X/2 selections on the actual match cards, not just a wrapper class. */
+.matchCard .oneXtwo button.active.pick1{background:#176ed5!important;border-color:#329bff!important;color:#fff!important}
+.matchCard .oneXtwo button.active.pickX{background:#f7f9fc!important;border-color:#fff!important;color:#14243b!important}
+.matchCard .oneXtwo button.active.pickX b,.matchCard .oneXtwo button.active.pickX small{color:#14243b!important}
+.matchCard .oneXtwo button.active.pick2{background:#d62e46!important;border-color:#f34b61!important;color:#fff!important}
