@@ -6005,3 +6005,29 @@ html body .matchCard .oneXtwo button.active.pickX{
 .matchCard .versus .crestBox img[src*="bermeo.webp"]{transform:scale(1.42)!important}
 .matchCard .versus .crestBox img[src*="balmaseda.webp"]{transform:scale(1.55)!important}
 .matchCard .versus .crestBox img[src*="askartza.webp"]{transform:scale(1.48)!important}
+
+/* Normalized crests: the server removes transparent borders and places each
+   visible shield inside an identical square. Disable all previous per-team
+   scale multipliers so every team receives the same effective dimensions. */
+.qdFixture .qdClub .crestBox.crestNormalized img,
+.matchCard .versus .crestBox.crestNormalized img,
+.qdFixture .qdClub .crestBox.crestNormalized img[src],
+.matchCard .versus .crestBox.crestNormalized img[src]{
+ transform:none!important;
+ transform-origin:center center!important;
+ object-fit:contain!important;
+ padding:0!important;
+}
+.qdFixture .qdClub .crestBox.crestNormalized,
+.matchCard .versus .crestBox.crestNormalized{
+ display:grid!important;
+ place-items:center!important;
+ border:0!important;
+ background:transparent!important;
+}
+@media(max-width:480px){
+ .qdFixture .qdClub .crestBox.crestNormalized img,
+ .matchCard .versus .crestBox.crestNormalized img{
+   width:31px!important;height:31px!important;max-width:31px!important;max-height:31px!important;
+ }
+}
