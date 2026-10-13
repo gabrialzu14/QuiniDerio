@@ -206,7 +206,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
   "Juvenil A":{opponent:"Artibai A",crest:"/api/assets/Escudos/artibai.webp",date:"17/10/2026",time:"20:00",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
   "Juvenil B":{opponent:"Askartza B",crest:"/api/assets/Escudos/askartza.webp",date:"18/10/2026",time:"20:00",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
-  "Cadete B":{opponent:"Ugeraga B",crest:"/api/assets/Escudos/ugeraga.webp?v=20261013-2",date:"18/10/2026",time:"13:00",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
+  "Cadete B":{opponent:"Ugeraga B",crest:"/api/assets/Escudos/ugeraga%20.webp?v=20261013-supabase",date:"18/10/2026",time:"13:00",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
  }
 };
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
