@@ -174,7 +174,7 @@ const matchdayThreeStandings:Record<string,string>={
  "Touring":"9º · 8 pts","Derio A":"3º · 12 pts",
  "Zumaiako":"8º · 4 pts","Derio Fem":"10º · 4 pts",
  "Derio B":"15º · 2 pts","Bermeo B":"9º · 6 pts",
- "Derio Fem B":"5º · 1 pto","Balmaseda":"15º · 0 pts",
+ "Derio Fem B":"5º · 1 pto","Balmaseda":"5º · 0 pts",
  "Juvenil A":"9º · 6 pts","Artibai A":"14º · 4 pts",
  "Juvenil B":"3º · 4 pts","Askartza B":"11º · 3 pts",
  "Cadete B":"12º · 0 pts","Ugeraga B":"7º · 3 pts"
@@ -214,7 +214,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",venue:"Fanderia, Errenteria",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
   "Derio B":{opponent:"Bermeo B",crest:"/api/assets/Escudos/bermeo.webp",date:"18/10/2026",time:"15:15",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
   "Derio Fem":{opponent:"Zumaiako",crest:"/api/assets/Escudos/zumaiako.webp",date:"17/10/2026",time:"15:00",venue:"Aita Mari, Zumaia",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
-  "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
+  "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:5},
   "Juvenil A":{opponent:"Artibai A",crest:"/api/assets/Escudos/artibai.webp",date:"17/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
   "Juvenil B":{opponent:"Askartza B",crest:"/api/assets/Escudos/askartza.webp",date:"18/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
   "Cadete B":{opponent:"Ugeraga B",crest:"/api/assets/Escudos/ugeraga%20.webp?v=20261013-supabase",date:"18/10/2026",time:"13:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
