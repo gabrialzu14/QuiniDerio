@@ -6043,3 +6043,10 @@ html body .matchCard .oneXtwo button.active.pickX{
 .predictionsPage .matchRivalsCenter .matchRivalsVenue{font-size:9.5px!important;opacity:.78!important}
 .predictionsPage .matchRivalsCenter .matchRivalsScore{display:block!important;line-height:1.15!important;margin:2px 0!important;font-size:18px!important;font-weight:800!important;white-space:nowrap!important;opacity:1!important}
 @media(max-width:380px){.predictionsPage .matchRivalsFixture{grid-template-columns:minmax(0,1fr) minmax(108px,1.18fr) minmax(0,1fr)!important;gap:5px!important;padding:12px 10px 9px!important}.predictionsPage .matchRivalsCenter .matchRivalsDate{font-size:9px!important}}
+
+/* Inicio scoreboards: match team-name font sizes used by Quiniela cards.
+   Quiniela: 12px normally, 10px on narrow screens (<=430px). */
+.dashboard .qdFixture .qdClubName > b {font-size:12px!important;}
+@media (max-width:430px){
+  .dashboard .qdFixture .qdClubName > b {font-size:10px!important;}
+}
