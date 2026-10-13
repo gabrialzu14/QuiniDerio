@@ -6035,3 +6035,11 @@ html body .matchCard .oneXtwo button.active.pickX{
 /* Team league position and points: Inicio reduced 10% from 12px to 10.8px; Quiniela remains 9.6px. */
 .dashboard .qdFixture .qdClubName > small{font-size:10.8px!important;line-height:1.2!important}
 .dashboard .matchCard .versus > div > small{font-size:9.6px!important;line-height:1.2!important}
+
+/* Pronósticos: integrate date and ground around the central score, saving the former bottom metadata row. */
+.predictionsPage .matchRivalsFixture{grid-template-columns:minmax(0,1fr) minmax(116px,1.22fr) minmax(0,1fr)!important;align-items:center!important;gap:7px!important;padding:12px 12px 10px!important}
+.predictionsPage .matchRivalsFixture .matchRivalsCenter{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;min-width:0!important;text-align:center!important}
+.predictionsPage .matchRivalsCenter .matchRivalsDate,.predictionsPage .matchRivalsCenter .matchRivalsVenue{display:block!important;margin:0!important;padding:0!important;max-width:100%!important;font-size:10px!important;font-weight:600!important;line-height:1.2!important;white-space:normal!important;overflow-wrap:anywhere!important;color:var(--muted,#9eabbc)!important;opacity:.9!important}
+.predictionsPage .matchRivalsCenter .matchRivalsVenue{font-size:9.5px!important;opacity:.78!important}
+.predictionsPage .matchRivalsCenter .matchRivalsScore{display:block!important;line-height:1.15!important;margin:2px 0!important;font-size:18px!important;font-weight:800!important;white-space:nowrap!important;opacity:1!important}
+@media(max-width:380px){.predictionsPage .matchRivalsFixture{grid-template-columns:minmax(0,1fr) minmax(108px,1.18fr) minmax(0,1fr)!important;gap:5px!important;padding:12px 10px 9px!important}.predictionsPage .matchRivalsCenter .matchRivalsDate{font-size:9px!important}}
