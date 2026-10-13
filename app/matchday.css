@@ -313,3 +313,32 @@ html body.qdModern .matchCard .versus > div:first-child .teamFormDots {
 html body.qdModern .matchCard .versus > div:last-child .teamFormDots {
   margin: 3px auto 0 0 !important;
 }
+
+
+/* 2026-10-13: Anchor standings to the same inner edge as recent-form dots.
+   For the left club both finish at the right edge, next to its shield;
+   for the right club both begin at the left edge, next to its shield. */
+html body.qdModern .qdHome .qdFixture .qdClub.home .qdClubName > small {
+  align-self: flex-end !important;
+  text-align: right !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  max-width: 100% !important;
+}
+html body.qdModern .qdHome .qdFixture .qdClub:not(.home) .qdClubName > small {
+  align-self: flex-start !important;
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  max-width: 100% !important;
+}
+html body.qdModern .matchCard .versus > div:first-child > small {
+  display: block !important;
+  width: 100% !important;
+  text-align: right !important;
+}
+html body.qdModern .matchCard .versus > div:last-child > small {
+  display: block !important;
+  width: 100% !important;
+  text-align: left !important;
+}
