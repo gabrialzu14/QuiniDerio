@@ -5975,3 +5975,21 @@ html body .matchCard .oneXtwo button.active.pickX{
 .qdLaunchScan::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,#398fe9,#d83a50,transparent);animation:qdScan 1.5s ease-in-out infinite}
 @keyframes qdScan{0%{transform:translateX(-120%)}100%{transform:translateX(370%)}}
 @media(prefers-reduced-motion:reduce){.qdLaunchScan::after{animation:none;width:100%}}
+
+/* Jornada fixtures: classic J2 compact row layout, balanced on both sides. */
+.qdFixture{grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr)!important;column-gap:8px!important}
+.qdFixture .qdClub{min-width:0!important;gap:10px!important;align-items:center!important}
+.qdFixture .qdClubName{min-width:0!important;display:flex!important;flex-direction:column!important;gap:3px!important;min-height:0!important;align-items:flex-start!important;justify-items:initial!important;text-align:left!important}
+.qdFixture .qdClub.home .qdClubName{align-items:flex-end!important;text-align:right!important}
+.qdFixture .qdClubName>b{line-height:1.2!important}
+.qdFixture .qdClubName>small{line-height:1.2!important;min-height:0!important;margin:0!important}
+.qdFixture .qdClubName>.teamFormDots{height:8px!important;min-height:8px!important;line-height:8px!important;margin-top:1px!important}
+.qdFixture .qdClub.home .teamFormDots{justify-content:flex-end!important}
+.qdFixture .qdClub:not(.home) .teamFormDots{justify-content:flex-start!important}
+.qdFixture .qdClub .crestBox{width:35px!important;height:35px!important;min-width:35px!important;flex:0 0 35px!important}
+.qdFixture .qdClub .crestBox img{width:32px!important;height:32px!important;max-width:32px!important;max-height:32px!important}
+@media(max-width:480px){.qdFixture{grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr)!important;column-gap:5px!important;padding-left:10px!important;padding-right:10px!important}.qdFixture .qdClub{gap:7px!important}.qdFixture .qdClub .crestBox{width:34px!important;height:34px!important;min-width:34px!important;flex-basis:34px!important}.qdFixture .qdClub .crestBox img{width:31px!important;height:31px!important;max-width:31px!important;max-height:31px!important}}
+/* Quiniela: same compact crest footprint as Inicio; remove oversized inherited imagery. */
+.matchCard .versus .crestBox{width:35px!important;height:35px!important;min-width:35px!important;max-width:35px!important;margin:0 auto 6px!important}
+.matchCard .versus .crestBox img{width:32px!important;height:32px!important;max-width:32px!important;max-height:32px!important;object-fit:contain!important}
+@media(max-width:480px){.matchCard .versus .crestBox{width:34px!important;height:34px!important;min-width:34px!important;max-width:34px!important}.matchCard .versus .crestBox img{width:31px!important;height:31px!important;max-width:31px!important;max-height:31px!important}}
