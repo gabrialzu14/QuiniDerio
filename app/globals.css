@@ -5993,3 +5993,15 @@ html body .matchCard .oneXtwo button.active.pickX{
 .matchCard .versus .crestBox{width:35px!important;height:35px!important;min-width:35px!important;max-width:35px!important;margin:0 auto 6px!important}
 .matchCard .versus .crestBox img{width:32px!important;height:32px!important;max-width:32px!important;max-height:32px!important;object-fit:contain!important}
 @media(max-width:480px){.matchCard .versus .crestBox{width:34px!important;height:34px!important;min-width:34px!important;max-width:34px!important}.matchCard .versus .crestBox img{width:31px!important;height:31px!important;max-width:31px!important;max-height:31px!important}}
+
+/* Optical size matching for Quiniela crests: account for padding inside WebP assets.
+   Keep the same 34px outer slot as Derio while enlarging the smaller artwork. */
+.matchCard .versus .crestBox{display:grid!important;place-items:center!important;overflow:visible!important}
+.matchCard .versus .crestBox img{transform-origin:center center!important}
+.matchCard .versus .crestBox img[src*="touring.webp"]{transform:scale(1.55)!important}
+.matchCard .versus .crestBox img[src*="zumaiako.webp"]{transform:scale(1.55)!important}
+.matchCard .versus .crestBox img[src*="artibai.webp"]{transform:scale(1.28)!important}
+.matchCard .versus .crestBox img[src*="ugeraga.webp"]{transform:scale(1.50)!important}
+.matchCard .versus .crestBox img[src*="bermeo.webp"]{transform:scale(1.42)!important}
+.matchCard .versus .crestBox img[src*="balmaseda.webp"]{transform:scale(1.55)!important}
+.matchCard .versus .crestBox img[src*="askartza.webp"]{transform:scale(1.48)!important}
