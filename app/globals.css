@@ -5857,3 +5857,13 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotOne{backg
 .qdFixture .qdClub .crestBox{width:46px!important;height:46px!important;flex:0 0 46px!important;min-width:46px!important;margin:0!important;padding:0!important;display:grid!important;place-items:center!important;background:transparent!important;border:0!important;border-radius:0!important;overflow:visible!important}
 .qdFixture .qdClub .crestBox img{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:contain!important;object-position:center!important;padding:0!important;margin:0!important;transform:none!important;border-radius:0!important}
 @media(max-width:480px){.qdFixture .qdClub .crestBox{width:44px!important;height:44px!important;flex-basis:44px!important;min-width:44px!important}}
+
+/* Optical normalization: original opponent WebPs contain varying transparent padding.
+   Scale only their visible artwork; CD Derio remains the size reference. */
+.qdFixture .qdClub .crestBox img[src*="/touring.webp"]{transform:scale(1.65)!important}
+.qdFixture .qdClub .crestBox img[src*="/zumaiako.webp"]{transform:scale(1.45)!important}
+.qdFixture .qdClub .crestBox img[src*="/artibai.webp"]{transform:scale(1.45)!important}
+.qdFixture .qdClub .crestBox img[src*="/ugeraga.webp"]{transform:scale(1.8)!important}
+.qdFixture .qdClub .crestBox img[src*="/bermeo.webp"]{transform:scale(1.5)!important}
+.qdFixture .qdClub .crestBox img[src*="/balmaseda.webp"]{transform:scale(1.55)!important}
+.qdFixture .qdClub .crestBox img[src*="/askartza.webp"]{transform:scale(1.65)!important}
