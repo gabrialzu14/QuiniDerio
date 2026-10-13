@@ -6031,3 +6031,7 @@ html body .matchCard .oneXtwo button.active.pickX{
    width:31px!important;height:31px!important;max-width:31px!important;max-height:31px!important;
  }
 }
+
+/* +20% legibility for team league position and points in Inicio scores and Quiniela. */
+.dashboard .qdFixture .qdClubName > small{font-size:12px!important;line-height:1.2!important}
+.dashboard .matchCard .versus > div > small{font-size:9.6px!important;line-height:1.2!important}
