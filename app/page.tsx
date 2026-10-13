@@ -105,7 +105,7 @@ export default function Home(){
 function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatches,liveCards,totalPot}:{savedRounds:Record<number,boolean>,onOpenQuiniela:(round:number)=>void,onTab:(tab:"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas")=>void,picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,liveCards:LiveCard[],totalPot:number,onRanking:(destination:RankingDestination)=>void}){
  const currentRound=3;
  const [homeRound,setHomeRound]=useState(currentRound);
- const standings=homeRound===2?currentStandings:{"Derio A":"EVVVE","Beasain":"15º · 4 pts","Derio B":"EDDE","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"VDDV","Iturrigorri A":"8º · 3 pts"};
+ const standings=homeRound===3?matchdayThreeStandings:homeRound===2?currentStandings:{"Derio A":"EVVVE","Beasain":"15º · 4 pts","Derio B":"EDDE","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"VDDV","Iturrigorri A":"8º · 3 pts"};
  const [homeLiveMatches,setHomeLiveMatches]=useState(liveMatches);
  const [homeRanking,setHomeRanking]=useState<Array<{user_id:string,username:string,hits:number}>>([]);
  const [homeUserId,setHomeUserId]=useState("");
@@ -169,6 +169,16 @@ const rivalCrests:Record<string,string>={
  "Juvenil B":asset("Escudos/SD%20LEIOA.png")
 }
 const currentStandings:Record<string,string>={"Cultural Durango":"10º · 6 pts","Derio A":"2º · 11 pts","Zamudio B":"16º · 0 pts","Derio B":"15º · 1 pto","Gaztelueta B":"0º · 0 pts","Cadete B":"D","Derio Fem":"7º · 4 pts","Erandioko Betiko Neskak":"1º · 9 pts","Neguri":"1º · 3 pts","Juvenil B":"VE","Juvenil A":"11º · 3 pts","Ariz A":"12º · 3 pts"};
+// Classification at the start of QuiniDerio J3, as confirmed from the federation match cards.
+const matchdayThreeStandings:Record<string,string>={
+ "Touring":"9º · 8 pts","Derio A":"3º · 12 pts",
+ "Zumaiako":"8º · 4 pts","Derio Fem":"10º · 4 pts",
+ "Derio B":"15º · 2 pts","Bermeo B":"9º · 6 pts",
+ "Derio Fem B":"5º · 1 pto","Balmaseda":"15º · 0 pts",
+ "Juvenil A":"9º · 6 pts","Artibai A":"14º · 4 pts",
+ "Juvenil B":"3º · 4 pts","Askartza B":"11º · 3 pts",
+ "Cadete B":"12º · 0 pts","Ugeraga B":"7º · 3 pts"
+};
 const currentForm:Record<string,string>={"Cadete B":"D","Zumaiako":"EDVD","Ugeraga B":"VV","Askartza B":"DV","Artibai A":"DEDV","Derio Fem B":"E","Balmaseda":"DV","Bermeo B":"DVVE","Touring":"EVVED","Cultural Durango":"EDEVE","Derio A":"EEVVV","Derio Fem":"DEV","Erandioko Betiko Neskak":"VVV","Derio B":"EDD","Zamudio B":"DDD","Juvenil A":"VDD","Ariz A":"VD","Juvenil B":"V","Neguri":"V","Gaztelueta B":"D"};
 const matchdayThreeForm:Record<string,string>={"Derio A":"EVVVE","Derio B":"EDDE","Derio Fem":"DEVD","Derio Fem B":"E","Juvenil A":"VDDV","Juvenil B":"VE","Cadete B":"D"};
 function FormDots({team,round=2}:{team:string,round?:number}){const form=(round===3?matchdayThreeForm[team]:undefined)??currentForm[team];if(!form)return null;return <span className="teamFormDots" aria-label={`Últimos resultados: ${form}`}>{[...form].map((r,i)=><i key={i} className={r==="V"?"win":r==="D"?"loss":"draw"}/>)}</span>}
@@ -211,6 +221,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
  }
 };
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
+ const standingsForRound=round===3?matchdayThreeStandings:currentStandings;
  const [saving,setSaving]=useState(false); const [clock,setClock]=useState(()=>Date.now()); useEffect(()=>{const id=window.setInterval(()=>setClock(Date.now()),30000);return()=>window.clearInterval(id)},[]); const fixtureOrder=(g:{date?:string,time?:string,status?:string})=>{if(g.status==="rest")return Number.MAX_SAFE_INTEGER;if(!g.date)return Number.MAX_SAFE_INTEGER-1;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()}; const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round]?.[team]||{})})).map(game=>game.name==="Cadete B"&&round===1?{...game,status:"rest",opponent:undefined,date:undefined,time:undefined,venue:undefined}:game).sort((a,b)=>fixtureOrder(a)-fixtureOrder(b));
  const playableGames=games.filter(game=>game.status!=="rest");
  const done=playableGames.filter(game=>picks[`${round}:${game.name}`]).length;
@@ -232,7 +243,7 @@ function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{
    if(game.status==="rest")return <article className="matchCard restCard" key={team}><div className="matchMeta"><span>CADETE B · JORNADA 1</span><em>Descanso</em></div><div className="restTeam"><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="CD Derio"/><div><b>CD Derio Cadete B</b></div></div><div className="restNotice">Esta jornada no disputa partido</div></article>;
    return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
     <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{venue||"Lugar por confirmar"}</span></div>
-    <div className="versus"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home} normalized/><b>{home}</b>{currentStandings[home]&&!/^[EVD\s]+$/i.test(currentStandings[home].trim())&&<small>{currentStandings[home]}</small>}<FormDots team={home} round={round}/></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away} normalized/><b>{away}</b>{currentStandings[away]&&!/^[EVD\s]+$/i.test(currentStandings[away].trim())&&<small>{currentStandings[away]}</small>}<FormDots team={away} round={round}/></div></div>
+    <div className="versus"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home} normalized/><b>{home}</b>{standingsForRound[home]&&!/^[EVD\s]+$/i.test(standingsForRound[home].trim())&&<small>{standingsForRound[home]}</small>}<FormDots team={home} round={round}/></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away} normalized/><b>{away}</b>{standingsForRound[away]&&!/^[EVD\s]+$/i.test(standingsForRound[away].trim())&&<small>{standingsForRound[away]}</small>}<FormDots team={away} round={round}/></div></div>
     {(()=>{const db=liveMatches[game.name];const ko=parseKickoff(date,time);const elapsed=ko===null?null:clock-ko;const hasResult=!!db&&db.status!=="scheduled"&&(db.status==="final"||(Number.isFinite(db.home_score)&&Number.isFinite(db.away_score)));const state=hasResult?db.status:elapsed!==null&&elapsed>=7200000?"pending":elapsed!==null&&elapsed>=0?"live":"scheduled";if(state==="scheduled")return null;if(state==="pending")return <div className="liveMatchStrip pending"><b>RESULTADO PENDIENTE</b><strong>—</strong></div>;if(state==="live"&&!hasResult)return <div className="liveMatchStrip live"><b>EN JUEGO</b><strong>•</strong></div>;return <div className={"liveMatchStrip "+state}><b>{state==="live"?"EN JUEGO":"FINAL"}</b><strong>{db?.home_score} - {db?.away_score}</strong></div>})()}<div className="pickHint">ELIGE TU PRONÓSTICO</div>
     <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={roundClosed||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active pick"+x:"pick"+x} style={picks[pickKey]===x?{backgroundColor:x==="1"?"#176ed5":x==="X"?"#ffffff":"#d62e46",borderColor:x==="1"?"#329bff":x==="X"?"#ffffff":"#f34b61",color:x==="X"?"#14243b":"#ffffff"}:undefined} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
    </article>
