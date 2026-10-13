@@ -211,7 +211,7 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",venue:"Gaztelueta, Leioa",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
  },
 3:{
-  "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",venue:"La Fanderia, Errenteria",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
+  "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",venue:"Fanderia, Errenteria",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
   "Derio B":{opponent:"Bermeo B",crest:"/api/assets/Escudos/bermeo.webp",date:"18/10/2026",time:"15:15",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
   "Derio Fem":{opponent:"Zumaiako",crest:"/api/assets/Escudos/zumaiako.webp",date:"17/10/2026",time:"15:00",venue:"Aita Mari, Zumaia",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
   "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
