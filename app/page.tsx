@@ -200,13 +200,13 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",venue:"Gaztelueta, Leioa",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
  },
 3:{
-  "Derio A":{opponent:"Touring",date:"17/10/2026",time:"16:30",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
-  "Derio B":{opponent:"Bermeo B",date:"18/10/2026",time:"15:15",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
-  "Derio Fem":{opponent:"Zumaiako",date:"17/10/2026",time:"16:30",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
-  "Derio Fem B":{opponent:"Balmaseda",date:"18/10/2026",time:"17:40",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
-  "Juvenil A":{opponent:"Artibai A",date:"17/10/2026",time:"20:00",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
-  "Juvenil B":{opponent:"Askartza B",date:"18/10/2026",time:"20:00",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
-  "Cadete B":{opponent:"Ugeraga B",date:"18/10/2026",time:"13:00",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
+  "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
+  "Derio B":{opponent:"Bermeo B",crest:"/api/assets/Escudos/bermeo.webp",date:"18/10/2026",time:"15:15",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
+  "Derio Fem":{opponent:"Zumaiako",crest:"/api/assets/Escudos/zumaiako.webp",date:"17/10/2026",time:"16:30",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
+  "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
+  "Juvenil A":{opponent:"Artibai A",crest:"/api/assets/Escudos/artibai.webp",date:"17/10/2026",time:"20:00",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
+  "Juvenil B":{opponent:"Askartza B",crest:"/api/assets/Escudos/askartza.webp",date:"18/10/2026",time:"20:00",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
+  "Cadete B":{opponent:"Ugeraga B",crest:"/api/assets/Escudos/ugeraga.webp",date:"18/10/2026",time:"13:00",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
  }
 };
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
