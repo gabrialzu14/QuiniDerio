@@ -6,3 +6,49 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingLower{backgr
 .dashboard .rankingRows .rankingRow.rankingSelf{outline:3px solid #66baff;outline-offset:2px;scroll-margin-block:110px}
 .rankingSelfBadge{display:inline-block;margin-left:8px;padding:3px 6px;border-radius:6px;background:#1764ce;color:#fff;font-size:10px;line-height:1.2;vertical-align:middle}
 html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingSelf{outline-color:#1764ce}
+
+
+/* Match prediction fixtures use the same normalized crest footprint as Inicio and Quiniela. */
+.predictionsPage .matchRivalsFixture .crestBox.crestNormalized{
+  display:grid!important;
+  place-items:center!important;
+  width:35px!important;
+  height:35px!important;
+  min-width:35px!important;
+  max-width:35px!important;
+  flex:0 0 35px!important;
+  padding:0!important;
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;
+}
+.predictionsPage .matchRivalsFixture .crestBox.crestNormalized img,
+.predictionsPage .matchRivalsFixture .crestBox.crestNormalized img[src]{
+  display:block!important;
+  width:32px!important;
+  height:32px!important;
+  max-width:32px!important;
+  max-height:32px!important;
+  padding:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+  transform-origin:center center!important;
+  background:transparent!important;
+}
+@media(max-width:480px){
+  .predictionsPage .matchRivalsFixture .crestBox.crestNormalized{
+    width:34px!important;
+    height:34px!important;
+    min-width:34px!important;
+    max-width:34px!important;
+    flex-basis:34px!important;
+  }
+  .predictionsPage .matchRivalsFixture .crestBox.crestNormalized img,
+  .predictionsPage .matchRivalsFixture .crestBox.crestNormalized img[src]{
+    width:31px!important;
+    height:31px!important;
+    max-width:31px!important;
+    max-height:31px!important;
+  }
+}
