@@ -6032,6 +6032,6 @@ html body .matchCard .oneXtwo button.active.pickX{
  }
 }
 
-/* +20% legibility for team league position and points in Inicio scores and Quiniela. */
-.dashboard .qdFixture .qdClubName > small{font-size:12px!important;line-height:1.2!important}
+/* Team league position and points: Inicio reduced 10% from 12px to 10.8px; Quiniela remains 9.6px. */
+.dashboard .qdFixture .qdClubName > small{font-size:10.8px!important;line-height:1.2!important}
 .dashboard .matchCard .versus > div > small{font-size:9.6px!important;line-height:1.2!important}
