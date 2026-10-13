@@ -5,6 +5,7 @@ import {useCallback,useEffect,useMemo,useRef,useState} from "react";
 import {createPortal} from "react-dom";
 import "./ranking-bands.css";
 import {supabase} from "./lib/supabase";
+import {quizFixtures,publishedFixtureSignature,type Fixture} from "./lib/quiz-fixtures";
 import PushPrompt,{enablePush,disablePush,getPushState} from "./components/PushPrompt";
 import PredictionReminder from "./components/PredictionReminder";
 import BottomNavigation from "./components/BottomNavigation";
@@ -45,6 +46,15 @@ const empty:Season={positions:{},highest:"",lowest:"",firstCoach:"",coachCards:"
 export default function Home(){
  const [name,setName]=useState(""); const [hydrated,setHydrated]=useState(false); const [headerProfilePic,setHeaderProfilePic]=useState(""); const [showSplash,setShowSplash]=useState(true); const [splashMinElapsed,setSplashMinElapsed]=useState(false); const [imagesReady,setImagesReady]=useState(false); const [refreshing,setRefreshing]=useState(false); const [refreshReady,setRefreshReady]=useState(false); const [assetsReady,setAssetsReady]=useState(false); const [email,setEmail]=useState(""); const [profileStatus,setProfileStatus]=useState(""); const [password,setPassword]=useState(""); const [username,setUsername]=useState(""); const [recovering,setRecovering]=useState(false); const [recoveryPassword,setRecoveryPassword]=useState(""); const [register,setRegister]=useState(false); const [authSubmitting,setAuthSubmitting]=useState(false); const [profileImage,setProfileImage]=useState<File|null>(null); const [notifications,setNotifications]=useState(false); const [rankingDestination,setRankingDestination]=useState<RankingDestination|null>(null); const [step,setStep]=useState<"name"|"season"|"surprise"|"home">("name");
  useEffect(()=>{document.body.classList.add("qd-mounted");return()=>document.body.classList.remove("qd-mounted")},[]);
+ useEffect(()=>{
+  // Only already-published fixtures are registered; never overwrite existing results.
+  const signature=publishedFixtureSignature();
+  try{if(localStorage.getItem("qd-fixture-sync-v1")===signature)return}catch{}
+  void fetch("/api/rounds/sync",{method:"POST",cache:"no-store"})
+   .then(async res=>{if(!res.ok)throw new Error("round_sync");try{localStorage.setItem("qd-fixture-sync-v1",signature)}catch{}})
+   .catch(()=>{/* Retry on the next visit; do not interrupt navigation. */});
+ },[]);
+
  useEffect(()=>{const t=window.setTimeout(()=>setSplashMinElapsed(true),450);return()=>window.clearTimeout(t)},[]);
  useEffect(()=>{const {data:{subscription}}=supabase.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){setRecovering(true);setProfileStatus("")}});return()=>subscription.unsubscribe()},[]);
  useEffect(()=>{let disposed=false;
@@ -158,7 +168,7 @@ function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatc
 function Brand({avatar,avatarUrl,name,onHome}:{avatar?:string,avatarUrl?:string,name?:string,onHome?:()=>void}){return <header className="brandBar glassHeader"><div className="brandMark"><img src="/api/assets/branding/LogoApp.png" alt="QuiniDerio"/><div><b className="logo"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>LA QUINIELA DEL CD DERIO</small></div></div>{avatar&&<button type="button" className="avatar userChip" onClick={onHome} aria-label="Abrir Mi cuenta"><span>{avatarUrl?<img src={avatarUrl} alt="" className="headerAvatarImg"/>:avatar}</span>{name&&<b title={name}>{name}</b>}</button>}</header>}
 function Choice({title,points,value,options,onChange,visual}:{title:string,points:string,value:string,options:string[],onChange:(v:string)=>void,visual?:"up"|"down"|"red"|"cards"}){return <section className={`choice visualChoice ${visual||""}`}><span className="choiceHead"><span className="choiceTitle">{visual&&<i className={`choiceVisual ${visual}`} aria-hidden="true">{visual==="up"?"↑":visual==="down"?"↓":visual==="red"?"":<><u></u><u></u></>}</i>}<b>{title}</b></span><em>{points}</em></span><div className="optionCards">{options.map(o=><button type="button" aria-pressed={value===o} className={value===o?"active":""} onClick={()=>onChange(o)} key={o}><i>{o.split(" ").map(x=>x[0]).slice(0,2).join("")}</i><strong>{o}</strong></button>)}</div></section>}
 
-type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string,derioPosition?:number,opponentPosition?:number};
+
 // Confirmed directly from the club's federation screenshots; unknown times stay unknown.
 const rivalCrests:Record<string,string>={
  "Derio A":asset("Escudos/BEASAIN.png"),
@@ -182,44 +192,6 @@ const matchdayThreeStandings:Record<string,string>={
 const currentForm:Record<string,string>={"Cadete B":"D","Zumaiako":"EDVD","Ugeraga B":"VV","Askartza B":"DV","Artibai A":"DEDV","Derio Fem B":"E","Balmaseda":"DV","Bermeo B":"DVVE","Touring":"EVVED","Cultural Durango":"EDEVE","Derio A":"EEVVV","Derio Fem":"DEV","Erandioko Betiko Neskak":"VVV","Derio B":"EDD","Zamudio B":"DDD","Juvenil A":"VDD","Ariz A":"VD","Juvenil B":"V","Neguri":"V","Gaztelueta B":"D"};
 const matchdayThreeForm:Record<string,string>={"Derio A":"EVVVE","Derio B":"EDDE","Derio Fem":"DEVD","Derio Fem B":"E","Juvenil A":"VDDV","Juvenil B":"VE","Cadete B":"D"};
 function FormDots({team,round=2}:{team:string,round?:number}){const form=(round===3?matchdayThreeForm[team]:undefined)??currentForm[team];if(!form)return null;return <span className="teamFormDots" aria-label={`Últimos resultados: ${form}`}>{[...form].map((r,i)=><i key={i} className={r==="V"?"win":r==="D"?"loss":"draw"}/>)}</span>}
-const confirmedFixtures:Record<string,Partial<Fixture>>={
- "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF",federationRound:5},
- "Derio B":{opponent:"Escolapios",date:"03/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",federationRound:3},
- "Derio Fem":{opponent:"Lakua",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca",federationRound:3},
- "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"03/10/2026",time:"20:00",venue:"PL Rekalde, Bilbao",isHome:false,federationRound:1,competition:"FEM B"},
- "Juvenil A":{opponent:"Iturrigorri A",date:"04/10/2026",time:"13:30",venue:"La Roseta, Bilbao",isHome:false,federationRound:3,competition:"Juvenil A"},
- "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"15:30",venue:"Ibaiondo, Derio",isHome:true,federationRound:1,competition:"Juvenil B"},
- "Cadete B":{status:"rest",competition:"Cadete B",federationRound:1}
-};
-const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
- 1:{
-  "Derio A":confirmedFixtures["Derio A"],
-  "Derio B":confirmedFixtures["Derio B"],
-  "Derio Fem":confirmedFixtures["Derio Fem"],
-  "Derio Fem B":confirmedFixtures["Derio Fem B"],
-  "Juvenil A":confirmedFixtures["Juvenil A"],
-  "Juvenil B":confirmedFixtures["Juvenil B"],
-  "Cadete B":confirmedFixtures["Cadete B"]
- },
- 2:{
-  "Derio A":{opponent:"Cultural Durango",date:"10/10/2026",time:"12:00",venue:"Tabira, Durango",isHome:false,competition:"3ª RFEF",crest:"/api/assets/Escudos/CulturalDurango.webp"},
-  "Derio B":{opponent:"Zamudio B",date:"12/10/2026",time:"18:00",venue:"Errekalde, Zamudio",isHome:false,competition:"Derio B",crest:"/api/assets/Escudos/Zamudio.webp"},
-  "Derio Fem":{opponent:"Erandioko Betiko Neskak",date:"11/10/2026",time:"17:30",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM Liga Vasca",crest:"/api/assets/Escudos/BetikoNeskak.webp"},
-  "Derio Fem B":{opponent:"Montefuerte A",date:"10/10/2026",time:"17:00",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",crest:"/api/assets/Escudos/Montefuerte.webp"},
-  "Juvenil A":{opponent:"Ariz A",date:"11/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",crest:"/api/assets/Escudos/Ariz.webp"},
-  "Juvenil B":{opponent:"Neguri",date:"10/10/2026",time:"16:00",venue:"Bolue 2, Getxo",isHome:false,competition:"Juvenil B",crest:"/api/assets/Escudos/Neguri.webp"},
-  "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",venue:"Gaztelueta, Leioa",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
- },
-3:{
-  "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",venue:"Fanderia, Errenteria",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
-  "Derio B":{opponent:"Bermeo B",crest:"/api/assets/Escudos/bermeo.webp",date:"18/10/2026",time:"15:15",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
-  "Derio Fem":{opponent:"Zumaiako",crest:"/api/assets/Escudos/zumaiako.webp",date:"17/10/2026",time:"15:00",venue:"Aita Mari, Zumaia",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
-  "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:5},
-  "Juvenil A":{opponent:"Artibai A",crest:"/api/assets/Escudos/artibai.webp",date:"17/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
-  "Juvenil B":{opponent:"Askartza B",crest:"/api/assets/Escudos/askartza.webp",date:"18/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
-  "Cadete B":{opponent:"Ugeraga B",crest:"/api/assets/Escudos/ugeraga%20.webp?v=20261013-supabase",date:"18/10/2026",time:"13:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
- }
-};
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
  const standingsForRound=round===3?matchdayThreeStandings:currentStandings;
  const [saving,setSaving]=useState(false); const [clock,setClock]=useState(()=>Date.now()); useEffect(()=>{const id=window.setInterval(()=>setClock(Date.now()),30000);return()=>window.clearInterval(id)},[]); const fixtureOrder=(g:{date?:string,time?:string,status?:string})=>{if(g.status==="rest")return Number.MAX_SAFE_INTEGER;if(!g.date)return Number.MAX_SAFE_INTEGER-1;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()}; const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round]?.[team]||{})})).map(game=>game.name==="Cadete B"&&round===1?{...game,status:"rest",opponent:undefined,date:undefined,time:undefined,venue:undefined}:game).sort((a,b)=>fixtureOrder(a)-fixtureOrder(b));
