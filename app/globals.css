@@ -5878,3 +5878,15 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotOne{backg
 .qdFixture .qdClub.home .qdClubName>.teamFormDots{justify-content:flex-end!important}
 .qdFixture .qdClub:not(.home) .qdClubName{justify-items:start!important;text-align:left!important}
 .qdFixture .qdClub .crestBox{align-self:center!important;justify-self:center!important}
+
+/* Quiniela: selection colors and animation belong exclusively to the 1/X/2 controls. */
+.gameQuiniela .oneXtwo button.active.pick1{background:#176ed5!important;border-color:#329bff!important;color:#fff!important}
+.gameQuiniela .oneXtwo button.active.pickX{background:#f7f9fc!important;border-color:#fff!important;color:#14243b!important;box-shadow:0 0 12px rgba(255,255,255,.18)!important}
+.gameQuiniela .oneXtwo button.active.pick2{background:#d62e46!important;border-color:#f34b61!important;color:#fff!important}
+.gameQuiniela .oneXtwo button.active.pickX:after{background:#fff!important}
+.gameQuiniela .matchCard,.gameQuiniela .matchCard.picked,.gameQuiniela .matchCard:active,.gameQuiniela .matchCard:hover{animation:none!important;transform:none!important;transition:none!important}
+.gameQuiniela .matchCard.picked{box-shadow:none!important}
+.gameQuiniela .oneXtwo button{transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease!important}
+.gameQuiniela .oneXtwo button:active{transform:scale(.94)!important}
+.gameQuiniela .oneXtwo button.active{animation:qPop .2s ease!important}
+@media(prefers-reduced-motion:reduce){.gameQuiniela .oneXtwo button.active{animation:none!important}.gameQuiniela .oneXtwo button:active{transform:none!important}}
