@@ -5867,3 +5867,14 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotOne{backg
 .qdFixture .qdClub .crestBox img[src*="/bermeo.webp"]{transform:scale(1.42)!important}
 .qdFixture .qdClub .crestBox img[src*="/balmaseda.webp"]{transform:scale(1.62)!important}
 .qdFixture .qdClub .crestBox img[src*="/askartza.webp"]{transform:scale(1.48)!important}
+
+/* Matchday 3: align crests and recent-form dots in fixed vertical tracks. */
+.qdFixture .qdClub{min-width:0;align-items:center!important}
+.qdFixture .qdClubName{display:grid!important;grid-template-rows:minmax(15px,auto) 13px 9px!important;row-gap:2px!important;align-content:center!important;min-height:43px!important;min-width:0!important}
+.qdFixture .qdClubName>b{grid-row:1;align-self:end!important;line-height:15px!important}
+.qdFixture .qdClubName>small{grid-row:2;align-self:center!important;margin:0!important;line-height:13px!important}
+.qdFixture .qdClubName>.teamFormDots{grid-row:3!important;align-self:center!important;margin:0!important;height:9px!important;justify-content:flex-start!important;gap:3px!important}
+.qdFixture .qdClub.home .qdClubName{justify-items:end!important;text-align:right!important}
+.qdFixture .qdClub.home .qdClubName>.teamFormDots{justify-content:flex-end!important}
+.qdFixture .qdClub:not(.home) .qdClubName{justify-items:start!important;text-align:left!important}
+.qdFixture .qdClub .crestBox{align-self:center!important;justify-self:center!important}
