@@ -297,3 +297,19 @@ html[data-theme="light"] body.qdModern .qdHome .qdFixture .qdKick strong {
     border-radius: 10px !important;
   }
 }
+
+
+/* Quiniela form-dot placement: align to the club's actual text footprint,
+   not the outer half-card grid column. Retain the existing left-to-right order. */
+html body.qdModern .matchCard .versus > div {
+  width: max-content !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  justify-self: center !important;
+}
+html body.qdModern .matchCard .versus > div:first-child .teamFormDots {
+  margin: 3px 0 0 auto !important;
+}
+html body.qdModern .matchCard .versus > div:last-child .teamFormDots {
+  margin: 3px auto 0 0 !important;
+}
