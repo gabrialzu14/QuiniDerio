@@ -5923,3 +5923,28 @@ html body .matchCard .oneXtwo button.active.pickX:after{background:#fff!importan
 html body .matchCard .oneXtwo button.active.pick2:after{background:#d62e46!important}
 html body .matchCard,.matchCard.picked,.matchCard:active,.matchCard:hover{animation:none!important;transform:none!important}
 html body .matchCard .oneXtwo button:active{transform:scale(.96)!important}
+
+/* Quiniela: card is a static container; only the actual 1X2 choice animates. */
+html body .matchCard,
+html body .matchCard.picked,
+html body .matchCard:hover,
+html body .matchCard:active,
+html body .matchCard:focus-within{
+ animation:none!important;
+ transition:none!important;
+ transform:none!important;
+ filter:none!important;
+}
+html body .matchCard.picked{box-shadow:none!important}
+html body .matchCard .oneXtwo button{animation:none!important}
+html body .matchCard .oneXtwo button.active{animation:qPop .2s ease-out!important}
+html body .matchCard .oneXtwo button.active.pickX,
+html body .matchCard .oneXtwo button.active.pickX b,
+html body .matchCard .oneXtwo button.active.pickX small{
+ color:#14243b!important;
+ -webkit-text-fill-color:#14243b!important;
+ opacity:1!important;
+ text-shadow:none!important;
+}
+html body .matchCard .oneXtwo button.active.pickX{background:#fff!important;background-color:#fff!important}
+@media(prefers-reduced-motion:reduce){html body .matchCard .oneXtwo button.active{animation:none!important}}
