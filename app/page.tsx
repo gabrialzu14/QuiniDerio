@@ -184,7 +184,7 @@ const matchdayThreeStandings:Record<string,string>={
  "Touring":"9º · 8 pts","Derio A":"3º · 12 pts",
  "Zumaiako":"8º · 4 pts","Derio Fem":"10º · 4 pts",
  "Derio B":"15º · 2 pts","Bermeo B":"9º · 6 pts",
- "Derio Fem B":"5º · 1 pto","Balmaseda":"5º · 0 pts",
+ "Derio Fem B":"5º · 1 pto","Balmaseda":"5º · 3 pts",
  "Juvenil A":"9º · 6 pts","Artibai A":"14º · 4 pts",
  "Juvenil B":"3º · 4 pts","Askartza B":"11º · 3 pts",
  "Cadete B":"12º · 0 pts","Ugeraga B":"7º · 3 pts"
