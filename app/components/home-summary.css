@@ -114,3 +114,15 @@ html[data-theme="light"] .qdOverviewStatHead>svg { color: #316eaa; }
   .dashboard .qdOverviewSummary button:not(:disabled):active { transform: none !important; }
   .qdOverviewSummary button:hover .qdOverviewArrow { transform: none; }
 }
+
+
+/* Responsive feature illustration: decorative only, never overlap the copy. */
+.qdOverviewFeature{position:relative;isolation:isolate;overflow:hidden}
+.qdOverviewFeatureCopy{position:relative;z-index:2;min-width:0}
+.qdOverviewRoundArt{position:absolute;right:clamp(14px,5%,48px);bottom:20px;z-index:0;pointer-events:none;opacity:.12;max-width:42%;overflow:hidden}
+.qdOverviewRoundArt strong{display:block;font-size:clamp(90px,15vw,170px);line-height:1;font-variant-numeric:tabular-nums}
+@media(max-width:600px){
+ .qdOverviewRoundArt{right:12px;bottom:12px;max-width:28%;opacity:.055}
+ .qdOverviewRoundArt strong{font-size:clamp(64px,20vw,92px)}
+ .qdOverviewRoundArt span{display:none}
+}
