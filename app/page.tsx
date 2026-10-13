@@ -170,7 +170,7 @@ const rivalCrests:Record<string,string>={
 }
 const currentStandings:Record<string,string>={"Cultural Durango":"10º · 6 pts","Derio A":"2º · 11 pts","Zamudio B":"16º · 0 pts","Derio B":"15º · 1 pto","Gaztelueta B":"0º · 0 pts","Cadete B":"D","Derio Fem":"7º · 4 pts","Erandioko Betiko Neskak":"1º · 9 pts","Neguri":"1º · 3 pts","Juvenil B":"VE","Juvenil A":"11º · 3 pts","Ariz A":"12º · 3 pts"};
 const currentForm:Record<string,string>={"Cadete B":"D","Zumaiako":"EDVD","Ugeraga B":"VV","Askartza B":"DV","Artibai A":"DEDV","Derio Fem B":"E","Balmaseda":"DV","Bermeo B":"DVVE","Touring":"EVVED","Cultural Durango":"EDEVE","Derio A":"EEVVV","Derio Fem":"DEV","Erandioko Betiko Neskak":"VVV","Derio B":"EDD","Zamudio B":"DDD","Juvenil A":"VDD","Ariz A":"VD","Juvenil B":"V","Neguri":"V","Gaztelueta B":"D"};
-const matchdayThreeForm:Record<string,string>={"Derio A":"EVVVE","Derio B":"EDDE","Derio Fem B":"E","Juvenil A":"VDDV","Juvenil B":"VE","Cadete B":"D"};
+const matchdayThreeForm:Record<string,string>={"Derio A":"EVVVE","Derio B":"EDDE","Derio Fem":"DEVD","Derio Fem B":"E","Juvenil A":"VDDV","Juvenil B":"VE","Cadete B":"D"};
 function FormDots({team,round=2}:{team:string,round?:number}){const form=(round===3?matchdayThreeForm[team]:undefined)??currentForm[team];if(!form)return null;return <span className="teamFormDots" aria-label={`Últimos resultados: ${form}`}>{[...form].map((r,i)=><i key={i} className={r==="V"?"win":r==="D"?"loss":"draw"}/>)}</span>}
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF",federationRound:5},
