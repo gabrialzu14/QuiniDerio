@@ -5890,3 +5890,8 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotOne{backg
 .gameQuiniela .oneXtwo button:active{transform:scale(.94)!important}
 .gameQuiniela .oneXtwo button.active{animation:qPop .2s ease!important}
 @media(prefers-reduced-motion:reduce){.gameQuiniela .oneXtwo button.active{animation:none!important}.gameQuiniela .oneXtwo button:active{transform:none!important}}
+
+/* Compact matchday crests: return to the visual footprint used in Jornada 2.
+   Uniformly shrink both Derio and opponent marks without changing alignment. */
+.qdFixture .qdClub .crestBox{width:35px!important;height:35px!important;min-width:35px!important;flex:0 0 35px!important}
+@media(max-width:480px){.qdFixture .qdClub .crestBox{width:34px!important;height:34px!important;min-width:34px!important;flex-basis:34px!important}}
