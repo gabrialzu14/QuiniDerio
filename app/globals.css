@@ -5852,3 +5852,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,main.gameScreen::-webkit-scrollb
 .dashboard .rankingRows .rankingRow.rankingPotOne{background:rgba(47,128,237,.18)!important;border-color:rgba(69,149,255,.35)!important;box-shadow:none!important}
 html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotTwo{background:rgba(225,65,79,.13)!important;border-color:rgba(225,65,79,.28)!important}
 html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotOne{background:rgba(47,128,237,.13)!important;border-color:rgba(47,128,237,.28)!important}
+
+/* J3: same visible crest footprint for home and visiting teams on mobile. */
+.qdFixture .qdClub .crestBox{width:46px!important;height:46px!important;flex:0 0 46px!important;min-width:46px!important;margin:0!important;padding:0!important;display:grid!important;place-items:center!important;background:transparent!important;border:0!important;border-radius:0!important;overflow:visible!important}
+.qdFixture .qdClub .crestBox img{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:contain!important;object-position:center!important;padding:0!important;margin:0!important;transform:none!important;border-radius:0!important}
+@media(max-width:480px){.qdFixture .qdClub .crestBox{width:44px!important;height:44px!important;flex-basis:44px!important;min-width:44px!important}}
