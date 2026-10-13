@@ -5905,3 +5905,21 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingPotOne{backg
 .matchCard .oneXtwo button.active.pickX{background:#f7f9fc!important;border-color:#fff!important;color:#14243b!important}
 .matchCard .oneXtwo button.active.pickX b,.matchCard .oneXtwo button.active.pickX small{color:#14243b!important}
 .matchCard .oneXtwo button.active.pick2{background:#d62e46!important;border-color:#f34b61!important;color:#fff!important}
+
+/* Video-verified 1X2 state: explicit per-choice colors, overriding generic active styles. */
+html body .matchCard .oneXtwo button.active.pick1,
+html body .matchCard .oneXtwo button.active.pick1:active{background:#176ed5!important;background-color:#176ed5!important;border-color:#329bff!important;color:#fff!important}
+html body .matchCard .oneXtwo button.active.pickX,
+html body .matchCard .oneXtwo button.active.pickX:active{background:#fff!important;background-color:#fff!important;border-color:#fff!important;color:#14243b!important}
+html body .matchCard .oneXtwo button.active.pick2,
+html body .matchCard .oneXtwo button.active.pick2:active{background:#d62e46!important;background-color:#d62e46!important;border-color:#f34b61!important;color:#fff!important}
+html body .matchCard .oneXtwo button.active.pickX b,
+html body .matchCard .oneXtwo button.active.pickX small{color:#14243b!important;opacity:1!important}
+html body .matchCard .oneXtwo button.active.pick1 b,
+html body .matchCard .oneXtwo button.active.pick1 small,
+html body .matchCard .oneXtwo button.active.pick2 b,
+html body .matchCard .oneXtwo button.active.pick2 small{color:#fff!important;opacity:1!important}
+html body .matchCard .oneXtwo button.active.pickX:after{background:#fff!important}
+html body .matchCard .oneXtwo button.active.pick2:after{background:#d62e46!important}
+html body .matchCard,.matchCard.picked,.matchCard:active,.matchCard:hover{animation:none!important;transform:none!important}
+html body .matchCard .oneXtwo button:active{transform:scale(.96)!important}
