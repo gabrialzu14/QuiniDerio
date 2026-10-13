@@ -200,9 +200,392 @@ const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
   "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",venue:"Gaztelueta, Leioa",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
  },
 3:{
-  "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
+  "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",venue:"La Fanderia, Errenteria",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
   "Derio B":{opponent:"Bermeo B",crest:"/api/assets/Escudos/bermeo.webp",date:"18/10/2026",time:"15:15",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
-  "Derio Fem":{opponent:"Zumaiako",crest:"/api/assets/Escudos/zumaiako.webp",date:"17/10/2026",time:"16:30",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
+  "Derio Fem":{opponent:"Zumaiako",crest:"/api/assets/Escudos/zumaiako.webp",date:"17/10/2026",time:"16:30",venue:"Aita Mari, Zumaia",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
+  "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
+  "Juvenil A":{opponent:"Artibai A",crest:"/api/assets/Escudos/artibai.webp",date:"17/10/2026",time:"20:00",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
+  "Juvenil B":{opponent:"Askartza B",crest:"/api/assets/Escudos/askartza.webp",date:"18/10/2026",time:"20:00",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
+  "Cadete B":{opponent:"Ugeraga B",crest:"/api/assets/Escudos/ugeraga.webp?v=20261013-2",date:"18/10/2026",time:"13:00",isHome:true,competition:"Cadete B",derioPosition:12,opponentPosition:7}
+ }
+};
+function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
+ const [saving,setSaving]=useState(false); const [clock,setClock]=useState(()=>Date.now()); useEffect(()=>{const id=window.setInterval(()=>setClock(Date.now()),30000);return()=>window.clearInterval(id)},[]); const fixtureOrder=(g:{date?:string,time?:string,status?:string})=>{if(g.status==="rest")return Number.MAX_SAFE_INTEGER;if(!g.date)return Number.MAX_SAFE_INTEGER-1;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()}; const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round]?.[team]||{})})).map(game=>game.name==="Cadete B"&&round===1?{...game,status:"rest",opponent:undefined,date:undefined,time:undefined,venue:undefined}:game).sort((a,b)=>fixtureOrder(a)-fixtureOrder(b));
+ const playableGames=games.filter(game=>game.status!=="rest");
+ const done=playableGames.filter(game=>picks[`${round}:${game.name}`]).length;
+ const pending=playableGames.filter(game=>!game.opponent).length;
+ const parseKickoff=(date?:string,time?:string)=>{if(!date||!time)return null;const [d,m,y]=date.split("/").map(Number);const [h,min]=time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()};
+ const kickoffs=playableGames.map(g=>parseKickoff(g.date,g.time)).filter((v):v is number=>v!==null);
+ const firstKickoff=kickoffs.length?Math.min(...kickoffs):null;
+ const roundClosed=firstKickoff!==null&&Date.now()>=firstKickoff;
+ return <section className="tabPage">
+  <div className="pageTop compactTop"><div className="roundBadge"><i/> {roundClosed?"JORNADA CERRADA":round<=3?"JORNADA ABIERTA":"PRÓXIMAMENTE"}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
+  <div className={"roundProgress centeredProgress "+(done===playableGames.length&&playableGames.length>0?"complete":"")}><b>{done}/{playableGames.length}</b><div><i style={{width:`${playableGames.length?done/playableGames.length*100:0}%`}}/></div><span>{done===playableGames.length&&playableGames.length>0?"Jornada completada":`Te faltan ${Math.max(0,playableGames.length-done)} pronósticos`}</span></div>
+  <div className="matchStack">{games.map((game,i)=>{
+   const {name:team,date="",time="",venue="",federationRound,competition}=game;
+   const rival=game.opponent||"Rival por confirmar";
+   const isHome=game.isHome!==false;
+   const home=isHome?team:rival,away=isHome?rival:team;
+   const label=competition==="Amistoso"?"AMISTOSO":federationRound?`${competition||"Liga"} · Jornada ${federationRound}`:`JORNADA DE LIGA PENDIENTE`;
+   const pickKey=`${round}:${team}`;
+   if(game.status==="rest")return <article className="matchCard restCard" key={team}><div className="matchMeta"><span>CADETE B · JORNADA 1</span><em>Descanso</em></div><div className="restTeam"><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="CD Derio"/><div><b>CD Derio Cadete B</b></div></div><div className="restNotice">Esta jornada no disputa partido</div></article>;
+   return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
+    <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{venue||"Lugar por confirmar"}</span></div>
+    <div className="versus"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b>{currentStandings[home]&&!/^[EVD\s]+$/i.test(currentStandings[home].trim())&&<small>{currentStandings[home]}</small>}<FormDots team={home}/></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away}/><b>{away}</b>{currentStandings[away]&&!/^[EVD\s]+$/i.test(currentStandings[away].trim())&&<small>{currentStandings[away]}</small>}<FormDots team={away}/></div></div>
+    {(()=>{const db=liveMatches[game.name];const ko=parseKickoff(date,time);const elapsed=ko===null?null:clock-ko;const hasResult=!!db&&db.status!=="scheduled"&&(db.status==="final"||(Number.isFinite(db.home_score)&&Number.isFinite(db.away_score)));const state=hasResult?db.status:elapsed!==null&&elapsed>=7200000?"pending":elapsed!==null&&elapsed>=0?"live":"scheduled";if(state==="scheduled")return null;if(state==="pending")return <div className="liveMatchStrip pending"><b>RESULTADO PENDIENTE</b><strong>—</strong></div>;if(state==="live"&&!hasResult)return <div className="liveMatchStrip live"><b>EN JUEGO</b><strong>•</strong></div>;return <div className={"liveMatchStrip "+state}><b>{state==="live"?"EN JUEGO":"FINAL"}</b><strong>{db?.home_score} - {db?.away_score}</strong></div>})()}<div className="pickHint">ELIGE TU PRONÓSTICO</div>
+    <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={roundClosed||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active pick"+x:"pick"+x} style={picks[pickKey]===x?{backgroundColor:x==="1"?"#176ed5":x==="X"?"#ffffff":"#d62e46",borderColor:x==="1"?"#329bff":x==="X"?"#ffffff":"#f34b61",color:x==="X"?"#14243b":"#ffffff"}:undefined} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
+   </article>
+  })}</div>
+  <div className="roundDock"><div className="roundDockStatus"><b>{roundClosed?"Jornada cerrada":done===playableGames.length?"Pronóstico completo":done+"/"+playableGames.length+" elegidos"}</b><small>{roundClosed?"El primer partido ya ha comenzado":pending?`Pendientes ${pending} rivales por confirmar`:done===playableGames.length?"Puedes revisar tus elecciones antes de enviarlas":"Completa todos los partidos"}</small></div><button className="savePrediction" disabled={done<playableGames.length||playableGames.length===0||roundClosed||pending>0||saving} onClick={async()=>{if(saving)return;setSaving(true);try{await onSave()}finally{setSaving(false)}}}><span>{saving?"Guardando…":saved?"Actualizar pronóstico":"Confirmar pronóstico"}</span></button></div>
+ </section>
+}
+function DinioImage(){const [failed,setFailed]=useState(false);return failed?<div className="dinioFallback" role="img" aria-label="Imagen de Dinio pendiente"><img src="/api/assets/Escudos/cd_derio.png" alt=""/><strong>DINIO</strong></div>:<img src="/dinio.png" alt="Dinio y CD Derio" onError={()=>setFailed(true)}/>;}
+function QuiniCover(){return <section className="quiniCover uploadedCover mobileCover" aria-label="QuiniDerio"><img src={asset("branding/ImagenPortada.png?v=202609281640")} alt="QuiniDerio · CD Derio"/></section>}
+function CoachesPanel(){return <section className="coachesPanel"><div className="coachesIntro"><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="CD Derio"/><div><p className="eyebrow">CD DERIO</p><h2>El equipo</h2><small>Entrenadores de la temporada</small></div></div><div className="coachGrid">{teamData.map(t=><article key={t.name}><div className="coachAvatar"><img src={t.photo} alt={`Entrenador ${t.coach}`} /></div><b>{t.coach}</b><small>{t.name}</small></article>)}</div></section>}
+function ClubCrest({src,name}:{src?:string,name:string}){const iturrigorri=/iturrigorri/i.test(name)||/Iturrigorri\.png/i.test(src||"");return src?<span className={"crestBox "+(iturrigorri?"crestIturrigorri":"")}><img src={src} alt={`Escudo de ${name}`} loading="eager" decoding="async"/></span>:<i aria-hidden="true">?</i>}
+function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:Record<string,string>,round:number,dinio:string,season:Season,onEdit:()=>void,onRequireLogin:()=>void}){
+ const [selectedScope,setSelectedScope]=useState<"season"|number>(3);
+ const availableRounds=[1,2,3,4,5,6,7,8];
+ const enabledRounds=new Set([1,2,3]);
+ const selectedRound=typeof selectedScope==="number"?selectedScope:round;
+ const [rivalSeasons,setRivalSeasons]=useState<Array<{user_id:string,username:string,season:Season,dinio:string,profile_pic:string}>>([]);
+ const [rivalPicks,setRivalPicks]=useState<Array<{user_id:string,team:string,pick:string}>>([]);
+ const [rivalResults,setRivalResults]=useState<Array<{team:string,home_score:number,away_score:number,status:string}>>([]);
+ const [rivalsLoading,setRivalsLoading]=useState(false);
+ const [rivalsError,setRivalsError]=useState(false);
+ const [sessionRequired,setSessionRequired]=useState(false);
+ const [rivalsRefresh,setRivalsRefresh]=useState(0);
+
+ useEffect(()=>{
+  const controller=new AbortController();
+  setRivalsLoading(true);setRivalsError(false);setRivalPicks([]);setRivalResults([]);
+  void(async()=>{try{
+   // La consulta de perfiles públicos no debe fallar porque haya caducado
+   // la sesión local. Supabase RLS sigue protegiendo los pronósticos privados.
+   const {data:{session},error:sessionError}=await supabase.auth.getSession();
+   const user=session?.user;
+   if(sessionError)console.warn("No se ha podido recuperar la sesión:",sessionError);
+   if(!controller.signal.aborted)setSessionRequired(!user);
+   const seasonMode=selectedScope==="season";
+   const [profiles,predictions,results]=await Promise.all([
+    supabase.from("quini_public_profiles").select(seasonMode?"user_id,username,season,dinio,has_profile_pic":"user_id,username,has_profile_pic").order("username").abortSignal(controller.signal),
+    !seasonMode?supabase.from("quini_picks").select("user_id,team,pick").eq("round",selectedRound).abortSignal(controller.signal):Promise.resolve({data:[],error:null}),
+    !seasonMode?supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",selectedRound).abortSignal(controller.signal):Promise.resolve({data:[],error:null})
+   ]);
+   if(controller.signal.aborted)return;
+   if(profiles.error||predictions.error||results.error){console.error("Error consultando pronósticos",{profiles:profiles.error,predictions:predictions.error,results:results.error});throw new Error("load")}
+   setRivalSeasons(((profiles.data||[]) as any[]).filter(x=>!user||x.user_id!==user.id).map(x=>({...x,profile_pic:x.has_profile_pic?publicAvatar(x.user_id):""})));
+   setRivalPicks((predictions.data||[]) as any);
+   setRivalResults((results.data||[]) as any);
+  }catch{if(!controller.signal.aborted)setRivalsError(true)}
+  finally{if(!controller.signal.aborted)setRivalsLoading(false)}})();
+  return()=>controller.abort();
+ },[selectedScope,selectedRound,rivalsRefresh]);
+
+ const playableTeams=teams.filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest");
+ const roundKickoffs=playableTeams.map(team=>{const game=quizFixtures[selectedRound]?.[team];if(!game?.date||!game?.time)return null;const [d,m,y]=game.date.split("/").map(Number);const [h,min]=game.time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()}).filter((v):v is number=>v!==null);
+ const firstRoundKickoff=roundKickoffs.length?Math.min(...roundKickoffs):null;
+ const hasStartedMatch=rivalResults.some(result=>result.status==="live"||result.status==="finished");
+ const rivalsUnlocked=hasStartedMatch||(firstRoundKickoff!==null&&Date.now()>=firstRoundKickoff);
+ const picksByPlayerTeam=useMemo(()=>new Map(rivalPicks.map(x=>[`${x.user_id}:${x.team}`,x.pick])),[rivalPicks]);
+
+ return <section className="tabPage predictionsPage unifiedPredictionsPage">
+  <div className="pageTop porraPageTop"><p className="eyebrow">TEMPORADA 2026/27</p><h1>Todos los Pronósticos</h1><p>Consulta tus predicciones y las de los demás participantes.</p></div>
+  {sessionRequired&&<div role="status" className="predictionSessionNotice"><b>Sesión no disponible</b><p>Vuelve a iniciar sesión para consultar todos los pronósticos. Los datos públicos seguirán visibles.</p><button type="button" onClick={onRequireLogin}>Iniciar sesión</button></div>}
+  <div className="predictionUnifiedTabs" role="tablist">
+   <button type="button" role="tab" aria-selected={selectedScope==="season"} className={selectedScope==="season"?"active":""} onClick={()=>setSelectedScope("season")}>Temporada</button>
+   {availableRounds.map(n=>{const enabled=enabledRounds.has(n);return <button type="button" role="tab" aria-selected={selectedScope===n} aria-disabled={!enabled} disabled={!enabled} className={(selectedScope===n?"active ":"")+(!enabled?"locked":"")} onClick={()=>enabled&&setSelectedScope(n)} key={n}>J{n}</button>})}
+  </div>
+
+  {selectedScope==="season"?<>
+   <section className="predictionOwnerSection">
+    <div className="predictionSectionTitle"><div><small>MI PRONÓSTICO</small><h2>Temporada</h2></div></div>
+    <div className="seasonStickerGrid">
+     {teamData.map(t=><article className="seasonSticker teamSticker" key={t.name}><div className="stickerPhoto"><img src={t.photo} alt={t.coach}/><span>{t.name}</span></div><div className="stickerCopy"><small>POSICIÓN FINAL</small><strong>{season.positions[t.name]?season.positions[t.name]+"º":"—"}</strong><b>{t.coach}</b></div></article>)}
+     <article className="seasonSticker miniSticker"><small>MÁS ARRIBA</small><strong>↑</strong><b>{season.highest||"—"}</b></article>
+     <article className="seasonSticker miniSticker"><small>MÁS ABAJO</small><strong>↓</strong><b>{season.lowest||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>PRIMER ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{season.firstCoach||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{season.coachCards||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>PRIMER 2º ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{season.assistantCoachExpulsions||"—"}</b></article>
+     <article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · SEGUNDO ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{season.assistantCoachCards||"—"}</b></article>
+     <article className="seasonSticker miniSticker"><small>PRIMER DELEGADO EXPULSADO</small><strong className="redCardMark"></strong><b>{season.firstDelegate||"—"}</b></article>
+     <article className="seasonSticker miniSticker"><small>MÁS TARJETAS · DELEGADO</small><strong className="cardsMark" aria-hidden="true"></strong><b>{season.delegateCards||"—"}</b></article>
+     <article className="seasonSticker dinioSticker"><img src={asset("entrenadores/DinioDerio.jpeg")} alt="Dinio"/><div><small>EXTRA · TEMPORADA</small><b>¿Dimitirá Dinio?</b><strong>{dinio||"—"}</strong></div></article>
+    </div>
+   </section>
+   <section className="rivalsPanel rivalsTab unifiedRivalsSection">
+    <div className="predictionSectionTitle"><div><small>PARTICIPANTES</small><h2>Pronósticos de temporada</h2></div></div>
+    {rivalsLoading?<div className="predictionsSkeleton" role="status" aria-label="Cargando pronósticos">{Array.from({length:6},(_,i)=><div className="predictionsSkeletonRow" key={i}><i/><span><b/><small/></span><em/></div>)}</div>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:rivalSeasons.length?<div className="rivalFullPredictions">{rivalSeasons.map(x=><section className="rivalPredictionBlock" key={x.user_id}><div className="rivalPlayerBanner"><span className="rankingAvatar">{x.profile_pic?<img src={x.profile_pic} alt={x.username}/>:x.username?.[0]?.toUpperCase()}</span><div><small>PARTICIPANTE</small><b>{x.username}</b></div></div><div className="seasonStickerGrid">{teamData.map(t=><article className="seasonSticker teamSticker" key={t.name}><div className="stickerPhoto"><img src={t.photo} alt={t.coach}/><span>{t.name}</span></div><div className="stickerCopy"><small>POSICIÓN FINAL</small><strong>{x.season?.positions?.[t.name]?x.season.positions[t.name]+"º":"—"}</strong><b>{t.coach}</b></div></article>)}<article className="seasonSticker miniSticker"><small>MÁS ARRIBA</small><strong>↑</strong><b>{x.season?.highest||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS ABAJO</small><strong>↓</strong><b>{x.season?.lowest||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{x.season?.firstCoach||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{x.season?.coachCards||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>PRIMER 2º ENTRENADOR EXPULSADO</small><strong className="redCardMark"></strong><b>{x.season?.assistantCoachExpulsions||"—"}</b></article><article className="seasonSticker miniSticker coachSticker"><small>MÁS TARJETAS · SEGUNDO ENTRENADOR</small><strong className="twoCardIcons" aria-hidden="true"><i></i><i></i></strong><b>{x.season?.assistantCoachCards||"—"}</b></article><article className="seasonSticker miniSticker"><small>PRIMER DELEGADO EXPULSADO</small><strong className="redCardMark"></strong><b>{x.season?.firstDelegate||"—"}</b></article><article className="seasonSticker miniSticker"><small>MÁS TARJETAS · DELEGADO</small><strong className="cardsMark" aria-hidden="true"></strong><b>{x.season?.delegateCards||"—"}</b></article><article className="seasonSticker dinioSticker"><img src={asset("entrenadores/DinioDerio.jpeg")} alt="Dinio"/><div><small>EXTRA · TEMPORADA</small><b>¿Dimitirá Dinio?</b><strong>{x.dinio||"—"}</strong></div></article></div></section>)}</div>:<div className="rivalsEmpty"><UsersIcon/><b>Aún no hay otros pronósticos publicados</b></div>}
+   </section>
+  </>:<section className="rivalsPanel rivalsTab matchRivalsPanel unifiedRoundPredictions">
+   <div className="predictionSectionTitle"><div><small>JORNADA {selectedRound}</small><h2>Pronósticos</h2><p>Tu pronóstico y el de los demás participantes, partido a partido.</p></div></div>
+   {rivalsLoading?<p role="status">Cargando pronósticos…</p>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:<div className="matchRivalsList">{[...teams].filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest").sort((a,b)=>{const ga=quizFixtures[selectedRound]?.[a],gb=quizFixtures[selectedRound]?.[b];const toTs=(g:any)=>{if(!g?.date||!g?.time)return Number.MAX_SAFE_INTEGER;const [d,m,y]=g.date.split("/").map(Number),[h,min]=g.time.split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};return toTs(ga)-toTs(gb)}).map(team=>{
+    const game=quizFixtures[selectedRound]?.[team]||{};
+    const opponent=game.opponent||"Rival por confirmar",isHome=game.isHome!==false;
+    const home=isHome?team:opponent,away=isHome?opponent:team;
+    const result=rivalResults.find(r=>r.team===team);
+    const finished=result?.status==="finished";
+    const winningPick=finished&&result?(result.home_score>result.away_score?"1":result.home_score<result.away_score?"2":"X"):null;
+    const myPick=picks[`${selectedRound}:${team}`];
+    const entries=rivalSeasons.map(player=>({player,pick:picksByPlayerTeam.get(`${player.user_id}:${team}`)})).filter(entry=>entry.pick);
+    return <article className="matchRivalsCard" key={team}><header className="matchRivalsFixture"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home}/><b>{home}</b></div><span className="matchRivalsScore">{finished&&result?`${result.home_score}–${result.away_score}`:"vs"}</span><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away}/><b>{away}</b></div></header><small className="matchRivalsDate">{game.date||"Fecha pendiente"} · {game.time||"Hora pendiente"}</small>{!rivalsUnlocked?<p className="matchRivalsEmpty">Los pronósticos de los rivales estarán disponibles cuando comience la jornada.</p>:<ul className="matchRivalsPlayers">{myPick&&<li className="currentPlayerPick"><span className="rankingAvatar currentUserAvatar">TÚ</span><b>Mi pronóstico</b><strong className={"pickResult hasPick pick"+myPick+" "+(finished?"resultKnown ":"")+(winningPick===myPick?"predictionCorrect":"")}>{myPick}</strong></li>}{entries.map(({player,pick})=><li key={player.user_id}><span className="rankingAvatar">{player.profile_pic?<img loading="lazy" src={player.profile_pic} alt=""/>:player.username?.[0]?.toUpperCase()}</span><b>{player.username}</b><strong className={"pickResult hasPick pick"+pick+" "+(finished?"resultKnown ":"")+(winningPick===pick?"predictionCorrect":"")}>{pick}</strong></li>)}{!myPick&&!entries.length&&<li className="matchRivalsEmpty">Aún no hay pronósticos para este partido.</li>}</ul>}</article>
+   })}</div>}
+  </section>}
+ </section>
+}
+function Ranking({destination}:{destination:RankingDestination|null}){
+ const[board,setBoard]=useState<Array<{user_id:string,username:string,hits:number}>>([]);
+ const[pot,setPot]=useState<Array<{user_id:string,username:string,pot_euros:number}>>([]);
+ const[profiles,setProfiles]=useState<Record<string,{username:string,profile_pic:string}>>({});
+ const[view,setView]=useState<"hits"|"pot">(destination==="pot"?"pot":"hits");
+ const[rankingRound,setRankingRound]=useState<number|null>(null);
+ const[currentUserId,setCurrentUserId]=useState("");
+ const ownRowRef=useRef<HTMLButtonElement|null>(null);
+ const scrolledToSelf=useRef(false);
+ const[finishedCounts,setFinishedCounts]=useState<Record<number,number>>({});
+ const[roundScores,setRoundScores]=useState<Array<{user_id:string,round:number,hits:number}>>([]);
+ const[availableRounds,setAvailableRounds]=useState<number[]>([1,2,3]);
+ const[selected,setSelected]=useState<any>(null);
+ const[detail,setDetail]=useState<Array<{round:number,team:string,pick:string,opponent:string,home_score:number,away_score:number,result:string}>>([]);
+ const[potDetail,setPotDetail]=useState<Array<{round:number,amount:number}>>([]);
+ const[detailLoading,setDetailLoading]=useState(false);
+ usePageScrollLock(!!selected);
+ useEffect(()=>{if(!selected)return;const close=(event:KeyboardEvent)=>{if(event.key==="Escape")setSelected(null)};window.addEventListener("keydown",close);return()=>window.removeEventListener("keydown",close)},[selected]);
+ const[rankingLoading,setRankingLoading]=useState(true);
+ useEffect(()=>{void(async()=>{const [{data:b},{data:p},{data:ps},{data:rs},{data:lm}]=await Promise.all([
+  supabase.from("quini_standings").select("user_id,username,hits").order("hits",{ascending:false}),
+  supabase.from("quini_pot_standings").select("user_id,username,pot_euros").order("pot_euros",{ascending:false}),
+  supabase.from("quini_public_profiles").select("user_id,username,has_profile_pic"),
+  supabase.from("quini_round_scores").select("user_id,round,hits"),
+  supabase.from("quini_live_matches").select("round,status")
+ ]);const map:Record<string,{username:string,profile_pic:string}>={};for(const x of ps||[])map[x.user_id]={username:x.username,profile_pic:x.has_profile_pic?publicAvatar(x.user_id):""};try{const user=await currentSessionUser();if(user){setCurrentUserId(user.id);const local=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");const localPic=typeof local.profilePic==="string"?local.profilePic.trim():"";if(localPic&&map[user.id])map[user.id].profile_pic=localPic}}catch{}setProfiles(map);const counts:Record<number,number>={};for(const m of lm||[]){const r=Number(m.round);if(m.status==="finished")counts[r]=(counts[r]||0)+1;}setFinishedCounts(counts);if(!destination){const played=[...new Set((lm||[]).filter((m:any)=>m.status==="finished").map((m:any)=>Number(m.round)))].sort((a,b)=>b-a);setRankingRound(played[0]||2)}setRoundScores((rs||[]) as any);setAvailableRounds([...new Set([1,2,3,...(lm||[]).filter((m:any)=>["finished","suspended","final"].includes(String(m.status))).map((m:any)=>Number(m.round))])].sort((a,b)=>a-b));setBoard((b||[]) as any);setPot((p||[]) as any);setRankingLoading(false)})()},[]);
+ useEffect(()=>{if(destination!=="self"||rankingLoading||!currentUserId||view!=="hits"||rankingRound!==null||scrolledToSelf.current)return;const frame=requestAnimationFrame(()=>{const row=ownRowRef.current;if(!row)return;scrolledToSelf.current=true;row.scrollIntoView({block:"center",behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});row.focus({preventScroll:true})});return()=>cancelAnimationFrame(frame)},[destination,rankingLoading,currentUserId,view,rankingRound]);
+ const openPlayer=async(row:any)=>{setSelected(row);setDetail([]);setPotDetail([]);setDetailLoading(true);if(view==="pot"){const{data:finishedMatches}=await supabase.from("quini_live_matches").select("round,team,status");const byRound=new Map<number,{total:number,done:number}>();for(const m of finishedMatches||[]){const r=Number(m.round);const x=byRound.get(r)||{total:0,done:0};x.total++;if(["finished","final","suspended"].includes(String(m.status)))x.done++;byRound.set(r,x)}const rounds=[...byRound.entries()].filter(([,x])=>x.total>0&&x.done===x.total).map(([r])=>r).sort((a,b)=>a-b);const amounts:Array<{round:number,amount:number}>=[];for(const round of rounds){const {data:roundRows}=await supabase.from("quini_round_scores").select("user_id,hits,picks_count").eq("round",round);const rr=roundRows||[];const finishedCount=(await supabase.from("quini_live_matches").select("team",{count:"exact",head:true}).eq("round",round).eq("status","finished")).count||0;const sorted=[...new Set(rr.map((x:any)=>Number(x.hits)))].sort((a,b)=>a-b);const me=rr.find((x:any)=>x.user_id===row.user_id);let amount=0;if(me){if(Number(me.hits)===finishedCount&&Number(me.hits)>0)amount=-3;else{const rank=sorted.indexOf(Number(me.hits))+1;amount=rank===1?2:rank===2?1:0}}amounts.push({round:Number(round),amount})}setPotDetail(amounts)}else{const{data}=await supabase.from("quini_finished_pick_stats").select("round,team,pick,opponent,home_score,away_score,result").eq("user_id",row.user_id).order("round").order("team");setDetail((data||[]) as any)}setDetailLoading(false)};
+ const roundPot=(round:number,userId:string)=>{const scores=roundScores.filter(s=>Number(s.round)===round);const mine=scores.find(s=>s.user_id===userId);if(!mine)return 0;const values=[...new Set(scores.map(s=>Number(s.hits)))].sort((a,b)=>a-b);const hits=Number(mine.hits);if(hits>0&&hits===(finishedCounts[round]||0))return -3;const rank=values.indexOf(hits)+1;return rank===1?2:rank===2?1:0};
+ const rows=view==="pot"?(rankingRound===null?pot:[...pot].map(row=>({...row,pot_euros:roundPot(rankingRound,row.user_id)})).sort((a,b)=>b.pot_euros-a.pot_euros||a.username.localeCompare(b.username,"es"))):rankingRound===null?board:[...board].map(row=>({...row,hits:roundScores.find(score=>score.user_id===row.user_id&&Number(score.round)===rankingRound)?.hits||0})).sort((a,b)=>b.hits-a.hits||a.username.localeCompare(b.username,"es"));
+ const profileFor=(row:any)=>profiles[row.user_id]||Object.values(profiles).find(p=>p.username?.trim().toLowerCase()===String(row.username||"").trim().toLowerCase());
+ const correct=detail.filter(x=>x.pick===x.result).length,total=detail.length,pct=total?Math.round(correct/total*100):0;
+ const rounds=[...new Set(detail.map(x=>x.round))]; const avg=rounds.length?correct/rounds.length:0;
+ return <section className="tabPage"><div className="pageTop porraPageTop"><p className="eyebrow">CLASIFICACIÓN</p><h1>{view==="hits"?(rankingRound===null?"Clasificación general":`Clasificación · Jornada ${rankingRound}`):rankingRound===null?"Bote acumulado":`Bote · Jornada ${rankingRound}`}</h1><p>{view==="hits"?(rankingRound===null?"Aciertos acumulados durante la temporada.":`Aciertos correspondientes a la jornada ${rankingRound}.`):rankingRound===null?"Penalización acumulada de la temporada.":`Penalización correspondiente a la jornada ${rankingRound}.`}</p></div><div className="rankingTabs"><button className={view==="hits"?"active":""} onClick={()=>setView("hits")}>Aciertos</button><button className={view==="pot"?"active":""} onClick={()=>setView("pot")}>Bote acumulado</button></div>{<div className="rankingRoundTabs" role="group" aria-label="Jornada de clasificación"><button type="button" className={rankingRound===null?"active":""} onClick={()=>setRankingRound(null)}>General</button>{availableRounds.map(round=><button type="button" key={round} className={rankingRound===round?"active":""} onClick={()=>setRankingRound(round)}>J{round}</button>)}</div>}{rows.length?<><div className="rankingHeader"><span>#</span><span>JUGADOR</span><span>{view==="hits"?"ACIERTOS":"BOTE"}</span></div><div className="rankingRows">{rows.map((row:any,i)=>{const profile=profileFor(row);const isSelf=destination==="self"&&view==="hits"&&rankingRound===null&&row.user_id===currentUserId;return <button type="button" ref={isSelf?ownRowRef:undefined} aria-current={isSelf?"true":undefined} className={"rankingRow rankingRowButton "+(isSelf?"rankingSelf ":"")+(view==="hits"&&rankingRound===null?(i<Math.floor(rows.length/2)?"rankingUpper":i>=Math.ceil(rows.length/2)?"rankingLower":"rankingMiddle"):view==="pot"&&rankingRound!==null?(row.pot_euros===2?"rankingPotTwo":row.pot_euros===1?"rankingPotOne":""):"")} onClick={()=>void openPlayer(row)} key={row.user_id||row.username}><span>{i+1}</span><b className="rankingPlayer"><span className="rankingAvatar">{profile?.profile_pic?<img src={profile.profile_pic} alt={row.username}/>:row.username?.[0]?.toUpperCase()}</span><span>{row.username}{isSelf&&<small className="rankingSelfBadge">Tú</small>}</span></b><strong>{view==="hits"?row.hits:row.pot_euros+" €"}</strong></button>})}</div></>:rankingLoading?<div className="rankingSkeleton" aria-label="Cargando clasificación">{Array.from({length:7},(_,i)=><div className="rankingSkeletonRow" key={i} style={{animationDelay:`${i*70}ms`}}><i/><span/><b/></div>)}</div>:null}
+ {selected&&typeof document!=="undefined"&&createPortal(<div className="playerStatsOverlay" onClick={()=>setSelected(null)}><section role="dialog" aria-modal="true" aria-label={"Estadísticas de "+selected.username} className="playerStatsModal" onClick={e=>e.stopPropagation()}><header><div className="playerStatsIdentity"><span className="playerStatsAvatar">{profileFor(selected)?.profile_pic?<img src={profileFor(selected)?.profile_pic} alt={selected.username}/>:selected.username?.[0]?.toUpperCase()}</span><h2>{selected.username}</h2></div><button type="button" aria-label="Cerrar estadísticas" onClick={()=>setSelected(null)}>×</button></header>{detailLoading?<div className="playerStatsLoading">Cargando estadísticas…</div>:view==="pot"?<div className="playerPotDetail"><div className="playerMatchTitle"><div><span>BOTE ACUMULADO</span><b>Desglose por jornada</b></div></div>{potDetail.map(item=><article key={item.round}><b>J{item.round}</b><strong>{item.amount===0?"-":`${item.amount}€`}</strong></article>)}</div>:<><div className="playerStatsSummary"><article><b>{correct}</b><small>ACIERTOS</small></article><article><b>{avg.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})}</b><small>MEDIA / JORNADA</small></article><article><b>{pct}%</b><small>% DE ACIERTO</small></article></div><p className="playerStatsCalculated">Calculado sobre {total} pronósticos de {rounds.length} jornadas finalizadas.</p><div className="playerMatchList"><div className="playerMatchTitle"><div><span>PRONÓSTICOS</span><b>Desglose general</b></div><small>{total}</small></div>{detail.length?detail.map((x,i)=>{const hit=x.pick===x.result;const game=(quizFixtures[x.round]?.[x.team]||{}) as any;const home=game.isHome===false?x.opponent:x.team,away=game.isHome===false?x.team:x.opponent;return <article className={hit?"hit":""} key={x.round+"-"+x.team+"-"+i}><div><small>J{x.round}</small><b>{home} <em>{x.home_score}-{x.away_score}</em> {away}</b></div><span><small>PRONÓSTICO</small><strong>{x.pick}</strong></span></article>}):<div className="playerStatsEmpty">Todavía no hay partidos finalizados para calcular estadísticas.</div>}</div></>}</section></div>,document.body)}
+ </section>
+}
+function ScoreRulesIcon(){return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg>}
+function PotRulesIcon(){return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8h12l-1 11H7L6 8Z"/><path d="M9 8V5h6v3"/><path d="M9 13h6"/></svg>}
+function ClassificationFormatIcon(){return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 19V12h4v7"/><path d="M10 19V8h4v11"/><path d="M15 19V4h4v15"/><path d="M3 19h18"/></svg>}
+function More({name,dinio,season,onTab,onProfilePicChange,onRequireLogin}:{name:string,dinio:string,season:Season,onTab:(tab:"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas")=>void,onProfilePicChange?:(pic:string)=>void,onRequireLogin:()=>void}){
+ const [panel,setPanel]=useState<"season"|"extra"|"rules"|"potRules"|"classificationFormat"|"name"|"pending"|null>(null); const [pendingPlayers,setPendingPlayers]=useState<Array<{user_id:string,username:string,profile_pic:string,sent:number,total:number}>>([]); const [pendingRound,setPendingRound]=useState(2); const [pendingLoading,setPendingLoading]=useState(false); const [reminderSending,setReminderSending]=useState<string>(""); const [reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
+ const [theme,setTheme]=useState<"dark"|"light">("dark");
+ const [pushEnabled,setPushEnabled]=useState(false); const [editName,setEditName]=useState(name); const [profilePic,setProfilePic]=useState(""); const [profileStatus,setProfileStatus]=useState(""); const [accountEmail,setAccountEmail]=useState(""); const [adminSessionActive,setAdminSessionActive]=useState(false); const [cropSrc,setCropSrc]=useState(""); const [cropZoom,setCropZoom]=useState(1); const [cropX,setCropX]=useState(0); const [cropY,setCropY]=useState(0); const [cropRatio,setCropRatio]=useState(1); const [cropDrag,setCropDrag]=useState<{x:number,y:number,ox:number,oy:number}|null>(null);
+ useEffect(()=>{
+    const t=(localStorage.getItem("quiniderio-theme") as "dark"|"light")||"dark";
+    document.documentElement.dataset.nav="bottom";
+    localStorage.removeItem("quiniderio-nav");
+    setTheme(t);
+    setPushEnabled(localStorage.getItem("quiniderio-notifications")==="true");
+    const adminEmail="gabrialzueta@gmail.com";
+    const adminUserId="12da0fa3-5168-400e-be73-530149e54a48";
+    let cachedAdmin=false;
+    try{
+      const saved=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");
+      setProfilePic(saved.profilePic||"");
+      cachedAdmin=String(saved.email||"").trim().toLowerCase()===adminEmail
+        && saved.userId===adminUserId;
+    }catch{}
+    // La pantalla principal admite un perfil local aunque Auth caduque.
+    // No ocultar los accesos del perfil admin por ese motivo: la API y /admin
+    // siguen verificando el usuario autenticado antes de permitir acciones.
+    if(cachedAdmin)setAccountEmail(adminEmail);
+    let active=true;
+    let check=0;
+    const refreshAdmin=async()=>{
+      const id=++check;
+      try{
+        const {data:{session}}=await supabase.auth.getSession();
+        if(!active||id!==check)return;
+        const sessionUser=session?.user;
+        if(!sessionUser){
+          setAccountEmail(cachedAdmin?adminEmail:"");
+          setAdminSessionActive(false);
+          return;
+        }
+        const isAdmin=sessionUser.id===adminUserId
+          && sessionUser.email?.trim().toLowerCase()===adminEmail;
+        setAccountEmail(isAdmin?adminEmail:"");
+        setAdminSessionActive(isAdmin);
+        // No quitar el acceso visible por un fallo temporal de red al validar.
+        const {data:{user},error}=await supabase.auth.getUser();
+        if(!active||id!==check||error||!user)return;
+        const verified=user.id===adminUserId&&user.email?.trim().toLowerCase()===adminEmail;
+        setAccountEmail(verified?adminEmail:"");
+        setAdminSessionActive(verified);
+      }catch{
+        if(active&&id===check){
+          setAccountEmail(cachedAdmin?adminEmail:"");
+          setAdminSessionActive(false);
+        }
+      }
+    };
+    const onVisible=()=>{if(document.visibilityState==="visible")void refreshAdmin()};
+    const onFocus=()=>void refreshAdmin();
+    void refreshAdmin();
+    const {data:listener}=supabase.auth.onAuthStateChange((event)=>{
+      if(event==="SIGNED_OUT"){
+        check++;
+        cachedAdmin=false;
+        setAccountEmail("");
+        setAdminSessionActive(false);
+        return;
+      }
+      window.setTimeout(()=>{if(active)void refreshAdmin()},0);
+    });
+    document.addEventListener("visibilitychange",onVisible);
+    window.addEventListener("focus",onFocus);
+    return()=>{
+      active=false;
+      listener.subscription.unsubscribe();
+      document.removeEventListener("visibilitychange",onVisible);
+      window.removeEventListener("focus",onFocus);
+    };
+  },[]);
+ useEffect(()=>{document.documentElement.dataset.theme=theme;localStorage.setItem("quiniderio-theme",theme)},[theme]);
+ useEffect(()=>{void getPushState().then(s=>{setPushEnabled(s.enabled);localStorage.setItem("quiniderio-notifications",String(s.enabled))})},[]);
+ usePageScrollLock(!!cropSrc);
+ usePageScrollLock(!!panel);
+ useEffect(()=>{if(!panel)return;const close=(event:KeyboardEvent)=>{if(event.key==="Escape")setPanel(null)};window.addEventListener("keydown",close);return()=>window.removeEventListener("keydown",close)},[panel]);
+ const toggleNotifications=async()=>{setProfileStatus("");try{if(pushEnabled){await disablePush();setPushEnabled(false);setProfileStatus("Notificaciones desactivadas")}else if(await enablePush()){setPushEnabled(true);setProfileStatus("Notificaciones activadas")}}catch(e){const m=e instanceof Error?e.message:"";setProfileStatus(m==="denied"?"Las notificaciones están bloqueadas en iOS. Actívalas en Ajustes > Notificaciones > QuiniDerio.":m==="install"?"En iPhone, abre QuiniDerio desde el icono instalado en la pantalla de inicio para activar notificaciones.":m==="unsupported"?"Este dispositivo no admite notificaciones web push.":m==="vapid"?"La configuración push de QuiniDerio no está completa.":m==="subscribe"?"iOS no ha podido crear la suscripción. Cierra y vuelve a abrir QuiniDerio desde su icono.":m==="save"?"El permiso se ha concedido, pero no se ha podido registrar este dispositivo.":"No se han podido activar las notificaciones. Vuelve a intentarlo.")}};
+ return <section className="tabPage profilePage porraAccount">
+  <div className="accountTitle"><p className="eyebrow">TEMPORADA 2026/27</p><h1>Mi cuenta</h1><p>Gestiona tu perfil, apariencia y datos de tu cuenta.</p></div>
+  <div className="accountProfileCard">
+   <div className="accountIdentity"><div className="bigAvatar">{profilePic?<img src={profilePic} alt="Foto de perfil"/>:name[0]?.toUpperCase()}</div><div><h2>{name}</h2></div></div>
+   <div className="profilePhotoActions"><label className="photoAction"><span className="cameraIcon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg></span>Cambiar foto<input type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const f=e.target.files?.[0];if(!f)return;if(f.size>5*1024*1024){setProfileStatus("La imagen supera 5 MB");e.currentTarget.value="";return}const reader=new FileReader();reader.onload=()=>{const src=String(reader.result||"");const im=new Image();im.onload=()=>{setCropRatio(im.width/im.height);setCropSrc(src);setCropZoom(1);setCropX(0);setCropY(0)};im.src=src};reader.readAsDataURL(f);e.currentTarget.value=""}}/></label><button type="button" className="removePhoto" disabled={!profilePic} onClick={async()=>{setProfilePic("");onProfilePicChange?.("");setProfileStatus("Foto eliminada");const user=await currentSessionUser();if(user)await supabase.from("quini_profiles").update({profile_pic:"",updated_at:new Date().toISOString()}).eq("user_id",user.id);try{const x=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");localStorage.setItem("quiniderio-player",JSON.stringify({...x,profilePic:""}))}catch{}}}>Eliminar foto</button></div>
+   <small className="photoHint">JPG, PNG o WebP · Máximo 5 MB {profileStatus&&<b>· {profileStatus}</b>}</small>{cropSrc&&typeof document!=="undefined"&&createPortal(<div className="avatarCropOverlay"><div className="avatarCropModal"><div className="avatarCropTop"><div><small>AJUSTAR FOTO</small><b>Foto de perfil</b></div><button type="button" onClick={()=>setCropSrc("")}>×</button></div><div className="avatarCropStage" onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);setCropDrag({x:e.clientX,y:e.clientY,ox:cropX,oy:cropY})}} onPointerMove={e=>{if(cropDrag){const stage=e.currentTarget.clientWidth,circle=stage-20;const baseW=cropRatio>=1?stage*cropRatio:stage,baseH=cropRatio>=1?stage:stage/cropRatio;const maxX=Math.max(0,(baseW*cropZoom-circle)/2),maxY=Math.max(0,(baseH*cropZoom-circle)/2);setCropX(Math.max(-maxX,Math.min(maxX,cropDrag.ox+e.clientX-cropDrag.x)));setCropY(Math.max(-maxY,Math.min(maxY,cropDrag.oy+e.clientY-cropDrag.y)))}}} onPointerUp={()=>setCropDrag(null)} onPointerCancel={()=>setCropDrag(null)}><img src={cropSrc} alt="Ajustar foto" style={{transform:`translate(${cropX}px,${cropY}px) scale(${cropZoom})`}}/><div className="avatarCropCircle"/></div><div className="avatarZoom"><small>Zoom</small><input aria-label="Zoom de foto" type="range" min="1" max="3" step=".01" value={cropZoom} onChange={e=>{const z=Number(e.target.value),stage=Math.min(window.innerWidth*.68,240),circle=stage-20;const baseW=cropRatio>=1?stage*cropRatio:stage,baseH=cropRatio>=1?stage:stage/cropRatio;const maxX=Math.max(0,(baseW*z-circle)/2),maxY=Math.max(0,(baseH*z-circle)/2);setCropZoom(z);setCropX(x=>Math.max(-maxX,Math.min(maxX,x)));setCropY(y=>Math.max(-maxY,Math.min(maxY,y)))}}/></div><div className="avatarCropActions"><button type="button" onClick={()=>setCropSrc("")}>Cancelar</button><button type="button" className="primary" onClick={async()=>{try{const img=new Image();img.src=cropSrc;await new Promise<void>((resolve,reject)=>{img.onload=()=>resolve();img.onerror=()=>reject()});const size=256,stage=260;const canvas=document.createElement("canvas");canvas.width=size;canvas.height=size;const ctx=canvas.getContext("2d");if(!ctx)throw new Error("canvas");const base=Math.max(stage/img.width,stage/img.height);const scale=base*cropZoom;const dw=img.width*scale,dh=img.height*scale;const sx=(stage-dw)/2+cropX,sy=(stage-dh)/2+cropY;ctx.drawImage(img,sx*size/stage,sy*size/stage,dw*size/stage,dh*size/stage);const v=canvas.toDataURL("image/webp",.68);const user=await currentSessionUser();if(user)await supabase.from("quini_profiles").update({profile_pic:v,updated_at:new Date().toISOString()}).eq("user_id",user.id);const x=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");localStorage.setItem("quiniderio-player",JSON.stringify({...x,profilePic:v}));setProfilePic(v);onProfilePicChange?.(v);setProfileStatus("Foto ajustada y guardada");setCropSrc("")}catch{setProfileStatus("No se pudo guardar la foto")}}}>Guardar foto</button></div></div></div>,document.body)}
+   <div className="profileFields"><button type="button" className="profileNameButton" onClick={()=>{setEditName(name);setPanel("name")}}><span><small>NOMBRE EN LA PORRA</small><b>{name}</b><em>Este será el nombre que verán los demás participantes.</em></span><strong>Editar ›</strong></button></div>
+  </div>
+  <div className="accountSection accountQuick"><h3>Cuenta</h3><div className="accountList">
+   <button type="button" onClick={()=>onTab("pronosticos")}><span><TargetIcon/></span><div><b>Mis pronósticos</b><small>Consulta tus pronósticos de jornada</small></div><em>›</em></button>
+   <button type="button" onClick={()=>setPanel("rules")}><span><ScoreRulesIcon/></span><div><b>Cómo se puntúa</b><small>Reglas y sistema de puntos</small></div><em>›</em></button><button type="button" onClick={()=>setPanel("potRules")}><span><PotRulesIcon/></span><div><b>Reglas del bote</b><small>Penalizaciones y recuperación del bote</small></div><em>›</em></button><button type="button" onClick={()=>setPanel("classificationFormat")}><span><ClassificationFormatIcon/></span><div><b>Formato de clasificación</b><small>Ajuste final del bote según tu posición</small></div><em>›</em></button>
+  </div></div>
+  <div className="accountSection"><h3>Apariencia</h3><div className="accountList settingList">
+   <div className="settingRow"><span className="settingIcon">◐</span><div><b>Modo de visualización</b><small>Elige el aspecto de la aplicación</small></div><div className="segmented"><button className={theme==="dark"?"active":""} onClick={()=>setTheme("dark")}>Oscuro</button><button className={theme==="light"?"active":""} onClick={()=>setTheme("light")}>Claro</button></div></div>
+   
+  </div></div>
+  <div className="accountSection"><h3>Notificaciones</h3><div className="accountList settingList"><div className="settingRow notificationSetting"><span className="settingIcon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span><div><b>Activar notificaciones</b><small>Avisos de pronósticos pendientes, cierre de jornada y resultados</small></div><button type="button" role="switch" aria-checked={pushEnabled} className={"switch "+(pushEnabled?"on":"")} onClick={toggleNotifications}><i/></button></div></div></div>
+  {accountEmail==="gabrialzueta@gmail.com"&&<div className="accountSection adminAccountSection"><h3>Administración</h3>{!adminSessionActive&&<div role="status" className="adminSessionNotice"><b>Vuelve a iniciar sesión para administrar</b><p>La app conserva tu perfil, pero no se ha podido validar la sesión de administrador.</p><button type="button" onClick={onRequireLogin}>Iniciar sesión</button></div>}<div className="accountList"><button type="button" className="adminPendingEntry" disabled={!adminSessionActive} onClick={async()=>{setPanel("pending");setPendingLoading(true);const {data:{session}}=await supabase.auth.getSession();if(!session){setPendingLoading(false);return}const res=await fetch("/api/admin/pending",{headers:{Authorization:"Bearer "+session.access_token}});const json=await res.json().catch(()=>({pending:[],round:2}));if(res.ok&&json.round)setPendingRound(Number(json.round));setPendingPlayers(res.ok?(json.pending||[]):[]);setPendingLoading(false)}}><span className="accountMonoIcon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><div><b>Pronósticos pendientes</b><small>Ver quién no ha enviado la jornada</small></div><em>›</em></button><button type="button" className="adminPanelEntry" disabled={!adminSessionActive} onClick={()=>{window.location.href="/admin"}}><span className="accountMonoIcon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.1A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.1A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.1A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.12.36.33.7.6 1 .3.27.67.4 1.1.4h.1v4h-.1c-.43 0-.8.13-1.1.4-.27.3-.48.64-.6 1Z"/></svg></span><div><b>Panel Admin</b><small>Gestionar jornada, resultados, goles y tarjetas</small></div><em>›</em></button></div></div>}
+  <div className="accountSection sessionSection"><h3>Sesión</h3><div className="accountList"><button type="button" className="logoutAccount" onClick={async()=>{await supabase.auth.signOut();localStorage.removeItem("quiniderio-player");sessionStorage.clear();window.location.reload()}}><span className="accountMonoIcon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/></svg></span><div><b>Cerrar sesión</b><small>Salir de tu cuenta en este dispositivo</small></div><em>›</em></button><button type="button" className="deleteAccount" onClick={async()=>{if(window.confirm("¿Seguro que quieres eliminar tu cuenta? Esta acción borrará tu perfil, tus pronósticos y tus datos guardados y no se puede deshacer.")){const {data:{session}}=await supabase.auth.getSession();if(session){const res=await fetch("/api/account",{method:"DELETE",headers:{Authorization:"Bearer "+session.access_token}});if(!res.ok){setProfileStatus("No se ha podido eliminar la cuenta");return}}await supabase.auth.signOut();localStorage.removeItem("quiniderio-player");localStorage.removeItem("quiniderio-player-id");localStorage.removeItem("quiniderio-picks");localStorage.removeItem("quiniderio-saved-rounds");localStorage.removeItem("quiniderio-notifications");localStorage.removeItem("quiniderio-federation-cache");sessionStorage.clear();window.location.reload()}}}><span aria-hidden="true">×</span><div><b>Eliminar cuenta</b><small>Eliminar permanentemente tu cuenta y sus datos</small></div><em>›</em></button></div></div>
+  {panel&&typeof document!=="undefined"&&createPortal(<div className="detailBackdrop" onClick={()=>setPanel(null)}><section role="dialog" aria-modal="true" className={"detailSheet "+(panel==="name"?"nameSheet":"")} onClick={event=>event.stopPropagation()}><div className="detailSheetHead"><div><small>QUINIDERIO · 2026/27</small><h2>{panel==="extra"?"Predicción extra":panel==="name"?"Cambiar nombre":panel==="pending"?"Pronósticos pendientes":panel==="potRules"?"Reglas del bote":panel==="classificationFormat"?"Formato de clasificación":"Cómo se puntúa"}</h2></div><button type="button" aria-label="Cerrar" onClick={()=>setPanel(null)}>×</button></div>{panel==="pending"&&<div className="adminPendingSheet">{pendingLoading?<div className="adminPendingLoading">Comprobando pronósticos…</div>:pendingPlayers.length?<><div className="adminPendingSummary"><b>{pendingPlayers.length}</b><span>participantes pendientes · Jornada {pendingRound}</span></div><div className="adminPendingList">{pendingPlayers.map(p=><div key={p.user_id}><span className="rankingAvatar">{p.profile_pic?<img src={p.profile_pic} alt={p.username}/>:p.username?.[0]?.toUpperCase()}</span><div><b>{p.username}</b><small>{p.sent}/{p.total} pronósticos enviados</small></div><button type="button" className="pendingPushButton" disabled={reminderSending===p.user_id||!!reminderSent[p.user_id]} onClick={async()=>{if(reminderSending)return;setReminderSending(p.user_id);try{const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error("session");const res=await fetch("/api/admin/pending",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({playerId:p.user_id,round:pendingRound})});if(!res.ok)throw new Error("push");setReminderSent(v=>({...v,[p.user_id]:true}))}catch{setProfileStatus("No se ha podido enviar el recordatorio push.")}finally{setReminderSending("")}}}>{reminderSending===p.user_id?"Enviando…":reminderSent[p.user_id]?"Enviado":"Recordar"}</button></div>)}</div></>:<div className="adminPendingAllDone"><b>Todo enviado</b><small>No quedan participantes con pronósticos pendientes.</small></div>}</div>}{panel==="name"&&<div className="nameEditor"><label>NOMBRE EN LA PORRA<input autoFocus maxLength={30} value={editName} onChange={e=>setEditName(e.target.value)} /></label><div><small>Lo verán los demás participantes.</small><b>{editName.length}/30</b></div><button type="button" disabled={editName.trim().length<3||editName.trim()===name} onClick={async()=>{const next=editName.trim();const user=await currentSessionUser();if(user)await supabase.from("quini_profiles").update({username:next,updated_at:new Date().toISOString()}).eq("user_id",user.id);try{const x=JSON.parse(localStorage.getItem("quiniderio-player")||"{}");localStorage.setItem("quiniderio-player",JSON.stringify({...x,name:next}));setPanel(null);window.location.reload()}catch{}}}>Guardar nombre</button></div>}{panel==="extra"&&<div className="detailExtra"><p>¿Dimitirá Dinio esta temporada?</p><strong>{dinio||"Sin respuesta guardada"}</strong><small>Predicción confirmada · +5 puntos si aciertas</small></div>}{panel==="rules"&&<div className="detailRows">{[["Quiniela semanal","+1 punto por acierto"],["Posición final exacta","+20 puntos por equipo"],["Derio más arriba o abajo","+10 puntos cada uno"],["Entrenadores y delegados","+15 puntos por acierto"],["2º Entrenador","+5 puntos por acierto"],["Predicción extra de Dinio","+5 puntos por acierto"]].map(([label,value])=><div className="detailRow" key={label}><span>{label}</span><b>{value}</b></div>)}</div>}{panel==="potRules"&&<div className="detailRows">{[["Último Clasificado Jornada","2 €"],["Anteúltimo Clasificado Jornada","1 €"],["Pleno aciertos Jornada","Recupera 3 €"],["Si no gana ningún equipo","Todos 3 €"]].map(([label,value])=><div className="detailRow" key={label}><span>{label}</span><b>{value}</b></div>)}</div>}{panel==="classificationFormat"&&<div className="classificationFormat"><p>Al finalizar la temporada, la posición de cada participante aplicará un ajuste sobre su penalización acumulada del bote: las cantidades negativas la reducen y las positivas la incrementan.</p><div className="classificationFormatGrid">{[["1.º","−10 €"],["2.º","−9 €"],["3.º","−8 €"],["4.º","−7 €"],["5.º","−6 €"],["6.º","−5 €"],["7.º","−4 €"],["8.º","−2 €"],["9.º","0 €"],["10.º","+2 €"],["11.º","+4 €"],["12.º","+5 €"],["13.º","+6 €"],["14.º","+7 €"],["15.º","+8 €"],["16.º","+9 €"],["17.º","+10 €"]].map(([pos,value])=><div className="classificationFormatRow" key={pos}><span>{pos}</span><b className={value.startsWith("−")?"reduce":value.startsWith("+")?"increase":"neutral"}>{value}</b></div>)}</div></div>}</section></div>,document.body)}
+ </section>
+}
+function HomeIcon(){return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3Z"/></svg>}
+function TargetIcon(){return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7a5 5 0 1 0 5 5"/><path d="M12 11a1 1 0 1 0 1 1"/><path d="m14.5 9.5 5-5"/><path d="M17 4.5h2.5V7"/></svg>}
+function UsersIcon(){return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h2a4.5 4.5 0 0 1 4.5 4.5V20M14 14h1.5a4 4 0 0 1 4 4V20"/></svg>}
+function StandingsIcon(){return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M4 20V10h4v10M10 20V4h4v16M16 20v-7h4v7M2 20h20"/></svg>}
+function AccountIcon(){return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>}
+
+ }catch{setSubmitToast("");setToast("No se pudo guardar. Revisa tu conexión y vuelve a intentarlo.");window.setTimeout(()=>setToast(""),5000)}
+}}/>} {tab==="pronosticos"&&<MyPredictions picks={picks} round={quizRound} dinio={dinio} season={season} onEdit={()=>navigateTab("quiniela")} onRequireLogin={()=>{setRegister(false);setStep("name")}}/>} {tab==="clasificacion"&&<Ranking destination={rankingDestination}/>} {tab==="mas"&&<More name={name} dinio={dinio} season={season} onTab={navigateTab} onProfilePicChange={setHeaderProfilePic} onRequireLogin={()=>{setRegister(false);setStep("name")}}/>}</div><BottomNavigation tab={tab} onNavigate={navigateTab}/></main>
+}
+function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatches,liveCards,totalPot}:{savedRounds:Record<number,boolean>,onOpenQuiniela:(round:number)=>void,onTab:(tab:"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas")=>void,picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,liveCards:LiveCard[],totalPot:number,onRanking:(destination:RankingDestination)=>void}){
+ const currentRound=3;
+ const [homeRound,setHomeRound]=useState(currentRound);
+ const standings=homeRound===2?currentStandings:{"Derio A":"EVVVE","Beasain":"15º · 4 pts","Derio B":"EDDE","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"VDDV","Iturrigorri A":"8º · 3 pts"};
+ const [homeLiveMatches,setHomeLiveMatches]=useState(liveMatches);
+ const [homeRanking,setHomeRanking]=useState<Array<{user_id:string,username:string,hits:number}>>([]);
+ const [homeUserId,setHomeUserId]=useState("");
+ useEffect(()=>{if(homeRound===currentRound){setHomeLiveMatches(liveMatches);return}let active=true;void supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",homeRound).then(({data})=>{if(!active)return;const next:Record<string,{home_score:number,away_score:number,status:string}>={};for(const m of data||[])next[m.team]={home_score:Number(m.home_score||0),away_score:Number(m.away_score||0),status:String(m.status||"scheduled")};setHomeLiveMatches(next)});return()=>{active=false}},[homeRound,liveMatches]);
+ useEffect(()=>{let active=true;let timer:number|undefined;const load=async()=>{const [{data:b},{data:{user}}]=await Promise.all([supabase.from("quini_standings").select("user_id,username,hits").order("hits",{ascending:false}),supabase.auth.getUser()]);if(!active)return;setHomeRanking((b||[]) as any);setHomeUserId(user?.id||"")};const refresh=()=>{if(timer)window.clearTimeout(timer);timer=window.setTimeout(()=>void load(),500)};void load();const channel=supabase.channel("home-ranking-live").on("postgres_changes",{event:"*",schema:"public",table:"quini_live_matches"},refresh).on("postgres_changes",{event:"*",schema:"public",table:"quini_picks"},refresh).subscribe();return()=>{active=false;if(timer)window.clearTimeout(timer);void supabase.removeChannel(channel)}},[]);
+ const leader=homeRanking[0];
+ const myRankIndex=homeRanking.findIndex(r=>r.user_id===homeUserId);
+ const myRank=myRankIndex>=0?homeRanking[myRankIndex]:null;
+
+ const fixtureTs=(g:{date?:string,time?:string})=>{if(!g.date)return Number.MAX_SAFE_INTEGER;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};
+ const homeGames=weeklyTeams.map(team=>({name:team,...(quizFixtures[homeRound]?.[team]||{})})).sort((a,b)=>fixtureTs(a)-fixtureTs(b));
+ const now=Date.now();
+ const playable=homeGames.filter(g=>g.status!=="rest");
+ const firstKickoff=playable.length?Math.min(...playable.map(fixtureTs)):Number.MAX_SAFE_INTEGER;
+ const liveCount=playable.filter(g=>homeLiveMatches[g.name]?.status==="live").length;
+ const finalCount=playable.filter(g=>["final","finished"].includes(homeLiveMatches[g.name]?.status)).length;
+ const suspendedCount=playable.filter(g=>homeLiveMatches[g.name]?.status==="suspended").length;
+ const resolvedCount=finalCount+suspendedCount;
+ const started=now>=firstKickoff||liveCount>0||resolvedCount>0;
+ const finished=playable.length>0&&resolvedCount===playable.length&&liveCount===0;
+ const provisionalHits=playable.reduce((n,g)=>{const db=homeLiveMatches[g.name];if(!db||!["live","final","finished"].includes(db.status))return n;const actual=Number(db.home_score)===Number(db.away_score)?"X":Number(db.home_score)>Number(db.away_score)?"1":"2";return n+(picks[homeRound+":"+g.name]===actual?1:0)},0);
+ const pendingCount=Math.max(0,playable.length-liveCount-resolvedCount);
+ const [roundNoticeOpen,setRoundNoticeOpen]=useState(false); const [roundNoticeLeaving,setRoundNoticeLeaving]=useState(false);
+ useEffect(()=>{if(!finished||!suspendedCount)return;try{if(localStorage.getItem("qd-round1-pending-result-v1")!=="seen")setRoundNoticeOpen(true)}catch{setRoundNoticeOpen(true)}},[finished,suspendedCount]);
+ usePageScrollLock(roundNoticeOpen);
+
+ return <div className="qdHome">
+  {roundNoticeOpen&&typeof document!=="undefined"&&createPortal(<div className={"roundPendingOverlay "+(roundNoticeLeaving?"isLeaving":"")} role="dialog" aria-modal="true" aria-labelledby="roundPendingTitle"><section className="roundPendingModal"><button type="button" aria-label="Cerrar" onClick={()=>{setRoundNoticeLeaving(true);setTimeout(()=>{setRoundNoticeOpen(false);setRoundNoticeLeaving(false);try{localStorage.setItem("qd-round1-pending-result-v1","seen")}catch{}window.dispatchEvent(new CustomEvent("quiniderio-suspended-popup-closed"))},260)}}>×</button><small>JORNADA 1 · FINALIZADA</small><h2 id="roundPendingTitle">Resultado pendiente</h2><p>La Jornada 1 se da por finalizada, pero queda pendiente el partido suspendido por la lluvia.</p><div className="roundPendingFixture"><div><img src={asset("Escudos/IbaiondoNerbioi.png")} alt="Ibaiondo Nerbioi A"/><b>Ibaiondo Nerbioi A</b></div><span>SUSPENDIDO</span><div><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="Derio Fem B"/><b>Derio Fem B</b></div></div><p>Cuando se dispute, actualizaremos automáticamente el resultado, la puntuación y la clasificación de la Jornada 1.</p><button type="button" className="roundPendingClose" onClick={()=>{setRoundNoticeLeaving(true);setTimeout(()=>{setRoundNoticeOpen(false);setRoundNoticeLeaving(false);try{localStorage.setItem("qd-round1-pending-result-v1","seen")}catch{}window.dispatchEvent(new CustomEvent("quiniderio-suspended-popup-closed"))},260)}}>Entendido</button></section></div>,document.body)}
+  <aside className="qdSide">
+   <div className="qdSideTitle">MENÚ</div>
+   <button className="active" onClick={()=>onTab("inicio")}><HomeIcon/>Inicio</button>
+   <button onClick={()=>onTab("quiniela")}><TargetIcon/>Quiniela</button>
+   <button onClick={()=>onTab("pronosticos")}><UsersIcon/>Mis pronósticos</button>
+   <button onClick={()=>onTab("clasificacion")}><StandingsIcon/>Clasificación</button>
+   <button onClick={()=>onTab("mas")}><AccountIcon/>Mi cuenta</button>
+   <div className="qdSeason"><small>TEMPORADA</small><b>2026/27</b></div>
+  </aside>
+  <div className="qdHomeMain">
+   <MatchdayHeader round={currentRound}/>
+   <HomeSummary round={currentRound} submitted={!!savedRounds[currentRound]} totalPot={totalPot} leader={leader} myRank={myRank} position={myRankIndex>=0?myRankIndex+1:null} onQuiniela={()=>onOpenQuiniela(currentRound)} onRanking={onRanking}/>
+   <section className="qdRound">
+    <div className="qdRoundHead"><div><h2>Partidos de la jornada</h2></div><span className="qdMatchdayPill">Jornada {homeRound}</span></div>
+    <div className="qdRoundTabs">{[1,2,3,4,5,6,7,8].map(n=><button type="button" aria-pressed={n===homeRound} disabled={n>currentRound} className={(n===homeRound?"active ":"")+(n>currentRound?"locked":"")} onClick={()=>n<=currentRound&&setHomeRound(n)} key={n}>J{n}</button>)}</div>
+    <div className="qdFixtureList">{homeGames.map(game=>{const rival=game.opponent||"Por confirmar";const home=game.isHome===false?rival:game.name;const away=game.isHome===false?game.name:rival;const db=homeLiveMatches[game.name];const matchState=db?.status==="suspended"?"SUSPENDIDO":db&&["final","finished"].includes(db.status)?"FINALIZADO":db?.status==="live"?"EN JUEGO":"PENDIENTE";return game.status==="rest"?<div className="qdFixture qdRest" key={game.name}><div className="qdClub home"><b>{game.name}</b><ClubCrest src="/api/assets/Escudos/cd_derio.png" name={game.name}/></div><div className="qdKick"><small>Jornada {homeRound}</small><strong>Descanso</strong></div><div className="qdClub qdRestLabel"><b>Sin partido</b></div></div>:<div className={"qdFixture "+(matchState==="EN JUEGO"?"isLive":matchState==="FINALIZADO"?"isFinished":matchState==="SUSPENDIDO"?"isSuspended":"")} key={game.name}><div className="qdClub home"><span className="qdClubName"><b>{home}</b>{standings[home]&&!/^[EVDe vd]+$/i.test(standings[home].trim())&&<small>{standings[home]}</small>}<FormDots team={home}/></span><ClubCrest src={game.isHome===false?game.crest||rivalCrests[game.name]:"/api/assets/Escudos/cd_derio.png"} name={home}/></div><div className="qdKick"><small className={"qdMatchState "+(matchState==="EN JUEGO"?"live":matchState==="FINALIZADO"?"finished":matchState==="SUSPENDIDO"?"suspended":"")}>{matchState==="PENDIENTE"?(game.date||"Fecha pendiente"):matchState}</small><strong>{db&&matchState!=="PENDIENTE"?db.home_score+" - "+db.away_score:game.time||"—"}</strong></div><div className="qdClub"><ClubCrest src={game.isHome===false?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[game.name]} name={away}/><span className="qdClubName"><b>{away}</b>{standings[away]&&!/^[EVDe vd]+$/i.test(standings[away].trim())&&<small>{standings[away]}</small>}<FormDots team={away}/></span></div></div>})}</div>
+   </section>
+   {liveCards.length>0&&<section className="qdCardsTable"><div className="qdCardsHead"><div><small>JORNADA 1</small><h2>Tarjetas</h2></div><span>{liveCards.length}</span></div><div className="qdCardsRows"><div className="qdCardsHeaderRow"><span>Nombre</span><span>Equipo</span><span>Tarjeta</span></div>{liveCards.map(card=><div className="qdCardsRow" key={card.id}><b>{card.person}</b><span>{card.team}</span><em className={card.card_type}><i/>{card.card_type==="yellow"?"Amarilla":"Roja"}</em></div>)}</div></section>}
+  </div>
+ </div>
+}
+function Brand({avatar,avatarUrl,name,onHome}:{avatar?:string,avatarUrl?:string,name?:string,onHome?:()=>void}){return <header className="brandBar glassHeader"><div className="brandMark"><img src="/api/assets/branding/LogoApp.png" alt="QuiniDerio"/><div><b className="logo"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>LA QUINIELA DEL CD DERIO</small></div></div>{avatar&&<button type="button" className="avatar userChip" onClick={onHome} aria-label="Abrir Mi cuenta"><span>{avatarUrl?<img src={avatarUrl} alt="" className="headerAvatarImg"/>:avatar}</span>{name&&<b title={name}>{name}</b>}</button>}</header>}
+function Choice({title,points,value,options,onChange,visual}:{title:string,points:string,value:string,options:string[],onChange:(v:string)=>void,visual?:"up"|"down"|"red"|"cards"}){return <section className={`choice visualChoice ${visual||""}`}><span className="choiceHead"><span className="choiceTitle">{visual&&<i className={`choiceVisual ${visual}`} aria-hidden="true">{visual==="up"?"↑":visual==="down"?"↓":visual==="red"?"":<><u></u><u></u></>}</i>}<b>{title}</b></span><em>{points}</em></span><div className="optionCards">{options.map(o=><button type="button" aria-pressed={value===o} className={value===o?"active":""} onClick={()=>onChange(o)} key={o}><i>{o.split(" ").map(x=>x[0]).slice(0,2).join("")}</i><strong>{o}</strong></button>)}</div></section>}
+
+type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string,derioPosition?:number,opponentPosition?:number};
+// Confirmed directly from the club's federation screenshots; unknown times stay unknown.
+const rivalCrests:Record<string,string>={
+ "Derio A":asset("Escudos/BEASAIN.png"),
+ "Derio Fem":asset("Escudos/Lakua.png"),
+ "Derio Fem B":asset("Escudos/IbaiondoNerbioi.png"),
+ "Derio B":asset("Escudos/Escolapios.png"),
+ "Juvenil A":asset("Escudos/Iturrigorri.png"),
+ "Juvenil B":asset("Escudos/SD%20LEIOA.png")
+}
+const currentStandings:Record<string,string>={"Cultural Durango":"10º · 6 pts","Derio A":"2º · 11 pts","Zamudio B":"16º · 0 pts","Derio B":"15º · 1 pto","Gaztelueta B":"0º · 0 pts","Cadete B":"D","Derio Fem":"7º · 4 pts","Erandioko Betiko Neskak":"1º · 9 pts","Neguri":"1º · 3 pts","Juvenil B":"VE","Juvenil A":"11º · 3 pts","Ariz A":"12º · 3 pts"};
+const currentForm:Record<string,string>={"Cadete B":"D","Zumaiako":"EDVD","Ugeraga B":"VV","Askartza B":"DV","Artibai A":"DEDV","Derio Fem B":"E","Balmaseda":"DV","Bermeo B":"DVVE","Touring":"EVVED","Cultural Durango":"EDEVE","Derio A":"EEVVV","Derio Fem":"DEV","Erandioko Betiko Neskak":"VVV","Derio B":"EDD","Zamudio B":"DDD","Juvenil A":"VDD","Ariz A":"VD","Juvenil B":"V","Neguri":"V","Gaztelueta B":"D"};
+function FormDots({team}:{team:string}){const form=currentForm[team];if(!form)return null;return <span className="teamFormDots" aria-label={`Últimos resultados: ${form}`}>{[...form].map((r,i)=><i key={i} className={r==="V"?"win":r==="D"?"loss":"draw"}/>)}</span>}
+const confirmedFixtures:Record<string,Partial<Fixture>>={
+ "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF",federationRound:5},
+ "Derio B":{opponent:"Escolapios",date:"03/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",federationRound:3},
+ "Derio Fem":{opponent:"Lakua",date:"03/10/2026",time:"18:15",venue:"Sansomendi, Vitoria-Gasteiz",isHome:false,competition:"FEM Liga Vasca",federationRound:3},
+ "Derio Fem B":{opponent:"Ibaiondo Nerbioi A",date:"03/10/2026",time:"20:00",venue:"PL Rekalde, Bilbao",isHome:false,federationRound:1,competition:"FEM B"},
+ "Juvenil A":{opponent:"Iturrigorri A",date:"04/10/2026",time:"13:30",venue:"La Roseta, Bilbao",isHome:false,federationRound:3,competition:"Juvenil A"},
+ "Juvenil B":{opponent:"Leioa D",date:"04/10/2026",time:"15:30",venue:"Ibaiondo, Derio",isHome:true,federationRound:1,competition:"Juvenil B"},
+ "Cadete B":{status:"rest",competition:"Cadete B",federationRound:1}
+};
+const quizFixtures:Record<number,Record<string,Partial<Fixture>>>={
+ 1:{
+  "Derio A":confirmedFixtures["Derio A"],
+  "Derio B":confirmedFixtures["Derio B"],
+  "Derio Fem":confirmedFixtures["Derio Fem"],
+  "Derio Fem B":confirmedFixtures["Derio Fem B"],
+  "Juvenil A":confirmedFixtures["Juvenil A"],
+  "Juvenil B":confirmedFixtures["Juvenil B"],
+  "Cadete B":confirmedFixtures["Cadete B"]
+ },
+ 2:{
+  "Derio A":{opponent:"Cultural Durango",date:"10/10/2026",time:"12:00",venue:"Tabira, Durango",isHome:false,competition:"3ª RFEF",crest:"/api/assets/Escudos/CulturalDurango.webp"},
+  "Derio B":{opponent:"Zamudio B",date:"12/10/2026",time:"18:00",venue:"Errekalde, Zamudio",isHome:false,competition:"Derio B",crest:"/api/assets/Escudos/Zamudio.webp"},
+  "Derio Fem":{opponent:"Erandioko Betiko Neskak",date:"11/10/2026",time:"17:30",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM Liga Vasca",crest:"/api/assets/Escudos/BetikoNeskak.webp"},
+  "Derio Fem B":{opponent:"Montefuerte A",date:"10/10/2026",time:"17:00",venue:"Ibaiondo, Derio",isHome:true,competition:"FEM B",crest:"/api/assets/Escudos/Montefuerte.webp"},
+  "Juvenil A":{opponent:"Ariz A",date:"11/10/2026",time:"20:00",venue:"Ibaiondo, Derio",isHome:true,competition:"Juvenil A",crest:"/api/assets/Escudos/Ariz.webp"},
+  "Juvenil B":{opponent:"Neguri",date:"10/10/2026",time:"16:00",venue:"Bolue 2, Getxo",isHome:false,competition:"Juvenil B",crest:"/api/assets/Escudos/Neguri.webp"},
+  "Cadete B":{opponent:"Gaztelueta B",date:"10/10/2026",time:"12:15",venue:"Gaztelueta, Leioa",isHome:false,competition:"Cadete B",crest:"/api/assets/Escudos/Gaztelueta.webp"}
+ },
+3:{
+  "Derio A":{opponent:"Touring",crest:"/api/assets/Escudos/touring.webp",date:"17/10/2026",time:"16:30",venue:"La Fanderia, Errenteria",isHome:false,competition:"3ª RFEF",derioPosition:3,opponentPosition:9},
+  "Derio B":{opponent:"Bermeo B",crest:"/api/assets/Escudos/bermeo.webp",date:"18/10/2026",time:"15:15",isHome:true,competition:"Derio B",derioPosition:15,opponentPosition:9},
+  "Derio Fem":{opponent:"Zumaiako",crest:"/api/assets/Escudos/zumaiako.webp",date:"17/10/2026",time:"16:30",venue:"Aita Mari, Zumaia",isHome:false,competition:"FEM Liga Vasca",derioPosition:10,opponentPosition:8},
   "Derio Fem B":{opponent:"Balmaseda",crest:"/api/assets/Escudos/balmaseda.webp",date:"18/10/2026",time:"17:40",isHome:true,competition:"FEM B",derioPosition:5,opponentPosition:15},
   "Juvenil A":{opponent:"Artibai A",crest:"/api/assets/Escudos/artibai.webp",date:"17/10/2026",time:"20:00",isHome:true,competition:"Juvenil A",derioPosition:9,opponentPosition:14},
   "Juvenil B":{opponent:"Askartza B",crest:"/api/assets/Escudos/askartza.webp",date:"18/10/2026",time:"20:00",isHome:true,competition:"Juvenil B",derioPosition:3,opponentPosition:11},
