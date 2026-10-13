@@ -6050,3 +6050,30 @@ html body .matchCard .oneXtwo button.active.pickX{
 @media (max-width:430px){
   .dashboard .qdFixture .qdClubName > b {font-size:10px!important;}
 }
+
+/* Team names grow from the scoreboard centre toward the outside.
+   Left/local clubs anchor the name on the inner (right) edge;
+   right/visitor clubs anchor on the inner (left) edge. */
+.dashboard .qdFixture .qdClubName > b,
+.dashboard .matchCard .versus > div > b,
+.dashboard .matchRivalsFixture > div > b{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+}
+.dashboard .qdFixture .qdClub.home .qdClubName > b,
+.dashboard .matchCard .versus > div:first-child > b,
+.dashboard .matchRivalsFixture > div:first-child > b{
+  text-align:right!important;
+}
+.dashboard .qdFixture .qdClub:not(.home) .qdClubName > b,
+.dashboard .matchCard .versus > div:last-child > b,
+.dashboard .matchRivalsFixture > div:last-child > b{
+  text-align:left!important;
+}
