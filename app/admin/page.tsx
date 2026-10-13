@@ -1,8 +1,11 @@
 "use client";
 import {useCallback,useEffect,useRef,useState} from "react";
 import {supabase} from "../lib/supabase";
+import {publishedQuiniRounds} from "../lib/quiz-fixtures";
 import "./admin.css";
 const ADMIN="gabrialzueta@gmail.com";
+const PUBLISHED_ROUNDS=publishedQuiniRounds();
+const CURRENT_ROUND=PUBLISHED_ROUNDS[PUBLISHED_ROUNDS.length-1]??1;
 type Match={round:number,team:string,opponent:string,home_score:number,away_score:number,yellow_cards:number,red_cards:number,status:"scheduled"|"live"|"finished"|"suspended",is_home:boolean|null};
 type Card={id:string,round:number,team:string,person:string,card_type:"yellow"|"red",created_at:string};
 type View="matches"|"pending"|"round";
@@ -16,7 +19,7 @@ export default function AdminPage(){
  const[loadError,setLoadError]=useState("");
  const[pending,setPending]=useState<{user_id:string,username:string,sent:number,total:number}[]>([]);
  const[pendingError,setPendingError]=useState(false);
- const[round,setRound]=useState(2),[view,setView]=useState<View>("matches"),[filter,setFilter]=useState("all");
+ const[round,setRound]=useState(CURRENT_ROUND),[view,setView]=useState<View>("matches"),[filter,setFilter]=useState("all");
  const[theme,setTheme]=useState("dark"),[reminderSending,setReminderSending]=useState("");
  const[reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
  const[picker,setPicker]=useState<{team:string,type:"yellow"|"red"}|null>(null);
@@ -44,7 +47,18 @@ export default function AdminPage(){
   void verify();const {data:listener}=supabase.auth.onAuthStateChange(()=>{setTimeout(()=>{if(active)void verify()},0)});
   return()=>{active=false;listener.subscription.unsubscribe();requestId.current++};
  },[]);
- useEffect(()=>{if(allowed)void load(round)},[round,allowed,load]);
+ const syncPromiseRef=useRef<Promise<void>|null>(null);
+ useEffect(()=>{
+  if(!allowed)return;
+  let active=true;
+  if(!syncPromiseRef.current){
+   syncPromiseRef.current=fetch("/api/rounds/sync",{method:"POST",cache:"no-store"})
+    .then(response=>{if(!response.ok)throw new Error("fixture_sync")})
+    .catch(()=>{syncPromiseRef.current=null});
+  }
+  void syncPromiseRef.current.then(()=>{if(active)void load(round)});
+  return()=>{active=false};
+ },[round,allowed,load]);
  const sendAction=async(team:string,action:string,extra:Record<string,unknown>={})=>{
   const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error("session");
   const res=await fetch("/api/admin/live",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({round,team,action,...extra})});if(!res.ok)throw new Error("update");
@@ -73,7 +87,7 @@ export default function AdminPage(){
  return <main className="adminWorkspace">
   <header className="adminTopbar"><a href="/" className="adminBrand" aria-label="Volver a QuiniDerio"><img src="/api/assets/branding/LogoApp.png" alt=""/><span><b className="qdWordmark"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>ADMINISTRACIÓN</small></span></a><div><button className="adminTheme" onClick={changeTheme} aria-label={theme==="light"?"Activar modo oscuro":"Activar modo claro"}>{theme==="light"?"☾ Oscuro":"☀ Claro"}</button><a className="adminBack" href="/">‹ Volver a la app</a></div></header>
   <section className="adminIntro"><div><span className="adminEyebrow">TEMPORADA 2026/27</span><h1>Panel Admin</h1><p>Resultados y tarjetas se comparten con todos los usuarios.</p></div><span className="adminRoundBadge">Jornada {round}</span></section>
-  <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Todos los controles se aplican a la jornada elegida.</small></div><nav aria-label="Seleccionar jornada">{Array.from({length:8},(_,i)=>i+1).map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}</nav></section>
+  <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Todos los controles se aplican a la jornada elegida.</small></div><nav aria-label="Seleccionar jornada">{PUBLISHED_ROUNDS.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}</nav></section>
   <div className="adminSummary" aria-label="Resumen de jornada" aria-busy={loading}><article><span>Partidos</span><strong>{loading?"—":matches.length}</strong><small>En esta jornada</small></article><article className="adminSummaryLive"><span>En juego</span><strong>{loading?"—":live}</strong><small>Control en directo</small></article><article><span>Finalizados</span><strong>{loading?"—":finished}</strong><small>Resultados cerrados</small></article><article><span>Pronósticos pendientes</span><strong>{loading||pendingError?"—":pending.length}</strong><small>Participantes por avisar</small></article></div>
   <nav className="adminViewTabs" aria-label="Secciones de administración">{([["matches","Partidos"],["pending","Pronósticos pendientes"],["round","Control de jornada"]] as [View,string][]).map(([key,label])=><button type="button" key={key} aria-current={view===key?"page":undefined} className={view===key?"active":""} onClick={()=>setView(key)}>{label}</button>)}</nav>
   {message&&<div className={"adminFeedback "+message.kind} role={message.kind==="error"?"alert":"status"}>{message.text}<button aria-label="Cerrar aviso" onClick={()=>setMessage(null)}>×</button></div>}
@@ -90,7 +104,7 @@ export default function AdminPage(){
      {picker?.team===m.team&&<section className="adminStaffPicker" aria-label="Elegir destinatario de tarjeta"><div><b><i className={"adminCardMark "+picker.type} aria-hidden="true"/>{picker.type==="yellow"?"Amarilla":"Roja"} · ¿A quién?</b><button disabled={locked} aria-label="Cerrar selección de tarjeta" onClick={()=>setPicker(null)}>×</button></div><div>{(STAFF[m.team]||[]).map(person=><button key={person} disabled={locked} onClick={()=>void act(m.team,"addCard",{cardType:picker.type,person})}>{person}</button>)}</div></section>}
      {teamCards.length>0&&<section className="adminCardHistory" aria-label="Tarjetas mostradas"><h3>Tarjetas mostradas</h3>{teamCards.map(card=><div key={card.id}><i className={"adminCardMark "+card.card_type} aria-hidden="true"/><span><b>{card.person}</b><small>{card.card_type==="yellow"?"Amarilla":"Roja"}</small></span><button aria-label={"Eliminar tarjeta de "+card.person} disabled={locked} onClick={()=>{if(window.confirm("¿Eliminar esta tarjeta?"))void act(m.team,"removeCard",{cardId:card.id})}}>×</button></div>)}</section>}
     </article>
-   })}</div>:<div className="adminEmpty"><h3>{matches.length?"No hay partidos con este estado":"No hay partidos en esta jornada"}</h3><p>{matches.length?"Selecciona otro filtro para ver los demás encuentros.":"Selecciona otra jornada para gestionar sus resultados."}</p>{matches.length>0&&<button onClick={()=>setFilter("all")}>Ver todos los partidos</button>}</div>}</section>}
+   })}</div>:<div className="adminEmpty"><h3>{matches.length?"No hay partidos con este estado":"No hay partidos en esta jornada"}</h3><p>{matches.length?"Selecciona otro filtro para ver los demás encuentros.":"Esta jornada todavía no contiene partidos publicados. Comprueba la configuración de los encuentros."}</p>{matches.length>0&&<button onClick={()=>setFilter("all")}>Ver todos los partidos</button>}</div>}</section>}
    {view==="pending"&&<section aria-labelledby="admin-pending-title"><div className="adminSectionHeading"><div><h2 id="admin-pending-title">Pronósticos pendientes · J{round}</h2><p>Consulta quién falta y envía un recordatorio individual.</p></div><span className="adminCount">{pendingError?"—":pending.length} pendientes</span></div>{pendingError?<div className="adminEmpty" role="alert"><h3>No se han podido consultar los pendientes</h3><p>Comprueba la conexión y vuelve a intentarlo.</p><button onClick={()=>void load(round)}>Reintentar</button></div>:pending.length?<div className="adminPendingTable">{pending.map(p=><article key={p.user_id}><span className="adminInitial" aria-hidden="true">{p.username?.[0]?.toUpperCase()}</span><div><b>{p.username}</b><small>{p.sent}/{p.total} pronósticos enviados</small></div><button className="adminPrimary" disabled={!!reminderSending||!!reminderSent[p.user_id]} onClick={()=>void remind(p.user_id)}>{reminderSending===p.user_id?"Enviando…":reminderSent[p.user_id]?"Enviado":"Recordar"}</button></article>)}</div>:<div className="adminEmpty"><span className="adminDone" aria-hidden="true">✓</span><h3>Todo enviado</h3><p>No hay participantes con pronósticos pendientes.</p></div>}</section>}
    {view==="round"&&<section className="adminRoundControl" aria-labelledby="admin-control-title"><span className="adminEyebrow">JORNADA {round}</span><h2 id="admin-control-title">Control de jornada</h2><p>Acciones globales para corregir o cerrar la jornada.</p><div className="adminRoundProgress"><div><b>{finished} de {matches.length} partidos finalizados</b><span>{live} en juego</span></div><progress max={Math.max(1,matches.length)} value={finished}/></div><div className="adminBulkAction"><div><h3>Finalizar partidos en juego</h3><p>Se cerrarán los {live} partidos que están en juego. Sus resultados se compartirán con los participantes.</p></div><button className="adminFinish" disabled={locked||!live} onClick={()=>void finishRound()}>{busy==="bulk"?"Finalizando…":"Finalizar partidos en juego"}</button></div><p className="adminMatchHint">Para corregir un resultado, vuelve a Partidos y selecciona «Reabrir para corregir».</p></section>}
   </>}
