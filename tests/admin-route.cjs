@@ -1,0 +1,12 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),ts=require('typescript'),Module=require('node:module');
+require.extensions['.ts']=(module,filename)=>module._compile(ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2017}}).outputText,filename);
+process.env.NEXT_PUBLIC_SUPABASE_URL='https://example.supabase.co';process.env.SUPABASE_SERVICE_ROLE_KEY='test-only';
+let patch=null;const row={round:3,team:'Derio A',opponent:'Touring',is_home:false,home_score:2,away_score:1};
+const original=Module._load;Module._load=function(name,...args){if(name==='@supabase/supabase-js')return {createClient:()=>({auth:{getUser:async token=>({data:{user:{email:token==='admin'?'gabrialzueta@gmail.com':'other@example.com'}}})},from:table=>{assert.equal(table,'quini_live_matches');const chain={select:()=>chain,eq:()=>chain,update:value=>{patch=value;return chain},single:async()=>({data:patch?{...row,...patch}:row,error:null})};return chain}})};return original.call(this,name,...args)};
+const {POST}=require('../app/api/admin/live/route.ts');const {matchDetails}=require('../app/lib/match-details.ts');
+const req=(body,token)=>new Request('http://localhost/api/admin/live',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify(body)});
+(async()=>{const details=matchDetails({...row,scheduled_at:'2026-10-17T14:30:00Z',fixture_details:null});const body={round:3,team:'Derio A',action:'details',details:{...details,opponent:'New rival',derioPoints:0}};
+assert.equal((await POST(req(body))).status,403);assert.equal((await POST(req(body,'other'))).status,403);assert.equal(patch,null);
+assert.equal((await POST(req({...body,details:{...details,time:'99:99'}},'admin'))).status,400);assert.equal(patch,null);
+const response=await POST(req(body,'admin'));assert.equal(response.status,200);const data=await response.json();assert.equal(data.home_score,2);assert.equal(data.away_score,1);assert.equal(patch.opponent,'New rival');assert.equal(patch.scheduled_at,'2026-10-17T14:30:00.000Z');assert.equal(patch.fixture_details.derioPoints,0);assert.equal(patch.home_score,undefined);
+console.log('Passed API boundary: unauthorized/other-user denied; invalid input rejected; admin save writes metadata, opponent and kickoff; scores untouched.');})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,4 +1,4 @@
-export type Fixture={name:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string,derioPosition?:number,opponentPosition?:number};
+export type Fixture={name:string,teamLabel?:string,location?:string,derioPoints?:number|null,opponentPoints?:number|null,derioForm?:string,opponentForm?:string,opponent?:string,status?:string,date?:string,time?:string,venue?:string,isHome?:boolean,federationRound?:number,competition?:string,crest?:string,derioPosition?:number|null,opponentPosition?:number|null};
 const confirmedFixtures:Record<string,Partial<Fixture>>={
  "Derio A":{opponent:"Beasain",date:"04/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"3ª RFEF",federationRound:5},
  "Derio B":{opponent:"Escolapios",date:"03/10/2026",time:"18:30",venue:"Ibaiondo, Derio",isHome:true,competition:"Derio B",federationRound:3},

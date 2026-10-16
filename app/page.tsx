@@ -1,11 +1,14 @@
 // deployment-sync: 2026-09-25
 "use client";
+import ManagedFixtures,{useFixtures} from "./components/ManagedFixtures";
+import {currentStandings,matchdayThreeStandings,currentForm,matchdayThreeForm} from "./lib/team-context";
+import {standing} from "./lib/match-details";
 import ConnectionStatus from "./components/ConnectionStatus";
 import {useCallback,useEffect,useMemo,useRef,useState} from "react";
 import {createPortal} from "react-dom";
 import "./ranking-bands.css";
 import {supabase} from "./lib/supabase";
-import {quizFixtures,publishedFixtureSignature,type Fixture} from "./lib/quiz-fixtures";
+import {publishedFixtureSignature,type Fixture} from "./lib/quiz-fixtures";
 import PushPrompt,{enablePush,disablePush,getPushState} from "./components/PushPrompt";
 import PredictionReminder from "./components/PredictionReminder";
 import BottomNavigation from "./components/BottomNavigation";
@@ -43,7 +46,9 @@ type Season={positions:Record<string,string>,highest:string,lowest:string,firstC
 type LiveCard={id:string,round:number,team:string,person:string,card_type:"yellow"|"red",created_at:string};
 const empty:Season={positions:{},highest:"",lowest:"",firstCoach:"",coachCards:"",assistantCoachExpulsions:"",assistantCoachCards:"",firstDelegate:"",delegateCards:""};
 
-export default function Home(){
+export default function Home(){return <ManagedFixtures><HomeContent/></ManagedFixtures>}
+function HomeContent(){
+ const quizFixtures=useFixtures();
  const [name,setName]=useState(""); const [hydrated,setHydrated]=useState(false); const [headerProfilePic,setHeaderProfilePic]=useState(""); const [showSplash,setShowSplash]=useState(true); const [splashMinElapsed,setSplashMinElapsed]=useState(false); const [imagesReady,setImagesReady]=useState(false); const [refreshing,setRefreshing]=useState(false); const [refreshReady,setRefreshReady]=useState(false); const [assetsReady,setAssetsReady]=useState(false); const [email,setEmail]=useState(""); const [profileStatus,setProfileStatus]=useState(""); const [password,setPassword]=useState(""); const [username,setUsername]=useState(""); const [recovering,setRecovering]=useState(false); const [recoveryPassword,setRecoveryPassword]=useState(""); const [register,setRegister]=useState(false); const [authSubmitting,setAuthSubmitting]=useState(false); const [profileImage,setProfileImage]=useState<File|null>(null); const [notifications,setNotifications]=useState(false); const [rankingDestination,setRankingDestination]=useState<RankingDestination|null>(null); const [step,setStep]=useState<"name"|"season"|"surprise"|"home">("name");
  useEffect(()=>{document.body.classList.add("qd-mounted");return()=>document.body.classList.remove("qd-mounted")},[]);
  useEffect(()=>{
@@ -113,6 +118,7 @@ export default function Home(){
 }}/>} {tab==="pronosticos"&&<MyPredictions picks={picks} round={quizRound} dinio={dinio} season={season} onEdit={()=>navigateTab("quiniela")} onRequireLogin={()=>{setRegister(false);setStep("name")}}/>} {tab==="clasificacion"&&<Ranking destination={rankingDestination}/>} {tab==="mas"&&<More name={name} dinio={dinio} season={season} onTab={navigateTab} onProfilePicChange={setHeaderProfilePic} onRequireLogin={()=>{setRegister(false);setStep("name")}}/>}</div><BottomNavigation tab={tab} onNavigate={navigateTab}/></main>
 }
 function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatches,liveCards,totalPot}:{savedRounds:Record<number,boolean>,onOpenQuiniela:(round:number)=>void,onTab:(tab:"inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas")=>void,picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,liveCards:LiveCard[],totalPot:number,onRanking:(destination:RankingDestination)=>void}){
+ const quizFixtures=useFixtures();
  const currentRound=3;
  const [homeRound,setHomeRound]=useState(currentRound);
  const standings=homeRound===3?matchdayThreeStandings:homeRound===2?currentStandings:{"Derio A":"EVVVE","Beasain":"15º · 4 pts","Derio B":"EDDE","Escolapios":"3º · 6 pts","Derio Fem":"13º · 1 pto","Lakua":"10º · 3 pts","Juvenil A":"VDDV","Iturrigorri A":"8º · 3 pts"};
@@ -159,7 +165,7 @@ function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatc
    <section className="qdRound">
     <div className="qdRoundHead"><div><h2>Partidos de la jornada</h2></div><span className="qdMatchdayPill">Jornada {homeRound}</span></div>
     <div className="qdRoundTabs">{[1,2,3,4,5,6,7,8].map(n=><button type="button" aria-pressed={n===homeRound} disabled={n>currentRound} className={(n===homeRound?"active ":"")+(n>currentRound?"locked":"")} onClick={()=>n<=currentRound&&setHomeRound(n)} key={n}>J{n}</button>)}</div>
-    <div className="qdFixtureList">{homeGames.map(game=>{const rival=game.opponent||"Por confirmar";const home=game.isHome===false?rival:game.name;const away=game.isHome===false?game.name:rival;const db=homeLiveMatches[game.name];const matchState=db?.status==="suspended"?"SUSPENDIDO":db&&["final","finished"].includes(db.status)?"FINALIZADO":db?.status==="live"?"EN JUEGO":"PENDIENTE";return game.status==="rest"?<div className="qdFixture qdRest" key={game.name}><div className="qdClub home"><b>{game.name}</b><ClubCrest src="/api/assets/Escudos/cd_derio.png" name={game.name}/></div><div className="qdKick"><small>Jornada {homeRound}</small><strong>Descanso</strong></div><div className="qdClub qdRestLabel"><b>Sin partido</b></div></div>:<div className={"qdFixture "+(matchState==="EN JUEGO"?"isLive":matchState==="FINALIZADO"?"isFinished":matchState==="SUSPENDIDO"?"isSuspended":"")} key={game.name}><div className="qdClub home"><span className="qdClubName"><b>{home}</b>{standings[home]&&!/^[EVDe vd]+$/i.test(standings[home].trim())&&<small>{standings[home]}</small>}<FormDots team={home} round={homeRound}/></span><ClubCrest src={game.isHome===false?game.crest||rivalCrests[game.name]:"/api/assets/Escudos/cd_derio.png"} name={home} normalized/></div><div className="qdKick"><small className={"qdMatchState "+(matchState==="EN JUEGO"?"live":matchState==="FINALIZADO"?"finished":matchState==="SUSPENDIDO"?"suspended":"")}>{matchState==="PENDIENTE"?(game.date||"Fecha pendiente"):matchState}</small><strong>{db&&matchState!=="PENDIENTE"?db.home_score+" - "+db.away_score:game.time||"—"}</strong></div><div className="qdClub"><ClubCrest src={game.isHome===false?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[game.name]} name={away} normalized/><span className="qdClubName"><b>{away}</b>{standings[away]&&!/^[EVDe vd]+$/i.test(standings[away].trim())&&<small>{standings[away]}</small>}<FormDots team={away} round={homeRound}/></span></div></div>})}</div>
+    <div className="qdFixtureList">{homeGames.map(game=>{const rival=game.opponent||"Por confirmar";const isHome=game.isHome!==false;const label=game.teamLabel||game.name;const home=isHome?label:rival;const away=isHome?rival:label;const db=homeLiveMatches[game.name];const matchState=db?.status==="suspended"?"SUSPENDIDO":db&&["final","finished"].includes(db.status)?"FINALIZADO":db?.status==="live"?"EN JUEGO":"PENDIENTE";return game.status==="rest"?<div className="qdFixture qdRest" key={game.name}><div className="qdClub home"><b>{game.name}</b><ClubCrest src="/api/assets/Escudos/cd_derio.png" name={game.name}/></div><div className="qdKick"><small>Jornada {homeRound}</small><strong>Descanso</strong></div><div className="qdClub qdRestLabel"><b>Sin partido</b></div></div>:<div className={"qdFixture "+(matchState==="EN JUEGO"?"isLive":matchState==="FINALIZADO"?"isFinished":matchState==="SUSPENDIDO"?"isSuspended":"")} key={game.name}><div className="qdClub home"><span className="qdClubName"><b>{home}</b>{(()=>{const value=standing(isHome?game.derioPosition:game.opponentPosition,isHome?game.derioPoints:game.opponentPoints,standings[home]);return value&&!/^[EVD\s]+$/i.test(value.trim())?<small>{value}</small>:null})()}<FormDots team={home} round={homeRound} value={isHome?game.derioForm:game.opponentForm}/></span><ClubCrest src={game.isHome===false?game.crest||rivalCrests[game.name]:"/api/assets/Escudos/cd_derio.png"} name={home} normalized/></div><div className="qdKick"><small className={"qdMatchState "+(matchState==="EN JUEGO"?"live":matchState==="FINALIZADO"?"finished":matchState==="SUSPENDIDO"?"suspended":"")}>{matchState==="PENDIENTE"?(game.date||"Fecha pendiente"):matchState}</small><strong>{db&&matchState!=="PENDIENTE"?db.home_score+" - "+db.away_score:game.time||"—"}</strong></div><div className="qdClub"><ClubCrest src={game.isHome===false?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[game.name]} name={away} normalized/><span className="qdClubName"><b>{away}</b>{(()=>{const value=standing(!isHome?game.derioPosition:game.opponentPosition,!isHome?game.derioPoints:game.opponentPoints,standings[away]);return value&&!/^[EVD\s]+$/i.test(value.trim())?<small>{value}</small>:null})()}<FormDots team={away} round={homeRound} value={!isHome?game.derioForm:game.opponentForm}/></span></div></div>})}</div>
    </section>
    {liveCards.length>0&&<section className="qdCardsTable"><div className="qdCardsHead"><div><small>JORNADA 1</small><h2>Tarjetas</h2></div><span>{liveCards.length}</span></div><div className="qdCardsRows"><div className="qdCardsHeaderRow"><span>Nombre</span><span>Equipo</span><span>Tarjeta</span></div>{liveCards.map(card=><div className="qdCardsRow" key={card.id}><b>{card.person}</b><span>{card.team}</span><em className={card.card_type}><i/>{card.card_type==="yellow"?"Amarilla":"Roja"}</em></div>)}</div></section>}
   </div>
@@ -178,21 +184,9 @@ const rivalCrests:Record<string,string>={
  "Juvenil A":asset("Escudos/Iturrigorri.png"),
  "Juvenil B":asset("Escudos/SD%20LEIOA.png")
 }
-const currentStandings:Record<string,string>={"Cultural Durango":"10º · 6 pts","Derio A":"2º · 11 pts","Zamudio B":"16º · 0 pts","Derio B":"15º · 1 pto","Gaztelueta B":"0º · 0 pts","Cadete B":"D","Derio Fem":"7º · 4 pts","Erandioko Betiko Neskak":"1º · 9 pts","Neguri":"1º · 3 pts","Juvenil B":"VE","Juvenil A":"11º · 3 pts","Ariz A":"12º · 3 pts"};
-// Classification at the start of QuiniDerio J3, as confirmed from the federation match cards.
-const matchdayThreeStandings:Record<string,string>={
- "Touring":"9º · 8 pts","Derio A":"3º · 12 pts",
- "Zumaiako":"8º · 4 pts","Derio Fem":"10º · 4 pts",
- "Derio B":"15º · 2 pts","Bermeo B":"9º · 6 pts",
- "Derio Fem B":"5º · 1 pto","Balmaseda":"5º · 3 pts",
- "Juvenil A":"9º · 6 pts","Artibai A":"14º · 4 pts",
- "Juvenil B":"3º · 4 pts","Askartza B":"11º · 3 pts",
- "Cadete B":"12º · 0 pts","Ugeraga B":"7º · 3 pts"
-};
-const currentForm:Record<string,string>={"Cadete B":"D","Zumaiako":"EDVD","Ugeraga B":"VV","Askartza B":"DV","Artibai A":"DEDV","Derio Fem B":"E","Balmaseda":"DV","Bermeo B":"DVVE","Touring":"EVVED","Cultural Durango":"EDEVE","Derio A":"EEVVV","Derio Fem":"DEV","Erandioko Betiko Neskak":"VVV","Derio B":"EDD","Zamudio B":"DDD","Juvenil A":"VDD","Ariz A":"VD","Juvenil B":"V","Neguri":"V","Gaztelueta B":"D"};
-const matchdayThreeForm:Record<string,string>={"Derio A":"EVVVE","Derio B":"EDDE","Derio Fem":"DEVD","Derio Fem B":"E","Juvenil A":"VDDV","Juvenil B":"VE","Cadete B":"D"};
-function FormDots({team,round=2}:{team:string,round?:number}){const form=(round===3?matchdayThreeForm[team]:undefined)??currentForm[team];if(!form)return null;return <span className="teamFormDots" aria-label={`Últimos resultados: ${form}`}>{[...form].map((r,i)=><i key={i} className={r==="V"?"win":r==="D"?"loss":"draw"}/>)}</span>}
+function FormDots({team,round=2,value}:{team:string,round?:number,value?:string}){const form=value??(round===3?matchdayThreeForm[team]:undefined)??currentForm[team];if(!form)return null;return <span className="teamFormDots" aria-label={`Últimos resultados: ${form}`}>{[...form].map((r,i)=><i key={i} className={r==="V"?"win":r==="D"?"loss":"draw"}/>)}</span>}
 function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{picks:Record<string,string>,liveMatches:Record<string,{home_score:number,away_score:number,status:string}>,setPicks:(value:Record<string,string>|((prev:Record<string,string>)=>Record<string,string>))=>void,round:number,setRound:(round:number)=>void,saved:boolean,onSave:()=>Promise<void>}){
+ const quizFixtures=useFixtures();
  const standingsForRound=round===3?matchdayThreeStandings:currentStandings;
  const [saving,setSaving]=useState(false); const [clock,setClock]=useState(()=>Date.now()); useEffect(()=>{const id=window.setInterval(()=>setClock(Date.now()),30000);return()=>window.clearInterval(id)},[]); const fixtureOrder=(g:{date?:string,time?:string,status?:string})=>{if(g.status==="rest")return Number.MAX_SAFE_INTEGER;if(!g.date)return Number.MAX_SAFE_INTEGER-1;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()}; const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round]?.[team]||{})})).map(game=>game.name==="Cadete B"&&round===1?{...game,status:"rest",opponent:undefined,date:undefined,time:undefined,venue:undefined}:game).sort((a,b)=>fixtureOrder(a)-fixtureOrder(b));
  const playableGames=games.filter(game=>game.status!=="rest");
@@ -209,13 +203,13 @@ function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{
    const {name:team,date="",time="",venue="",federationRound,competition}=game;
    const rival=game.opponent||"Rival por confirmar";
    const isHome=game.isHome!==false;
-   const home=isHome?team:rival,away=isHome?rival:team;
+   const teamLabel=game.teamLabel||team;const home=isHome?teamLabel:rival,away=isHome?rival:teamLabel;
    const label=competition==="Amistoso"?"AMISTOSO":federationRound?`${competition||"Liga"} · Jornada ${federationRound}`:`JORNADA DE LIGA PENDIENTE`;
    const pickKey=`${round}:${team}`;
    if(game.status==="rest")return <article className="matchCard restCard" key={team}><div className="matchMeta"><span>CADETE B · JORNADA 1</span><em>Descanso</em></div><div className="restTeam"><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="CD Derio"/><div><b>CD Derio Cadete B</b></div></div><div className="restNotice">Esta jornada no disputa partido</div></article>;
    return <article className={"matchCard "+(picks[pickKey]?"picked":"")} key={team}>
     <div className="fixtureInfo"><span>{date?`${date} · ${time||"Hora por confirmar"}`:competition==="Amistoso"?"Este fin de semana · Hora por confirmar":"Fecha por confirmar"}</span><span>{venue||"Lugar por confirmar"}</span></div>
-    <div className="versus"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home} normalized/><b>{home}</b>{standingsForRound[home]&&!/^[EVD\s]+$/i.test(standingsForRound[home].trim())&&<small>{standingsForRound[home]}</small>}<FormDots team={home} round={round}/></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away} normalized/><b>{away}</b>{standingsForRound[away]&&!/^[EVD\s]+$/i.test(standingsForRound[away].trim())&&<small>{standingsForRound[away]}</small>}<FormDots team={away} round={round}/></div></div>
+    <div className="versus"><div><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":game.crest||rivalCrests[team]} name={home} normalized/><b>{home}</b>{(()=>{const value=standing(isHome?game.derioPosition:game.opponentPosition,isHome?game.derioPoints:game.opponentPoints,standingsForRound[home]);return value&&!/^[EVD\s]+$/i.test(value.trim())?<small>{value}</small>:null})()}<FormDots team={home} round={round} value={isHome?game.derioForm:game.opponentForm}/></div><strong>VS</strong><div><ClubCrest src={isHome?game.crest||rivalCrests[team]:"/api/assets/Escudos/cd_derio.png"} name={away} normalized/><b>{away}</b>{(()=>{const value=standing(!isHome?game.derioPosition:game.opponentPosition,!isHome?game.derioPoints:game.opponentPoints,standingsForRound[away]);return value&&!/^[EVD\s]+$/i.test(value.trim())?<small>{value}</small>:null})()}<FormDots team={away} round={round} value={!isHome?game.derioForm:game.opponentForm}/></div></div>
     {(()=>{const db=liveMatches[game.name];const ko=parseKickoff(date,time);const elapsed=ko===null?null:clock-ko;const hasResult=!!db&&db.status!=="scheduled"&&(db.status==="final"||(Number.isFinite(db.home_score)&&Number.isFinite(db.away_score)));const state=hasResult?db.status:elapsed!==null&&elapsed>=7200000?"pending":elapsed!==null&&elapsed>=0?"live":"scheduled";if(state==="scheduled")return null;if(state==="pending")return <div className="liveMatchStrip pending"><b>RESULTADO PENDIENTE</b><strong>—</strong></div>;if(state==="live"&&!hasResult)return <div className="liveMatchStrip live"><b>EN JUEGO</b><strong>•</strong></div>;return <div className={"liveMatchStrip "+state}><b>{state==="live"?"EN JUEGO":"FINAL"}</b><strong>{db?.home_score} - {db?.away_score}</strong></div>})()}<div className="pickHint">ELIGE TU PRONÓSTICO</div>
     <div className="oneXtwo">{["1","X","2"].map(x=><button disabled={roundClosed||!game.opponent} aria-label={`${x}: ${x==="1"?`gana ${home}`:x==="X"?"empate":`gana ${away}`}`} aria-pressed={picks[pickKey]===x} className={picks[pickKey]===x?"active pick"+x:"pick"+x} style={picks[pickKey]===x?{backgroundColor:x==="1"?"#176ed5":x==="X"?"#ffffff":"#d62e46",borderColor:x==="1"?"#329bff":x==="X"?"#ffffff":"#f34b61",color:x==="X"?"#14243b":"#ffffff"}:undefined} onClick={()=>setPicks(v=>({...v,[pickKey]:x}))} key={x}><b>{x}</b><small>{x==="1"?"LOCAL":x==="X"?"EMPATE":"VISITANTE"}</small></button>)}</div>
    </article>
@@ -228,6 +222,7 @@ function QuiniCover(){return <section className="quiniCover uploadedCover mobile
 function CoachesPanel(){return <section className="coachesPanel"><div className="coachesIntro"><ClubCrest src="/api/assets/Escudos/cd_derio.png" name="CD Derio"/><div><p className="eyebrow">CD DERIO</p><h2>El equipo</h2><small>Entrenadores de la temporada</small></div></div><div className="coachGrid">{teamData.map(t=><article key={t.name}><div className="coachAvatar"><img src={t.photo} alt={`Entrenador ${t.coach}`} /></div><b>{t.coach}</b><small>{t.name}</small></article>)}</div></section>}
 function ClubCrest({src,name,normalized=false}:{src?:string,name:string,normalized?:boolean}){const iturrigorri=/iturrigorri/i.test(name)||/Iturrigorri\.png/i.test(src||"");const normalizedSrc=normalized&&src?.startsWith("/api/assets/Escudos/")?src+(src.includes("?")?"&":"?")+"normalize=1&rev=20261013a":src;return normalizedSrc?<span className={"crestBox "+(iturrigorri?"crestIturrigorri":"")+(normalized?" crestNormalized":"")}><img src={normalizedSrc} alt={`Escudo de ${name}`} loading="eager" decoding="async"/></span>:<i aria-hidden="true">?</i>}
 function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:Record<string,string>,round:number,dinio:string,season:Season,onEdit:()=>void,onRequireLogin:()=>void}){
+ const quizFixtures=useFixtures();
  const [selectedScope,setSelectedScope]=useState<"season"|number>(3);
  const availableRounds=[1,2,3,4,5,6,7,8];
  const enabledRounds=new Set([1,2,3]);
@@ -306,7 +301,7 @@ function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:R
    {rivalsLoading?<p role="status">Cargando pronósticos…</p>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:<div className="matchRivalsList">{[...teams].filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest").sort((a,b)=>{const ga=quizFixtures[selectedRound]?.[a],gb=quizFixtures[selectedRound]?.[b];const toTs=(g:any)=>{if(!g?.date||!g?.time)return Number.MAX_SAFE_INTEGER;const [d,m,y]=g.date.split("/").map(Number),[h,min]=g.time.split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};return toTs(ga)-toTs(gb)}).map(team=>{
     const game=quizFixtures[selectedRound]?.[team]||{};
     const opponent=game.opponent||"Rival por confirmar",isHome=game.isHome!==false;
-    const home=isHome?team:opponent,away=isHome?opponent:team;
+    const teamLabel=game.teamLabel||team;const home=isHome?teamLabel:opponent,away=isHome?opponent:teamLabel;
     const result=rivalResults.find(r=>r.team===team);
     const finished=result?.status==="finished";
     const winningPick=finished&&result?(result.home_score>result.away_score?"1":result.home_score<result.away_score?"2":"X"):null;
@@ -318,6 +313,7 @@ function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:R
  </section>
 }
 function Ranking({destination}:{destination:RankingDestination|null}){
+ const quizFixtures=useFixtures();
  const[board,setBoard]=useState<Array<{user_id:string,username:string,hits:number}>>([]);
  const[pot,setPot]=useState<Array<{user_id:string,username:string,pot_euros:number}>>([]);
  const[profiles,setProfiles]=useState<Record<string,{username:string,profile_pic:string}>>({});

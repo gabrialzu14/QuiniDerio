@@ -3,10 +3,12 @@ import {useCallback,useEffect,useRef,useState} from "react";
 import {supabase} from "../lib/supabase";
 import {publishedQuiniRounds} from "../lib/quiz-fixtures";
 import "./admin.css";
+import MatchEditor from "./MatchEditor";
+import type {ManagedMatch} from "../lib/match-details";
 const ADMIN="gabrialzueta@gmail.com";
 const PUBLISHED_ROUNDS=publishedQuiniRounds();
 const CURRENT_ROUND=PUBLISHED_ROUNDS[PUBLISHED_ROUNDS.length-1]??1;
-type Match={round:number,team:string,opponent:string,home_score:number,away_score:number,yellow_cards:number,red_cards:number,status:"scheduled"|"live"|"finished"|"suspended",is_home:boolean|null};
+type Match=ManagedMatch&{round:number,team:string,opponent:string,home_score:number,away_score:number,yellow_cards:number,red_cards:number,status:"scheduled"|"live"|"finished"|"suspended",is_home:boolean|null};
 type Card={id:string,round:number,team:string,person:string,card_type:"yellow"|"red",created_at:string};
 type View="matches"|"pending"|"round";
 const STATUS:Record<Match["status"],string>={scheduled:"Por jugar",live:"En juego",finished:"Finalizado",suspended:"Suspendido"};
@@ -41,6 +43,7 @@ export default function AdminPage(){
   }catch{if(id===requestId.current){setMatches([]);setCards([]);setPending([]);setLoadError("No se ha podido cargar la jornada. Inténtalo de nuevo.")}return false}
   finally{if(id===requestId.current)setLoading(false)}
  },[]);
+ useEffect(()=>{document.body.classList.add("qd-mounted");return()=>document.body.classList.remove("qd-mounted")},[]);
  useEffect(()=>{
   setTheme(document.documentElement.dataset.theme||"dark");let active=true;
   const verify=async()=>{const {data:{session}}=await supabase.auth.getSession();let user=session?.user||null;if(session){const fresh=await supabase.auth.getUser();user=fresh.data.user||user}if(active)setAllowed(user?.email?.trim().toLowerCase()===ADMIN)};
@@ -61,12 +64,12 @@ export default function AdminPage(){
  },[round,allowed,load]);
  const sendAction=async(team:string,action:string,extra:Record<string,unknown>={})=>{
   const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error("session");
-  const res=await fetch("/api/admin/live",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({round,team,action,...extra})});if(!res.ok)throw new Error("update");
+  const res=await fetch("/api/admin/live",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({round,team,action,...extra})});if(!res.ok){const json=await res.json().catch(()=>null);throw new Error(json?.message||"No se ha podido guardar el cambio. Comprueba la conexión e inténtalo de nuevo.")};
  };
  const act=async(team:string,action:string,extra:Record<string,unknown>={})=>{
   if(busy)return;setBusy(team+action);setMessage(null);
-  try{await sendAction(team,action,extra);setPicker(null);if(await load(round,true))setMessage({kind:"success",text:"Cambios guardados · "+team})}
-  catch{setMessage({kind:"error",text:"No se ha podido guardar el cambio. Comprueba la conexión e inténtalo de nuevo."})}finally{setBusy("")}
+  try{await sendAction(team,action,extra);setPicker(null);if(await load(round,true)){setMessage({kind:"success",text:"Cambios guardados · "+team});return true}return false}
+  catch(e){setMessage({kind:"error",text:e instanceof Error?e.message:"No se ha podido guardar el cambio."});return false}finally{setBusy("")}
  };
  const remind=async(playerId:string)=>{
   setReminderSending(playerId);setMessage(null);
@@ -86,15 +89,15 @@ export default function AdminPage(){
  if(!allowed)return <main className="adminAccess"><section><span className="adminEyebrow">QUINIDERIO · ADMINISTRACIÓN</span><h1>Acceso restringido</h1><p>Este panel no está disponible para esta cuenta.</p><a className="adminPrimary" href="/">Volver a QuiniDerio</a></section></main>;
  return <main className="adminWorkspace">
   <header className="adminTopbar"><a href="/" className="adminBrand" aria-label="Volver a QuiniDerio"><img src="/api/assets/branding/LogoApp.png" alt=""/><span><b className="qdWordmark"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>ADMINISTRACIÓN</small></span></a><div><button className="adminTheme" onClick={changeTheme} aria-label={theme==="light"?"Activar modo oscuro":"Activar modo claro"}>{theme==="light"?"☾ Oscuro":"☀ Claro"}</button><a className="adminBack" href="/">‹ Volver a la app</a></div></header>
-  <section className="adminIntro"><div><span className="adminEyebrow">TEMPORADA 2026/27</span><h1>Panel Admin</h1><p>Resultados y tarjetas se comparten con todos los usuarios.</p></div><span className="adminRoundBadge">Jornada {round}</span></section>
+  <section className="adminIntro"><div><span className="adminEyebrow">TEMPORADA 2026/27</span><h1>Panel Admin</h1><p>Datos de los partidos, resultados y tarjetas se comparten con todos los usuarios.</p></div><span className="adminRoundBadge">Jornada {round}</span></section>
   <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Todos los controles se aplican a la jornada elegida.</small></div><nav aria-label="Seleccionar jornada">{PUBLISHED_ROUNDS.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}</nav></section>
   <div className="adminSummary" aria-label="Resumen de jornada" aria-busy={loading}><article><span>Partidos</span><strong>{loading?"—":matches.length}</strong><small>En esta jornada</small></article><article className="adminSummaryLive"><span>En juego</span><strong>{loading?"—":live}</strong><small>Control en directo</small></article><article><span>Finalizados</span><strong>{loading?"—":finished}</strong><small>Resultados cerrados</small></article><article><span>Pronósticos pendientes</span><strong>{loading||pendingError?"—":pending.length}</strong><small>Participantes por avisar</small></article></div>
   <nav className="adminViewTabs" aria-label="Secciones de administración">{([["matches","Partidos"],["pending","Pronósticos pendientes"],["round","Control de jornada"]] as [View,string][]).map(([key,label])=><button type="button" key={key} aria-current={view===key?"page":undefined} className={view===key?"active":""} onClick={()=>setView(key)}>{label}</button>)}</nav>
   {message&&<div className={"adminFeedback "+message.kind} role={message.kind==="error"?"alert":"status"}>{message.text}<button aria-label="Cerrar aviso" onClick={()=>setMessage(null)}>×</button></div>}
   {loadError?<section className="adminEmpty" role="alert"><h2>No se ha podido cargar la jornada</h2><p>{loadError}</p><button className="adminPrimary" onClick={()=>void load(round)}>Reintentar</button></section>:loading?<section className="adminLoading" role="status"><div className="adminLoadingMark"/><p>Cargando jornada {round}…</p></section>:<>
-   {view==="matches"&&<section aria-labelledby="admin-matches-title"><div className="adminSectionHeading"><div><h2 id="admin-matches-title">Partidos de la jornada</h2><p>Gestiona el marcador y las tarjetas de cada encuentro.</p></div><label className="adminFilter">Mostrar<select aria-label="Filtrar partidos" value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">Todos los partidos</option><option value="live">En juego</option><option value="scheduled">Por jugar</option><option value="finished">Finalizados</option><option value="suspended">Suspendidos</option></select></label></div>
+   {view==="matches"&&<section aria-labelledby="admin-matches-title"><div className="adminSectionHeading"><div><h2 id="admin-matches-title">Partidos de la jornada</h2><p>Edita los equipos, horarios, campo, clasificación y forma de cada encuentro.</p></div><label className="adminFilter">Mostrar<select aria-label="Filtrar partidos" value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">Todos los partidos</option><option value="live">En juego</option><option value="scheduled">Por jugar</option><option value="finished">Finalizados</option><option value="suspended">Suspendidos</option></select></label></div>
    {visibleMatches.length?<div className="adminMatchGrid">{visibleMatches.map(m=>{
-    const teamCards=cards.filter(c=>c.team===m.team),isHome=m.is_home===true,home=isHome?m.team:m.opponent,away=isHome?m.opponent:m.team,scoreLocked=locked||m.status==="finished";
+    const teamCards=cards.filter(c=>c.team===m.team),isHome=m.is_home===true,home=isHome?(m.fixture_details?.teamLabel||m.team):m.opponent,away=isHome?m.opponent:(m.fixture_details?.teamLabel||m.team),scoreLocked=locked||m.status==="finished";
     return <article className="adminMatchCard" key={m.team} aria-label={m.team+" contra "+m.opponent} aria-busy={busy.startsWith(m.team)}>
      <header className="adminMatchHeader"><b>{m.team}</b><span className={"adminStatus "+m.status}>{STATUS[m.status]}</span></header>
      <div className="adminScoreboard"><ScoreControl label="Local" team={home} value={m.home_score} disabled={scoreLocked} onRemove={()=>void act(m.team,"homeGoalRemove")} onAdd={()=>void act(m.team,"homeGoal")}/><span className="adminScoreDivider" aria-hidden="true">:</span><ScoreControl label="Visitante" team={away} value={m.away_score} disabled={scoreLocked} onRemove={()=>void act(m.team,"awayGoalRemove")} onAdd={()=>void act(m.team,"awayGoal")}/></div>
@@ -103,6 +106,7 @@ export default function AdminPage(){
      {m.is_home===null?<p className="adminMatchHint">Define quién juega en casa antes de iniciar el partido.</p>:m.status==="finished"?<p className="adminMatchHint">Reabre el partido para corregir el marcador o añadir tarjetas.</p>:m.status==="scheduled"?<p className="adminMatchHint">Inicia el partido para registrar tarjetas.</p>:null}
      {picker?.team===m.team&&<section className="adminStaffPicker" aria-label="Elegir destinatario de tarjeta"><div><b><i className={"adminCardMark "+picker.type} aria-hidden="true"/>{picker.type==="yellow"?"Amarilla":"Roja"} · ¿A quién?</b><button disabled={locked} aria-label="Cerrar selección de tarjeta" onClick={()=>setPicker(null)}>×</button></div><div>{(STAFF[m.team]||[]).map(person=><button key={person} disabled={locked} onClick={()=>void act(m.team,"addCard",{cardType:picker.type,person})}>{person}</button>)}</div></section>}
      {teamCards.length>0&&<section className="adminCardHistory" aria-label="Tarjetas mostradas"><h3>Tarjetas mostradas</h3>{teamCards.map(card=><div key={card.id}><i className={"adminCardMark "+card.card_type} aria-hidden="true"/><span><b>{card.person}</b><small>{card.card_type==="yellow"?"Amarilla":"Roja"}</small></span><button aria-label={"Eliminar tarjeta de "+card.person} disabled={locked} onClick={()=>{if(window.confirm("¿Eliminar esta tarjeta?"))void act(m.team,"removeCard",{cardId:card.id})}}>×</button></div>)}</section>}
+     <MatchEditor match={m} disabled={locked} onSave={async details=>!!await act(m.team,"details",{details})}/>
     </article>
    })}</div>:<div className="adminEmpty"><h3>{matches.length?"No hay partidos con este estado":"No hay partidos en esta jornada"}</h3><p>{matches.length?"Selecciona otro filtro para ver los demás encuentros.":"Esta jornada todavía no contiene partidos publicados. Comprueba la configuración de los encuentros."}</p>{matches.length>0&&<button onClick={()=>setFilter("all")}>Ver todos los partidos</button>}</div>}</section>}
    {view==="pending"&&<section aria-labelledby="admin-pending-title"><div className="adminSectionHeading"><div><h2 id="admin-pending-title">Pronósticos pendientes · J{round}</h2><p>Consulta quién falta y envía un recordatorio individual.</p></div><span className="adminCount">{pendingError?"—":pending.length} pendientes</span></div>{pendingError?<div className="adminEmpty" role="alert"><h3>No se han podido consultar los pendientes</h3><p>Comprueba la conexión y vuelve a intentarlo.</p><button onClick={()=>void load(round)}>Reintentar</button></div>:pending.length?<div className="adminPendingTable">{pending.map(p=><article key={p.user_id}><span className="adminInitial" aria-hidden="true">{p.username?.[0]?.toUpperCase()}</span><div><b>{p.username}</b><small>{p.sent}/{p.total} pronósticos enviados</small></div><button className="adminPrimary" disabled={!!reminderSending||!!reminderSent[p.user_id]} onClick={()=>void remind(p.user_id)}>{reminderSending===p.user_id?"Enviando…":reminderSent[p.user_id]?"Enviado":"Recordar"}</button></article>)}</div>:<div className="adminEmpty"><span className="adminDone" aria-hidden="true">✓</span><h3>Todo enviado</h3><p>No hay participantes con pronósticos pendientes.</p></div>}</section>}
