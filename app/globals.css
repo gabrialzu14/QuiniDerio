@@ -6138,8 +6138,8 @@ html body .matchCard .oneXtwo button.active.pickX{
   letter-spacing:-.02em!important;
   text-wrap:balance;
 }
-.predictionsPage .matchRivalsFixture .matchRivalsTeamHome .matchRivalsTeamName{text-align:right!important}
-.predictionsPage .matchRivalsFixture .matchRivalsTeamAway .matchRivalsTeamName{text-align:left!important}
+.predictionsPage .matchRivalsFixture .matchRivalsTeamHome .matchRivalsTeamName{text-align:center!important}
+.predictionsPage .matchRivalsFixture .matchRivalsTeamAway .matchRivalsTeamName{text-align:center!important}
 .predictionsPage .matchRivalsFixture .matchRivalsCenter{
   align-self:center!important;
   min-width:0!important;
@@ -6174,4 +6174,42 @@ html body .matchCard .oneXtwo button.active.pickX{
   .predictionsPage .matchRivalsFixture .matchRivalsTeam .matchRivalsTeamName{
     font-size:10.5px!important;
   }
+}
+
+/* Centre every team name under its own crest, across all prediction fixtures. */
+.predictionsPage .matchRivalsCard .matchRivalsFixture .matchRivalsTeam{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:36px minmax(2.5em,auto)!important;
+  align-content:center!important;
+  justify-items:center!important;
+  align-items:start!important;
+  row-gap:7px!important;
+  height:auto!important;
+  text-align:center!important;
+}
+.predictionsPage .matchRivalsCard .matchRivalsFixture .matchRivalsTeam .crestBox{
+  grid-row:1!important;
+  justify-self:center!important;
+  align-self:center!important;
+}
+.predictionsPage .matchRivalsCard .matchRivalsFixture .matchRivalsTeam .matchRivalsTeamName{
+  grid-row:2!important;
+  justify-self:center!important;
+  align-self:start!important;
+  text-align:center!important;
+  width:100%!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+  font-variant-ligatures:normal!important;
+}
+.predictionsPage .matchRivalsCard .matchRivalsFixture .matchRivalsCenter{
+  justify-self:center!important;
+  align-self:center!important;
+  text-align:center!important;
+}
+.predictionsPage .matchRivalsCard .matchRivalsEmpty{
+  padding:10px 14px 12px!important;
+  line-height:1.45!important;
 }
