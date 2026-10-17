@@ -6077,3 +6077,101 @@ html body .matchCard .oneXtwo button.active.pickX{
 .dashboard .matchRivalsFixture > div:last-child > b{
   text-align:left!important;
 }
+
+/* Pronósticos fixture header: predictable 3-column layout, no broken words. */
+.predictionsPage .matchRivalsCard .matchRivalsFixture{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(96px,1.05fr) minmax(0,1fr)!important;
+  align-items:start!important;
+  gap:clamp(4px,1.4vw,12px)!important;
+  padding:14px 14px 4px!important;
+  margin:0!important;
+  min-height:0!important;
+}
+.predictionsPage .matchRivalsFixture .matchRivalsTeam{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:7px!important;
+  min-width:0!important;
+  width:100%!important;
+  padding:0!important;
+}
+.predictionsPage .matchRivalsFixture .matchRivalsTeam .crestBox{
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
+  flex:0 0 36px!important;
+  display:grid!important;
+  place-items:center!important;
+  margin:0 auto!important;
+}
+.predictionsPage .matchRivalsFixture .matchRivalsTeam .crestBox img{
+  display:block!important;
+  width:34px!important;
+  height:34px!important;
+  max-width:34px!important;
+  max-height:34px!important;
+  object-fit:contain!important;
+  transform:none!important;
+}
+.predictionsPage .matchRivalsFixture .matchRivalsTeam .matchRivalsTeamName{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  line-clamp:2;
+  width:100%!important;
+  min-height:2.5em!important;
+  max-height:2.5em!important;
+  margin:0!important;
+  overflow:hidden!important;
+  overflow-wrap:normal!important;
+  word-break:keep-all!important;
+  hyphens:none!important;
+  text-overflow:clip!important;
+  white-space:normal!important;
+  font-size:clamp(11px,2.7vw,13px)!important;
+  font-weight:800!important;
+  line-height:1.25!important;
+  letter-spacing:-.02em!important;
+  text-wrap:balance;
+}
+.predictionsPage .matchRivalsFixture .matchRivalsTeamHome .matchRivalsTeamName{text-align:right!important}
+.predictionsPage .matchRivalsFixture .matchRivalsTeamAway .matchRivalsTeamName{text-align:left!important}
+.predictionsPage .matchRivalsFixture .matchRivalsCenter{
+  align-self:center!important;
+  min-width:0!important;
+  width:100%!important;
+  gap:4px!important;
+  margin:0!important;
+  padding:0!important;
+}
+.predictionsPage .matchRivalsCard .matchRivalsPlayers{
+  margin-top:0!important;
+  padding-top:0!important;
+}
+.predictionsPage .matchRivalsCard .matchRivalsPlayers li:first-child{
+  margin-top:0!important;
+}
+@media(min-width:700px){
+  .predictionsPage .matchRivalsCard .matchRivalsFixture{
+    grid-template-columns:minmax(0,1fr) minmax(120px,.9fr) minmax(0,1fr)!important;
+    padding:16px 20px 6px!important;
+    column-gap:16px!important;
+  }
+  .predictionsPage .matchRivalsFixture .matchRivalsTeam .matchRivalsTeamName{
+    font-size:13px!important;
+  }
+}
+@media(max-width:380px){
+  .predictionsPage .matchRivalsCard .matchRivalsFixture{
+    grid-template-columns:minmax(0,1fr) minmax(92px,1.05fr) minmax(0,1fr)!important;
+    padding:12px 9px 4px!important;
+    gap:4px!important;
+  }
+  .predictionsPage .matchRivalsFixture .matchRivalsTeam .matchRivalsTeamName{
+    font-size:10.5px!important;
+  }
+}
