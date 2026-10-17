@@ -197,3 +197,24 @@ html body.qdModern .adminWorkspace .adminRoundSelector nav button.active {backgr
 [data-theme="light"] .adminFixtureFields input{color-scheme:light}
 .adminFixtureFields input:focus-visible{outline:2px solid var(--qd-blue);outline-offset:2px}
 @media(max-width:380px){.adminFixtureFields{grid-template-columns:1fr}}
+
+/* Consistent monochrome line-icons across admin controls; states remain accessible in button text. */
+.adminWorkspace .adminActionIcon{
+ display:inline-block;
+ vertical-align:-3px;
+ flex:0 0 16px;
+ width:16px;
+ height:16px;
+ color:currentColor;
+ stroke:currentColor;
+ fill:none;
+}
+.adminWorkspace .adminCardButtons button,
+.adminWorkspace .adminMatchLifecycle button,
+.adminWorkspace .adminHomeOrder button{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:7px;
+}
+.adminWorkspace .adminMatchHeader{justify-content:flex-start}
