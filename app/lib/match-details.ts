@@ -23,7 +23,7 @@ export function mergeFixtures(rows:ManagedMatch[],rests:RestFixture[]=[]):typeof
   const base=result[row.round]?.[row.team]||{};
   const d=matchDetails(row);
   result[row.round]??={};
-  result[row.round][row.team]={...base,...d,status:undefined,opponent:row.opponent,isHome:row.is_home??base.isHome,date:d.date,time:d.time,venue:[d.venue,d.location].filter(Boolean).join(", ")};
+  result[row.round][row.team]={...base,...d,federationRound:d.federationRound??undefined,status:undefined,opponent:row.opponent,isHome:row.is_home??base.isHome,date:d.date,time:d.time,venue:[d.venue,d.location].filter(Boolean).join(", ")};
  }
  return result;
 }
