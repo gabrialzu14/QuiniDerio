@@ -56,7 +56,7 @@ export default function PullToRefresh({onRefresh}:{onRefresh:()=>Promise<boolean
    const touch=event.touches[0];
    const distance=pullDistance(current.x,current.y,touch.clientX,touch.clientY);
    current.distance=distance;
-   if(distance===0){if(phase!=="idle")hide();return;}
+   if(distance===0){hide();return;}
    setProgress(Math.min(1,distance/110));
    setPhase(shouldRefresh(distance)?"ready":"pull");
    // Passive touch listeners intentionally never call preventDefault:
