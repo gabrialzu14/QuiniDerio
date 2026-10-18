@@ -19,8 +19,8 @@ export default function DavidExpulsionPopup(){
  usePageScrollLock(open);
 
  useEffect(()=>{
-  // Never expose the announcement without the actual supplied photograph.
-  if(!DAVID_EXPULSION.enabled||!DAVID_EXPULSION.photoSrc)return;
+  // Render the typographic DAVID portrait when no photo has been provided.
+  if(!DAVID_EXPULSION.enabled)return;
   let active=true;
   let timer:ReturnType<typeof setTimeout>|null=null;
   const schedule=(delay:number)=>{
