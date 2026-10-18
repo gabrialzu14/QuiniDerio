@@ -8,6 +8,7 @@ import {useCallback,useEffect,useMemo,useRef,useState} from "react";
 import {createPortal} from "react-dom";
 import "./ranking-bands.css";
 import "./david-expulsion.css";
+import "./cards-panel.css";
 import {supabase} from "./lib/supabase";
 import {publishedFixtureSignature,type Fixture} from "./lib/quiz-fixtures";
 import PushPrompt,{enablePush,disablePush,getPushState} from "./components/PushPrompt";
