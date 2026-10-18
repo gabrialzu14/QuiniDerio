@@ -33,7 +33,7 @@ export default function PushPrompt(){const[show,setShow]=useState(false),[busy,s
     const state=await getPushState();
     if(!mounted||dismissedThisVisit.current||state.enabled)return;
     // Let any other blocking dialog finish, without depending on the old Jornada 1 notice.
-    if(document.querySelector(".roundPendingOverlay")){timer=setTimeout(()=>void check(),600);return}
+    if(document.querySelector(".roundPendingOverlay,.qdDavidExpulsionOverlay")){timer=setTimeout(()=>void check(),600);return}
     setLeaving(false);setSuccess(false);
     setErr(state.permission==="denied"?"Las notificaciones están bloqueadas. Actívalas en Ajustes del dispositivo.":state.supported?"":"Este dispositivo no admite notificaciones web push.");
     setShow(true);
@@ -48,6 +48,7 @@ export default function PushPrompt(){const[show,setShow]=useState(false),[busy,s
   window.addEventListener("popstate",clear);
   document.addEventListener("visibilitychange",onVisibility);
   window.addEventListener("quiniderio-suspended-popup-closed",entry);
+  window.addEventListener("quiniderio-david-popup-closed",entry);
   const badgeTimer=window.setInterval(clear,3000);
   entry();
   return()=>{
@@ -57,6 +58,7 @@ export default function PushPrompt(){const[show,setShow]=useState(false),[busy,s
     window.removeEventListener("popstate",clear);
     document.removeEventListener("visibilitychange",onVisibility);
     window.removeEventListener("quiniderio-suspended-popup-closed",entry);
+    window.removeEventListener("quiniderio-david-popup-closed",entry);
     window.clearInterval(badgeTimer);
   };
 },[]);if(!show)return null;const close=()=>{dismissedThisVisit.current=true;localStorage.setItem("quiniderio-push-prompt-seen-v1",String(Date.now()));setLeaving(true);setTimeout(()=>setShow(false),360)};return <div className={"pushPromptBackdrop "+(leaving?"isLeaving":"")}><section className={"pushPrompt "+(success?"pushSuccess":"")} role="dialog" aria-modal="true"><div className="pushBell" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>{success?<><h2>¡Notificaciones activadas!</h2><p>Ya recibirás los avisos importantes de cada jornada.</p></>:<><h2>Notificaciones</h2><p>Activa las notificaciones para recibir recordatorios si aún no has enviado tu quiniela, además de avisos de cierre y resultados.</p>{err&&<small>{err}</small>}<button disabled={busy} onClick={async()=>{setBusy(true);try{if(await enablePush()){setSuccess(true);setTimeout(close,1800)}else setErr("Necesitamos permiso para enviarte avisos.")}catch(e){const m=e instanceof Error?e.message:"";setErr(m==="login"?"Inicia sesión para activar las notificaciones.":m==="denied"?"Las notificaciones están bloqueadas. Actívalas en Ajustes del dispositivo.":m==="install"?"Abre QuiniDerio desde el icono de la pantalla de inicio.":m==="vapid"?"Falta la configuración VAPID de QuiniDerio.":m==="subscribe"?"iOS no ha podido crear la suscripción push.":m==="subscription_keys"?"iOS ha creado una suscripción incompleta. Cierra la app y vuelve a abrirla.":m==="save"?"iOS ha dado permiso, pero el servidor no ha podido guardar este dispositivo.":m==="unsupported"?"Este dispositivo no admite notificaciones push.":"No se han podido activar las notificaciones.")}finally{setBusy(false)}}}>{busy?"Activando…":"Activar notificaciones"}</button><button className="later" onClick={close}>Ahora no</button></>}</section></div>}
