@@ -46,7 +46,7 @@ assert.throws(()=>parseNewRound({...payload,games:games.map((g,i)=>i===2?{...g,t
 assert.throws(()=>parseNewRound({...payload,round:0}),/jornada/i);
 assert.throws(()=>parseNewRound({...payload,games:games.map(g=>({...g,status:"rest"}))}),/al menos un partido/);
 assert.throws(()=>parseNewRound({...payload,games:games.map((g,i)=>i===0?{...g,is_home:undefined}:g)}),/local o visitante/);
-assert.throws(()=>parseNewRound({...payload,games:games.map((g,i)=>i===0?{...g,details:{...g.details,crest:"https://evil.example/crest.jpg"}}:g)}),/Escudo no válido/);
+assert.throws(()=>parseNewRound({...payload,games:games.map((g,i)=>i===0?{...g,details:{...g.details,crest:"https://evil.example/crest.jpg"}}:g)}),/escudo no es válida|Escudo no válido/i);
 assert.throws(()=>parseNewRound({...payload,games:games.map((g,i)=>i===0?{...g,details:{...g.details,date:"31/02/2026"}}:g)}),/Fecha no válida/);
 assert.throws(()=>parseNewRound({...payload,games:games.map((g,i)=>i===0?{...g,details:{...g.details,derioForm:"ABCDE"}}:g)}),/forma/i);
 console.log("Passed: 7-club round creation, bye, crest validation, kickoff and immutable prior results.");
