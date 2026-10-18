@@ -45,8 +45,8 @@
 .qdNewCrestUpload input::file-selector-button{cursor:pointer;padding:9px 11px;margin-right:12px;background:var(--qd-blue);border:0;border-radius:9px;color:white;font:inherit}
 .qdNewCrestUpload small{font-size:10px;color:var(--qd-muted);font-weight:500}
 .qdNewCrestBlock>button{font-size:11px;min-height:35px;padding:7px 10px}
-.qdNewRoundGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.qdNewField{display:grid;align-content:start;gap:6px;min-width:0;color:var(--qd-muted);font-size:11px;font-weight:750}
+.qdNewRoundGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;width:100%;max-width:100%;min-width:0}
+.qdNewField{display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:6px;min-width:0;max-width:100%;color:var(--qd-muted);font-size:11px;font-weight:750}
 .qdNewField input,.qdNewField select{
  display:block;width:100%;min-width:0;max-width:100%;min-height:44px;
  box-sizing:border-box;border:1px solid var(--qd-border);border-radius:11px;
@@ -78,5 +78,63 @@ html[data-theme="light"] .qdNewField :is(input,select),html[data-theme="light"] 
  .qdCreateMatchActions{width:100%;justify-content:space-between}
  .qdNewCrestBlock{padding:11px;gap:10px}
  .qdNewCrestPreview{width:64px;height:64px}
+}
+/* iOS Safari: text controls below 16px trigger focus zoom. Native date/time
+   controls also carry an intrinsic minimum width and can exceed the grid cell. */
+.adminWorkspace .qdCreateRound :is(input:not([type="checkbox"]):not([type="file"]),select,textarea){
+ display:block!important;
+ width:100%!important;
+ min-width:0!important;
+ max-width:100%!important;
+ min-inline-size:0!important;
+ max-inline-size:100%!important;
+ box-sizing:border-box!important;
+ font-size:16px!important;
+ line-height:1.25!important;
+}
+.adminWorkspace .qdCreateRound .qdNewField :is(input,select){
+ min-height:48px!important;
+ height:48px!important;
+ padding:10px 12px!important;
+}
+.adminWorkspace .qdCreateRound .qdNewField input:is([type="date"],[type="time"]){
+ display:block!important;
+ width:100%!important;
+ max-width:100%!important;
+ min-width:0!important;
+ inline-size:100%!important;
+ min-inline-size:0!important;
+ max-inline-size:100%!important;
+ flex:none!important;
+ height:48px!important;
+ min-height:48px!important;
+ padding:0 12px!important;
+ margin:0!important;
+ text-align:left!important;
+ -webkit-appearance:auto;
+ appearance:auto;
+ overflow:hidden;
+ white-space:nowrap;
+}
+.adminWorkspace .qdCreateRound input:is([type="date"],[type="time"])::-webkit-date-and-time-value{
+ min-width:0;
+ max-width:100%;
+ text-align:left;
+ margin-inline-start:0;
+}
+.adminWorkspace .qdCreateRound input:is([type="date"],[type="time"])::-webkit-datetime-edit{
+ min-width:0;
+ text-align:left;
+ overflow:hidden;
+}
+.adminWorkspace .qdCreateRound input:is([type="date"],[type="time"])::-webkit-calendar-picker-indicator{
+ flex:0 0 auto;
+ margin-inline-start:auto;
+}
+@media(max-width:700px){
+ .qdCreateRound,.qdCreateRoundForm,.qdCreateRoundMatch,.qdCreateRoundFields,.qdNewRoundGrid,.qdNewField{
+  min-width:0;
+  max-width:100%;
+ }
 }
 @media(prefers-reduced-motion:reduce){.qdCreateRoundSpinner{animation:none}}
