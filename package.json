@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm test && next build",
     "start": "next start",
-    "test": "node tests/match-details.cjs && node tests/admin-route.cjs"
+    "test": "node tests/match-details.cjs && node tests/admin-route.cjs && node tests/mobile-navigation.cjs"
   },
   "dependencies": {
     "next": "16.0.10",
