@@ -145,3 +145,27 @@ html:not([data-theme="light"]) body.qdModern .predictionUnifiedTabs button:disab
 @media(pointer:coarse){html body.qdModern .qdTabEnter :is(button,article,section){transition:none!important}html body.qdModern .qdTabEnter button:active{transform:none!important}}
 html:not([data-theme="light"]) body.qdModern .predictionsPage .predictionUnifiedTabs button:disabled{filter:none!important;background-image:none!important}
 html:not([data-theme="light"]) body.qdModern .predictionsPage .unifiedRoundPredictions{background:var(--qd-surface)!important;background-image:none!important;border-color:var(--qd-border)!important;box-shadow:none!important}
+
+/* Desempate por tarjetas: lectura cómoda en el panel de reglas, también en móvil. */
+.detailRows .qdCardTieRule {
+  display: block;
+  min-height: auto;
+  padding: 13px 14px;
+}
+.detailRows .qdCardTieRule > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #a9d9ff;
+  font-size: 12px;
+  font-weight: 800;
+}
+.detailRows .qdCardTieRule > p {
+  margin: 0;
+  color: #d5e4f0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+html[data-theme="light"] .detailRows .qdCardTieRule > span { color: #155681; }
+html[data-theme="light"] .detailRows .qdCardTieRule > p { color: #334b61; }
