@@ -4,13 +4,14 @@ import {supabase} from "../lib/supabase";
 import {publishedQuiniRounds} from "../lib/quiz-fixtures";
 import "./admin.css";
 import MatchEditor from "./MatchEditor";
+import CreateRound from "./CreateRound";
 import type {ManagedMatch} from "../lib/match-details";
 const ADMIN="gabrialzueta@gmail.com";
 const PUBLISHED_ROUNDS=publishedQuiniRounds();
 const CURRENT_ROUND=PUBLISHED_ROUNDS[PUBLISHED_ROUNDS.length-1]??1;
 type Match=ManagedMatch&{round:number,team:string,opponent:string,home_score:number,away_score:number,yellow_cards:number,red_cards:number,status:"scheduled"|"live"|"finished"|"suspended",is_home:boolean|null};
 type Card={id:string,round:number,team:string,person:string,card_type:"yellow"|"red",created_at:string};
-type View="matches"|"pending"|"round";
+type View="matches"|"pending"|"round"|"create";
 const STAFF:Record<string,string[]>={"Derio A":["Nando Alonso","Julen de Miguel","Gabri Alzueta"],"Derio B":["Gorka Barrio","David Perez","Mikel Elejalde"],"Derio Fem":["Iker Ibarluzea","Galder Ferreiro","Omar El Kabouri"],"Derio Fem B":["Ibai Mateos","Eneko Sanchez","Aner Taranilla"],"Juvenil A":["Peio Garcia","Koldo Corral"],"Juvenil B":["Mikel Tara","Asel Ibañez"],"Cadete B":["Gaizka Garcia","Galder Carreras"]};
 export default function AdminPage(){
  const[allowed,setAllowed]=useState<boolean|null>(null);
@@ -21,6 +22,7 @@ export default function AdminPage(){
  const[pending,setPending]=useState<{user_id:string,username:string,sent:number,total:number}[]>([]);
  const[pendingError,setPendingError]=useState(false);
  const[round,setRound]=useState(CURRENT_ROUND),[view,setView]=useState<View>("matches"),[filter,setFilter]=useState("all");
+ const[publishedRounds,setPublishedRounds]=useState<number[]>(PUBLISHED_ROUNDS);
  const[theme,setTheme]=useState("dark"),[reminderSending,setReminderSending]=useState("");
  const[reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
  const[picker,setPicker]=useState<{team:string,type:"yellow"|"red"}|null>(null);
@@ -49,6 +51,21 @@ export default function AdminPage(){
   void verify();const {data:listener}=supabase.auth.onAuthStateChange(()=>{setTimeout(()=>{if(active)void verify()},0)});
   return()=>{active=false;listener.subscription.unsubscribe();requestId.current++};
  },[]);
+ useEffect(()=>{
+  if(!allowed)return;
+  let active=true;
+  const loadList=async()=>{
+   const [games,rests]=await Promise.all([
+    supabase.from("quini_live_matches").select("round"),
+    supabase.from("quini_rest_fixtures").select("round")
+   ]);
+   if(!active||games.error||rests.error)return;
+   const all=new Set([...PUBLISHED_ROUNDS,...(games.data||[]).map(v=>v.round),...(rests.data||[]).map(v=>v.round)]);
+   setPublishedRounds([...all].sort((a,b)=>a-b));
+  };
+  void loadList();
+  return()=>{active=false};
+ },[allowed]);
  const syncPromiseRef=useRef<Promise<void>|null>(null);
  useEffect(()=>{
   if(!allowed)return;
@@ -89,11 +106,20 @@ export default function AdminPage(){
  return <main className="adminWorkspace">
   <header className="adminTopbar"><a href="/" className="adminBrand" aria-label="Volver a QuiniDerio"><img src="/api/assets/branding/LogoApp.png" alt=""/><span><b className="qdWordmark"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>ADMINISTRACIÓN</small></span></a><div><button className="adminTheme" onClick={changeTheme} aria-label={theme==="light"?"Activar modo oscuro":"Activar modo claro"}>{theme==="light"?"☾ Oscuro":"☀ Claro"}</button><a className="adminBack" href="/">‹ Volver a la app</a></div></header>
   <section className="adminIntro"><div><span className="adminEyebrow">TEMPORADA 2026/27</span><h1>Panel Admin</h1><p>Datos de los partidos, resultados y tarjetas se comparten con todos los usuarios.</p></div><span className="adminRoundBadge">Jornada {round}</span></section>
-  <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Todos los controles se aplican a la jornada elegida.</small></div><nav aria-label="Seleccionar jornada">{PUBLISHED_ROUNDS.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}</nav></section>
+  <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Todos los controles se aplican a la jornada elegida.</small></div><nav aria-label="Seleccionar jornada">{publishedRounds.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}<button type="button" className="adminCreateRoundTrigger" aria-current={view==="create"?"page":undefined}
+  onClick={()=>{setView("create");setMessage(null)}}>+ Crear jornada</button></nav></section>
   <div className="adminSummary" aria-label="Resumen de jornada" aria-busy={loading}><article><span>Partidos</span><strong>{loading?"—":matches.length}</strong><small>En esta jornada</small></article><article className="adminSummaryLive"><span>En juego</span><strong>{loading?"—":live}</strong><small>Control en directo</small></article><article><span>Finalizados</span><strong>{loading?"—":finished}</strong><small>Resultados cerrados</small></article><article><span>Pronósticos pendientes</span><strong>{loading||pendingError?"—":pending.length}</strong><small>Participantes por avisar</small></article></div>
-  <nav className="adminViewTabs" aria-label="Secciones de administración">{([["matches","Partidos"],["pending","Pronósticos pendientes"],["round","Control de jornada"]] as [View,string][]).map(([key,label])=><button type="button" key={key} aria-current={view===key?"page":undefined} className={view===key?"active":""} onClick={()=>setView(key)}>{label}</button>)}</nav>
+  <nav className="adminViewTabs" aria-label="Secciones de administración">{([["matches","Partidos"],["pending","Pronósticos pendientes"],["round","Control de jornada"],["create","Crear jornada"]] as [View,string][]).map(([key,label])=><button type="button" key={key} aria-current={view===key?"page":undefined} className={view===key?"active":""} onClick={()=>setView(key)}>{label}</button>)}</nav>
   {message&&<div className={"adminFeedback "+message.kind} role={message.kind==="error"?"alert":"status"}>{message.text}<button aria-label="Cerrar aviso" onClick={()=>setMessage(null)}>×</button></div>}
-  {loadError?<section className="adminEmpty" role="alert"><h2>No se ha podido cargar la jornada</h2><p>{loadError}</p><button className="adminPrimary" onClick={()=>void load(round)}>Reintentar</button></section>:loading?<section className="adminLoading" role="status"><div className="adminLoadingMark"/><p>Cargando jornada {round}…</p></section>:<>
+  {view!=="create"&&loadError?<section className="adminEmpty" role="alert"><h2>No se ha podido cargar la jornada</h2><p>{loadError}</p><button className="adminPrimary" onClick={()=>void load(round)}>Reintentar</button></section>:view!=="create"&&loading?<section className="adminLoading" role="status"><div className="adminLoadingMark"/><p>Cargando jornada {round}…</p></section>:<>
+   {view==="create"&&<CreateRound nextRound={Math.max(0,...publishedRounds)+1}
+    onCreated={created=>{
+     setPublishedRounds(prev=>[...new Set([...prev,created])].sort((a,b)=>a-b));
+     changeRound(created);
+     setView("matches");
+     setMessage({kind:"success",text:"Jornada "+created+" creada y publicada correctamente. Ya puedes editar sus partidos."});
+     void load(created,true);
+    }}/>}
    {view==="matches"&&<section aria-labelledby="admin-matches-title"><div className="adminSectionHeading"><div><h2 id="admin-matches-title">Partidos de la jornada</h2><p>Edita los equipos, horarios, campo, clasificación y forma de cada encuentro.</p></div><label className="adminFilter">Mostrar<select aria-label="Filtrar partidos" value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">Todos los partidos</option><option value="live">En juego</option><option value="scheduled">Por jugar</option><option value="finished">Finalizados</option><option value="suspended">Suspendidos</option></select></label></div>
    {visibleMatches.length?<div className="adminMatchGrid">{visibleMatches.map(m=>{
     const teamCards=cards.filter(c=>c.team===m.team),isHome=m.is_home===true,home=isHome?(m.fixture_details?.teamLabel||m.team):m.opponent,away=isHome?m.opponent:(m.fixture_details?.teamLabel||m.team),scoreLocked=locked||m.status==="finished";
