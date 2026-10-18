@@ -218,3 +218,61 @@ html body.qdModern .adminWorkspace .adminRoundSelector nav button.active {backgr
  gap:7px;
 }
 .adminWorkspace .adminMatchHeader{justify-content:flex-start}
+
+/* Clear admin entry point for weekly publication. */
+.adminWorkspace .adminRoundSelector .adminCreateRoundTrigger{
+ display:inline-flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:5px!important;
+ padding:9px 13px!important;
+ background:color-mix(in srgb,var(--qd-blue) 22%,var(--qd-surface))!important;
+ color:var(--qd-text)!important;
+ border:1px solid color-mix(in srgb,var(--qd-blue) 54%,var(--qd-border))!important;
+ border-radius:11px!important;
+ font-weight:850!important;
+ white-space:nowrap;
+}
+.adminWorkspace .adminRoundSelector .adminCreateRoundTrigger[aria-current="page"]{
+ background:var(--qd-blue)!important;color:#fff!important;
+}
+.adminFixtureCrest{
+ display:flex;align-items:center;gap:14px;
+ margin:15px 0;padding:12px;
+ border:1px solid var(--qd-border);border-radius:12px;
+ background:var(--qd-surface-raised);
+}
+.adminFixtureCrest>img{
+ width:60px;height:60px;object-fit:contain;
+ border-radius:9px;border:1px solid var(--qd-border);padding:4px;
+ flex:0 0 60px;
+}
+.adminFixtureCrest label{
+ display:grid;gap:7px;min-width:0;
+ font-size:12px;font-weight:750;color:var(--qd-muted);
+}
+.adminFixtureCrest input{
+ width:100%;max-width:100%;min-width:0;
+ color:var(--qd-text);font-size:11px;
+}
+.adminFixtureCrest input::file-selector-button{
+ padding:9px 10px;margin-right:10px;
+ border:0;border-radius:8px;background:var(--qd-blue);color:#fff;
+}
+.adminFixtureCrest small{font-size:10px;font-weight:500;line-height:1.5}
+@media(max-width:800px){
+ .adminWorkspace .adminRoundSelector nav{
+  display:flex!important;flex-wrap:wrap;
+  align-items:center;
+  gap:6px!important;
+ }
+ .adminWorkspace .adminRoundSelector nav>button:not(.adminCreateRoundTrigger){
+  min-width:42px;
+ }
+ .adminWorkspace .adminViewTabs{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ }
+}
+@media(max-width:380px){
+ .adminWorkspace .adminViewTabs button{font-size:10px;padding:8px 3px}
+}
