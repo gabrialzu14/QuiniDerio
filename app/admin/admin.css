@@ -362,3 +362,70 @@ html body.qdModern .adminWorkspace :is(.qdNewCrestUpload,.adminFixtureCrest) inp
  box-sizing:border-box!important;
  font-size:14px!important;
 }
+
+/* Public activation is an explicit action, distinct from creating a jornada. */
+.adminWorkspace .adminAdvanceRound{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px;
+ padding:20px;
+ margin:20px 0 12px;
+ border:1px solid color-mix(in srgb,var(--qd-blue) 48%,var(--qd-border));
+ border-radius:17px;
+ background:linear-gradient(125deg,
+  color-mix(in srgb,var(--qd-surface-raised) 84%,var(--qd-blue) 16%),
+  var(--qd-surface));
+ box-shadow:inset 0 1px 0 rgba(178,223,255,.12);
+}
+.adminWorkspace .adminAdvanceRoundCopy{min-width:0;flex:1}
+.adminWorkspace .adminAdvanceRound .adminEyebrow{
+ display:block;
+ font-size:10px;
+ letter-spacing:.12em;
+ color:var(--qd-muted);
+}
+.adminWorkspace .adminAdvanceRound h3{
+ margin:8px 0 7px;
+ font-size:20px;
+ font-weight:900;
+ letter-spacing:-.02em;
+ color:var(--qd-text);
+}
+.adminWorkspace .adminAdvanceRound p{
+ margin:0;
+ max-width:560px;
+ font-size:12px;
+ line-height:1.65;
+ color:var(--qd-muted);
+}
+.adminWorkspace .adminAdvanceRoundCopy>small{
+ display:block;
+ margin-top:10px;
+ font-size:11px;
+ line-height:1.5;
+ color:var(--qd-muted);
+}
+.adminWorkspace .adminAdvanceRoundButton{
+ min-height:48px;
+ padding:12px 17px;
+ flex-shrink:0;
+ border-radius:12px;
+ white-space:nowrap;
+ font-size:13px;
+ font-weight:850;
+}
+.adminWorkspace .adminAdvanceRoundButton:disabled{
+ opacity:.55;
+ cursor:not-allowed;
+}
+@media(max-width:700px){
+ .adminWorkspace .adminAdvanceRound{
+  align-items:stretch;
+  flex-direction:column;
+  padding:17px 15px;
+ }
+ .adminWorkspace .adminAdvanceRoundButton{
+  width:100%;
+ }
+}
