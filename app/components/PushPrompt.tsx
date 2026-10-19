@@ -33,7 +33,7 @@ export default function PushPrompt(){const[show,setShow]=useState(false),[busy,s
     const state=await getPushState();
     if(!mounted||dismissedThisVisit.current||state.enabled)return;
     // Let any other blocking dialog finish, without depending on the old Jornada 1 notice.
-    if(document.querySelector(".roundPendingOverlay,.qdDavidExpulsionOverlay")){timer=setTimeout(()=>void check(),600);return}
+    if(document.querySelector(".roundPendingOverlay,.qdDavidExpulsionOverlay,.qdCardCorrectionOverlay")){timer=setTimeout(()=>void check(),600);return}
     setLeaving(false);setSuccess(false);
     setErr(state.permission==="denied"?"Las notificaciones están bloqueadas. Actívalas en Ajustes del dispositivo.":state.supported?"":"Este dispositivo no admite notificaciones web push.");
     setShow(true);
