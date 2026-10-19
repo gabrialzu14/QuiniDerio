@@ -23,6 +23,8 @@ export default function AdminPage(){
  const[pendingError,setPendingError]=useState(false);
  const[round,setRound]=useState(CURRENT_ROUND),[view,setView]=useState<View>("matches"),[filter,setFilter]=useState("all");
  const[publishedRounds,setPublishedRounds]=useState<number[]>(PUBLISHED_ROUNDS);
+ const[activeRound,setActiveRound]=useState<number|null>(null);
+ const[activeRoundError,setActiveRoundError]=useState("");
  const[theme,setTheme]=useState("dark"),[reminderSending,setReminderSending]=useState("");
  const[reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
  const[picker,setPicker]=useState<{team:string,type:"yellow"|"red"}|null>(null);
@@ -63,8 +65,21 @@ export default function AdminPage(){
    const all=new Set([...PUBLISHED_ROUNDS,...(games.data||[]).map(v=>v.round),...(rests.data||[]).map(v=>v.round)]);
    setPublishedRounds([...all].sort((a,b)=>a-b));
   };
+  const loadCurrentRound=async()=>{
+   const {data,error}=await supabase.from("quini_app_settings").select("active_round").eq("id",1).maybeSingle();
+   if(!active)return;
+   if(error||!data){setActiveRoundError("No se ha podido consultar la jornada activa.");return}
+   setActiveRoundError("");
+   setActiveRound(Number(data.active_round));
+  };
   void loadList();
-  return()=>{active=false};
+  void loadCurrentRound();
+  const interval=window.setInterval(()=>{
+   if(document.visibilityState==="visible"){void loadList();void loadCurrentRound()}
+  },20000);
+  const resume=()=>{if(document.visibilityState==="visible"){void loadCurrentRound();void loadList()}};
+  document.addEventListener("visibilitychange",resume);
+  return()=>{active=false;window.clearInterval(interval);document.removeEventListener("visibilitychange",resume)};
  },[allowed]);
  const syncPromiseRef=useRef<Promise<void>|null>(null);
  useEffect(()=>{
@@ -97,6 +112,32 @@ export default function AdminPage(){
   try{for(const match of matches.filter(m=>m.status==="live"))await sendAction(match.team,"finish");if(await load(round,true))setMessage({kind:"success",text:"Partidos en juego finalizados."})}
   catch{await load(round,true);setMessage({kind:"error",text:"No se han podido finalizar todos los partidos. Revisa sus estados antes de volver a intentarlo."})}finally{setBusy("")}
  };
+ const advanceRound=async()=>{
+  if(activeRound===null||busy)return;
+  const next=activeRound+1;
+  if(!publishedRounds.includes(next)){setMessage({kind:"error",text:"Debes crear la Jornada "+next+" antes de activarla."});return}
+  if(!window.confirm("¿Activar la Jornada "+next+" para todos los jugadores? La quiniela nueva pasará a ser la jornada actual, pero se conservarán las anteriores."))return;
+  setBusy("advance");setMessage(null);
+  try{
+   const {data:{session}}=await supabase.auth.getSession();
+   if(!session)throw new Error("La sesión ha caducado. Vuelve a acceder al panel.");
+   const response=await fetch("/api/admin/advance-round",{
+    method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},
+    body:JSON.stringify({expectedRound:activeRound})
+   });
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok||!result.ok)throw new Error(result.error||"No se ha podido activar la jornada.");
+   const advanced=Number(result.activeRound);
+   setActiveRound(advanced);
+   changeRound(advanced);
+   setView("round");
+   window.dispatchEvent(new Event("quini-round-advanced"));
+   setMessage({kind:"success",text:"Jornada "+advanced+" activada. Los jugadores ya pueden acceder a la nueva quiniela."});
+   void load(advanced,true);
+  }catch(error){
+   setMessage({kind:"error",text:error instanceof Error?error.message:"No se ha podido avanzar de jornada."});
+  }finally{setBusy("")}
+ };
  const changeRound=(n:number)=>{setRound(n);setPicker(null);setReminderSent({});setMessage(null);setFilter("all")};
  const changeTheme=()=>{const next=theme==="light"?"dark":"light";setTheme(next);document.documentElement.dataset.theme=next;localStorage.setItem("quiniderio-theme",next)};
  const live=matches.filter(m=>m.status==="live").length,finished=matches.filter(m=>m.status==="finished").length;
@@ -106,7 +147,7 @@ export default function AdminPage(){
  return <main className="adminWorkspace">
   <header className="adminTopbar"><a href="/" className="adminBrand" aria-label="Volver a QuiniDerio"><img src="/api/assets/branding/LogoApp.png" alt=""/><span><b className="qdWordmark"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>ADMINISTRACIÓN</small></span></a><div><button className="adminTheme" onClick={changeTheme} aria-label={theme==="light"?"Activar modo oscuro":"Activar modo claro"}>{theme==="light"?"☾ Oscuro":"☀ Claro"}</button><a className="adminBack" href="/">‹ Volver a la app</a></div></header>
   <section className="adminIntro"><div><span className="adminEyebrow">TEMPORADA 2026/27</span><h1>Panel Admin</h1><p>Datos de los partidos, resultados y tarjetas se comparten con todos los usuarios.</p></div><span className="adminRoundBadge">Jornada {round}</span></section>
-  <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Todos los controles se aplican a la jornada elegida.</small></div><nav aria-label="Seleccionar jornada">{publishedRounds.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}<button type="button" className="adminCreateRoundTrigger" aria-current={view==="create"?"page":undefined}
+  <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Jornada activa para jugadores: {activeRound===null?"Cargando…":"J"+activeRound}. Los controles se aplican a la jornada seleccionada.</small></div><nav aria-label="Seleccionar jornada">{publishedRounds.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}<button type="button" className="adminCreateRoundTrigger" aria-current={view==="create"?"page":undefined}
   onClick={()=>{setView("create");setMessage(null)}}>+ Crear jornada</button></nav></section>
   <div className="adminSummary" aria-label="Resumen de jornada" aria-busy={loading}><article><span>Partidos</span><strong>{loading?"—":matches.length}</strong><small>En esta jornada</small></article><article className="adminSummaryLive"><span>En juego</span><strong>{loading?"—":live}</strong><small>Control en directo</small></article><article><span>Finalizados</span><strong>{loading?"—":finished}</strong><small>Resultados cerrados</small></article><article><span>Pronósticos pendientes</span><strong>{loading||pendingError?"—":pending.length}</strong><small>Participantes por avisar</small></article></div>
   <nav className="adminViewTabs" aria-label="Secciones de administración">{([["matches","Partidos"],["pending","Pronósticos pendientes"],["round","Control de jornada"],["create","Crear jornada"]] as [View,string][]).map(([key,label])=><button type="button" key={key} aria-current={view===key?"page":undefined} className={view===key?"active":""} onClick={()=>setView(key)}>{label}</button>)}</nav>
@@ -135,7 +176,21 @@ export default function AdminPage(){
     </article>
    })}</div>:<div className="adminEmpty"><h3>{matches.length?"No hay partidos con este estado":"No hay partidos en esta jornada"}</h3><p>{matches.length?"Selecciona otro filtro para ver los demás encuentros.":"Esta jornada todavía no contiene partidos publicados. Comprueba la configuración de los encuentros."}</p>{matches.length>0&&<button onClick={()=>setFilter("all")}>Ver todos los partidos</button>}</div>}</section>}
    {view==="pending"&&<section aria-labelledby="admin-pending-title"><div className="adminSectionHeading"><div><h2 id="admin-pending-title">Pronósticos pendientes · J{round}</h2><p>Consulta quién falta y envía un recordatorio individual.</p></div><span className="adminCount">{pendingError?"—":pending.length} pendientes</span></div>{pendingError?<div className="adminEmpty" role="alert"><h3>No se han podido consultar los pendientes</h3><p>Comprueba la conexión y vuelve a intentarlo.</p><button onClick={()=>void load(round)}>Reintentar</button></div>:pending.length?<div className="adminPendingTable">{pending.map(p=><article key={p.user_id}><span className="adminInitial" aria-hidden="true">{p.username?.[0]?.toUpperCase()}</span><div><b>{p.username}</b><small>{p.sent}/{p.total} pronósticos enviados</small></div><button className="adminPrimary" disabled={!!reminderSending||!!reminderSent[p.user_id]} onClick={()=>void remind(p.user_id)}>{reminderSending===p.user_id?"Enviando…":reminderSent[p.user_id]?"Enviado":"Recordar"}</button></article>)}</div>:<div className="adminEmpty"><span className="adminDone" aria-hidden="true">✓</span><h3>Todo enviado</h3><p>No hay participantes con pronósticos pendientes.</p></div>}</section>}
-   {view==="round"&&<section className="adminRoundControl" aria-labelledby="admin-control-title"><span className="adminEyebrow">JORNADA {round}</span><h2 id="admin-control-title">Control de jornada</h2><p>Acciones globales para corregir o cerrar la jornada.</p><div className="adminRoundProgress"><div><b>{finished} de {matches.length} partidos finalizados</b><span>{live} en juego</span></div><progress max={Math.max(1,matches.length)} value={finished}/></div><div className="adminBulkAction"><div><h3>Finalizar partidos en juego</h3><p>Se cerrarán los {live} partidos que están en juego. Sus resultados se compartirán con los participantes.</p></div><button className="adminFinish" disabled={locked||!live} onClick={()=>void finishRound()}>{busy==="bulk"?"Finalizando…":"Finalizar partidos en juego"}</button></div><p className="adminMatchHint">Para corregir un resultado, vuelve a Partidos y selecciona «Reabrir para corregir».</p></section>}
+   {view==="round"&&<section className="adminRoundControl" aria-labelledby="admin-control-title"><span className="adminEyebrow">JORNADA {round}</span><h2 id="admin-control-title">Control de jornada</h2><p>Acciones globales para corregir o cerrar la jornada.</p><div className="adminRoundProgress"><div><b>{finished} de {matches.length} partidos finalizados</b><span>{live} en juego</span></div><progress max={Math.max(1,matches.length)} value={finished}/></div><div className="adminBulkAction"><div><h3>Finalizar partidos en juego</h3><p>Se cerrarán los {live} partidos que están en juego. Sus resultados se compartirán con los participantes.</p></div><button className="adminFinish" disabled={locked||!live} onClick={()=>void finishRound()}>{busy==="bulk"?"Finalizando…":"Finalizar partidos en juego"}</button></div>
+   <div className="adminAdvanceRound">
+    <div className="adminAdvanceRoundCopy">
+     <span className="adminEyebrow">JORNADA ACTIVA PARA LOS JUGADORES</span>
+     <h3>{activeRound===null?"Consultando jornada…":"Jornada "+activeRound}</h3>
+     <p>Avanza a la siguiente jornada cuando quieras abrir la nueva quiniela para todos. Los pronósticos y resultados de jornadas anteriores no se modifican.</p>
+     {activeRound!==null&&!publishedRounds.includes(activeRound+1)&&<small>Primero debes crear y publicar la Jornada {activeRound+1} con todos sus partidos.</small>}
+     {activeRoundError&&<small role="alert">{activeRoundError}</small>}
+    </div>
+    <button className="adminPrimary adminAdvanceRoundButton" type="button"
+     disabled={locked||activeRound===null||!publishedRounds.includes(activeRound+1)}
+     onClick={()=>void advanceRound()}>
+     {busy==="advance"?"Activando…":activeRound===null?"Cargando…":"Avanzar a Jornada "+(activeRound+1)}
+    </button>
+   </div><p className="adminMatchHint">Para corregir un resultado, vuelve a Partidos y selecciona «Reabrir para corregir».</p></section>}
   </>}
   <footer className="adminFooter">QuiniDerio · Administración de la temporada 2026/27</footer>
  </main>;
