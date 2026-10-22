@@ -68,6 +68,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
  const [direction,setDirection]=useState<"next"|"prev">("next");
  const [exiting,setExiting]=useState(false);
  const switchTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
+ const validatedViewer=useRef<string|null>(null);
  const [loading,setLoading]=useState(true);
  const [loadedKey,setLoadedKey]=useState("");
  const [blocked,setBlocked]=useState(false);
@@ -91,6 +92,14 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
  };
  useEffect(()=>{
   let live=true;
+  // The first round validates auth; revisiting one during the same verified
+  // modal session can restore its short-lived snapshot without a loading flash.
+  const recent=validatedViewer.current?cache.get(validatedViewer.current+":"+key):null;
+  if(recent&&recent.expiresAt>Date.now()){
+   setRows(recent.rows);setPicks(recent.picks);setBlocked(recent.blocked);
+   setLoadedKey(key);setError(false);setLoading(false);
+   return;
+  }
   setLoading(true);setError(false);setBlocked(false);setRows([]);setPicks({});
   void (async()=>{
    try{
@@ -98,6 +107,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
     const {data:{user},error:authError}=await supabase.auth.getUser();
     if(!live)return;
     if(authError||!user)throw new Error("Consulta no autorizada");
+    validatedViewer.current=user.id;
     const cacheKey=user.id+":"+key;
     const saved=cache.get(cacheKey);
     if(saved&&saved.expiresAt>Date.now()){
@@ -123,6 +133,12 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
   return()=>{live=false};
  },[round,player.user_id,key]);
  useEffect(()=>{if(scrollRoot.current)scrollRoot.current.scrollTop=0},[round]);
+ useEffect(()=>{
+  const {data}=supabase.auth.onAuthStateChange(event=>{
+   if(event==="SIGNED_OUT"){validatedViewer.current=null;cache.clear();onClose()}
+  });
+  return()=>data.subscription.unsubscribe();
+ },[onClose]);
  const entries=useMemo(()=>Object.entries(fixtures[round]||{}).filter(([,game])=>game.status!=="rest").sort((a,b)=>dateOrder(a[1])-dateOrder(b[1])),[fixtures,round]);
  const results=useMemo(()=>new Map(rows.map(item=>[item.team,item])),[rows]);
  return createPortal(<div className="playerStatsOverlay qdPlayerRoundOverlay" onClick={onClose}>
