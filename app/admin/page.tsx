@@ -36,6 +36,7 @@ export default function AdminPage(){
  const[reminderHistoryLoading,setReminderHistoryLoading]=useState(false);
  const reminderRequests=useRef(new Map<string,string>());
  usePageScrollLock(!!reminderReport||reminderHistoryOpen);
+ useEffect(()=>{setReminderSent({});reminderRequests.current.clear()},[round]);
  const[picker,setPicker]=useState<{team:string,type:"yellow"|"red"}|null>(null);
  const requestId=useRef(0);
  const load=useCallback(async(selectedRound:number,quiet=false)=>{
