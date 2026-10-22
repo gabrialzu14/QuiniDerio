@@ -6,7 +6,7 @@ import type {Fixture} from "../lib/quiz-fixtures";
 
 type MatchRow={team:string;home_score:number|null;away_score:number|null;status:string};
 type Player={user_id:string;username:string;profile_pic?:string};
-type Props={player:Player;initialRound:number;rounds:number[];fixtures:Record<number,Record<string,Partial<Fixture>>>;onClose:()=>void};
+type Props={player:Player;initialRound:number;rounds:number[];maxRound:number;fixtures:Record<number,Record<string,Partial<Fixture>>>;onClose:()=>void};
 
 const resultChoice=(home:number,away:number):string=>home>away?"1":home<away?"2":"X";
 const dateOrder=(game:Partial<Fixture>)=>{
@@ -20,7 +20,7 @@ function TeamCrest({src,name}:{src:string;name:string}){
  useEffect(()=>setBroken(false),[src]);
  return src&&!broken?<img className="qdPlayerMatchCrest" loading="lazy" src={src} alt="" onError={()=>setBroken(true)}/>:<span className="qdPlayerCrestFallback" aria-hidden="true">{name.slice(0,2)}</span>;
 }
-export default function PlayerRoundSheet({player,initialRound,rounds,fixtures,onClose}:Props){
+export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fixtures,onClose}:Props){
  const [round,setRound]=useState(initialRound);
  const [loading,setLoading]=useState(true);
  const [blocked,setBlocked]=useState(false);
@@ -66,7 +66,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,fixtures,on
       <button type="button" aria-label="Cerrar" onClick={onClose}>×</button>
     </header>
     <div className="qdPlayerRoundTabs" role="group" aria-label="Seleccionar jornada">
-      {rounds.map(n=><button key={n} type="button" className={round===n?"active":""} aria-pressed={round===n} onClick={()=>setRound(n)}>J{n}</button>)}
+      {rounds.map(n=><button key={n} type="button" className={round===n?"active":""} aria-pressed={round===n} disabled={n>maxRound} onClick={()=>setRound(n)}>J{n}</button>)}
     </div>
     {loading?<p role="status" className="qdPlayerRoundMessage">Cargando jornada…</p>:blocked?<p className="qdPlayerRoundMessage">Los pronósticos de este participante estarán disponibles cuando comience la jornada.</p>:error?<p className="qdPlayerRoundMessage" role="alert">No se han podido consultar los pronósticos de esta jornada.</p>:<div className="qdPlayerRoundMatches" key={round}>
       {entries.length?entries.map(([team,game])=>{
