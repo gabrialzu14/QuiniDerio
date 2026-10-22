@@ -126,3 +126,18 @@ html[data-theme="light"] .qdOverviewStatHead>svg { color: #316eaa; }
  .qdOverviewRoundArt strong{font-size:clamp(64px,20vw,92px)}
  .qdOverviewRoundArt span{display:none}
 }
+
+/* One-time overview reveal: the numbers themselves use AnimatedNumber easing. */
+.qdOverviewSummary .qdOverviewFeature,.qdOverviewSummary .qdOverviewStats .qdOverviewStat{
+ animation:qdOverviewSoftEnter .64s cubic-bezier(.22,.75,.25,1) both;
+}
+.qdOverviewSummary .qdOverviewStats .qdOverviewStat:nth-child(1){animation-delay:70ms}
+.qdOverviewSummary .qdOverviewStats .qdOverviewStat:nth-child(2){animation-delay:125ms}
+.qdOverviewSummary .qdOverviewStats .qdOverviewStat:nth-child(3){animation-delay:180ms}
+@keyframes qdOverviewSoftEnter{
+ from{opacity:0;transform:translateY(9px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){
+ .qdOverviewSummary .qdOverviewFeature,.qdOverviewSummary .qdOverviewStats .qdOverviewStat{animation:none!important}
+}
