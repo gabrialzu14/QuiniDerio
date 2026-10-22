@@ -69,3 +69,8 @@
 @keyframes qdRecapBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media(max-width:470px){.qdVoteTrend{margin:0 8px 9px}.qdPlayerRoundModal{padding:13px!important}.qdPlayerRoundModal .playerStatsIdentity h2{font-size:15px!important}.qdRecapModal{max-height:92dvh}}
 @media(prefers-reduced-motion:reduce){.qdVoteBarPart{transition:none!important}.qdRecapStage,.qdRecapCard,.qdRecapProgress i,.qdPlayerRoundMatches{animation:none!important;transform:none!important;filter:none!important}}
+
+/* Keep the list, rather than the entire overlay, as the mobile scroll container. */
+html body.qdModern .qdPlayerRoundModal{overflow:hidden!important;touch-action:auto!important}
+html body.qdModern .qdPlayerRoundMatches{overflow-y:auto!important;touch-action:pan-y!important;overscroll-behavior:contain!important;flex:1 1 auto}
+.qdPlayerRoundTabs button:disabled{opacity:.37;cursor:not-allowed}
