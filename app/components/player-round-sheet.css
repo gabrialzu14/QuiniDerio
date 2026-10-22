@@ -224,3 +224,151 @@ html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] .qdPlayerPickVerd
 @media(prefers-reduced-motion:reduce){
  html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] :is(.qdPlayerRoundScoreline>strong,.qdPlayerPredictionCapsule,.qdPlayerPickVerdict){animation:none!important}
 }
+
+
+/* Round detail compact redesign, matching the user's horizontal reference. */
+html body.qdModern .qdPlayerRoundModal{
+ width:min(100%,620px)!important;
+ max-height:min(91dvh,840px)!important;
+}
+html body.qdModern .qdPlayerRoundTabs{
+ position:relative;
+ gap:7px!important;
+ overflow-x:auto!important;overflow-y:hidden!important;
+ -webkit-overflow-scrolling:touch!important;
+ touch-action:pan-x pinch-zoom!important;
+ overscroll-behavior-x:contain!important;
+ scrollbar-width:none!important;
+ padding:3px 1px 12px!important;
+}
+html body.qdModern .qdPlayerRoundTabs button.active{
+ background:#2673d9!important;
+ border-color:#60a6ff!important;
+ box-shadow:0 3px 12px rgba(31,107,221,.22)!important;
+}
+html body.qdModern .qdPlayerRoundTabs button:disabled{opacity:.30!important;cursor:default}
+html body.qdModern .qdPlayerRoundMatches{gap:8px!important;padding:1px 0 12px!important}
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch,
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct,
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 53px!important;
+ align-items:center!important;
+ column-gap:9px!important;
+ min-width:0!important;
+ min-height:67px!important;
+ padding:9px 9px 9px 11px!important;
+ border:1px solid rgba(122,160,204,.23)!important;
+ border-radius:15px!important;
+ background:rgba(27,47,70,.88)!important;
+ box-shadow:inset 0 1px 0 rgba(230,246,255,.025)!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct{
+ border-color:rgba(74,173,125,.26)!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
+ border-color:rgba(215,113,131,.26)!important;
+}
+html body.qdModern .qdCompactFixture{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 55px minmax(0,1fr)!important;
+ align-items:center!important;
+ gap:5px!important;
+ min-width:0!important;
+}
+html body.qdModern .qdCompactSide{
+ display:flex!important;align-items:center!important;min-width:0!important;gap:5px!important;
+}
+html body.qdModern .qdCompactHome{justify-content:flex-end!important}
+html body.qdModern .qdCompactAway{justify-content:flex-start!important}
+html body.qdModern .qdCompactName{
+ display:-webkit-box!important;
+ -webkit-line-clamp:2;
+ -webkit-box-orient:vertical;
+ overflow:hidden!important;
+ min-width:0!important;
+ max-width:100%;
+ font-size:clamp(10px,2.8vw,13px)!important;
+ font-weight:800!important;
+ line-height:1.23!important;
+ color:#f0f6ff!important;
+ text-wrap:balance;
+ overflow-wrap:anywhere;
+}
+html body.qdModern .qdCompactHome .qdCompactName{text-align:right!important}
+html body.qdModern .qdCompactAway .qdCompactName{text-align:left!important}
+html body.qdModern .qdCompactFixture .qdPlayerCrestFrame{
+ flex:0 0 34px!important;
+ display:grid!important;place-items:center!important;
+ width:34px!important;height:37px!important;
+ min-width:34px!important;min-height:37px!important;
+}
+html body.qdModern .qdCompactFixture .qdPlayerMatchCrest{
+ width:32px!important;height:34px!important;
+ max-width:32px!important;max-height:34px!important;
+ object-fit:contain!important;
+}
+html body.qdModern .qdCompactFixture .qdPlayerCrestFallback{
+ display:grid!important;place-items:center!important;
+ width:31px!important;height:31px!important;
+ font-size:9px!important;
+}
+html body.qdModern .qdCompactScore{
+ font-size:clamp(15px,4.6vw,20px)!important;
+ font-weight:850!important;line-height:1.15!important;
+ letter-spacing:-.06em!important;
+ font-variant-numeric:tabular-nums;
+ text-align:center!important;white-space:nowrap!important;
+ color:#f7faff!important;
+}
+html body.qdModern .qdCompactPickSlot{
+ display:flex!important;
+ align-items:center!important;justify-content:center!important;
+ min-height:44px!important;
+ border-left:1px solid rgba(144,177,213,.18)!important;
+ padding-left:9px!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick{
+ display:grid!important;place-items:center!important;
+ width:40px!important;height:42px!important;
+ min-width:40px!important;min-height:42px!important;
+ border-radius:11px!important;
+ border:1px solid rgba(250,253,255,.12)!important;
+ color:#fff!important;
+ font-size:21px!important;font-weight:900!important;line-height:1!important;
+ font-variant-numeric:tabular-nums;
+ box-shadow:inset 0 1px rgba(255,255,255,.08)!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.pick1{
+ background:#246fc9!important;border-color:#3c8ee6!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.pickX{
+ background:#596879!important;border-color:#718294!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.pick2{
+ background:#ca3f59!important;border-color:#e1697f!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-hit{
+ background:#15b88a!important;border-color:#47d6ae!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-miss{
+ background:#d84a62!important;border-color:#e87a8d!important;color:#fff!important;
+}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch,
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct,
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
+ background:#e8f1fa!important;
+ border-color:rgba(75,113,152,.27)!important;
+}
+html[data-theme="light"] body.qdModern .qdCompactName,
+html[data-theme="light"] body.qdModern .qdCompactScore{color:#173c5c!important}
+@media(max-width:400px){
+ html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch{grid-template-columns:minmax(0,1fr) 44px!important;column-gap:6px!important;padding:8px 6px!important}
+ html body.qdModern .qdCompactFixture{grid-template-columns:minmax(0,1fr) 49px minmax(0,1fr)!important;gap:3px!important}
+ html body.qdModern .qdCompactSide{gap:3px!important}
+ html body.qdModern .qdCompactFixture .qdPlayerCrestFrame{width:28px!important;height:31px!important;min-width:28px!important;min-height:31px!important;flex-basis:28px!important}
+ html body.qdModern .qdCompactFixture .qdPlayerMatchCrest{width:27px!important;height:30px!important;max-width:27px!important;max-height:30px!important}
+ html body.qdModern .qdCompactPickSlot{padding-left:6px!important}
+ html body.qdModern .qdPlayerRoundModal .qdCompactPick{width:36px!important;min-width:36px!important;height:39px!important;min-height:39px!important;font-size:19px!important}
+}
+@media(prefers-reduced-motion:reduce){html body.qdModern .qdPlayerRoundModal .qdCompactPick{animation:none!important;transition:none!important}}
