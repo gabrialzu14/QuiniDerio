@@ -197,3 +197,30 @@ html[data-theme="light"] body.qdModern .qdPlayerRoundMatch.correct{background:#e
 html[data-theme="light"] body.qdModern .qdPlayerRoundMatch.incorrect{background:#fcecf0!important}
 html[data-theme="light"] body.qdModern .qdPlayerPredictionLabel{color:#426589!important}
 html[data-theme="light"] body.qdModern .qdPlayerRoundHeader p{color:#466d98!important}
+
+
+/* Independent, restrained reveal of the score and the prediction capsule. */
+html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] .qdPlayerRoundScoreline>strong{
+ animation:qdPlayerScoreReveal .46s cubic-bezier(.2,.75,.25,1) both;
+}
+html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] .qdPlayerPredictionCapsule{
+ animation:qdPlayerPredictionReveal .42s cubic-bezier(.2,.75,.25,1) .10s both;
+}
+html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] .qdPlayerPickVerdict{
+ animation:qdPlayerVerdictReveal .35s cubic-bezier(.2,.8,.28,1) .25s both;
+}
+@keyframes qdPlayerScoreReveal{
+ from{opacity:.3;transform:translateY(7px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@keyframes qdPlayerPredictionReveal{
+ from{opacity:.35;transform:translateY(6px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@keyframes qdPlayerVerdictReveal{
+ from{opacity:.4;transform:scale(.82)}
+ to{opacity:1;transform:scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] :is(.qdPlayerRoundScoreline>strong,.qdPlayerPredictionCapsule,.qdPlayerPickVerdict){animation:none!important}
+}
