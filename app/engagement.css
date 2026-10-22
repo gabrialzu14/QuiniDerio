@@ -1,9 +1,10 @@
 /* QuiniDerio engagement preview: self-contained enhancements */
-.qdVoteTrend{padding:9px 13px 12px;margin:0 12px 10px;background:color-mix(in srgb,var(--qd-surface,#10263b) 78%,transparent);border:1px solid var(--qd-border,#33475f);border-radius:12px;min-width:0}
+.qdVoteTrend{padding:9px 13px 12px;margin:0 12px 10px;background:color-mix(in srgb,var(--qd-surface,#10263b) 78%,transparent);border:1px solid var(--qd-border,#33475f);border-radius:12px;min-width:0;opacity:0;transform:translateY(7px);transition:opacity .42s ease,transform .42s cubic-bezier(.22,.7,.25,1)}
+.qdVoteTrend.isVisible{opacity:1;transform:translateY(0)}
 .qdVoteTrendTop{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-bottom:8px;color:var(--qd-muted,#93abc2);font-size:9px;font-weight:850;letter-spacing:.09em}
 .qdVoteTrendTop small{font-size:9px;letter-spacing:normal;font-weight:500}
-.qdVoteBar{display:flex;gap:2px;width:100%;height:7px;overflow:hidden;border-radius:7px;background:rgba(123,161,203,.13)}
-.qdVoteBarPart{display:block;min-width:0;height:100%;width:0;flex:0 0 auto;border-radius:4px;transition:width .07s linear}
+.qdVoteBar{display:flex;gap:0;width:100%;height:7px;overflow:hidden;border-radius:7px;background:rgba(123,161,203,.13)}
+.qdVoteBarPart{display:block;min-width:0;height:100%;flex:0 0 auto;border-radius:0;transform:scaleX(0);transform-origin:left center;backface-visibility:hidden}
 .qdVoteBar0{background:#2878dc}.qdVoteBar1{background:#edf4fd}.qdVoteBar2{background:#d83650}
 .qdVoteLegend{display:grid;grid-template-columns:repeat(3,1fr);align-items:center;margin-top:7px;gap:5px}
 .qdVoteLabel{display:flex;align-items:center;justify-content:center;gap:5px;color:var(--qd-muted,#a6bfd6);font-size:10px}
@@ -68,7 +69,7 @@
 @keyframes qdRecapCardIn{from{opacity:0;transform:translateY(18px) scale(.95);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
 @keyframes qdRecapBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media(max-width:470px){.qdVoteTrend{margin:0 8px 9px}.qdPlayerRoundModal{padding:13px!important}.qdPlayerRoundModal .playerStatsIdentity h2{font-size:15px!important}.qdRecapModal{max-height:92dvh}}
-@media(prefers-reduced-motion:reduce){.qdVoteBarPart{transition:none!important}.qdRecapStage,.qdRecapCard,.qdRecapProgress i,.qdPlayerRoundMatches{animation:none!important;transform:none!important;filter:none!important}}
+@media(prefers-reduced-motion:reduce){.qdVoteTrend{opacity:1!important;transform:none!important;transition:none!important}.qdVoteBarPart{transition:none!important}.qdRecapStage,.qdRecapCard,.qdRecapProgress i,.qdPlayerRoundMatches{animation:none!important;transform:none!important;filter:none!important}}
 
 /* Keep the list, rather than the entire overlay, as the mobile scroll container. */
 html body.qdModern .qdPlayerRoundModal{overflow:hidden!important;touch-action:auto!important}
