@@ -33,8 +33,8 @@ export async function POST(req:NextRequest){
  try{
   if(!await admin(req))return NextResponse.json({error:"forbidden"},{status:403});
   const body=await req.json().catch(()=>null);
-  const ids=Array.isArray(body?.playerIds)?body.playerIds:[body?.playerId];
-  const playerIds=[...new Set(ids.filter((x:unknown):x is string=>typeof x==="string"&&uuid.test(x)))];
+  const ids:unknown[]=Array.isArray(body?.playerIds)?body.playerIds:[body?.playerId];
+  const playerIds:string[]=[...new Set<string>(ids.filter((x):x is string=>typeof x==="string"&&uuid.test(x)))];
   const round=Number(body?.round);
   const requestId=typeof body?.requestId==="string"&&uuid.test(body.requestId)?body.requestId:crypto.randomUUID();
   if(!playerIds.length||playerIds.length>100||!Number.isSafeInteger(round)||round<1||round>1000)
