@@ -397,41 +397,104 @@ html[data-theme="light"] body.qdModern .qdCompactScore{color:#173c5c!important}
 @media(prefers-reduced-motion:reduce){html body.qdModern .qdPlayerRoundModal .qdCompactPick{animation:none!important;transition:none!important}}
 
 
-/* Compact season metrics below the participant name, separate from the selected jornada. */
+/* Clasificación: nombre a la izquierda, dos indicadores compactos de temporada a la derecha. */
 html body.qdModern .qdPlayerRoundModal .qdPlayerRoundHeader{
- min-height:72px!important;
+ min-height:56px!important;
+ gap:7px!important;
+ padding-right:43px!important;
+}
+html body.qdModern .qdPlayerRoundModal .playerStatsIdentity{
+ flex:1 1 auto!important;
+ min-width:0!important;
+ gap:8px!important;
 }
 html body.qdModern .qdPlayerRoundModal .qdPlayerIdentityCopy{
+ flex:1 1 auto;
  min-width:0;
- max-width:100%;
+ overflow:hidden;
 }
+html body.qdModern .qdPlayerRoundModal .qdPlayerIdentityCopy h2{
+ display:block;
+ max-width:100%!important;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+ text-align:left!important;
+ font-size:14px!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerIdentityCopy p{margin-top:3px!important;font-size:10px!important}
 html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics{
  display:flex;
- align-items:center;
- flex-wrap:wrap;
- gap:4px 10px;
- margin-top:6px;
+ align-items:stretch;
+ flex:0 0 auto;
+ gap:5px;
+ min-width:0;
  font-variant-numeric:tabular-nums;
 }
-html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics>span{
- display:inline-flex;
- align-items:baseline;
- gap:4px;
- white-space:nowrap;
- font-size:10px;
- font-weight:650;
- line-height:1.35;
- color:#b3c9e1;
+html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard{
+ min-width:63px;
+ min-height:43px;
+ padding:5px 6px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:3px;
+ border:1px solid rgba(100,167,235,.29);
+ border-radius:11px;
+ background:rgba(58,118,181,.13);
+ line-height:1;
+ text-align:center;
 }
-html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics strong{
- font-size:11px;
- font-weight:850;
+html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong{
+ font-size:13px;
+ font-weight:900;
+ letter-spacing:-.035em;
  color:#91d1ff;
+ white-space:nowrap;
 }
+html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong small{
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:0;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard span{
+ color:#b5c8dd;
+ font-size:8px;
+ font-weight:800;
+ letter-spacing:.025em;
+ white-space:nowrap;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerStatAccuracy{
+ background:rgba(36,123,199,.18);
+ border-color:rgba(74,161,244,.32);
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerStatAverage strong{color:#a5dfff}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatCard{
+ background:#e7f0fb;
+ border-color:#c9dbee;
+}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatAccuracy{
+ background:#e3f1ff;
+ border-color:#b7d8f4;
+}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong{color:#176caa}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatCard span{color:#50708e}
 @media(max-width:390px){
- html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics{gap:3px 8px;margin-top:5px}
- html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics>span{font-size:9.5px}
- html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics strong{font-size:10px}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerRoundHeader{gap:5px!important;padding-right:38px!important}
+ html body.qdModern .qdPlayerRoundModal .playerStatsIdentity{gap:6px!important}
+ html body.qdModern .qdPlayerRoundModal .playerStatsAvatar{
+  width:35px!important;height:35px!important;flex-basis:35px!important
+ }
+ html body.qdModern .qdPlayerRoundModal .qdPlayerIdentityCopy h2{font-size:12px!important}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics{gap:4px}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard{min-width:54px;min-height:39px;padding:4px 3px;border-radius:9px}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong{font-size:12px}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong small{font-size:8px}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard span{font-size:7.5px}
+ html body.qdModern .qdPlayerRoundHeader>button{width:34px!important;height:34px!important}
 }
-html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics>span{color:#466985}
-html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics strong{color:#176caa}
+@media(max-width:340px){
+ html body.qdModern .qdPlayerRoundModal .playerStatsAvatar{width:30px!important;height:30px!important;flex-basis:30px!important}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard{min-width:51px}
+}

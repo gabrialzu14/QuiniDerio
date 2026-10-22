@@ -157,12 +157,18 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
     <div className="playerStatsIdentity">
      <span className="playerStatsAvatar">{player.profile_pic?<img src={player.profile_pic} alt=""/>:player.username.slice(0,1).toUpperCase()}</span>
      <div className="qdPlayerIdentityCopy">
-      <h2>{player.username}</h2>
+      <h2 title={player.username}>{player.username}</h2>
       <p>Jornada {round}</p>
-      <div className="qdPlayerSeasonMetrics" aria-label="Estadísticas de las jornadas finalizadas">
-       <span title="Aciertos divididos entre pronósticos de partidos finalizados"><strong>{performance.percentage===null?"—":performance.percentage+"%"}</strong> aciertos</span>
-       <span title="Puntos de pronósticos divididos entre jornadas finalizadas, incluidas las que no se puntuó"><strong>{performance.pointsPerRound===null?"—":performance.pointsPerRound.toLocaleString("es-ES",{minimumFractionDigits:1,maximumFractionDigits:1})}</strong> ptos/jornada</span>
-      </div>
+     </div>
+    </div>
+    <div className="qdPlayerSeasonMetrics" aria-label="Estadísticas de las jornadas finalizadas">
+     <div className="qdPlayerStatCard qdPlayerStatAccuracy" title="Porcentaje de aciertos en los pronósticos de jornadas finalizadas">
+      <strong>{performance.percentage===null?"—":performance.percentage+"%"}</strong>
+      <span>Acierto</span>
+     </div>
+     <div className="qdPlayerStatCard qdPlayerStatAverage" title="Media de puntos por jornada finalizada, incluidas las jornadas sin aciertos">
+      <strong>{performance.pointsPerRound===null?"—":performance.pointsPerRound.toLocaleString("es-ES",{minimumFractionDigits:1,maximumFractionDigits:1})}<small> Pts</small></strong>
+      <span>Media</span>
      </div>
     </div>
     <button type="button" aria-label="Cerrar" onClick={onClose}>×</button>
