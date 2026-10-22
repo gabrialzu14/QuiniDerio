@@ -4,6 +4,7 @@ import {supabase} from "../lib/supabase";
 import {publishedQuiniRounds} from "../lib/quiz-fixtures";
 import "./admin.css";
 import MatchEditor from "./MatchEditor";
+import usePageScrollLock from "../components/usePageScrollLock";
 import CreateRound from "./CreateRound";
 import type {ManagedMatch} from "../lib/match-details";
 const ADMIN="gabrialzueta@gmail.com";
@@ -12,6 +13,8 @@ const CURRENT_ROUND=PUBLISHED_ROUNDS[PUBLISHED_ROUNDS.length-1]??1;
 type Match=ManagedMatch&{round:number,team:string,opponent:string,home_score:number,away_score:number,yellow_cards:number,red_cards:number,status:"scheduled"|"live"|"finished"|"suspended",is_home:boolean|null};
 type Card={id:string,round:number,team:string,person:string,card_type:"yellow"|"red",created_at:string};
 type View="matches"|"pending"|"round"|"create";
+type ReminderRecipient={user_id:string;username:string;status:"accepted"|"failed"|"no_subscription"|"unknown";reason:string|null;accepted_devices:number;failed_devices:number;created_at?:string};
+type ReminderResult={round:number;requestId:string;summary:{total:number;accepted:number;failed:number;no_subscription:number;unknown:number};reports:ReminderRecipient[]};
 const STAFF:Record<string,string[]>={"Derio A":["Nando Alonso","Julen de Miguel","Gabri Alzueta"],"Derio B":["Gorka Barrio","David Perez","Mikel Elejalde"],"Derio Fem":["Iker Ibarluzea","Galder Ferreiro","Omar El Kabouri"],"Derio Fem B":["Ibai Mateos","Eneko Sanchez","Aner Taranilla"],"Juvenil A":["Peio Garcia","Koldo Corral"],"Juvenil B":["Mikel Tara","Asel Ibañez"],"Cadete B":["Gaizka Garcia","Galder Carreras"]};
 export default function AdminPage(){
  const[allowed,setAllowed]=useState<boolean|null>(null);
@@ -27,6 +30,12 @@ export default function AdminPage(){
  const[activeRoundError,setActiveRoundError]=useState("");
  const[theme,setTheme]=useState("dark"),[reminderSending,setReminderSending]=useState("");
  const[reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
+ const[reminderReport,setReminderReport]=useState<ReminderResult|null>(null);
+ const[reminderHistory,setReminderHistory]=useState<ReminderRecipient[]>([]);
+ const[reminderHistoryOpen,setReminderHistoryOpen]=useState(false);
+ const[reminderHistoryLoading,setReminderHistoryLoading]=useState(false);
+ const reminderRequests=useRef(new Map<string,string>());
+ usePageScrollLock(!!reminderReport||reminderHistoryOpen);
  const[picker,setPicker]=useState<{team:string,type:"yellow"|"red"}|null>(null);
  const requestId=useRef(0);
  const load=useCallback(async(selectedRound:number,quiet=false)=>{
@@ -102,10 +111,36 @@ export default function AdminPage(){
   try{await sendAction(team,action,extra);setPicker(null);if(await load(round,true)){setMessage({kind:"success",text:"Cambios guardados · "+team});return true}return false}
   catch(e){setMessage({kind:"error",text:e instanceof Error?e.message:"No se ha podido guardar el cambio."});return false}finally{setBusy("")}
  };
- const remind=async(playerId:string)=>{
-  setReminderSending(playerId);setMessage(null);
-  try{const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error("session");const res=await fetch("/api/admin/pending",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({playerId,round})});if(!res.ok)throw new Error("push");setReminderSent(v=>({...v,[playerId]:true}));setMessage({kind:"success",text:"Recordatorio enviado."})}
-  catch{setMessage({kind:"error",text:"No se ha podido enviar el recordatorio. Inténtalo de nuevo."})}finally{setReminderSending("")}
+ const remind=async(playerIds:string[])=>{
+  if(reminderSending||!playerIds.length)return;
+  const targets=playerIds.filter(id=>!reminderSent[id]);
+  if(!targets.length)return;
+  const key=round+":"+[...targets].sort().join(",");
+  const requestId=reminderRequests.current.get(key)||crypto.randomUUID();
+  reminderRequests.current.set(key,requestId);
+  setReminderSending(targets.length>1?"bulk":targets[0]);setMessage(null);
+  try{
+   const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error("session");
+   const res=await fetch("/api/admin/pending",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({playerIds:targets,round,requestId})});
+   const json=await res.json().catch(()=>null);
+   if(!res.ok||!json?.reports)throw new Error(json?.error||"push");
+   const report=json as ReminderResult;
+   setReminderReport(report);
+   setReminderSent(previous=>{const updated={...previous};for(const row of report.reports)if(row.status==="accepted")updated[row.user_id]=true;return updated});
+   reminderRequests.current.delete(key);
+  }catch{setMessage({kind:"error",text:"No se ha podido confirmar el envío. Vuelve a intentarlo: se reutilizará el identificador para evitar duplicados."})}
+  finally{setReminderSending("")}
+ };
+ const showReminderHistory=async()=>{
+  setReminderHistoryOpen(true);setReminderHistoryLoading(true);
+  try{
+   const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error("session");
+   const res=await fetch("/api/admin/pending?round="+round+"&history=1",{headers:{Authorization:"Bearer "+session.access_token}});
+   if(!res.ok)throw new Error("history");
+   const json=await res.json();
+   setReminderHistory(json.reports||[]);
+  }catch{setReminderHistory([]);setMessage({kind:"error",text:"No se ha podido consultar el historial de recordatorios."})}
+  finally{setReminderHistoryLoading(false)}
  };
  const finishRound=async()=>{
   if(busy||!window.confirm("¿Finalizar todos los partidos que están en juego?"))return;setBusy("bulk");setMessage(null);
@@ -175,7 +210,10 @@ export default function AdminPage(){
      <MatchEditor match={m} disabled={locked} onSave={async details=>!!await act(m.team,"details",{details})}/>
     </article>
    })}</div>:<div className="adminEmpty"><h3>{matches.length?"No hay partidos con este estado":"No hay partidos en esta jornada"}</h3><p>{matches.length?"Selecciona otro filtro para ver los demás encuentros.":"Esta jornada todavía no contiene partidos publicados. Comprueba la configuración de los encuentros."}</p>{matches.length>0&&<button onClick={()=>setFilter("all")}>Ver todos los partidos</button>}</div>}</section>}
-   {view==="pending"&&<section aria-labelledby="admin-pending-title"><div className="adminSectionHeading"><div><h2 id="admin-pending-title">Pronósticos pendientes · J{round}</h2><p>Consulta quién falta y envía un recordatorio individual.</p></div><span className="adminCount">{pendingError?"—":pending.length} pendientes</span></div>{pendingError?<div className="adminEmpty" role="alert"><h3>No se han podido consultar los pendientes</h3><p>Comprueba la conexión y vuelve a intentarlo.</p><button onClick={()=>void load(round)}>Reintentar</button></div>:pending.length?<div className="adminPendingTable">{pending.map(p=><article key={p.user_id}><span className="adminInitial" aria-hidden="true">{p.username?.[0]?.toUpperCase()}</span><div><b>{p.username}</b><small>{p.sent}/{p.total} pronósticos enviados</small></div><button className="adminPrimary" disabled={!!reminderSending||!!reminderSent[p.user_id]} onClick={()=>void remind(p.user_id)}>{reminderSending===p.user_id?"Enviando…":reminderSent[p.user_id]?"Enviado":"Recordar"}</button></article>)}</div>:<div className="adminEmpty"><span className="adminDone" aria-hidden="true">✓</span><h3>Todo enviado</h3><p>No hay participantes con pronósticos pendientes.</p></div>}</section>}
+   {view==="pending"&&<section aria-labelledby="admin-pending-title"><div className="adminSectionHeading"><div><h2 id="admin-pending-title">Pronósticos pendientes · J{round}</h2><p>Consulta quién falta y revisa el resultado real del servicio push.</p></div><span className="adminCount">{pendingError?"—":pending.length} pendientes</span></div><div className="adminReminderActions">
+ <button type="button" className="adminPrimary" disabled={!!reminderSending||pendingError||!pending.some(p=>!reminderSent[p.user_id])} onClick={()=>void remind(pending.filter(p=>!reminderSent[p.user_id]).map(p=>p.user_id))}>{reminderSending==="bulk"?"Procesando envíos…":"Enviar recordatorio a pendientes"}</button>
+ <button type="button" className="adminReminderHistoryButton" onClick={()=>void showReminderHistory()}>Ver historial</button>
+ </div>{pendingError?<div className="adminEmpty" role="alert"><h3>No se han podido consultar los pendientes</h3><p>Comprueba la conexión y vuelve a intentarlo.</p><button onClick={()=>void load(round)}>Reintentar</button></div>:pending.length?<div className="adminPendingTable">{pending.map(p=><article key={p.user_id}><span className="adminInitial" aria-hidden="true">{p.username?.[0]?.toUpperCase()}</span><div><b>{p.username}</b><small>{p.sent}/{p.total} pronósticos enviados</small></div><button className="adminPrimary" disabled={!!reminderSending||!!reminderSent[p.user_id]} onClick={()=>void remind([p.user_id])}>{reminderSending===p.user_id?"Enviando…":reminderSent[p.user_id]?"Enviado":"Recordar"}</button></article>)}</div>:<div className="adminEmpty"><span className="adminDone" aria-hidden="true">✓</span><h3>Todo enviado</h3><p>No hay participantes con pronósticos pendientes.</p></div>}</section>}
    {view==="round"&&<section className="adminRoundControl" aria-labelledby="admin-control-title"><span className="adminEyebrow">JORNADA {round}</span><h2 id="admin-control-title">Control de jornada</h2><p>Acciones globales para corregir o cerrar la jornada.</p><div className="adminRoundProgress"><div><b>{finished} de {matches.length} partidos finalizados</b><span>{live} en juego</span></div><progress max={Math.max(1,matches.length)} value={finished}/></div><div className="adminBulkAction"><div><h3>Finalizar partidos en juego</h3><p>Se cerrarán los {live} partidos que están en juego. Sus resultados se compartirán con los participantes.</p></div><button className="adminFinish" disabled={locked||!live} onClick={()=>void finishRound()}>{busy==="bulk"?"Finalizando…":"Finalizar partidos en juego"}</button></div>
    <div className="adminAdvanceRound">
     <div className="adminAdvanceRoundCopy">
@@ -192,6 +230,31 @@ export default function AdminPage(){
     </button>
    </div><p className="adminMatchHint">Para corregir un resultado, vuelve a Partidos y selecciona «Reabrir para corregir».</p></section>}
   </>}
+  {reminderReport&&<div className="adminReminderOverlay" role="presentation" onClick={()=>setReminderReport(null)}>
+   <section role="dialog" aria-modal="true" aria-label="Informe de envío de recordatorios" className="adminReminderModal" onClick={event=>event.stopPropagation()}>
+    <div className="adminReminderTitle"><div><small>JORNADA {reminderReport.round}</small><h2>Informe de recordatorios</h2><p>Estos estados indican aceptación del proveedor, no entrega al dispositivo.</p></div><button type="button" aria-label="Cerrar" onClick={()=>setReminderReport(null)}>×</button></div>
+    <div className="adminReminderSummary">
+     <div><strong>{reminderReport.summary.total}</strong><span>Destinatarios</span></div>
+     <div className="accepted"><strong>{reminderReport.summary.accepted}</strong><span>Aceptados</span></div>
+     <div className="failed"><strong>{reminderReport.summary.failed}</strong><span>Fallidos</span></div>
+     <div className="unknown"><strong>{reminderReport.summary.no_subscription+reminderReport.summary.unknown}</strong><span>Sin suscripción / desconocidos</span></div>
+    </div>
+    <div className="adminReminderList">
+     {reminderReport.reports.map(person=><article key={person.user_id} className={"adminReminderItem "+person.status}>
+      <span className="adminReminderDot" aria-hidden="true"/>
+      <div><b>{person.username}</b><span>{person.status==="accepted"?"Aceptada por el servicio push":person.status==="failed"?"Envío fallido":person.status==="no_subscription"?"Sin suscripción activa":"Estado desconocido"}</span>{person.reason&&<small>{person.reason}</small>}{person.accepted_devices>0&&<small>{person.accepted_devices} dispositivo(s) aceptados{person.failed_devices>0?" · "+person.failed_devices+" fallidos":""}</small>}</div>
+     </article>)}
+    </div>
+    <button type="button" className="adminPrimary adminReminderClose" onClick={()=>setReminderReport(null)}>Cerrar informe</button>
+   </section>
+  </div>}
+  {reminderHistoryOpen&&<div className="adminReminderOverlay" role="presentation" onClick={()=>setReminderHistoryOpen(false)}>
+   <section role="dialog" aria-modal="true" aria-label="Historial de recordatorios" className="adminReminderModal" onClick={event=>event.stopPropagation()}>
+    <div className="adminReminderTitle"><div><small>JORNADA {round}</small><h2>Historial de recordatorios</h2><p>Últimos registros guardados en el servidor.</p></div><button type="button" aria-label="Cerrar" onClick={()=>setReminderHistoryOpen(false)}>×</button></div>
+    <div className="adminReminderList">{reminderHistoryLoading?<p>Consultando registros…</p>:reminderHistory.length?reminderHistory.map((person,index)=><article key={person.user_id+":"+index} className={"adminReminderItem "+person.status}><span className="adminReminderDot" aria-hidden="true"/><div><b>{person.username}</b><span>{person.status==="accepted"?"Aceptada por el servicio push":person.status==="failed"?"Fallido":person.status==="no_subscription"?"Sin suscripción activa":"Pendiente / desconocido"}</span>{person.reason&&<small>{person.reason}</small>}{person.created_at&&<small>{new Date(person.created_at).toLocaleString("es-ES")}</small>}</div></article>):<p>No hay registros anteriores para esta jornada.</p>}</div>
+    <button type="button" className="adminPrimary adminReminderClose" onClick={()=>setReminderHistoryOpen(false)}>Cerrar historial</button>
+   </section>
+  </div>}
   <footer className="adminFooter">QuiniDerio · Administración de la temporada 2026/27</footer>
  </main>;
 }
