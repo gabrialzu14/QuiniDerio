@@ -40,3 +40,34 @@ html[data-theme="light"] body.qdModern .predictionsPage .predictionOwnerSection{
 @media(prefers-reduced-motion:reduce){html body.qdModern [data-qd-reveal][data-qd-stage]{opacity:1!important;translate:none!important;transition:none!important}.qdLaunchArrow{animation:none!important}.qdRoundTrack>button{transition:none}}
 
 .qdScoreValue{display:inline-block;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+
+/* Scrollable season rail, including disabled placeholders for unpublished rounds. */
+html body.qdModern .qdRoundNavigator{position:relative;min-width:0;max-width:100%;overflow:hidden}
+html body.qdModern .qdRoundRail{
+ display:block!important;
+ width:100%!important;
+ max-width:100%!important;
+ min-width:0!important;
+ overflow-x:auto!important;overflow-y:hidden!important;
+ -webkit-overflow-scrolling:touch!important;
+ overscroll-behavior-x:contain!important;
+ touch-action:pan-x pinch-zoom!important;
+ scrollbar-width:none!important;
+ padding:2px 0 9px!important;
+}
+html body.qdModern .qdRoundTrack{width:max-content!important;min-width:100%;flex-wrap:nowrap!important}
+html body.qdModern .qdRoundTrack>button{flex-shrink:0!important;white-space:nowrap}
+html body.qdModern .qdRoundTrack>button.active{
+ background:#246dd2!important;border-color:#509ded!important;color:#fff!important;
+}
+html body.qdModern .qdRoundTrack>button:disabled{opacity:.31!important}
+html body.qdModern .qdRoundNavigator::after{
+ content:"";position:absolute;right:0;bottom:9px;width:20px;height:51px;
+ pointer-events:none;z-index:2;
+ background:linear-gradient(90deg,transparent,var(--qd-surface,#11263a));
+ opacity:.76;
+}
+html[data-theme="light"] body.qdModern .qdRoundNavigator::after{
+ background:linear-gradient(90deg,transparent,#f6f9ff);
+}
