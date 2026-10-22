@@ -1,6 +1,7 @@
 "use client";
-import {useEffect,useMemo,useState} from "react";
+import {useEffect,useMemo,useRef,useState} from "react";
 import {createPortal} from "react-dom";
+import {useScrollReveal} from "./DynamicMotion";
 import {supabase} from "../lib/supabase";
 import type {Fixture} from "../lib/quiz-fixtures";
 
@@ -21,6 +22,7 @@ function TeamCrest({src,name}:{src:string;name:string}){
  return src&&!broken?<img className="qdPlayerMatchCrest" loading="lazy" src={src} alt="" onError={()=>setBroken(true)}/>:<span className="qdPlayerCrestFallback" aria-hidden="true">{name.slice(0,2)}</span>;
 }
 export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fixtures,onClose}:Props){
+ const motionRoot=useRef<HTMLElement>(null);useScrollReveal(motionRoot);
  const [round,setRound]=useState(initialRound);
  const [loading,setLoading]=useState(true);
  const [blocked,setBlocked]=useState(false);
@@ -57,7 +59,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
  const entries=useMemo(()=>Object.entries(fixtures[round]||{}).filter(([,game])=>game.status!=="rest").sort((a,b)=>dateOrder(a[1])-dateOrder(b[1])),[fixtures,round]);
  const results=useMemo(()=>new Map(rows.map(item=>[item.team,item])),[rows]);
  return createPortal(<div className="playerStatsOverlay qdPlayerRoundOverlay" onClick={onClose}>
-  <section role="dialog" aria-modal="true" aria-label={"Jornada "+round+" de "+player.username} className="playerStatsModal qdPlayerRoundModal" onClick={event=>event.stopPropagation()}>
+  <section ref={motionRoot} role="dialog" aria-modal="true" aria-label={"Jornada "+round+" de "+player.username} className="playerStatsModal qdPlayerRoundModal" onClick={event=>event.stopPropagation()}>
     <header className="qdPlayerRoundHeader">
       <div className="playerStatsIdentity">
         <span className="playerStatsAvatar">{player.profile_pic?<img src={player.profile_pic} alt=""/>:player.username.slice(0,1).toUpperCase()}</span>
@@ -89,7 +91,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
             <strong>{final?String(match!.home_score)+" – "+String(match!.away_score):"—"}</strong>
             <div><TeamCrest src={isHome?rivalCrest:ownCrest} name={away}/><span>{away}</span></div>
           </div>
-          <div className="qdPlayerRoundFoot"><span>Pronóstico <b className={"qdPlayerPick "+(pick?"pick"+pick:"")}>{pick||"—"}</b></span><span className={"qdPlayerPickState "+(correct?"hit":incorrect?"miss":"")}>{correct?"✓ Acierto":incorrect?"× Fallo":match?.status==="suspended"?"Suspendido":final?"Sin pronóstico":"Pendiente"}</span></div>
+          <div className="qdPlayerRoundFoot"><span>Pronóstico <b aria-label={(correct?"Pronóstico acertado: ":incorrect?"Pronóstico fallado: ":"Pronóstico: ")+(pick||"sin pronóstico")} className={"qdPlayerPick "+(pick?"pick"+pick:"")}>{pick||"—"}</b></span><span className={"qdPlayerPickState "+(correct?"hit":incorrect?"miss":"")}>{correct||incorrect?null:match?.status==="suspended"?"Suspendido":final?"Sin pronóstico":"Pendiente"}</span></div>
         </article>;
       }):<p className="qdPlayerRoundMessage">No hay partidos disponibles para esta jornada.</p>}
     </div>}
