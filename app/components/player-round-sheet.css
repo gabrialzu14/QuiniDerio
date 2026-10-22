@@ -395,3 +395,43 @@ html[data-theme="light"] body.qdModern .qdCompactScore{color:#173c5c!important}
  }
 }
 @media(prefers-reduced-motion:reduce){html body.qdModern .qdPlayerRoundModal .qdCompactPick{animation:none!important;transition:none!important}}
+
+
+/* Compact season metrics below the participant name, separate from the selected jornada. */
+html body.qdModern .qdPlayerRoundModal .qdPlayerRoundHeader{
+ min-height:72px!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerIdentityCopy{
+ min-width:0;
+ max-width:100%;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics{
+ display:flex;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:4px 10px;
+ margin-top:6px;
+ font-variant-numeric:tabular-nums;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics>span{
+ display:inline-flex;
+ align-items:baseline;
+ gap:4px;
+ white-space:nowrap;
+ font-size:10px;
+ font-weight:650;
+ line-height:1.35;
+ color:#b3c9e1;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics strong{
+ font-size:11px;
+ font-weight:850;
+ color:#91d1ff;
+}
+@media(max-width:390px){
+ html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics{gap:3px 8px;margin-top:5px}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics>span{font-size:9.5px}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics strong{font-size:10px}
+}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics>span{color:#466985}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerSeasonMetrics strong{color:#176caa}
