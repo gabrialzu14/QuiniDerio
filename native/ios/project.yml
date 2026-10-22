@@ -1,0 +1,63 @@
+name: QuiniDerio
+options:
+  bundleIdPrefix: com.quiniderio
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 1.0.0
+targets:
+  QuiniDerio:
+    type: application
+    platform: iOS
+    sources: [QuiniDerio, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.quiniderio.app
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: QuiniDerio
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
+    entitlements:
+      path: QuiniDerio/QuiniDerio.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.quiniderio.widgets]
+    info:
+      path: QuiniDerio/Info.plist
+      properties:
+        CFBundleURLTypes:
+          - CFBundleURLName: com.quiniderio.app
+            CFBundleURLSchemes: [quiniderio]
+    dependencies:
+      - target: QuiniDerioWidgets
+        embed: true
+  QuiniDerioWidgets:
+    type: app-extension
+    platform: iOS
+    sources: [QuiniDerioWidgets, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.quiniderio.app.widgets
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+    info:
+      path: QuiniDerioWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: QuiniDerio
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: QuiniDerioWidgets/QuiniDerioWidgets.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.quiniderio.widgets]
+schemes:
+  QuiniDerio:
+    build:
+      targets:
+        QuiniDerio: all
+        QuiniDerioWidgets: all
