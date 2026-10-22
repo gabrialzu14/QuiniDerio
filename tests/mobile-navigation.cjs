@@ -73,6 +73,15 @@ function documentFixture(){
  assert.ok(component.includes('passive:true'),"Gesture listeners must remain passive");
  assert.ok(!component.includes("preventDefault()"),"Pulling cannot suppress native document scrolling");
  assert.ok(component.includes("removeEventListener"),"Unmount cleanup must release touch handlers");
+ const navCss=readFileSync(path.join(__dirname,"../app/components/bottom-navigation.css"),"utf8");
+ const navGeometry=navCss.slice(navCss.indexOf("2026-10-23 — Compact dock"));
+ assert.match(navGeometry,/width: min\(calc\(100vw - 50px - env\(safe-area-inset-left\) - env\(safe-area-inset-right\)\), 405px\) !important/);
+ assert.match(navGeometry,/bottom: calc\(34px \+ env\(safe-area-inset-bottom\)\) !important/);
+ assert.match(navGeometry,/gap: var\(--qd-nav-gap\) !important/);
+ assert.match(navGeometry,/width: calc\(\(100% - 2 \* var\(--qd-nav-inset\) - 4 \* var\(--qd-nav-gap\)\) \/ 5\) !important/);
+ assert.match(navGeometry,/transform: translate3d\(calc\(var\(--active-index\) \* \(100% \+ var\(--qd-nav-gap\)\)\), 0, 0\) !important/);
+ assert.match(navGeometry,/html\[data-nav="top"\]/);
+ assert.doesNotMatch(navGeometry,/touch-action: none|pointer-events: none !important/);
  const lock=readFileSync(path.join(__dirname,"../app/components/usePageScrollLock.ts"),"utf8");
  assert.ok(!lock.includes('position","fixed"'),"The body must never be fixed by the modal lock");
  console.log("Passed: Android modal scroll cleanup, repeated overlays, pull gesture thresholds and passive listeners");

@@ -92,3 +92,85 @@ html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav .navIndicator {
   html body .dashboard .liquidNav.qdMotionNav .navIndicator {transition: none !important;}
   html body .dashboard .liquidNav.qdMotionNav button {transition: none !important;}
 }
+
+/* 2026-10-23 — Compact dock with evenly separated tabs and iOS gesture clearance.
+   Override legacy wide/mobile rules without altering the navigation behavior. */
+html body .dashboard .liquidNav.qdMotionNav {
+  --qd-nav-inset: 5px;
+  --qd-nav-gap: 3px;
+  left: 50% !important;
+  right: auto !important;
+  width: min(calc(100vw - 50px - env(safe-area-inset-left) - env(safe-area-inset-right)), 405px) !important;
+  max-width: calc(100vw - 24px) !important;
+  height: 64px !important;
+  min-height: 64px !important;
+  bottom: calc(34px + env(safe-area-inset-bottom)) !important;
+  transform: translateX(-50%) !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: var(--qd-nav-gap) !important;
+  padding: var(--qd-nav-inset) !important;
+  border-radius: 29px !important;
+}
+html body .dashboard .liquidNav.qdMotionNav .navIndicator {
+  left: var(--qd-nav-inset) !important;
+  top: var(--qd-nav-inset) !important;
+  bottom: var(--qd-nav-inset) !important;
+  width: calc((100% - 2 * var(--qd-nav-inset) - 4 * var(--qd-nav-gap)) / 5) !important;
+  transform: translate3d(calc(var(--active-index) * (100% + var(--qd-nav-gap))), 0, 0) !important;
+  border-radius: 23px !important;
+}
+html body .dashboard .liquidNav.qdMotionNav button {
+  align-self: stretch !important;
+  height: auto !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 5px 1px !important;
+  border-radius: 22px !important;
+}
+html body .dashboard .liquidNav.qdMotionNav .navIcon {
+  height: 23px !important;
+  min-height: 23px !important;
+}
+html body .dashboard .liquidNav.qdMotionNav .navIcon svg {
+  width: 23px !important;
+  height: 23px !important;
+}
+html body .dashboard .liquidNav.qdMotionNav small {
+  display: block !important;
+  max-width: 100% !important;
+  font-size: 9px !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+}
+html body .dashboard:has(> .liquidNav.qdMotionNav) {
+  padding-bottom: calc(118px + env(safe-area-inset-bottom)) !important;
+}
+@media (max-width: 370px) {
+  html body .dashboard .liquidNav.qdMotionNav {
+    width: calc(100vw - 34px - env(safe-area-inset-left) - env(safe-area-inset-right)) !important;
+    --qd-nav-gap: 2px;
+    height: 62px !important;
+    min-height: 62px !important;
+  }
+  html body .dashboard .liquidNav.qdMotionNav small {
+    font-size: 8px !important;
+    line-height: 1.05 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  html body .dashboard .liquidNav.qdMotionNav {
+    bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+    height: 56px !important;
+    min-height: 56px !important;
+  }
+  html body .dashboard .liquidNav.qdMotionNav button {min-height: 44px !important;}
+  html body .dashboard:has(> .liquidNav.qdMotionNav) {padding-bottom: calc(88px + env(safe-area-inset-bottom)) !important;}
+}
+html[data-nav="top"] body .dashboard .liquidNav.qdMotionNav {
+  top: max(8px, env(safe-area-inset-top)) !important;
+  bottom: auto !important;
+}
