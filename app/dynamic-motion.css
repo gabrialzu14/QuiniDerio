@@ -14,7 +14,8 @@ html body.qdModern .matchRivalsPlayers>li[data-qd-reveal]:nth-child(3n+3){--qd-r
 .qdRoundJump{position:relative;min-width:0;isolation:isolate}
 .qdAdvanceRound{display:inline-flex;align-items:center;justify-content:flex-start;gap:7px;min-height:32px;width:auto;margin:0;padding:5px 0;border:0;background:transparent;color:#71b9ed;font:inherit;font-size:11px;font-weight:650;letter-spacing:.01em;text-align:left;overflow:visible;cursor:pointer}
 .qdAdvanceRound:disabled{opacity:.5;cursor:default}
-.qdLaunchArrow{display:inline-block;position:relative;z-index:1;font-size:19px;line-height:1;min-width:22px;text-align:center;color:inherit;pointer-events:none}
+.qdLaunchArrow{display:inline-flex;align-items:center;justify-content:center;position:relative;z-index:1;width:20px;height:20px;flex:0 0 20px;line-height:1;color:inherit;pointer-events:none}
+.qdLaunchArrow svg{display:block;width:20px;height:20px;overflow:visible}
 .qdRoundRail{position:relative;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding:2px 0 9px}
 .qdRoundRail::-webkit-scrollbar{display:none}
 .qdRoundTrack{position:relative;display:flex;gap:7px;width:max-content;min-width:100%;padding-bottom:7px}

@@ -2,7 +2,7 @@
 import {useEffect,useRef,useState} from "react";
 import {createPortal} from "react-dom";
 import {supabase} from "../lib/supabase";
-import {latestRoundSnapshot,recapSeenKey,type RoundSnapshot,type RecapMatch} from "../lib/round-recap";
+import {latestRoundSnapshot,recapSeenKey,FIRST_RECAP_ROUND,type RoundSnapshot,type RecapMatch} from "../lib/round-recap";
 import {roundNeedsRefresh} from "../lib/live-window";
 import {AnimatedNumber} from "./DynamicMotion";
 import {useActiveRound,useFixtures} from "./ManagedFixtures";
@@ -31,7 +31,7 @@ export default function RoundRecap({username}:{username:string}){
  },[]);
  useEffect(()=>{
   const controller=new AbortController();
-  if(!userId){setCandidate(null);close();return()=>controller.abort()}
+  if(!userId||maxRound<FIRST_RECAP_ROUND){setCandidate(null);close();return()=>controller.abort()}
   let version=0;
   let watchMatches:RecapMatch[]=[];
   const load=async()=>{

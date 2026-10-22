@@ -54,7 +54,7 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
  };
  const canAdvance=rounds.includes(currentRound)&&(!enabledRounds||enabledRounds.has(currentRound));
  return <div className={"qdRoundNavigator "+(travelling?"isTravelling":"")}>
-  <div ref={jump} className="qdRoundJump"><button className="qdAdvanceRound" type="button" onClick={advance} disabled={!canAdvance||travelling||value===currentRound} aria-label={value===currentRound?"Estás en la jornada actual":"Ir a jornada actual"} aria-busy={travelling}><span>Ir a jornada actual</span><span ref={arrow} className="qdLaunchArrow" aria-hidden="true">→</span></button></div>
+  <div ref={jump} className="qdRoundJump"><button className="qdAdvanceRound" type="button" onClick={advance} disabled={!canAdvance||travelling||value===currentRound} aria-label={value===currentRound?"Estás en la jornada actual":"Ir a jornada actual"} aria-busy={travelling}><span>Ir a jornada actual</span><span ref={arrow} className="qdLaunchArrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12h10m-5-5 5 5-5 5"/></svg></span></button></div>
   <div ref={rail} className="qdRoundRail" role="group" aria-label={label} onPointerDown={stop} onWheel={stop} onKeyDown={stop}>
    <div className="qdRoundTrack">
     <button type="button" data-scope="all" aria-pressed={value==="all"} className={value==="all"?"active":""} onClick={()=>{stop();onChange("all")}}>{initialLabel}</button>

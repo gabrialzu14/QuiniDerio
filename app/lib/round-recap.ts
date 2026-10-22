@@ -3,16 +3,18 @@ import {roundPosition,roundPotContribution,type RoundHit} from "./engagement";
 type Fixtures=Record<number,Record<string,{status?:string}>>;
 export type RecapMatch={round:number;team:string;status:string};
 export type RoundSnapshot={round:number;hits:number;played:number;place:number|null;movement:number|null;pot:number|null};
+export const FIRST_RECAP_ROUND=4;
 const final=(status:string|undefined)=>status==="finished"||status==="final";
 
 /** A suspended or missing match is unresolved, even if the weekly betting window closed. */
 export function latestRoundSnapshot(fixtures:Fixtures,matches:readonly RecapMatch[],scores:readonly RoundHit[],userId:string,maxRound:number):RoundSnapshot|null{
+ if(maxRound<FIRST_RECAP_ROUND)return null;
  const complete=(round:number)=>{
   const expected=Object.entries(fixtures[round]||{}).filter(([,game])=>game.status!=="rest").map(([team])=>team);
   const statuses=new Map(matches.filter(match=>Number(match.round)===round).map(match=>[match.team,match.status]));
   return expected.length>0&&expected.every(team=>final(statuses.get(team)))?expected.length:0;
  };
- const rounds=[...new Set(scores.filter(score=>score.user_id===userId&&score.round<=maxRound&&score.round>0).map(score=>Number(score.round)))].sort((a,b)=>b-a);
+ const rounds=[...new Set(scores.filter(score=>score.user_id===userId&&score.round<=maxRound&&score.round>=FIRST_RECAP_ROUND).map(score=>Number(score.round)))].sort((a,b)=>b-a);
  for(const round of rounds){
   const played=complete(round);if(!played)continue;
   const own=scores.find(score=>score.round===round&&score.user_id===userId)!;
