@@ -429,3 +429,42 @@ html body.qdModern .adminWorkspace :is(.qdNewCrestUpload,.adminFixtureCrest) inp
   width:100%;
  }
 }
+
+
+/* Auditable reminder sending — admin only */
+.adminReminderActions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:0 0 15px}
+.adminReminderActions>button{min-height:39px;padding:10px 14px;border-radius:11px;font-size:12px;font-weight:750}
+.adminReminderHistoryButton{border:1px solid var(--qd-border);background:var(--qd-surface-raised);color:var(--qd-text);cursor:pointer}
+.adminReminderActions>button:disabled{opacity:.5;cursor:not-allowed}
+.adminReminderOverlay{position:fixed;inset:0;z-index:2147483645;display:grid;place-items:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom));background:rgba(1,10,26,.78);-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px)}
+.adminReminderModal{display:flex;flex-direction:column;width:min(100%,520px);max-height:min(90dvh,780px);overflow:hidden;padding:19px;border:1px solid rgba(128,181,236,.25);border-radius:23px;background:linear-gradient(145deg,#163452,#10263e);color:#edf5ff;box-shadow:0 25px 70px rgba(0,0,0,.4);animation:adminReminderIn .35s cubic-bezier(.18,.8,.24,1) both}
+.adminReminderTitle{display:flex;justify-content:space-between;gap:16px;margin-bottom:16px}
+.adminReminderTitle>div{min-width:0}
+.adminReminderTitle small{color:#7ebff6;letter-spacing:.09em;font-size:10px;font-weight:800}
+.adminReminderTitle h2{margin:6px 0;font-size:19px;letter-spacing:-.025em}
+.adminReminderTitle p{margin:0;color:#a7c5dc;font-size:12px;line-height:1.45}
+.adminReminderTitle button{flex:0 0 35px;width:35px;height:35px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#d4e5fa;font-size:25px}
+.adminReminderSummary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:0 0 14px}
+.adminReminderSummary>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:74px;padding:9px 5px;border-radius:13px;border:1px solid rgba(124,183,236,.16);background:rgba(28,75,120,.4);text-align:center}
+.adminReminderSummary strong{font-size:24px;font-weight:850;font-variant-numeric:tabular-nums}
+.adminReminderSummary span{font-size:9px;line-height:1.25;color:#b2cee4}
+.adminReminderSummary .accepted strong{color:#6cdbab}
+.adminReminderSummary .failed strong{color:#ff8297}
+.adminReminderSummary .unknown strong{color:#e9c481}
+.adminReminderList{min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:thin;display:grid;gap:8px;padding:0 2px 12px;flex:1 1 auto}
+.adminReminderItem{display:flex;align-items:flex-start;gap:10px;padding:11px;border:1px solid rgba(125,183,230,.15);border-radius:13px;background:rgba(21,55,89,.6)}
+.adminReminderDot{flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:#c1a878;margin-top:5px}
+.adminReminderItem.accepted .adminReminderDot{background:#52d4a1}
+.adminReminderItem.failed .adminReminderDot{background:#f16f87}
+.adminReminderItem>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.adminReminderItem b{font-size:13px}
+.adminReminderItem span:not(.adminReminderDot){color:#d1e4f8;font-size:11px}
+.adminReminderItem small{color:#a9bdd1;font-size:11px;line-height:1.35;overflow-wrap:anywhere}
+.adminReminderClose{width:100%;flex:0 0 auto;margin-top:8px;padding:12px;border-radius:11px}
+@keyframes adminReminderIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@media(max-width:440px){.adminReminderModal{padding:14px}.adminReminderSummary{gap:4px}.adminReminderSummary>div{min-height:65px}.adminReminderSummary strong{font-size:20px}.adminReminderSummary span{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.adminReminderModal{animation:none!important}}
+html[data-theme="light"] .adminReminderModal{background:linear-gradient(145deg,#f4f9ff,#dcecfb);color:#17314e}
+html[data-theme="light"] .adminReminderTitle p,html[data-theme="light"] .adminReminderItem small{color:#47647e}
+html[data-theme="light"] .adminReminderItem{background:rgba(255,255,255,.65)}
+html[data-theme="light"] .adminReminderItem span:not(.adminReminderDot){color:#294b70}

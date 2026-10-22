@@ -1,0 +1,374 @@
+/* Scoped redesign of the classification participant detail. */
+html body.qdModern .qdPlayerRoundOverlay{
+ padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))!important;
+ background:rgba(1,9,23,.79)!important;
+ -webkit-backdrop-filter:blur(15px) saturate(120%);
+ backdrop-filter:blur(15px) saturate(120%);
+}
+html body.qdModern .qdPlayerRoundModal{
+ width:min(100%,460px)!important;
+ max-height:min(88dvh,850px)!important;
+ padding:19px 16px 15px!important;
+ overflow:hidden!important;
+ display:flex!important;
+ flex-direction:column!important;
+ border:1px solid rgba(142,191,240,.25)!important;
+ border-radius:26px!important;
+ background:linear-gradient(158deg,rgba(22,49,79,.98),rgba(14,34,60,.98))!important;
+ box-shadow:0 24px 80px rgba(0,3,18,.55),inset 0 1px rgba(255,255,255,.06)!important;
+ transform-origin:50% 65%;
+ animation:qdPlayerModalEnter .42s cubic-bezier(.18,.8,.24,1) both;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerRoundHeader{
+ flex:0 0 auto;
+ position:relative;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:space-between!important;
+ min-height:56px;
+ margin:0 0 14px!important;
+ padding:0 46px 0 1px!important;
+ text-align:left!important;
+}
+.qdPlayerRoundModal .playerStatsIdentity{display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px}
+.qdPlayerRoundModal .playerStatsAvatar{width:47px!important;height:47px!important;flex:0 0 47px!important;border:2px solid #84c7f5!important;box-shadow:0 0 0 3px rgba(85,170,235,.14)}
+.qdPlayerRoundModal .playerStatsIdentity h2{margin:0!important;font-size:18px!important;line-height:1.2!important;letter-spacing:-.025em}
+.qdPlayerRoundModal .qdPlayerRoundHeader p{margin:5px 0 0!important;font-size:12px!important;font-weight:700!important;color:#b3cfe8!important}
+html body.qdModern .qdPlayerRoundHeader>button{
+ position:absolute!important;right:0!important;top:2px!important;
+ width:39px!important;height:39px!important;
+ border:1px solid rgba(180,206,245,.12)!important;
+ border-radius:50%!important;background:rgba(176,209,247,.09)!important;
+ color:#cadcf0!important;font-size:25px!important;line-height:1!important;
+ transition:background .18s,transform .18s;
+}
+.qdPlayerRoundHeader>button:active{transform:scale(.93)}
+html body.qdModern .qdPlayerRoundTabs{
+ flex:0 0 auto;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+ margin:0!important;padding:0 1px 14px!important;
+ scroll-snap-type:x proximity;
+}
+.qdPlayerRoundTabs::-webkit-scrollbar{display:none}
+html body.qdModern .qdPlayerRoundTabs button{
+ scroll-snap-align:start;
+ min-width:49px;min-height:39px;padding:8px 13px;
+ border-radius:12px!important;
+ background:rgba(30,77,125,.55)!important;
+ border:1px solid rgba(78,146,226,.35)!important;
+ color:#d9e8ff!important;
+ font-size:12px;font-weight:800;
+ transition:background .3s,border-color .3s,box-shadow .3s,transform .2s;
+}
+html body.qdModern .qdPlayerRoundTabs button.active{
+ background:#2674e2!important;
+ border-color:#64a8ff!important;
+ color:#fff!important;
+ box-shadow:0 3px 12px rgba(18,95,212,.25),inset 0 1px rgba(255,255,255,.16);
+}
+html body.qdModern .qdPlayerRoundViewport{
+ flex:1 1 auto;min-height:0;overflow-y:auto!important;
+ overscroll-behavior:contain!important;touch-action:pan-y!important;
+ -webkit-overflow-scrolling:touch;
+ scrollbar-width:thin;scrollbar-color:rgba(132,174,215,.25) transparent;
+ padding:1px 1px max(12px,env(safe-area-inset-bottom));
+ opacity:1;transform:translate3d(0,0,0);
+ transition:opacity .175s ease,transform .175s ease;
+}
+.qdPlayerRoundViewport.is-exiting{opacity:0;pointer-events:none}
+.qdPlayerRoundViewport.is-exiting.is-next{transform:translateX(-12px)}
+.qdPlayerRoundViewport.is-exiting.is-prev{transform:translateX(12px)}
+html body.qdModern .qdPlayerRoundMatches{
+ overflow:visible!important;min-height:0!important;
+ display:grid!important;gap:11px!important;padding:0 1px 11px!important;
+ animation:qdPlayerContentEnter .38s cubic-bezier(.2,.77,.28,1) both!important;
+}
+html body.qdModern .qdPlayerRoundMatch{
+ min-width:0;border-radius:18px!important;
+ padding:13px 13px 12px!important;
+ background:linear-gradient(120deg,rgba(24,66,107,.75),rgba(25,61,100,.62))!important;
+ border:1px solid rgba(126,183,236,.22)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+ border-left:3px solid rgba(104,161,217,.46)!important;
+}
+html body.qdModern .qdPlayerRoundMatch.correct{
+ background:linear-gradient(125deg,rgba(22,78,103,.88),rgba(22,61,98,.74))!important;
+ border-color:rgba(68,188,137,.48)!important;border-left:3px solid #49c894!important;
+}
+html body.qdModern .qdPlayerRoundMatch.incorrect{
+ background:linear-gradient(125deg,rgba(67,58,105,.78),rgba(35,59,99,.75))!important;
+ border-color:rgba(231,99,120,.46)!important;border-left:3px solid #e2617b!important;
+}
+.qdPlayerRoundMatch[data-qd-reveal]{
+ --qd-reveal-delay:calc(var(--qd-card-index,0)*48ms);
+ --qd-reveal-distance:11px;
+}
+html body.qdModern .qdPlayerRoundKick{
+ display:flex!important;justify-content:center;gap:6px;
+ margin:0 0 12px!important;
+ text-align:center!important;color:#a9cae8!important;
+ font-size:11px!important;font-variant-numeric:tabular-nums;
+}
+html body.qdModern .qdPlayerRoundScoreline{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(64px,auto) minmax(0,1fr)!important;
+ align-items:center;gap:9px!important;text-align:center;
+}
+html body.qdModern .qdPlayerRoundTeam{
+ display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:flex-start!important;
+ min-width:0;gap:7px!important;
+}
+html body.qdModern .qdPlayerCrestFrame{
+ display:grid!important;place-items:center!important;
+ width:50px!important;height:50px!important;
+ min-width:50px!important;min-height:50px!important;
+ overflow:visible!important;
+}
+html body.qdModern .qdPlayerMatchCrest{
+ display:block!important;
+ width:46px!important;height:46px!important;
+ max-width:46px!important;max-height:46px!important;
+ object-fit:contain!important;object-position:center!important;
+ transform:none!important;
+ filter:drop-shadow(0 2px 2px rgba(0,0,0,.12));
+}
+.qdPlayerCrestFallback{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:rgba(70,137,203,.20);color:#b5d8ff;font-size:12px;font-weight:800}
+html body.qdModern .qdPlayerRoundScoreline .qdPlayerRoundTeam>span:last-child{
+ min-height:30px;max-width:100%;
+ font-size:12px!important;line-height:1.25!important;font-weight:750!important;
+ overflow-wrap:anywhere;text-wrap:balance;
+}
+html body.qdModern .qdPlayerRoundScoreline>strong{
+ font-size:clamp(19px,4.6vw,25px)!important;
+ font-variant-numeric:tabular-nums;
+ font-weight:850!important;letter-spacing:-.05em!important;
+ white-space:nowrap!important;
+}
+html body.qdModern .qdPlayerRoundFoot{
+ display:flex!important;align-items:center;justify-content:space-between;gap:8px;
+ border:0!important;margin:12px 0 0!important;padding:0!important;
+}
+html body.qdModern .qdPlayerRoundFoot .qdPlayerPredictionCapsule{
+ display:inline-flex!important;align-items:center!important;gap:7px!important;
+ border-radius:999px;border:1px solid rgba(136,189,239,.22);
+ background:rgba(11,31,55,.39);
+ -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+ padding:4px 5px 4px 10px;
+ width:max-content;max-width:100%;
+}
+.qdPlayerPredictionLabel{font-size:9px!important;font-weight:800!important;letter-spacing:.045em!important;color:#bdd7f1!important;white-space:nowrap}
+html body.qdModern .qdPlayerRoundModal .qdPlayerPick{
+ display:grid!important;place-items:center!important;
+ width:27px!important;height:27px!important;
+ min-width:27px!important;
+ padding:0!important;border-radius:50%!important;
+ background:rgba(54,105,175,.5)!important;color:#fff!important;
+ border:1px solid rgba(134,180,243,.45)!important;
+ font-size:15px!important;font-weight:850!important;
+ font-variant-numeric:tabular-nums;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pick1{background:#236ac3!important;border-color:#569de9!important}
+html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pickX{background:#e8f0ff!important;color:#18345f!important;border-color:#f3f7ff!important}
+html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pick2{background:#cc405d!important;border-color:#ef8195!important}
+.qdPlayerPickVerdict{display:grid;place-items:center;font-size:14px;font-weight:850;width:18px;height:18px;border-radius:50%}
+.qdPlayerPickVerdict.hit{color:#67e5ac}.qdPlayerPickVerdict.miss{color:#ff9bad}
+.qdPlayerRoundLoading{min-height:145px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.qdPlayerRoundLoading>span{display:block;width:6px;height:6px;border-radius:50%;background:#75b8f0;animation:qdPlayerDot 1s ease-in-out infinite alternate}
+.qdPlayerRoundLoading>span:nth-child(2){animation-delay:.14s}.qdPlayerRoundLoading>span:nth-child(3){animation-delay:.28s}
+.qdPlayerRoundLoading p{width:100%;text-align:center;color:#b0c8e2;font-size:12px;margin:-35px 0 0}
+@keyframes qdPlayerModalEnter{from{opacity:0;transform:translateY(16px) scale(.975)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes qdPlayerContentEnter{from{opacity:0;transform:translateX(9px)}to{opacity:1;transform:translateX(0)}}
+html body.qdModern .qdPlayerRoundViewport.is-prev .qdPlayerRoundMatches{animation-name:qdPlayerContentEnterReverse!important}
+@keyframes qdPlayerContentEnterReverse{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:translateX(0)}}
+@keyframes qdPlayerDot{from{opacity:.45;transform:translateY(2px)}to{opacity:1;transform:translateY(-3px)}}
+@media(max-width:390px){
+ html body.qdModern .qdPlayerRoundModal{padding:14px 11px!important}
+ html body.qdModern .qdPlayerRoundMatch{padding:11px!important}
+ html body.qdModern .qdPlayerRoundScoreline{grid-template-columns:minmax(0,1fr) 62px minmax(0,1fr)!important;gap:4px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern .qdPlayerRoundModal,html body.qdModern .qdPlayerRoundMatches,
+ .qdPlayerRoundLoading>span{animation:none!important}
+ html body.qdModern .qdPlayerRoundViewport{transition:none!important}
+ html body.qdModern .qdPlayerRoundMatch{transition:none!important}
+}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal{background:linear-gradient(160deg,#f4f9ff,#dbeaf9)!important}
+html[data-theme="light"] body.qdModern .qdPlayerRoundMatch{background:#eaf3fd!important;color:#193757!important}
+html[data-theme="light"] body.qdModern .qdPlayerRoundMatch.correct{background:#e4f8ed!important}
+html[data-theme="light"] body.qdModern .qdPlayerRoundMatch.incorrect{background:#fcecf0!important}
+html[data-theme="light"] body.qdModern .qdPlayerPredictionLabel{color:#426589!important}
+html[data-theme="light"] body.qdModern .qdPlayerRoundHeader p{color:#466d98!important}
+
+
+/* Independent, restrained reveal of the score and the prediction capsule. */
+html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] .qdPlayerRoundScoreline>strong{
+ animation:qdPlayerScoreReveal .46s cubic-bezier(.2,.75,.25,1) both;
+}
+html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] .qdPlayerPredictionCapsule{
+ animation:qdPlayerPredictionReveal .42s cubic-bezier(.2,.75,.25,1) .10s both;
+}
+html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] .qdPlayerPickVerdict{
+ animation:qdPlayerVerdictReveal .35s cubic-bezier(.2,.8,.28,1) .25s both;
+}
+@keyframes qdPlayerScoreReveal{
+ from{opacity:.3;transform:translateY(7px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@keyframes qdPlayerPredictionReveal{
+ from{opacity:.35;transform:translateY(6px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@keyframes qdPlayerVerdictReveal{
+ from{opacity:.4;transform:scale(.82)}
+ to{opacity:1;transform:scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern .qdPlayerRoundMatch[data-qd-reveal="shown"] :is(.qdPlayerRoundScoreline>strong,.qdPlayerPredictionCapsule,.qdPlayerPickVerdict){animation:none!important}
+}
+
+
+/* Round detail compact redesign, matching the user's horizontal reference. */
+html body.qdModern .qdPlayerRoundModal{
+ width:min(100%,620px)!important;
+ max-height:min(91dvh,840px)!important;
+}
+html body.qdModern .qdPlayerRoundTabs{
+ position:relative;
+ gap:7px!important;
+ overflow-x:auto!important;overflow-y:hidden!important;
+ -webkit-overflow-scrolling:touch!important;
+ touch-action:pan-x pinch-zoom!important;
+ overscroll-behavior-x:contain!important;
+ scrollbar-width:none!important;
+ padding:3px 1px 12px!important;
+}
+html body.qdModern .qdPlayerRoundTabs button.active{
+ background:#2673d9!important;
+ border-color:#60a6ff!important;
+ box-shadow:0 3px 12px rgba(31,107,221,.22)!important;
+}
+html body.qdModern .qdPlayerRoundTabs button:disabled{opacity:.30!important;cursor:default}
+html body.qdModern .qdPlayerRoundMatches{gap:8px!important;padding:1px 0 12px!important}
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch,
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct,
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 53px!important;
+ align-items:center!important;
+ column-gap:9px!important;
+ min-width:0!important;
+ min-height:67px!important;
+ padding:9px 9px 9px 11px!important;
+ border:1px solid rgba(122,160,204,.23)!important;
+ border-radius:15px!important;
+ background:rgba(27,47,70,.88)!important;
+ box-shadow:inset 0 1px 0 rgba(230,246,255,.025)!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct{
+ border-color:rgba(74,173,125,.26)!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
+ border-color:rgba(215,113,131,.26)!important;
+}
+html body.qdModern .qdCompactFixture{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 55px minmax(0,1fr)!important;
+ align-items:center!important;
+ gap:5px!important;
+ min-width:0!important;
+}
+html body.qdModern .qdCompactSide{
+ display:flex!important;align-items:center!important;min-width:0!important;gap:5px!important;
+}
+html body.qdModern .qdCompactHome{justify-content:flex-end!important}
+html body.qdModern .qdCompactAway{justify-content:flex-start!important}
+html body.qdModern .qdCompactName{
+ display:-webkit-box!important;
+ -webkit-line-clamp:2;
+ -webkit-box-orient:vertical;
+ overflow:hidden!important;
+ min-width:0!important;
+ max-width:100%;
+ font-size:clamp(10px,2.8vw,13px)!important;
+ font-weight:800!important;
+ line-height:1.23!important;
+ color:#f0f6ff!important;
+ text-wrap:balance;
+ overflow-wrap:anywhere;
+}
+html body.qdModern .qdCompactHome .qdCompactName{text-align:right!important}
+html body.qdModern .qdCompactAway .qdCompactName{text-align:left!important}
+html body.qdModern .qdCompactFixture .qdPlayerCrestFrame{
+ flex:0 0 34px!important;
+ display:grid!important;place-items:center!important;
+ width:34px!important;height:37px!important;
+ min-width:34px!important;min-height:37px!important;
+}
+html body.qdModern .qdCompactFixture .qdPlayerMatchCrest{
+ width:32px!important;height:34px!important;
+ max-width:32px!important;max-height:34px!important;
+ object-fit:contain!important;
+}
+html body.qdModern .qdCompactFixture .qdPlayerCrestFallback{
+ display:grid!important;place-items:center!important;
+ width:31px!important;height:31px!important;
+ font-size:9px!important;
+}
+html body.qdModern .qdCompactScore{
+ font-size:clamp(15px,4.6vw,20px)!important;
+ font-weight:850!important;line-height:1.15!important;
+ letter-spacing:-.06em!important;
+ font-variant-numeric:tabular-nums;
+ text-align:center!important;white-space:nowrap!important;
+ color:#f7faff!important;
+}
+html body.qdModern .qdCompactPickSlot{
+ display:flex!important;
+ align-items:center!important;justify-content:center!important;
+ min-height:44px!important;
+ border-left:1px solid rgba(144,177,213,.18)!important;
+ padding-left:9px!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick{
+ display:grid!important;place-items:center!important;
+ width:40px!important;height:42px!important;
+ min-width:40px!important;min-height:42px!important;
+ border-radius:11px!important;
+ border:1px solid rgba(250,253,255,.12)!important;
+ color:#fff!important;
+ font-size:21px!important;font-weight:900!important;line-height:1!important;
+ font-variant-numeric:tabular-nums;
+ box-shadow:inset 0 1px rgba(255,255,255,.08)!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.pick1{
+ background:#246fc9!important;border-color:#3c8ee6!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.pickX{
+ background:#596879!important;border-color:#718294!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.pick2{
+ background:#ca3f59!important;border-color:#e1697f!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-hit{
+ background:#15b88a!important;border-color:#47d6ae!important;color:#fff!important;
+}
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-miss{
+ background:#d84a62!important;border-color:#e87a8d!important;color:#fff!important;
+}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch,
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct,
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
+ background:#e8f1fa!important;
+ border-color:rgba(75,113,152,.27)!important;
+}
+html[data-theme="light"] body.qdModern .qdCompactName,
+html[data-theme="light"] body.qdModern .qdCompactScore{color:#173c5c!important}
+@media(max-width:400px){
+ html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch{grid-template-columns:minmax(0,1fr) 44px!important;column-gap:6px!important;padding:8px 6px!important}
+ html body.qdModern .qdCompactFixture{grid-template-columns:minmax(0,1fr) 49px minmax(0,1fr)!important;gap:3px!important}
+ html body.qdModern .qdCompactSide{gap:3px!important}
+ html body.qdModern .qdCompactFixture .qdPlayerCrestFrame{width:28px!important;height:31px!important;min-width:28px!important;min-height:31px!important;flex-basis:28px!important}
+ html body.qdModern .qdCompactFixture .qdPlayerMatchCrest{width:27px!important;height:30px!important;max-width:27px!important;max-height:30px!important}
+ html body.qdModern .qdCompactPickSlot{padding-left:6px!important}
+ html body.qdModern .qdPlayerRoundModal .qdCompactPick{width:36px!important;min-width:36px!important;height:39px!important;min-height:39px!important;font-size:19px!important}
+}
+@media(prefers-reduced-motion:reduce){html body.qdModern .qdPlayerRoundModal .qdCompactPick{animation:none!important;transition:none!important}}
