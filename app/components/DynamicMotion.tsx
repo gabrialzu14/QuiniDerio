@@ -43,28 +43,33 @@ export function AnimatedNumber({value,suffix="",prefix="",decimals=0}:{value:num
  const previous=useRef(0);
  const [visible,setVisible]=useState(false);
  const safe=Number.isFinite(value)?value:0;
- const initial=useRef(safe);
  const format=(number:number)=>prefix+number.toLocaleString("es-ES",{minimumFractionDigits:decimals,maximumFractionDigits:decimals})+suffix;
  useEffect(()=>{
   const node=root.current;if(!node)return;
   if(!("IntersectionObserver" in window)){setVisible(true);return}
-  const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){setVisible(true);observer.disconnect()}},{threshold:0});
+  const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){setVisible(true);observer.disconnect()}},{threshold:.05});
   observer.observe(node);return()=>observer.disconnect();
  },[]);
  useEffect(()=>{
   const node=root.current;if(!node||!visible)return;
   if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){node.textContent=format(safe);previous.current=safe;return}
-  const from=previous.current;let frame=0;let start:number|null=null;
+  const from=previous.current,change=safe-from;
+  if(Math.abs(change)<.00001){node.textContent=format(safe);return}
+  let frame=0,start:number|null=null;
+  // Smooth start/end, with enough time to read each change; no abrupt counter jumps.
+  const duration=Math.max(750,Math.min(1100,820+Math.log1p(Math.abs(change))*65));
   const tick=(time:number)=>{
    if(start===null)start=time;
-   const progress=Math.min(1,(time-start)/760);
-   const current=from+(safe-from)*(1-Math.pow(1-progress,3));
-   node.textContent=format(decimals?current:Math.round(current));previous.current=current;
-   if(progress<1)frame=requestAnimationFrame(tick);
+   const p=Math.min(1,(time-start)/duration);
+   const eased=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+   const current=from+change*eased;
+   node.textContent=format(p===1?safe:decimals?current:Math.round(current));
+   previous.current=p===1?safe:current;
+   if(p<1)frame=requestAnimationFrame(tick);
   };
-  frame=requestAnimationFrame(tick);return()=>cancelAnimationFrame(frame);
-  // Formatting depends only on these primitive props.
+  frame=requestAnimationFrame(tick);
+  return()=>cancelAnimationFrame(frame);
   // eslint-disable-next-line react-hooks/exhaustive-deps
  },[safe,visible,prefix,suffix,decimals]);
- return <span className="qdAnimatedNumber" aria-label={format(safe)}><span aria-hidden="true" ref={root}>{format(initial.current)}</span></span>;
+ return <span className="qdAnimatedNumber" aria-label={format(safe)}><span aria-hidden="true" ref={root}>{format(0)}</span></span>;
 }
