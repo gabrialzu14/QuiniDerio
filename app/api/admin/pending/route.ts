@@ -52,7 +52,8 @@ export async function POST(req:NextRequest){
    ?await client.from("push_subscriptions").select("id,player_id,endpoint,p256dh,auth").in("player_id",internalIds).eq("enabled",true)
    :{data:[],error:null};
   if(subError)throw subError;
-  const subsById=new Map<string,NonNullable<typeof subscriptions>>();
+  type PushSubscription={id:number;player_id:string;endpoint:string;p256dh:string;auth:string};
+  const subsById=new Map<string,PushSubscription[]>();
   for(const s of subscriptions||[]){
    const devices=subsById.get(s.player_id)||[];
    devices.push(s);subsById.set(s.player_id,devices);
