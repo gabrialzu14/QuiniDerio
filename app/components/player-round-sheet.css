@@ -177,6 +177,8 @@ html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pick2{background:#cc405d!im
 .qdPlayerRoundLoading p{width:100%;text-align:center;color:#b0c8e2;font-size:12px;margin:-35px 0 0}
 @keyframes qdPlayerModalEnter{from{opacity:0;transform:translateY(16px) scale(.975)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes qdPlayerContentEnter{from{opacity:0;transform:translateX(9px)}to{opacity:1;transform:translateX(0)}}
+html body.qdModern .qdPlayerRoundViewport.is-prev .qdPlayerRoundMatches{animation-name:qdPlayerContentEnterReverse!important}
+@keyframes qdPlayerContentEnterReverse{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:translateX(0)}}
 @keyframes qdPlayerDot{from{opacity:.45;transform:translateY(2px)}to{opacity:1;transform:translateY(-3px)}}
 @media(max-width:390px){
  html body.qdModern .qdPlayerRoundModal{padding:14px 11px!important}
