@@ -277,7 +277,7 @@ html body.qdModern .qdCompactFixture{
  min-width:0!important;
 }
 html body.qdModern .qdCompactSide{
- display:flex!important;align-items:center!important;min-width:0!important;gap:5px!important;
+ display:flex!important;align-items:center!important;min-width:0!important;gap:4px!important;
 }
 html body.qdModern .qdCompactHome{justify-content:flex-end!important}
 html body.qdModern .qdCompactAway{justify-content:flex-start!important}
