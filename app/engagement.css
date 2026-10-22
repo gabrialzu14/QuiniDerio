@@ -1,0 +1,77 @@
+/* QuiniDerio engagement preview: self-contained enhancements */
+.qdVoteTrend{padding:9px 13px 12px;margin:0 12px 10px;background:color-mix(in srgb,var(--qd-surface,#10263b) 78%,transparent);border:1px solid var(--qd-border,#33475f);border-radius:12px;min-width:0;opacity:0;transform:translateY(7px);transition:opacity .42s ease,transform .42s cubic-bezier(.22,.7,.25,1)}
+.qdVoteTrend.isVisible{opacity:1;transform:translateY(0)}
+.qdVoteTrendTop{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-bottom:8px;color:var(--qd-muted,#93abc2);font-size:9px;font-weight:850;letter-spacing:.09em}
+.qdVoteTrendTop small{font-size:9px;letter-spacing:normal;font-weight:500}
+.qdVoteBar{display:flex;gap:0;width:100%;height:7px;overflow:hidden;border-radius:7px;background:rgba(123,161,203,.13)}
+.qdVoteBarPart{display:block;min-width:0;height:100%;flex:0 0 auto;border-radius:0;transform:scaleX(0);transform-origin:left center;backface-visibility:hidden}
+.qdVoteBar0{background:#2878dc}.qdVoteBar1{background:#edf4fd}.qdVoteBar2{background:#d83650}
+.qdVoteLegend{display:grid;grid-template-columns:repeat(3,1fr);align-items:center;margin-top:7px;gap:5px}
+.qdVoteLabel{display:flex;align-items:center;justify-content:center;gap:5px;color:var(--qd-muted,#a6bfd6);font-size:10px}
+.qdVoteLabel b{color:var(--qd-text,#e9f4ff);font-size:11px;font-variant-numeric:tabular-nums}
+.qdVoteLabel0:before,.qdVoteLabel1:before,.qdVoteLabel2:before{content:"";width:6px;height:6px;border-radius:50%;background:#2878dc}
+.qdVoteLabel1:before{background:#edf4fd}.qdVoteLabel2:before{background:#d83650}
+.qdPlayerRoundOverlay{z-index:10015!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom))!important;overflow:hidden}
+.qdPlayerRoundModal{width:min(100%,475px)!important;max-height:min(90dvh,820px)!important;padding:17px!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;background:var(--qd-surface,#11263a)!important;min-width:0}
+.qdPlayerRoundModal .qdPlayerRoundHeader{flex:0 0 auto;display:flex!important;align-items:center;text-align:left!important;margin:0 0 12px!important;padding-right:38px}
+.qdPlayerRoundModal .playerStatsIdentity{flex-direction:row!important;align-items:center!important;gap:10px!important;min-width:0}
+.qdPlayerRoundModal .playerStatsIdentity h2{max-width:none!important;text-align:left!important;font-size:17px!important;overflow-wrap:anywhere}
+.qdPlayerRoundModal .playerStatsAvatar{width:43px!important;height:43px!important;flex:0 0 43px!important}
+.qdPlayerRoundHeader p{color:var(--qd-text,#f7fbff);font-size:13px;font-weight:850;margin:3px 0 0}
+.qdPlayerRoundTabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 11px;margin-bottom:4px;flex:0 0 auto}
+.qdPlayerRoundTabs button{min-height:36px;min-width:43px;flex:0 0 auto;padding:8px 11px;border-radius:10px;border:1px solid var(--qd-border,#35506b);background:var(--qd-surface-raised,#1a3452);color:var(--qd-text,#d9e8f8);font-weight:800;font-size:12px}
+.qdPlayerRoundTabs button.active{background:var(--qd-blue,#206bc5)!important;border-color:#438eec!important;color:#fff!important}
+.qdPlayerRoundMatches{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:grid;gap:8px;min-height:0;padding:2px 1px 9px;animation:qdRoundContent .24s ease-out both}
+.qdPlayerRoundMatch{background:color-mix(in srgb,var(--qd-surface-raised,#213a58) 70%,transparent);border:1px solid var(--qd-border,#344f6c);border-radius:13px;padding:10px;min-width:0}
+.qdPlayerRoundMatch.correct{border-color:rgba(65,194,136,.32)}
+.qdPlayerRoundKick{text-align:center;color:var(--qd-muted,#abc1d7);font-size:10px;margin:0 0 7px}
+.qdPlayerRoundScoreline{display:grid;grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);align-items:center;gap:7px;text-align:center}
+.qdPlayerRoundScoreline>div{display:flex;align-items:center;flex-direction:column;gap:5px;min-width:0}
+.qdPlayerRoundScoreline>div span:last-child{font-size:10px;font-weight:750;line-height:1.25;overflow-wrap:anywhere;max-width:100%}
+.qdPlayerRoundScoreline>strong{font-size:15px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.qdPlayerMatchCrest{width:29px;height:29px;object-fit:contain}
+.qdPlayerCrestFallback{width:29px;height:29px;border-radius:50%;background:rgba(63,130,201,.2);display:grid;place-items:center;font-size:10px;color:#a4c6e8}
+.qdPlayerRoundFoot{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--qd-border,#34506b);margin-top:8px;padding-top:8px;font-size:11px;color:var(--qd-muted,#9fb7ce)}
+.qdPlayerRoundFoot>span:first-child{display:flex;align-items:center;gap:8px}
+.qdPlayerPick{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;border-radius:7px;background:#253c5b;color:#fff;font-size:13px}
+.qdPlayerPick.pick1{background:#246ccb}.qdPlayerPick.pickX{background:#f3f6ff;color:#172c48}.qdPlayerPick.pick2{background:#cf354e}
+.qdPlayerPickState.hit{color:#59d6a2;font-weight:850}.qdPlayerPickState.miss{color:#e88396;font-weight:850}
+.qdPlayerRoundMessage{padding:24px 12px;text-align:center;font-size:13px;color:var(--qd-muted,#acbcd0)}
+.qdRecapLaunch{width:100%;margin:0 0 16px;padding:14px 16px;border-radius:16px;border:1px solid #3c7ac180;background:linear-gradient(112deg,rgba(22,92,176,.28),rgba(33,69,112,.18));display:flex;align-items:center;gap:12px;text-align:left;color:var(--qd-text,#fff);cursor:pointer}
+.qdRecapLaunchIcon{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#175fbd,#347bdc);font-size:23px;color:#fff}
+.qdRecapLaunch>span:nth-child(2){display:grid;gap:3px;flex:1}
+.qdRecapLaunch b{font-size:14px}.qdRecapLaunch small{font-size:11px;color:var(--qd-muted,#abc0d7)}
+.qdRecapLaunch>span:last-child{font-size:27px;color:#aacdec}
+.qdRecapOverlay{position:fixed;inset:0;z-index:10020;background:rgba(1,8,20,.86);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);display:flex;align-items:center;justify-content:center;padding:14px}
+.qdRecapModal{width:min(100%,435px);max-height:93dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;position:relative;background:radial-gradient(circle at 10% 4%,#1a4c83 0%,#102741 42%,#0a192e 100%);color:#f5f9ff;border:1px solid #76b5fd40;border-radius:23px;padding:26px 17px 20px;box-shadow:0 25px 80px #0009}
+.qdRecapClose{position:absolute;right:12px;top:10px;border:0;background:#ffffff17;color:#f3f8ff;border-radius:50%;width:32px;height:32px;font-size:22px;z-index:3}
+.qdRecapStage{animation:qdRoundContent .55s ease-out both}
+.qdRecapEyebrow{text-align:center;color:#9ec8f2;letter-spacing:.19em;font-size:9px;font-weight:800;margin:7px 0 7px}
+.qdRecapStage h2{text-align:center;font-size:28px;letter-spacing:-.06em;margin:0}
+.qdRecapUsername{text-align:center;font-size:13px;color:#b7d2e8;margin:5px 0 21px}
+.qdRecapCard{background:linear-gradient(137deg,rgba(255,255,255,.11),rgba(255,255,255,.035));border:1px solid rgba(181,219,255,.17);box-shadow:inset 0 1px #ffffff18,0 11px 25px #0003;border-radius:16px;backdrop-filter:blur(16px);animation:qdRecapCardIn .6s cubic-bezier(.17,.8,.23,1) both;min-width:0}
+.qdRecapHero{padding:19px 18px;text-align:center;animation-delay:.18s}
+.qdRecapHero>span{display:block;font-size:10px;color:#bad8f5;font-weight:800;letter-spacing:.08em}
+.qdRecapHero>strong{display:block;color:#8ce4b7;font-size:54px;letter-spacing:-.05em;font-weight:900;font-variant-numeric:tabular-nums;margin:5px 0 8px}
+.qdRecapHero>strong em{font-style:normal;color:#d2e6fa;font-size:22px}
+.qdRecapHero>small{font-size:11px;color:#b6d2e9}
+.qdRecapProgress{width:100%;height:7px;border-radius:8px;background:#ffffff1b;overflow:hidden;margin:8px 0}
+.qdRecapProgress i{height:100%;display:block;background:linear-gradient(90deg,#25b984,#a4f2ce);border-radius:8px;transform-origin:left;animation:qdRecapBar 1.15s .42s both}
+.qdRecapGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
+.qdRecapGrid .qdRecapCard{min-height:112px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;padding:12px 9px}
+.qdRecapGrid .qdRecapCard:nth-child(1){animation-delay:.3s}.qdRecapGrid .qdRecapCard:nth-child(2){animation-delay:.4s}.qdRecapGrid .qdRecapCard:nth-child(3){animation-delay:.5s}.qdRecapGrid .qdRecapCard:nth-child(4){animation-delay:.6s}
+.qdRecapGrid small{font-size:9px;letter-spacing:.065em;font-weight:850;color:#add0ee}
+.qdRecapGrid strong{font-size:29px;font-weight:900;line-height:1.1;font-variant-numeric:tabular-nums}
+.qdRecapGrid span{font-size:10px;color:#b6d0e6}
+.qdRecapUp{color:#89e5b4}.qdRecapDown{color:#ff8998}.qdRecapPot{color:#d8eafd}
+.qdRecapReplay{display:block;margin:16px auto 0;background:#ffffff13;border:1px solid #ffffff2c;border-radius:12px;padding:10px 18px;color:#d2e8fa;font-weight:700;font-size:12px}
+@keyframes qdRoundContent{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes qdRecapCardIn{from{opacity:0;transform:translateY(18px) scale(.95);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes qdRecapBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(max-width:470px){.qdVoteTrend{margin:0 8px 9px}.qdPlayerRoundModal{padding:13px!important}.qdPlayerRoundModal .playerStatsIdentity h2{font-size:15px!important}.qdRecapModal{max-height:92dvh}}
+@media(prefers-reduced-motion:reduce){.qdVoteTrend{opacity:1!important;transform:none!important;transition:none!important}.qdVoteBarPart{transition:none!important}.qdRecapStage,.qdRecapCard,.qdRecapProgress i,.qdPlayerRoundMatches{animation:none!important;transform:none!important;filter:none!important}}
+
+/* Keep the list, rather than the entire overlay, as the mobile scroll container. */
+html body.qdModern .qdPlayerRoundModal{overflow:hidden!important;touch-action:auto!important}
+html body.qdModern .qdPlayerRoundMatches{overflow-y:auto!important;touch-action:pan-y!important;overscroll-behavior:contain!important;flex:1 1 auto}
+.qdPlayerRoundTabs button:disabled{opacity:.37;cursor:not-allowed}
