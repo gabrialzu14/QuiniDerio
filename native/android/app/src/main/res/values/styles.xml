@@ -1,6 +1,0 @@
-<resources>
-    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar"><item name="android:windowLightStatusBar">false</item><item name="android:statusBarColor">#061A3B</item><item name="android:navigationBarColor">#061A3B</item><item name="android:windowActionModeOverlay">true</item></style>
-    <color name="widget_bg">#ECF3FF</color><color name="widget_text">#102B51</color><color name="widget_muted">#49617E</color><color name="widget_live">#AC2039</color>
-    <string name="compact_description">Partido a partido. Usa las flechas para recorrer toda la jornada.</string>
-    <string name="full_description">Jornada completa. Amplía el widget o cambia de página para ver todos los encuentros.</string>
-</resources>

@@ -5,14 +5,3 @@ node_modules/
 *.tsbuildinfo
 test-results/
 playwright-report/
-
-# Native build products and local signing configuration
-native/android/.gradle/
-native/android/local.properties
-native/android/**/build/
-native/ios/*.xcodeproj/
-native/ios/build/
-native/ios/**/Info.plist
-native/ios/**/*.entitlements
-*.jks
-*.keystore
