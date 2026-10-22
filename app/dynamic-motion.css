@@ -1,19 +1,20 @@
 /* Shared motion: only opacity and transforms affect the reveal, never layout. */
-[data-qd-reveal]{transition:opacity .52s ease,transform .62s cubic-bezier(.2,.75,.25,1)}
-html body.qdModern [data-qd-reveal="waiting"]{opacity:0!important;transform:translateY(16px)!important}
-html body.qdModern [data-qd-reveal="shown"]{opacity:1!important;transform:translateY(0)!important}
-.matchRivalsTeam[data-qd-reveal]{transition-delay:70ms}
-.matchRivalsTeamAway[data-qd-reveal]{transition-delay:130ms}
-.matchRivalsPlayers>li[data-qd-reveal]{transition-duration:.4s,.5s}
-.matchRivalsPlayers>li[data-qd-reveal]:nth-child(3n+2){transition-delay:35ms}
-.matchRivalsPlayers>li[data-qd-reveal]:nth-child(3n+3){transition-delay:70ms}
+[data-qd-reveal]{--qd-reveal-delay:0ms;--qd-reveal-distance:14px}
+html body.qdModern [data-qd-reveal][data-qd-stage]{animation:none!important;transition:opacity .5s ease var(--qd-reveal-delay),translate .6s cubic-bezier(.2,.75,.25,1) var(--qd-reveal-delay)!important}
+html body.qdModern [data-qd-reveal="waiting"][data-qd-stage]{opacity:0!important;translate:0 var(--qd-reveal-distance)!important}
+html body.qdModern [data-qd-reveal="shown"][data-qd-stage]{opacity:1!important;translate:0 0!important}
+html body.qdModern [data-qd-stage="image"]{--qd-reveal-delay:70ms;--qd-reveal-distance:8px}
+html body.qdModern [data-qd-stage="label"]{--qd-reveal-delay:110ms;--qd-reveal-distance:6px}
+html body.qdModern [data-qd-stage="value"]{--qd-reveal-delay:200ms;--qd-reveal-distance:7px}
+html body.qdModern [data-qd-stage="text"]{--qd-reveal-delay:150ms;--qd-reveal-distance:6px}
+html body.qdModern .matchRivalsPlayers>li[data-qd-reveal]:nth-child(3n+2){--qd-reveal-delay:35ms}
+html body.qdModern .matchRivalsPlayers>li[data-qd-reveal]:nth-child(3n+3){--qd-reveal-delay:70ms}
 .qdAnimatedNumber{font-variant-numeric:tabular-nums;white-space:nowrap}
 .qdRoundNavigator{min-width:0;margin:0 0 18px}
-.qdAdvanceRound{display:flex;align-items:center;justify-content:flex-end;gap:12px;width:100%;min-height:44px;margin:0 0 6px;padding:8px 4px;border:0;background:transparent;color:var(--qd-text,#c8ddf7);font:inherit;font-size:12px;font-weight:650;text-align:right;overflow:hidden;cursor:pointer}
+.qdRoundJump{position:relative;min-width:0;isolation:isolate}
+.qdAdvanceRound{display:inline-flex;align-items:center;justify-content:flex-start;gap:7px;min-height:32px;width:auto;margin:0;padding:5px 0;border:0;background:transparent;color:#71b9ed;font:inherit;font-size:11px;font-weight:650;letter-spacing:.01em;text-align:left;overflow:visible;cursor:pointer}
 .qdAdvanceRound:disabled{opacity:.5;cursor:default}
-.qdLaunchArrow{display:inline-block;font-size:23px;line-height:1;min-width:30px;text-align:center;color:#75b8ff}
-.isTravelling .qdLaunchArrow{animation:qdArrowLaunch 1s cubic-bezier(.4,0,.2,1) both}
-@keyframes qdArrowLaunch{0%{transform:translateX(0);opacity:1}65%{transform:translateX(90px);opacity:0}66%{transform:translateX(-25px);opacity:0}100%{transform:translateX(0);opacity:1}}
+.qdLaunchArrow{display:inline-block;position:relative;z-index:1;font-size:19px;line-height:1;min-width:22px;text-align:center;color:inherit;pointer-events:none}
 .qdRoundRail{position:relative;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding:2px 0 9px}
 .qdRoundRail::-webkit-scrollbar{display:none}
 .qdRoundTrack{position:relative;display:flex;gap:7px;width:max-content;min-width:100%;padding-bottom:7px}
@@ -35,4 +36,6 @@ html[data-theme="light"] .qdLaunchArrow{color:#2166ae}
 html[data-theme="light"] .qdRoundTrack>button{background:#edf3fb;color:#375778;border-color:#cdd9e8}
 html[data-theme="light"] .qdRoundTrack>button.active{background:#205c9e;color:#fff}
 html[data-theme="light"] body.qdModern .predictionsPage .predictionOwnerSection{background:#f7faff!important;border-color:#d5e1ef!important}
-@media(prefers-reduced-motion:reduce){html body.qdModern [data-qd-reveal]{opacity:1!important;transform:none!important;transition:none!important}.qdLaunchArrow{animation:none!important}.qdRoundTrack>button{transition:none}}
+@media(prefers-reduced-motion:reduce){html body.qdModern [data-qd-reveal][data-qd-stage]{opacity:1!important;translate:none!important;transition:none!important}.qdLaunchArrow{animation:none!important}.qdRoundTrack>button{transition:none}}
+
+.qdScoreValue{display:inline-block;font-variant-numeric:tabular-nums;white-space:nowrap}

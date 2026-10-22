@@ -1,26 +1,40 @@
 "use client";
-import {useEffect,useRef,useState,type RefObject} from "react";
+import {useEffect,useLayoutEffect,useRef,useState,type RefObject} from "react";
 
-const targets=".matchRivalsCard,.matchRivalsTeam,.matchRivalsPlayers>li,.seasonSticker,.rivalPlayerBanner,.rankingRow,.qdPlayerRoundMatch,.qdCardsRow";
-/** One observer per view, including asynchronously loaded content and modal scrollports. */
+const targets=[
+ ".predictionOwnerSection", ".rivalPredictionBlock", ".predictionSectionTitle", ".predictionSectionTitle small", ".predictionSectionTitle h2", ".rivalPlayerBanner", ".rivalPlayerBanner>.rankingAvatar", ".rivalPlayerBanner>div>*",
+ ".seasonSticker", ".stickerPhoto", ".stickerPhoto>span", ".stickerCopy>small", ".stickerCopy>strong", ".stickerCopy>b",
+ ".miniSticker>small", ".miniSticker>strong", ".miniSticker>b", ".dinioSticker>img", ".dinioSticker>div>*",
+ ".matchRivalsCard", ".matchRivalsTeam", ".matchRivalsTeam>.crestBox", ".matchRivalsTeamName", ".matchRivalsDate", ".matchRivalsScore", ".matchRivalsVenue",
+ ".matchRivalsPlayers>li", ".matchRivalsPlayers>li>.rankingAvatar", ".matchRivalsPlayers>li>b", ".matchRivalsPlayers>li>strong",
+ ".rankingRow", ".qdPlayerRoundMatch", ".qdCardsRow"
+].join(",");
+const imageParts=".stickerPhoto,.dinioSticker>img,.rankingAvatar,.crestBox";
+const labelParts=".stickerPhoto>span,.stickerCopy>small,.miniSticker>small,.dinioSticker small,.matchRivalsDate,.matchRivalsVenue,.predictionSectionTitle small,.rivalPlayerBanner small";
+const valueParts=".stickerCopy>strong,.miniSticker>strong,.dinioSticker strong,.matchRivalsScore,.matchRivalsPlayers>li>strong";
+/** Each card AND each content part waits for its own viewport intersection. */
 export function useScrollReveal(root:RefObject<HTMLElement|null>){
- useEffect(()=>{
+ useLayoutEffect(()=>{
   const node=root.current;
-  if(!node||!("IntersectionObserver" in window)||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  if(!node||!("IntersectionObserver" in window))return;
+  const motion=window.matchMedia("(prefers-reduced-motion: reduce)");
   const seen=new WeakSet<Element>();
   const observer=new IntersectionObserver(entries=>{
    for(const entry of entries)if(entry.isIntersecting){entry.target.setAttribute("data-qd-reveal","shown");observer.unobserve(entry.target)}
-  },{threshold:0,rootMargin:"0px 0px -24px 0px"});
+  },{threshold:0,rootMargin:"0px 0px -40px 0px"});
   const scan=()=>node.querySelectorAll(targets).forEach(element=>{
    if(seen.has(element))return;seen.add(element);
-   // Never conceal content that the user has already scrolled past.
-   if(element.getBoundingClientRect().bottom<0)return;
+   const part=element.matches(imageParts)?"image":element.matches(labelParts)?"label":element.matches(valueParts)?"value":element.matches(".stickerCopy>b,.miniSticker>b,.dinioSticker b,.matchRivalsPlayers>li>b,.matchRivalsTeamName,.predictionSectionTitle h2,.rivalPlayerBanner b")?"text":"card";
+   element.setAttribute("data-qd-stage",part);
+   if(motion.matches||element.getBoundingClientRect().bottom<0){element.setAttribute("data-qd-reveal","shown");return}
    element.setAttribute("data-qd-reveal","waiting");observer.observe(element);
   });
   scan();
   const mutations=new MutationObserver(records=>{if(records.some(record=>Array.from(record.addedNodes).some(added=>added.nodeType===1)))scan()});
   mutations.observe(node,{childList:true,subtree:true});
-  return()=>{observer.disconnect();mutations.disconnect();node.querySelectorAll("[data-qd-reveal]").forEach(element=>element.removeAttribute("data-qd-reveal"))};
+  const reduce=()=>{if(motion.matches)node.querySelectorAll('[data-qd-reveal="waiting"]').forEach(element=>{element.setAttribute("data-qd-reveal","shown");observer.unobserve(element)})};
+  motion.addEventListener("change",reduce);
+  return()=>{observer.disconnect();mutations.disconnect();motion.removeEventListener("change",reduce);node.querySelectorAll("[data-qd-reveal]").forEach(element=>{element.removeAttribute("data-qd-reveal");element.removeAttribute("data-qd-stage")})};
  },[root]);
 }
 
