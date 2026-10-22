@@ -1,5 +1,7 @@
 "use client";
 import "./home-summary.css";
+import type {ReactNode} from "react";
+import {AnimatedNumber} from "./DynamicMotion";
 
 export type RankingDestination="pot"|"hits"|"self";
 
@@ -24,16 +26,16 @@ export default function HomeSummary({round,submitted,totalPot,leader,myRank,posi
       <span className="qdOverviewFeatureStatus">{submitted?"✓ QUINIELA ENVIADA":"QUINIELA PENDIENTE"}</span>
     </article>
     <div className="qdOverviewStats">
-      <Stat label="Bote acumulado" value={`${totalPot.toLocaleString("es-ES")} €`} detail="Bote total" icon="pot" onClick={()=>onRanking("pot")}/>
-      <Stat label="Líder actual" value={leader?.username||"—"} detail={leader?`${leader.hits} PTS`:"Clasificación general"} icon="leader" onClick={()=>onRanking("hits")}/>
-      <Stat label="Tu posición" value={position!==null?`${position}º`:"—"} detail={myRank?`${myRank.hits} PTS`:"Sin posición disponible"} icon="rank" onClick={()=>onRanking("self")}/>
+      <Stat label="Bote acumulado" value={`${totalPot.toLocaleString("es-ES")} €`} visual={<AnimatedNumber value={totalPot} suffix=" €"/>} detail="Bote total" icon="pot" onClick={()=>onRanking("pot")}/>
+      <Stat label="Líder actual" value={leader?.username||"—"} detail={leader?`${leader.hits} PTS`:"Clasificación general"} detailVisual={leader?<AnimatedNumber value={leader.hits} suffix=" PTS"/>:undefined} icon="leader" onClick={()=>onRanking("hits")}/>
+      <Stat label="Tu posición" value={position!==null?`${position}º`:"—"} detail={myRank?`${myRank.hits} PTS`:"Sin posición disponible"} visual={position!==null?<AnimatedNumber value={position} suffix="º"/>:undefined} detailVisual={myRank?<AnimatedNumber value={myRank.hits} suffix=" PTS"/>:undefined} icon="rank" onClick={()=>onRanking("self")}/>
     </div>
   </section>;
 }
-function Stat({label,value,detail,icon,onClick}:{label:string;value:string;detail:string;icon:"pot"|"leader"|"rank";onClick:()=>void}){
+function Stat({label,value,detail,visual,detailVisual,icon,onClick}:{label:string;value:string;detail:string;visual?:ReactNode;detailVisual?:ReactNode;icon:"pot"|"leader"|"rank";onClick:()=>void}){
   return <button type="button" className={"qdOverviewStat qdOverviewStat-"+icon+(icon==="pot"&&value.length>9?" qdOverviewStat-compact":"")} onClick={onClick} aria-label={`${label}: ${value}. ${detail}. Ver clasificación`}>
     <span className="qdOverviewStatHead"><span className="qdOverviewStatLabel">{label}</span><SummaryIcon kind={icon}/></span>
-    <strong title={value}>{value}</strong><span className="qdOverviewStatDetail">{detail}<Arrow/></span>
+    <strong title={value}>{visual??value}</strong><span className="qdOverviewStatDetail">{detailVisual??detail}<Arrow/></span>
   </button>;
 }
 function Arrow(){return <svg className="qdOverviewArrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>}

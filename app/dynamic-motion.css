@@ -1,0 +1,38 @@
+/* Shared motion: only opacity and transforms affect the reveal, never layout. */
+[data-qd-reveal]{transition:opacity .52s ease,transform .62s cubic-bezier(.2,.75,.25,1)}
+html body.qdModern [data-qd-reveal="waiting"]{opacity:0!important;transform:translateY(16px)!important}
+html body.qdModern [data-qd-reveal="shown"]{opacity:1!important;transform:translateY(0)!important}
+.matchRivalsTeam[data-qd-reveal]{transition-delay:70ms}
+.matchRivalsTeamAway[data-qd-reveal]{transition-delay:130ms}
+.matchRivalsPlayers>li[data-qd-reveal]{transition-duration:.4s,.5s}
+.matchRivalsPlayers>li[data-qd-reveal]:nth-child(3n+2){transition-delay:35ms}
+.matchRivalsPlayers>li[data-qd-reveal]:nth-child(3n+3){transition-delay:70ms}
+.qdAnimatedNumber{font-variant-numeric:tabular-nums;white-space:nowrap}
+.qdRoundNavigator{min-width:0;margin:0 0 18px}
+.qdAdvanceRound{display:flex;align-items:center;justify-content:flex-end;gap:12px;width:100%;min-height:44px;margin:0 0 6px;padding:8px 4px;border:0;background:transparent;color:var(--qd-text,#c8ddf7);font:inherit;font-size:12px;font-weight:650;text-align:right;overflow:hidden;cursor:pointer}
+.qdAdvanceRound:disabled{opacity:.5;cursor:default}
+.qdLaunchArrow{display:inline-block;font-size:23px;line-height:1;min-width:30px;text-align:center;color:#75b8ff}
+.isTravelling .qdLaunchArrow{animation:qdArrowLaunch 1s cubic-bezier(.4,0,.2,1) both}
+@keyframes qdArrowLaunch{0%{transform:translateX(0);opacity:1}65%{transform:translateX(90px);opacity:0}66%{transform:translateX(-25px);opacity:0}100%{transform:translateX(0);opacity:1}}
+.qdRoundRail{position:relative;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding:2px 0 9px}
+.qdRoundRail::-webkit-scrollbar{display:none}
+.qdRoundTrack{position:relative;display:flex;gap:7px;width:max-content;min-width:100%;padding-bottom:7px}
+.qdRoundTrack>button{flex:0 0 auto;min-height:40px;min-width:46px;padding:9px 13px;border:1px solid var(--qd-border,#304b69);border-radius:12px;background:var(--qd-surface-raised,#172e49);color:var(--qd-muted,#b6cae2);font:inherit;font-size:12px;font-weight:750;cursor:pointer;transition:background .2s,border-color .2s}
+.qdRoundTrack>button.active{background:#205c9e;border-color:#528ed1;color:#fff}
+.qdRoundTrack>button:disabled{opacity:.35;cursor:default}
+.qdRoundTrain{position:absolute;bottom:0;left:0;width:28px;height:3px;border-radius:3px;background:#83c5ff;box-shadow:0 0 9px #5baeff80;opacity:0;pointer-events:none}
+.qdRoundNavigator button:focus-visible{outline:2px solid #84c5ff;outline-offset:2px}
+/* One continuous surface, with an inset border rather than the old blue frame. */
+html body.qdModern .predictionsPage .predictionOwnerSection{position:relative;isolation:isolate;box-sizing:border-box!important;background:var(--qd-surface,#11263a)!important;background-image:none!important;border:1px solid var(--qd-border,rgba(147,184,219,.16))!important;border-radius:18px!important;box-shadow:none!important;padding:16px!important;overflow:hidden}
+.predictionOwnerSection::before,.predictionOwnerSection::after{display:none!important}
+html body.qdModern .qdPlayerRoundMatch{border-radius:14px;padding:12px;background:var(--qd-surface-raised,#19334f);box-shadow:none}
+html body.qdModern .qdPlayerRoundMatch.correct{border-color:#45b98780;border-left:3px solid #45b987;background:color-mix(in srgb,#20845d 12%,var(--qd-surface-raised,#19334f))}
+html body.qdModern .qdPlayerRoundMatch.incorrect{border-color:#df617680;border-left:3px solid #df6176;background:color-mix(in srgb,#a6364d 12%,var(--qd-surface-raised,#19334f))}
+html body.qdModern .qdPlayerRoundFoot{border:0;margin-top:8px;padding-top:0}
+html body.qdModern .qdPlayerRoundModal .qdPlayerPick{color:#fff!important;background:#263d57!important;border:1px solid #68829e55;font-size:16px!important;font-weight:850}
+html[data-theme="light"] .qdAdvanceRound{color:#244364}
+html[data-theme="light"] .qdLaunchArrow{color:#2166ae}
+html[data-theme="light"] .qdRoundTrack>button{background:#edf3fb;color:#375778;border-color:#cdd9e8}
+html[data-theme="light"] .qdRoundTrack>button.active{background:#205c9e;color:#fff}
+html[data-theme="light"] body.qdModern .predictionsPage .predictionOwnerSection{background:#f7faff!important;border-color:#d5e1ef!important}
+@media(prefers-reduced-motion:reduce){html body.qdModern [data-qd-reveal]{opacity:1!important;transform:none!important;transition:none!important}.qdLaunchArrow{animation:none!important}.qdRoundTrack>button{transition:none}}
