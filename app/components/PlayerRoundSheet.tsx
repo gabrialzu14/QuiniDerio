@@ -5,11 +5,12 @@ import {useScrollReveal} from "./DynamicMotion";
 import usePageScrollLock from "./usePageScrollLock";
 import {supabase} from "../lib/supabase";
 import type {Fixture} from "../lib/quiz-fixtures";
+import type {PlayerPerformance} from "../lib/player-performance";
 import "./player-round-sheet.css";
 
 type MatchRow={team:string;home_score:number|null;away_score:number|null;status:string};
 type Player={user_id:string;username:string;profile_pic?:string};
-type Props={player:Player;initialRound:number;rounds:number[];maxRound:number;fixtures:Record<number,Record<string,Partial<Fixture>>>;onClose:()=>void};
+type Props={player:Player;initialRound:number;rounds:number[];maxRound:number;fixtures:Record<number,Record<string,Partial<Fixture>>>;performance:PlayerPerformance;onClose:()=>void};
 type SheetData={rows:MatchRow[];picks:Record<string,string>;blocked:boolean};
 const cache=new Map<string,SheetData&{expiresAt:number}>();
 const crestCache=new Map<string,string>();
@@ -59,7 +60,7 @@ function TeamCrest({src,name}:{src:string;name:string}){
   {src&&!broken?<img className="qdPlayerMatchCrest" loading="lazy" src={imageSrc} alt="" onLoad={event=>normalized(event.currentTarget)} onError={()=>setBroken(true)}/>:<span className="qdPlayerCrestFallback" aria-hidden="true">{name.slice(0,2)}</span>}
  </span>;
 }
-export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fixtures,onClose}:Props){
+export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fixtures,performance,onClose}:Props){
  usePageScrollLock(true);
  const motionRoot=useRef<HTMLElement>(null);
  const scrollRoot=useRef<HTMLDivElement>(null);
@@ -155,7 +156,14 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
    <header className="qdPlayerRoundHeader">
     <div className="playerStatsIdentity">
      <span className="playerStatsAvatar">{player.profile_pic?<img src={player.profile_pic} alt=""/>:player.username.slice(0,1).toUpperCase()}</span>
-     <div><h2>{player.username}</h2><p>Jornada {round}</p></div>
+     <div className="qdPlayerIdentityCopy">
+      <h2>{player.username}</h2>
+      <p>Jornada {round}</p>
+      <div className="qdPlayerSeasonMetrics" aria-label="Estadísticas de las jornadas finalizadas">
+       <span title="Aciertos divididos entre pronósticos de partidos finalizados"><strong>{performance.percentage===null?"—":performance.percentage+"%"}</strong> aciertos</span>
+       <span title="Puntos de pronósticos divididos entre jornadas finalizadas, incluidas las que no se puntuó"><strong>{performance.pointsPerRound===null?"—":performance.pointsPerRound.toLocaleString("es-ES",{minimumFractionDigits:1,maximumFractionDigits:1})}</strong> ptos/jornada</span>
+      </div>
+     </div>
     </div>
     <button type="button" aria-label="Cerrar" onClick={onClose}>×</button>
    </header>
