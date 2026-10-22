@@ -11,7 +11,7 @@ type MatchRow={team:string;home_score:number|null;away_score:number|null;status:
 type Player={user_id:string;username:string;profile_pic?:string};
 type Props={player:Player;initialRound:number;rounds:number[];maxRound:number;fixtures:Record<number,Record<string,Partial<Fixture>>>;onClose:()=>void};
 type SheetData={rows:MatchRow[];picks:Record<string,string>;blocked:boolean};
-const cache=new Map<string,SheetData>();
+const cache=new Map<string,SheetData&{expiresAt:number}>();
 const crestCache=new Map<string,string>();
 const resultChoice=(home:number,away:number):string=>home>away?"1":home<away?"2":"X";
 const dateOrder=(game:Partial<Fixture>)=>{
@@ -69,6 +69,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
  const [exiting,setExiting]=useState(false);
  const switchTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
  const [loading,setLoading]=useState(true);
+ const [loadedKey,setLoadedKey]=useState("");
  const [blocked,setBlocked]=useState(false);
  const [error,setError]=useState(false);
  const [rows,setRows]=useState<MatchRow[]>([]);
@@ -90,33 +91,33 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
  };
  useEffect(()=>{
   let live=true;
-  const saved=cache.get(key);
-  if(saved){
-   setRows(saved.rows);setPicks(saved.picks);setBlocked(saved.blocked);
-   setLoading(false);setError(false);
-   return;
-  }
   setLoading(true);setError(false);setBlocked(false);setRows([]);setPicks({});
   void (async()=>{
    try{
-    const [{data:matches,error:matchError},{data:{user},error:authError}]=await Promise.all([
-     supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",round),
-     supabase.auth.getUser()
-    ]);
+    // Always validate the current viewer before reusing any cached private picks.
+    const {data:{user},error:authError}=await supabase.auth.getUser();
     if(!live)return;
-    if(matchError||authError||!user)throw new Error("Consulta no autorizada");
-    const started=(matches||[]).some(m=>["live","finished","final"].includes(m.status));
-    if(user.id!==player.user_id&&!started){
-     cache.set(key,{rows:[],picks:{},blocked:true});setBlocked(true);return;
+    if(authError||!user)throw new Error("Consulta no autorizada");
+    const cacheKey=user.id+":"+key;
+    const saved=cache.get(cacheKey);
+    if(saved&&saved.expiresAt>Date.now()){
+     setRows(saved.rows);setPicks(saved.picks);setBlocked(saved.blocked);setLoadedKey(key);
+     return;
     }
+    const {data:matches,error:matchError}=await supabase.from("quini_live_matches").select("team,home_score,away_score,status").eq("round",round);
+    if(!live)return;
+    if(matchError)throw matchError;
+    const started=(matches||[]).some(m=>["live","finished","final"].includes(m.status));
+    if(user.id!==player.user_id&&!started){setBlocked(true);setLoadedKey(key);return;}
     const {data:forecast,error:forecastError}=await supabase.from("quini_picks").select("team,pick").eq("user_id",player.user_id).eq("round",round);
     if(!live)return;
     if(forecastError)throw forecastError;
     const indexed:Record<string,string>={};
     for(const item of forecast||[])if(["1","X","2"].includes(item.pick))indexed[item.team]=item.pick;
     const loaded={rows:(matches||[]) as MatchRow[],picks:indexed,blocked:false};
-    cache.set(key,loaded);setPicks(loaded.picks);setRows(loaded.rows);
-   }catch{if(live)setError(true)}
+    cache.set(cacheKey,{...loaded,expiresAt:Date.now()+45000});
+    setPicks(loaded.picks);setRows(loaded.rows);setLoadedKey(key);
+   }catch{if(live){setError(true);setLoadedKey(key)}}
    finally{if(live)setLoading(false)}
   })();
   return()=>{live=false};
@@ -137,7 +138,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
     {rounds.map(n=><button key={n} type="button" className={round===n?"active":""} aria-pressed={round===n} disabled={n>maxRound} onClick={()=>selectRound(n)}>J{n}</button>)}
    </div>
    <div ref={scrollRoot} className={"qdPlayerRoundViewport "+(exiting?"is-exiting ":"")+(direction==="prev"?"is-prev":"is-next")}>
-    {loading?<div className="qdPlayerRoundLoading" role="status" aria-live="polite"><span/><span/><span/><p>Cargando jornada…</p></div>:blocked?<p className="qdPlayerRoundMessage">Los pronósticos de este participante estarán disponibles cuando comience la jornada.</p>:error?<p className="qdPlayerRoundMessage" role="alert">No se han podido consultar los pronósticos de esta jornada.</p>:<div className="qdPlayerRoundMatches" key={round}>
+    {loading||loadedKey!==key?<div className="qdPlayerRoundLoading" role="status" aria-live="polite"><span/><span/><span/><p>Cargando jornada…</p></div>:blocked?<p className="qdPlayerRoundMessage">Los pronósticos de este participante estarán disponibles cuando comience la jornada.</p>:error?<p className="qdPlayerRoundMessage" role="alert">No se han podido consultar los pronósticos de esta jornada.</p>:<div className="qdPlayerRoundMatches" key={round}>
      {entries.length?entries.map(([team,game],index)=>{
       const match=results.get(team);
       const isHome=game.isHome!==false;
