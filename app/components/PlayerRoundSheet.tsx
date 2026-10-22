@@ -63,6 +63,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
  usePageScrollLock(true);
  const motionRoot=useRef<HTMLElement>(null);
  const scrollRoot=useRef<HTMLDivElement>(null);
+ const tabsRoot=useRef<HTMLDivElement>(null);
  useScrollReveal(motionRoot);
  const [round,setRound]=useState(initialRound);
  const [direction,setDirection]=useState<"next"|"prev">("next");
@@ -132,7 +133,14 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
   })();
   return()=>{live=false};
  },[round,player.user_id,key]);
- useEffect(()=>{if(scrollRoot.current)scrollRoot.current.scrollTop=0},[round]);
+ useEffect(()=>{
+  if(scrollRoot.current)scrollRoot.current.scrollTop=0;
+  const tab=tabsRoot.current?.querySelector<HTMLButtonElement>('[data-round="'+round+'"]');
+  if(tab&&tabsRoot.current){
+   const left=tab.offsetLeft-(tabsRoot.current.clientWidth-tab.offsetWidth)/2;
+   tabsRoot.current.scrollTo({left:Math.max(0,left),behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
+  }
+ },[round]);
  useEffect(()=>{
   const {data}=supabase.auth.onAuthStateChange(event=>{
    if(event==="SIGNED_OUT"){validatedViewer.current=null;cache.clear();onClose()}
@@ -141,6 +149,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
  },[onClose]);
  const entries=useMemo(()=>Object.entries(fixtures[round]||{}).filter(([,game])=>game.status!=="rest").sort((a,b)=>dateOrder(a[1])-dateOrder(b[1])),[fixtures,round]);
  const results=useMemo(()=>new Map(rows.map(item=>[item.team,item])),[rows]);
+ const displayRounds=Array.from({length:Math.max(18,maxRound+8,...rounds)},(_,i)=>i+1);
  return createPortal(<div className="playerStatsOverlay qdPlayerRoundOverlay" onClick={onClose}>
   <section ref={motionRoot} role="dialog" aria-modal="true" aria-label={"Jornada "+round+" de "+player.username} className="playerStatsModal qdPlayerRoundModal" onClick={event=>event.stopPropagation()}>
    <header className="qdPlayerRoundHeader">
@@ -150,8 +159,8 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
     </div>
     <button type="button" aria-label="Cerrar" onClick={onClose}>×</button>
    </header>
-   <div className="qdPlayerRoundTabs" role="group" aria-label="Seleccionar jornada">
-    {rounds.map(n=><button key={n} type="button" className={round===n?"active":""} aria-pressed={round===n} disabled={n>maxRound} onClick={()=>selectRound(n)}>J{n}</button>)}
+   <div ref={tabsRoot} className="qdPlayerRoundTabs" role="group" aria-label="Seleccionar jornada; desplaza horizontalmente para ver más">
+    {displayRounds.map(n=><button key={n} data-round={n} type="button" className={round===n?"active":""} aria-pressed={round===n} disabled={n>maxRound||!rounds.includes(n)} title={n>maxRound||!rounds.includes(n)?"Jornada no disponible todavía":undefined} onClick={()=>selectRound(n)}>J{n}</button>)}
    </div>
    <div ref={scrollRoot} className={"qdPlayerRoundViewport "+(exiting?"is-exiting ":"")+(direction==="prev"?"is-prev":"is-next")}>
     {loading||loadedKey!==key?<div className="qdPlayerRoundLoading" role="status" aria-live="polite"><span/><span/><span/><p>Cargando jornada…</p></div>:blocked?<p className="qdPlayerRoundMessage">Los pronósticos de este participante estarán disponibles cuando comience la jornada.</p>:error?<p className="qdPlayerRoundMessage" role="alert">No se han podido consultar los pronósticos de esta jornada.</p>:<div className="qdPlayerRoundMatches" key={round}>
@@ -168,20 +177,14 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
       const pick=picks[team]||null;
       const correct=actual!==null&&pick===actual;
       const incorrect=actual!==null&&!!pick&&pick!==actual;
-      return <article key={team} style={{"--qd-card-index":Math.min(index,12)} as React.CSSProperties} className={"qdPlayerRoundMatch "+(correct?"correct":incorrect?"incorrect":"")}>
-       <div className="qdPlayerRoundKick">{game.date||"Fecha pendiente"} <span>·</span> {game.time||"Hora pendiente"}</div>
-       <div className="qdPlayerRoundScoreline">
-        <div className="qdPlayerRoundTeam"><TeamCrest src={isHome?ownCrest:rivalCrest} name={home}/><span>{home}</span></div>
-        <strong>{final?String(match!.home_score)+" – "+String(match!.away_score):"—"}</strong>
-        <div className="qdPlayerRoundTeam"><TeamCrest src={isHome?rivalCrest:ownCrest} name={away}/><span>{away}</span></div>
+      return <article key={team} style={{"--qd-card-index":Math.min(index,12)} as React.CSSProperties} className={"qdPlayerRoundMatch qdPlayerCompactMatch "+(correct?"correct":incorrect?"incorrect":"")} aria-label={home+" contra "+away+", "+(final?String(match!.home_score)+" a "+String(match!.away_score):"partido pendiente")+", pronóstico "+(pick||"no enviado")+(correct?", acertado":incorrect?", fallado":"")}>
+       <div className="qdCompactFixture">
+        <div className="qdCompactSide qdCompactHome"><span className="qdCompactName" title={home}>{home}</span><TeamCrest src={isHome?ownCrest:rivalCrest} name={home}/></div>
+        <strong className="qdCompactScore">{final?String(match!.home_score)+" – "+String(match!.away_score):"—"}</strong>
+        <div className="qdCompactSide qdCompactAway"><TeamCrest src={isHome?rivalCrest:ownCrest} name={away}/><span className="qdCompactName" title={away}>{away}</span></div>
        </div>
-       <div className="qdPlayerRoundFoot">
-        <span className="qdPlayerPredictionCapsule">
-         <span className="qdPlayerPredictionLabel">TU PRONÓSTICO</span>
-         <b aria-label={(correct?"Pronóstico acertado: ":incorrect?"Pronóstico fallado: ":"Pronóstico: ")+(pick||"sin pronóstico")} className={"qdPlayerPick "+(pick?"pick"+pick:"")}>{pick||"—"}</b>
-         {(correct||incorrect)&&<span className={"qdPlayerPickVerdict "+(correct?"hit":"miss")} aria-label={correct?"Acierto":"Error"}>{correct?"✓":"×"}</span>}
-        </span>
-        <span className={"qdPlayerPickState "+(correct?"hit":incorrect?"miss":"")}>{correct||incorrect?null:match?.status==="suspended"?"Suspendido":final?"Sin pronóstico":"Pendiente"}</span>
+       <div className="qdCompactPickSlot">
+        <b aria-label={(correct?"Pronóstico acertado: ":incorrect?"Pronóstico fallado: ":"Pronóstico: ")+(pick||"sin pronóstico")} className={"qdPlayerPick qdCompactPick "+(pick?"pick"+pick:"")+(correct?" is-hit":incorrect?" is-miss":"")}>{pick||"—"}</b>
        </div>
       </article>;
      }):<p className="qdPlayerRoundMessage">No hay partidos disponibles para esta jornada.</p>}
