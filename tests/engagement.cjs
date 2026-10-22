@@ -53,21 +53,24 @@ assert.equal(makeTrendTimeline([0,0,100]).stages[2].start,140);
 assert.equal(makeTrendTimeline([100,0,0]).end,880);
 console.log("Passed engagement: percentages, ranking, pot and sequential blue-white-red timeline.");
 
-const {latestRoundSnapshot,recapSeenKey}=require("../app/lib/round-recap.ts");
-const fixtures={1:{a:{},b:{status:"rest"}},2:{a:{},b:{}},3:{a:{},b:{}}};
-const ownScores=[{user_id:"a",round:1,hits:1},{user_id:"a",round:2,hits:1},{user_id:"a",round:3,hits:2}];
-const matches=[{round:1,team:"a",status:"finished"},{round:2,team:"a",status:"final"},{round:2,team:"b",status:"finished"},{round:3,team:"a",status:"finished"},{round:3,team:"b",status:"scheduled"}];
-assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"a",3).round,2,"Next access finds the last complete round while the new one is pending");
-assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"a",1).played,1,"Byes are not missing matches");
+const {latestRoundSnapshot,recapSeenKey,FIRST_RECAP_ROUND}=require("../app/lib/round-recap.ts");
+const fixtures={3:{a:{},b:{status:"rest"}},4:{a:{},b:{status:"rest"}},5:{a:{},b:{}},6:{a:{},b:{}}};
+const ownScores=[{user_id:"a",round:3,hits:1},{user_id:"a",round:4,hits:1},{user_id:"a",round:5,hits:1},{user_id:"a",round:6,hits:2}];
+const matches=[{round:3,team:"a",status:"finished"},{round:4,team:"a",status:"finished"},{round:5,team:"a",status:"final"},{round:5,team:"b",status:"finished"},{round:6,team:"a",status:"finished"},{round:6,team:"b",status:"scheduled"}];
+assert.equal(FIRST_RECAP_ROUND,4);
+assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"a",3),null,"Completed past rounds never launch a recap");
+assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"a",6).round,5,"Next access finds the last eligible complete round");
+assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"a",4).played,1,"Byes are not missing matches");
 for(const status of ["scheduled","suspended","postponed","live"]){
- const pending=matches.map(m=>m.round===2&&m.team==="b"?{...m,status}:m);
- assert.equal(latestRoundSnapshot(fixtures,pending,ownScores,"a",2).round,1,"Unresolved matches cannot close the recap");
+ const pending=matches.map(m=>m.round===4?{...m,status}:m);
+ assert.equal(latestRoundSnapshot(fixtures,pending,ownScores,"a",4),null,"Incomplete J4 must not fall back to completed J3");
 }
-assert.equal(latestRoundSnapshot(fixtures,matches.filter(m=>m.round!==2||m.team!=="b"),ownScores,"a",2).round,1);
-assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"nobody",3),null);
-assert.notEqual(recapSeenKey("a",2),recapSeenKey("b",2));
-assert.notEqual(recapSeenKey("a",2),recapSeenKey("a",3));
-console.log("Passed recap: latest complete round, pending/suspended/missing matches, byes, absent participation, per-user/round keys.");
+assert.equal(latestRoundSnapshot(fixtures,matches.filter(m=>m.round!==4),ownScores,"a",4),null);
+assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"a",4).round,4,"A complete J4 is eligible");
+assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"nobody",6),null);
+assert.notEqual(recapSeenKey("a",4),recapSeenKey("b",4));
+assert.notEqual(recapSeenKey("a",4),recapSeenKey("a",5));
+console.log("Passed recap: J4 launch boundary, no past-round fallback, latest completion, unresolved/missing matches, byes, participation and seen keys.");
 
 const {roundNeedsRefresh}=require("../app/lib/live-window.ts");
 const windowFixture={a:{date:"25/10/2026",time:"16:30"}};
