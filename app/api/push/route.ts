@@ -34,7 +34,10 @@ async function ensurePlayer(db: ReturnType<typeof serverDb>, userId: string) {
   if (!profile?.username || profile.username.trim().length < 3) return null;
   const name = profile.username.trim();
   const { data, error } = await db.from("players")
-    .insert({ auth_user_id: userId, full_name: name, username: name, notifications_enabled: false })
+    // This is a notification identity, not a new public username. A historical
+    // player may already own that name. Keep it intact; link only by auth UUID.
+    // players.username is nullable and the canonical display name stays in quini_profiles.
+    .insert({ auth_user_id: userId, full_name: name, username: null, notifications_enabled: false })
     .select("id").single();
   if (error) {
     // Concurrent requests can create the same user-linked row at the same time.
@@ -65,12 +68,14 @@ export async function POST(req: NextRequest) {
   try {
     const auth = await authenticated(req);
     if (!auth) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    const playerId = await ensurePlayer(auth.db, auth.user.id);
-    if (!playerId) return NextResponse.json({ error: "profile_not_found" }, { status: 409 });
-    const body = await req.json();
+    let body;
+    try { body = await req.json(); } catch { return NextResponse.json({ error: "subscription" }, { status: 400 }); }
+    if (!body || typeof body !== "object") return NextResponse.json({ error: "subscription" }, { status: 400 });
     if (body.action === "submitted") {
       const round = Number(body.round);
       if (!Number.isSafeInteger(round) || round < 1) return NextResponse.json({ error: "round" }, { status: 400 });
+      const playerId = await ensurePlayer(auth.db, auth.user.id);
+      if (!playerId) return NextResponse.json({ error: "profile_not_found" }, { status: 409 });
       // Keep the existing reminder suppression log for a submitted round.
       const response = await fetch(base + "/rest/v1/push_notification_log", {
         method: "POST",
@@ -81,9 +86,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true });
     }
     const subscription = body.subscription;
-    if (!subscription?.endpoint || !subscription?.keys?.p256dh || !subscription?.keys?.auth) {
+    if (!validSubscription(subscription)) {
       return NextResponse.json({ error: "subscription" }, { status: 400 });
     }
+    const playerId = await ensurePlayer(auth.db, auth.user.id);
+    if (!playerId) return NextResponse.json({ error: "profile_not_found" }, { status: 409 });
     const { error } = await auth.db.from("push_subscriptions").upsert({
       player_id: playerId,
       endpoint: subscription.endpoint,
@@ -99,9 +106,19 @@ export async function POST(req: NextRequest) {
     if (updateError) throw updateError;
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("push-register", error);
+    // Never log endpoints, encryption keys, access tokens or display names.
+    console.error("push-register", { code: typeof error === "object" && error && "code" in error ? error.code : "internal" });
     return NextResponse.json({ error: "push" }, { status: 500 });
   }
+}
+
+function validSubscription(value: unknown): value is { endpoint: string; keys: { p256dh: string; auth: string } } {
+  if (!value || typeof value !== "object") return false;
+  const sub = value as { endpoint?: unknown; keys?: { p256dh?: unknown; auth?: unknown } };
+  if (typeof sub.endpoint !== "string" || sub.endpoint.length > 8192) return false;
+  try { const url = new URL(sub.endpoint); if (url.protocol !== "https:" || url.username || url.password || url.hash) return false; } catch { return false; }
+  const key = (v: unknown, bytes: number) => typeof v === "string" && /^[A-Za-z0-9_-]+={0,2}$/.test(v) && Buffer.from(v, "base64url").length === bytes;
+  return key(sub.keys?.p256dh, 65) && key(sub.keys?.auth, 16);
 }
 
 export async function DELETE(req: NextRequest) {
