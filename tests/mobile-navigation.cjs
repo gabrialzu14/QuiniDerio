@@ -82,6 +82,18 @@ function documentFixture(){
  assert.match(navGeometry,/transform: translate3d\(calc\(var\(--active-index\) \* \(100% \+ var\(--qd-nav-gap\)\)\), 0, 0\) !important/);
  assert.match(navGeometry,/html\[data-nav="top"\]/);
  assert.doesNotMatch(navGeometry,/touch-action: none|pointer-events: none !important/);
+ const rail=readFileSync(path.join(__dirname,"../app/components/RoundRail.tsx"),"utf8");
+ const railCss=readFileSync(path.join(__dirname,"../app/dynamic-motion.css"),"utf8");
+ assert.match(rail,/addEventListener\("touchmove",move,\{passive:false\}\)/);
+ assert.match(rail,/Math\.abs\(dx\)>Math\.abs\(dy\)\*1\.15/,"Horizontal intent must be detected before capturing a swipe");
+ assert.match(rail,/node\.scrollLeft=originLeft-dx/);
+ assert.match(rail,/onPointerMove=\{onPointerMove\}/);
+ assert.match(rail,/onClickCapture=\{onRailClickCapture\}/);
+ assert.match(rail,/removeEventListener\("touchmove",move\)/);
+ assert.match(railCss,/html body\.qdModern \.qdRoundRail\{[\s\S]*?touch-action:pan-y pinch-zoom!important/);
+ assert.match(railCss,/\.qdRoundTrack>button:disabled\{\s*pointer-events:none!important/);
+ assert.match(rail,/data-scope="all"/);
+ assert.match(rail,/data-scope=\{round\}/);
  const lock=readFileSync(path.join(__dirname,"../app/components/usePageScrollLock.ts"),"utf8");
  assert.ok(!lock.includes('position","fixed"'),"The body must never be fixed by the modal lock");
  console.log("Passed: Android modal scroll cleanup, repeated overlays, pull gesture thresholds and passive listeners");

@@ -52,7 +52,7 @@ html body.qdModern .qdRoundRail{
  overflow-x:auto!important;overflow-y:hidden!important;
  -webkit-overflow-scrolling:touch!important;
  overscroll-behavior-x:contain!important;
- touch-action:pan-x pinch-zoom!important;
+ touch-action:pan-y pinch-zoom!important;
  scrollbar-width:none!important;
  padding:2px 0 9px!important;
 }
@@ -70,4 +70,20 @@ html body.qdModern .qdRoundNavigator::after{
 }
 html[data-theme="light"] body.qdModern .qdRoundNavigator::after{
  background:linear-gradient(90deg,transparent,#f6f9ff);
+}
+
+/* Dedicated horizontal rail gesture; keep the page vertically scrollable. */
+html body.qdModern .qdRoundRail{
+ cursor:grab!important;
+ overscroll-behavior-x:contain!important;
+}
+html body.qdModern .qdRoundRail.isDragging{cursor:grabbing!important;scroll-behavior:auto!important}
+html body.qdModern .qdRoundRail .qdRoundTrack,
+html body.qdModern .qdRoundRail .qdRoundTrack>button{
+ -webkit-user-select:none!important;
+ user-select:none!important;
+ touch-action:pan-y pinch-zoom!important;
+}
+html body.qdModern .qdRoundRail .qdRoundTrack>button:disabled{
+ pointer-events:none!important;
 }
