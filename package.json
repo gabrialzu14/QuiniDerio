@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "npm test && next build",
     "start": "next start",
-    "test": "node tests/match-details.cjs && node tests/admin-route.cjs && node tests/mobile-navigation.cjs && node tests/new-round.cjs && node tests/engagement.cjs && node tests/push-registration.cjs && node tests/push-client.cjs && node tests/player-performance.cjs"
+    "test": "node tests/match-details.cjs && node tests/admin-route.cjs && node tests/mobile-navigation.cjs && node tests/new-round.cjs && node tests/engagement.cjs && node tests/push-registration.cjs && node tests/push-client.cjs && node tests/player-performance.cjs && node tests/quiniela-visual.cjs"
   },
   "dependencies": {
     "next": "16.0.10",

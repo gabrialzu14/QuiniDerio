@@ -1,0 +1,338 @@
+/* QuiniDerio · Tu quiniela visual refresh, scoped to this screen only.
+   Blue stadium is an intentional background surface, not a new match feature. */
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress{
+ display:grid!important;
+ grid-template-columns:auto minmax(0,1fr)!important;
+ grid-template-rows:auto auto!important;
+ column-gap:17px!important;
+ row-gap:6px!important;
+ align-items:center!important;
+ justify-items:stretch!important;
+ margin:0 0 19px!important;
+ padding:15px 17px!important;
+ min-height:88px!important;
+ border:1px solid rgba(65,132,207,.35)!important;
+ border-radius:22px!important;
+ background:linear-gradient(135deg,#102c59 0%,#09234b 100%)!important;
+ box-shadow:inset 0 1px rgba(185,217,255,.09)!important;
+ text-align:left!important;
+}
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>b{
+ grid-column:1!important;
+ grid-row:1/3!important;
+ align-self:center!important;
+ margin:0!important;
+ font-size:27px!important;
+ line-height:1!important;
+ font-weight:850!important;
+ color:#fff!important;
+ letter-spacing:-.06em!important;
+}
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>div{
+ grid-column:2!important;
+ grid-row:1!important;
+ width:100%!important;
+ max-width:none!important;
+ height:8px!important;
+ border-radius:999px!important;
+ background:rgba(26,73,121,.74)!important;
+ overflow:visible!important;
+}
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>div>i{
+ display:block!important;
+ height:100%!important;
+ border-radius:999px!important;
+ background:linear-gradient(90deg,#2c8bf7,#56c6ff)!important;
+ box-shadow:0 0 8px rgba(75,162,247,.35)!important;
+ transition:width .42s cubic-bezier(.2,.8,.2,1),background .2s ease!important;
+}
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress.complete{
+ border-color:rgba(21,197,147,.39)!important;
+ background:linear-gradient(135deg,#092e4c 0%,#082545 100%)!important;
+}
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress.complete>div>i{
+ background:linear-gradient(90deg,#07cfa1,#31ebaa)!important;
+ box-shadow:0 0 8px rgba(20,220,160,.72),0 0 19px rgba(14,209,160,.35)!important;
+}
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>span.qdRoundProgressLabel{
+ grid-column:2!important;
+ grid-row:2!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:flex-start!important;
+ gap:7px!important;
+ width:100%!important;
+ margin:0!important;
+ font-size:11px!important;
+ line-height:1.2!important;
+ color:#b9d5ef!important;
+ text-align:left!important;
+}
+html body.qdModern .qdTab-quiniela .roundProgress.complete>span.qdRoundProgressLabel{
+ color:#d4f8ed!important;
+}
+html body.qdModern .qdTab-quiniela .qdRoundProgressLabel svg{
+ flex:0 0 17px;
+ color:#18e2a8;
+}
+/* Stadium atmosphere stays visible through a blue tonal veil, especially at center. */
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch{
+ position:relative!important;
+ isolation:isolate!important;
+ overflow:hidden!important;
+ padding:13px 13px 14px!important;
+ border-radius:23px!important;
+ border:1px solid rgba(53,135,244,.68)!important;
+ background:#0b2a58!important;
+ box-shadow:inset 0 1px rgba(196,228,255,.12),0 10px 28px rgba(3,12,33,.18)!important;
+}
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch::before{
+ content:""!important;
+ display:block!important;
+ position:absolute!important;
+ inset:0!important;
+ z-index:0!important;
+ pointer-events:none!important;
+ border:0!important;
+ border-radius:inherit!important;
+ background-image:linear-gradient(180deg,rgba(5,21,49,.59) 0%,rgba(9,42,88,.22) 28%,rgba(7,36,76,.18) 49%,rgba(7,32,70,.42) 68%,rgba(4,20,49,.92) 87%,#071b42 100%),url("/quiniela-stadium-blue.svg")!important;
+ background-size:cover!important;
+ background-position:center 34%!important;
+ opacity:1!important;
+ box-shadow:none!important;
+ filter:none!important;
+ transform:none!important;
+}
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch::after{
+ content:""!important;
+ display:block!important;
+ position:absolute!important;
+ inset:0!important;
+ z-index:0!important;
+ pointer-events:none!important;
+ border-radius:inherit!important;
+ background:linear-gradient(90deg,rgba(5,26,63,.16),transparent 28%,transparent 72%,rgba(5,26,63,.16))!important;
+ box-shadow:none!important;
+}
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch>*{
+ position:relative;
+ z-index:1;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ align-items:center!important;
+ column-gap:9px!important;
+ width:100%!important;
+ min-height:36px!important;
+ margin:0 0 17px!important;
+ padding:8px 10px!important;
+ border:1px solid rgba(100,166,232,.23)!important;
+ border-radius:12px!important;
+ background:rgba(8,34,73,.77)!important;
+ box-shadow:inset 0 1px rgba(170,215,255,.09)!important;
+ -webkit-backdrop-filter:blur(8px);
+ backdrop-filter:blur(8px);
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo span{
+ display:flex!important;
+ align-items:center!important;
+ gap:5px!important;
+ min-width:0!important;
+ margin:0!important;
+ font-size:10px!important;
+ line-height:1.35!important;
+ font-weight:700!important;
+ letter-spacing:0!important;
+ color:#eaf5ff!important;
+ white-space:nowrap!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo span:last-child{
+ justify-content:flex-end!important;
+ color:#c5dfff!important;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo svg{
+ flex:0 0 14px;
+ opacity:.85;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr)!important;
+ align-items:center!important;
+ gap:5px!important;
+ margin:8px 0 22px!important;
+ text-align:center!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div{
+ min-width:0!important;
+ width:100%!important;
+ justify-self:stretch!important;
+ text-align:center!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox{
+ box-shadow:none!important;
+ filter:none!important;
+ -webkit-filter:none!important;
+ background:transparent!important;
+ text-shadow:none!important;
+ border:0!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox img{
+ box-shadow:none!important;
+ filter:none!important;
+ -webkit-filter:none!important;
+ text-shadow:none!important;
+ background:transparent!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus b{
+ color:#f4f9ff!important;
+ text-shadow:0 1px 2px rgba(0,0,0,.18)!important;
+ font-size:clamp(12px,3.5vw,16px)!important;
+ font-weight:850!important;
+ line-height:1.25!important;
+ white-space:normal!important;
+ overflow-wrap:normal!important;
+ text-overflow:clip!important;
+ margin-top:7px!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>strong{
+ width:47px!important;
+ height:47px!important;
+ border-radius:50%!important;
+ border:1px solid rgba(120,188,254,.33)!important;
+ background:rgba(14,53,108,.6)!important;
+ display:grid!important;
+ place-items:center!important;
+ justify-self:center!important;
+ color:#c9e4ff!important;
+ font-size:16px!important;
+ font-weight:850!important;
+ letter-spacing:.04em!important;
+ box-shadow:inset 0 1px rgba(207,233,255,.12)!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>small{
+ display:table!important;
+ width:auto!important;
+ max-width:100%!important;
+ margin:6px auto 3px!important;
+ padding:4px 10px!important;
+ border:1px solid rgba(66,150,247,.43)!important;
+ border-radius:999px!important;
+ background:rgba(14,66,130,.78)!important;
+ box-shadow:inset 0 1px rgba(177,218,255,.09)!important;
+ color:#c5dcff!important;
+ font-size:10px!important;
+ font-weight:750!important;
+ line-height:1.25!important;
+ white-space:nowrap!important;
+ text-align:center!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div:last-child>small{
+ border-color:rgba(38,194,152,.48)!important;
+ background:rgba(6,83,87,.55)!important;
+ color:#83f1d2!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .teamFormDots{
+ margin:6px auto 0!important;
+ justify-content:center!important;
+ align-self:center!important;
+ gap:4px!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{
+ position:relative!important;
+ margin:0 -13px -14px!important;
+ padding:14px 13px 15px!important;
+ background:linear-gradient(180deg,rgba(7,30,68,.84),rgba(6,26,62,.97))!important;
+ border-top:1px solid rgba(74,146,222,.29)!important;
+ border-radius:19px 19px 22px 22px!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .pickHint{
+ margin:0 0 10px!important;
+ color:#accbf0!important;
+ font-size:10px!important;
+ font-weight:850!important;
+ letter-spacing:.13em!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo{
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:8px!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{
+ position:relative!important;
+ min-height:61px!important;
+ border-radius:15px!important;
+ background:rgba(21,64,125,.73)!important;
+ border:1px solid rgba(54,132,230,.52)!important;
+ color:#e2edff!important;
+ box-shadow:inset 0 1px rgba(172,216,255,.07)!important;
+ transition:transform .18s cubic-bezier(.2,.85,.3,1),background-color .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button b{
+ font-size:22px!important;
+ line-height:1!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button small{
+ font-size:9px!important;
+ margin-top:4px!important;
+ letter-spacing:.035em!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not(:disabled):active{
+ transform:scale(.94)!important;
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.36),0 0 16px rgba(80,160,252,.29)!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{
+ border-width:2px!important;
+ animation:qdQuinielaPickSelect .25s cubic-bezier(.16,.82,.29,1) both!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick1{
+ background:#176ed5!important;
+ border-color:#8ad0ff!important;
+ box-shadow:0 0 0 1px rgba(132,197,255,.28),0 0 19px rgba(32,133,245,.35)!important;
+ color:#fff!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pickX{
+ background:#f7faff!important;
+ border-color:#fff!important;
+ box-shadow:0 0 0 2px rgba(103,189,255,.72),0 0 18px rgba(80,174,255,.44)!important;
+ color:#142d54!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pickX b,
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pickX small{
+ color:#142d54!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick2{
+ background:#d62e46!important;
+ border-color:#ff8493!important;
+ box-shadow:0 0 0 1px rgba(255,135,151,.25),0 0 18px rgba(235,51,84,.34)!important;
+ color:#fff!important;
+}
+@keyframes qdQuinielaPickSelect{
+ 0%{transform:scale(.97)}
+ 70%{transform:scale(1.025)}
+ 100%{transform:scale(1)}
+}
+@media(max-width:390px){
+ html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress{padding:13px 12px!important;column-gap:13px!important;min-height:77px!important}
+ html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>b{font-size:24px!important}
+ html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch{padding:11px 10px 12px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo{padding:7px!important;column-gap:5px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo span{font-size:8px!important;gap:3px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo svg{width:12px;height:12px;flex-basis:12px}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus{grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr)!important;gap:3px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>strong{width:38px!important;height:38px!important;font-size:13px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>small{font-size:9px!important;padding:3px 7px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{margin:0 -10px -12px!important;padding:12px 10px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo{gap:6px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{min-height:57px!important}
+}
+@media(max-width:330px){
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo{grid-template-columns:minmax(0,1fr)!important;row-gap:5px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo span:last-child{justify-content:flex-start!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{animation:none!important}
+ html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>div>i{transition:none!important}
+}
