@@ -27,7 +27,7 @@ assert.match(css,/images\.unsplash\.com\/photo-1679391029864-d46f366a456b/);
 assert.match(css,/background-size:cover,cover,cover!important/);
 assert.match(css,/background-position:center,center 43%,center 46%!important/);
 
-assert.match(css,/background-image:linear-gradient\(180deg,rgba\(7,25,61,\.13\)/);
+assert.match(css,/background-image:linear-gradient\(180deg,rgba\(4,18,46,\.33\)/);
 assert.match(image,/id="shade"/);
 assert.match(css,/background-image:linear-gradient\([\s\S]*?quiniela-stadium-blue\.svg/);
 assert.match(css,/\.qdStadiumMatch::before,[\s\S]*?\.qdStadiumMatch::after\{[\s\S]*?content:none!important/);
