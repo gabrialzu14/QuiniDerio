@@ -38,7 +38,7 @@ assert.match(css,/grid-template-rows:52px minmax\(32px,auto\) auto 11px/);
 assert.match(css,/\.crestBox\.crestNormalized img\[src\]\{[\s\S]*?width:43px!important/);
 assert.match(css,/\.pageTop h1\{[\s\S]*?filter:none!important/);
 assert.doesNotMatch(css,/position:absolute!important;\s*inset:0!important;\s*z-index:0!important/);
-assert.match(css,/\.matchCard\.qdStadiumMatch\{[\s\S]*?background-image:linear-gradient/);
+assert.match(css,/\.matchCard\.qdStadiumMatch\{[\s\S]*?background-image:\s*radial-gradient/);
 assert.match(css,/\.qdStadiumMatch::after\{[\s\S]*?display:none!important/);
 assert.match(css,/\.crestBox\.crestNormalized img\[src\]\{[\s\S]*?filter:none!important/);
 assert.match(css,/\.versus>strong\{[\s\S]*?border-radius:50%!important/);
