@@ -16,7 +16,7 @@ const fixtureStart=page.indexOf('<div className="fixtureInfo">');
 const fixtureEnd=page.indexOf('<div className="versus">',fixtureStart);
 assert.ok(fixtureStart>=0&&fixtureEnd>fixtureStart);
 const fixtureHeader=page.slice(fixtureStart,fixtureEnd);
-assert.doesNotMatch(fixtureHeader,/<svg\\b/);
+assert.doesNotMatch(fixtureHeader,/<svg\b/);
 assert.match(fixtureHeader,/Fecha por confirmar/);
 assert.match(fixtureHeader,/Lugar por confirmar/);
 assert.match(page,/className="versus"/);
