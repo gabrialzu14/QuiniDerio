@@ -41,5 +41,8 @@ assert.match(header,/<span>Acierto<\/span>/);
 assert.match(header,/<small> Pts<\/small>/);
 assert.match(header,/<span>Media<\/span>/);
 assert.match(sheetStyles,/\.qdPlayerStatCard strong small/);
+assert.match(sheetStyles,/\.qdPlayerStatCard\{[\s\S]*?background:linear-gradient\(155deg,rgba\(36,113,200,\.34\),rgba\(20,77,158,\.28\)\)/);
+assert.doesNotMatch(sheetStyles,/\.qdPlayerStatAccuracy\s*\{/);
+assert.doesNotMatch(sheetStyles,/\.qdPlayerStatAverage strong\s*\{/);
 assert.match(sheetStyles,/@media\(max-width:390px\)/);
 console.log("Passed QuiniDerio compact player season stat cards.");
