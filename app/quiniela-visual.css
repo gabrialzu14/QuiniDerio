@@ -239,11 +239,7 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>small{
  white-space:nowrap!important;
  text-align:center!important;
 }
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div:last-child>small{
- border-color:rgba(38,194,152,.48)!important;
- background:rgba(6,83,87,.55)!important;
- color:#83f1d2!important;
-}
+/* Ambos equipos comparten la misma cápsula azul para posición y puntos. */
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .teamFormDots{
  grid-row:4!important;
  margin:2px auto 0!important;
