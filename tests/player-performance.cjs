@@ -45,4 +45,17 @@ assert.match(sheetStyles,/\.qdPlayerStatCard\{[\s\S]*?background:linear-gradient
 assert.doesNotMatch(sheetStyles,/\.qdPlayerStatAccuracy\s*\{/);
 assert.doesNotMatch(sheetStyles,/\.qdPlayerStatAverage strong\s*\{/);
 assert.match(sheetStyles,/@media\(max-width:390px\)/);
+
+assert.match(sheet,/qdPlayerCompactMatch/);
+assert.match(sheet,/className="qdCompactFixture"/);
+assert.match(sheet,/className="qdCompactName"/);
+assert.match(sheet,/className="qdCompactScore"/);
+assert.match(sheet,/qdCompactPick/);
+assert.match(sheetStyles,/grid-template-columns:minmax\(0,1fr\) 40px!important/);
+assert.match(sheetStyles,/min-height:52px!important/);
+assert.match(sheetStyles,/grid-template-columns:minmax\(0,1fr\) 44px minmax\(0,1fr\)!important/);
+assert.match(sheetStyles,/width:25px!important;height:27px!important/);
+assert.match(sheetStyles,/font-size:clamp\(14px,3\.6vw,17px\)!important/);
+assert.match(sheetStyles,/width:33px!important;height:34px!important/);
+assert.match(sheetStyles,/width:22px!important;height:24px!important/);
 console.log("Passed QuiniDerio compact player season stat cards.");
