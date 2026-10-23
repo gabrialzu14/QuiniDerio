@@ -45,6 +45,6 @@ for(const v of ["pick1","pickX","pick2"]){
 assert.match(page,/className=\{picks\[pickKey\]===x\?"active pick"\+x:"pick"\+x\}/);
 assert.doesNotMatch(light,/html:not\(\[data-theme="light"\]\)/);
 assert.doesNotMatch(nav,/html:not\(\[data-theme="light"\]\) body \.dashboard \.liquidNav/);
-assert.match(admin,/html\\[data-theme="light"\\] body\\.qdModern \\.adminWorkspace button:disabled/);
+assert.ok(admin.includes('html[data-theme="light"] body.qdModern .adminWorkspace button:disabled'));
 assert.match(admin,/background:#eaf1f8!important/);
 console.log("Passed light-theme contrast and 1/X/2, own-pick, navigation regression checks.");
