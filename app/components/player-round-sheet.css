@@ -252,14 +252,14 @@ html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch,
 html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct,
 html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
  display:grid!important;
- grid-template-columns:minmax(0,1fr) 46px!important;
+ grid-template-columns:minmax(0,1fr) 53px!important;
  align-items:center!important;
- column-gap:7px!important;
+ column-gap:9px!important;
  min-width:0!important;
- min-height:60px!important;
- padding:7px 7px 7px 9px!important;
+ min-height:67px!important;
+ padding:9px 9px 9px 11px!important;
  border:1px solid rgba(122,160,204,.23)!important;
- border-radius:14px!important;
+ border-radius:15px!important;
  background:rgba(27,47,70,.88)!important;
  box-shadow:inset 0 1px 0 rgba(230,246,255,.025)!important;
 }
@@ -271,13 +271,13 @@ html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
 }
 html body.qdModern .qdCompactFixture{
  display:grid!important;
- grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr)!important;
+ grid-template-columns:minmax(0,1fr) 55px minmax(0,1fr)!important;
  align-items:center!important;
- gap:4px!important;
+ gap:5px!important;
  min-width:0!important;
 }
 html body.qdModern .qdCompactSide{
- display:flex!important;align-items:center!important;min-width:0!important;gap:4px!important;
+ display:flex!important;align-items:center!important;min-width:0!important;gap:5px!important;
 }
 html body.qdModern .qdCompactHome{justify-content:flex-end!important}
 html body.qdModern .qdCompactAway{justify-content:flex-start!important}
@@ -288,37 +288,35 @@ html body.qdModern .qdCompactName{
  overflow:hidden!important;
  min-width:0!important;
  max-width:100%;
- font-size:clamp(9px,2.4vw,11.5px)!important;
- font-weight:780!important;
- line-height:1.15!important;
+ font-size:clamp(10px,2.8vw,13px)!important;
+ font-weight:800!important;
+ line-height:1.23!important;
  color:#f0f6ff!important;
  text-wrap:balance;
- overflow-wrap:normal;
- word-break:normal;
- hyphens:none;
+ overflow-wrap:anywhere;
 }
 html body.qdModern .qdCompactHome .qdCompactName{text-align:right!important}
 html body.qdModern .qdCompactAway .qdCompactName{text-align:left!important}
 html body.qdModern .qdCompactFixture .qdPlayerCrestFrame{
- flex:0 0 28px!important;
+ flex:0 0 34px!important;
  display:grid!important;place-items:center!important;
- width:28px!important;height:31px!important;
- min-width:28px!important;min-height:31px!important;
+ width:34px!important;height:37px!important;
+ min-width:34px!important;min-height:37px!important;
 }
 html body.qdModern .qdCompactFixture .qdPlayerMatchCrest{
- width:26px!important;height:28px!important;
- max-width:26px!important;max-height:28px!important;
+ width:32px!important;height:34px!important;
+ max-width:32px!important;max-height:34px!important;
  object-fit:contain!important;
 }
 html body.qdModern .qdCompactFixture .qdPlayerCrestFallback{
  display:grid!important;place-items:center!important;
- width:26px!important;height:28px!important;
+ width:31px!important;height:31px!important;
  font-size:9px!important;
 }
 html body.qdModern .qdCompactScore{
- font-size:clamp(14px,4vw,18px)!important;
- font-weight:820!important;line-height:1.15!important;
- letter-spacing:-.05em!important;
+ font-size:clamp(15px,4.6vw,20px)!important;
+ font-weight:850!important;line-height:1.15!important;
+ letter-spacing:-.06em!important;
  font-variant-numeric:tabular-nums;
  text-align:center!important;white-space:nowrap!important;
  color:#f7faff!important;
@@ -326,18 +324,18 @@ html body.qdModern .qdCompactScore{
 html body.qdModern .qdCompactPickSlot{
  display:flex!important;
  align-items:center!important;justify-content:center!important;
- min-height:38px!important;
+ min-height:44px!important;
  border-left:1px solid rgba(144,177,213,.18)!important;
- padding-left:7px!important;
+ padding-left:9px!important;
 }
 html body.qdModern .qdPlayerRoundModal .qdCompactPick{
  display:grid!important;place-items:center!important;
- width:34px!important;height:36px!important;
- min-width:34px!important;min-height:36px!important;
- border-radius:10px!important;
+ width:40px!important;height:42px!important;
+ min-width:40px!important;min-height:42px!important;
+ border-radius:11px!important;
  border:1px solid rgba(250,253,255,.12)!important;
  color:#fff!important;
- font-size:18px!important;font-weight:900!important;line-height:1!important;
+ font-size:21px!important;font-weight:900!important;line-height:1!important;
  font-variant-numeric:tabular-nums;
  box-shadow:inset 0 1px rgba(255,255,255,.08)!important;
 }
@@ -365,34 +363,13 @@ html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch
 html[data-theme="light"] body.qdModern .qdCompactName,
 html[data-theme="light"] body.qdModern .qdCompactScore{color:#173c5c!important}
 @media(max-width:400px){
- html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch,
- html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct,
- html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{
-  grid-template-columns:minmax(0,1fr) 42px!important;
-  column-gap:6px!important;
-  padding:6px 6px 6px 8px!important;
-  min-height:56px!important;
- }
- html body.qdModern .qdCompactFixture{grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr)!important;gap:3px!important}
+ html body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch{grid-template-columns:minmax(0,1fr) 44px!important;column-gap:6px!important;padding:8px 6px!important}
+ html body.qdModern .qdCompactFixture{grid-template-columns:minmax(0,1fr) 49px minmax(0,1fr)!important;gap:3px!important}
  html body.qdModern .qdCompactSide{gap:3px!important}
- html body.qdModern .qdCompactName{font-size:clamp(9px,2.2vw,10.5px)!important;line-height:1.15!important}
- html body.qdModern .qdCompactFixture .qdPlayerCrestFrame{
-  width:25px!important;height:28px!important;
-  min-width:25px!important;min-height:28px!important;flex-basis:25px!important;
- }
- html body.qdModern .qdCompactFixture .qdPlayerMatchCrest{
-  width:23px!important;height:25px!important;
-  max-width:23px!important;max-height:25px!important;
- }
- html body.qdModern .qdCompactFixture .qdPlayerCrestFallback{
-  width:23px!important;height:25px!important;
- }
- html body.qdModern .qdCompactScore{font-size:16px!important}
+ html body.qdModern .qdCompactFixture .qdPlayerCrestFrame{width:28px!important;height:31px!important;min-width:28px!important;min-height:31px!important;flex-basis:28px!important}
+ html body.qdModern .qdCompactFixture .qdPlayerMatchCrest{width:27px!important;height:30px!important;max-width:27px!important;max-height:30px!important}
  html body.qdModern .qdCompactPickSlot{padding-left:6px!important}
- html body.qdModern .qdPlayerRoundModal .qdCompactPick{
-  width:32px!important;min-width:32px!important;
-  height:34px!important;min-height:34px!important;font-size:17px!important;
- }
+ html body.qdModern .qdPlayerRoundModal .qdCompactPick{width:36px!important;min-width:36px!important;height:39px!important;min-height:39px!important;font-size:19px!important}
 }
 @media(prefers-reduced-motion:reduce){html body.qdModern .qdPlayerRoundModal .qdCompactPick{animation:none!important;transition:none!important}}
 
