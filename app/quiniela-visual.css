@@ -1,78 +1,84 @@
 /* QuiniDerio · Tu quiniela visual refresh, scoped to this screen only.
    Blue stadium is an intentional background surface, not a new match feature. */
+/* Contador compacto: una sola fila cuando se han completado todos los pronósticos. */
 html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress{
  display:grid!important;
  grid-template-columns:auto minmax(0,1fr)!important;
- grid-template-rows:auto auto!important;
- column-gap:17px!important;
- row-gap:6px!important;
+ grid-template-rows:auto 4px!important;
+ column-gap:12px!important;
+ row-gap:10px!important;
  align-items:center!important;
  justify-items:stretch!important;
- margin:0 0 19px!important;
- padding:12px 16px!important;
- min-height:76px!important;
- border:1px solid rgba(65,132,207,.35)!important;
- border-radius:22px!important;
+ margin:0 0 16px!important;
+ padding:12px 15px!important;
+ min-height:60px!important;
+ border:1px solid rgba(65,132,207,.30)!important;
+ border-radius:17px!important;
  background:linear-gradient(135deg,#102c59 0%,#09234b 100%)!important;
- box-shadow:inset 0 1px rgba(185,217,255,.09)!important;
+ box-shadow:inset 0 1px rgba(185,217,255,.07)!important;
  text-align:left!important;
 }
 html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>b{
  grid-column:1!important;
- grid-row:1/3!important;
+ grid-row:1!important;
  align-self:center!important;
  margin:0!important;
- font-size:27px!important;
+ font-size:25px!important;
  line-height:1!important;
  font-weight:850!important;
  color:#fff!important;
- letter-spacing:-.06em!important;
+ letter-spacing:-.05em!important;
 }
 html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>div{
- grid-column:2!important;
- grid-row:1!important;
+ grid-column:1/-1!important;
+ grid-row:2!important;
  width:100%!important;
  max-width:none!important;
- height:8px!important;
+ height:4px!important;
  border-radius:999px!important;
- background:rgba(26,73,121,.74)!important;
- overflow:visible!important;
+ background:rgba(26,73,121,.6)!important;
+ overflow:hidden!important;
 }
 html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>div>i{
  display:block!important;
  height:100%!important;
  border-radius:999px!important;
- background:linear-gradient(90deg,#2c8bf7,#56c6ff)!important;
- box-shadow:0 0 8px rgba(75,162,247,.35)!important;
- transition:width .42s cubic-bezier(.2,.8,.2,1),background .2s ease!important;
+ background:linear-gradient(90deg,#277dcb,#48aaf1)!important;
+ box-shadow:none!important;
+ transition:width .42s cubic-bezier(.2,.8,.2,1)!important;
 }
 html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress.complete{
- border-color:rgba(21,197,147,.39)!important;
+ grid-template-rows:auto!important;
+ min-height:55px!important;
+ border-color:rgba(21,197,147,.32)!important;
  background:linear-gradient(135deg,#092e4c 0%,#082545 100%)!important;
 }
-html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress.complete>div>i{
- background:linear-gradient(90deg,#07cfa1,#31ebaa)!important;
- box-shadow:0 0 7px rgba(20,220,160,.42),0 0 15px rgba(14,209,160,.22)!important;
+html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress.complete>div{
+ display:none!important;
 }
 html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>span.qdRoundProgressLabel{
  grid-column:2!important;
- grid-row:2!important;
+ grid-row:1!important;
  display:flex!important;
  align-items:center!important;
- justify-content:flex-start!important;
- gap:7px!important;
+ justify-content:flex-end!important;
+ gap:6px!important;
  width:100%!important;
  margin:0!important;
- font-size:11px!important;
+ font-size:12px!important;
+ font-weight:700!important;
  line-height:1.2!important;
  color:#b9d5ef!important;
- text-align:left!important;
+ text-align:right!important;
+ white-space:nowrap!important;
 }
 html body.qdModern .qdTab-quiniela .roundProgress.complete>span.qdRoundProgressLabel{
  color:#d4f8ed!important;
 }
 html body.qdModern .qdTab-quiniela .qdRoundProgressLabel svg{
- flex:0 0 17px;
+ flex:0 0 16px!important;
+ width:16px!important;
+ height:16px!important;
  color:#18e2a8;
 }
 /* Fondo uniforme de ambiente azul sin fotografía de estadio. */
@@ -327,7 +333,8 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick2{
  100%{transform:scale(1)}
 }
 @media(max-width:390px){
- html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress{padding:11px 12px!important;column-gap:13px!important;min-height:71px!important}
+ html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress{padding:10px 12px!important;column-gap:10px!important;min-height:58px!important}
+ html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress.complete{min-height:53px!important}
  html body.qdModern .qdTab-quiniela .roundProgress.centeredProgress>b{font-size:24px!important}
  html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch{padding:10px 10px 11px!important}
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo{padding:7px!important;column-gap:5px!important}
