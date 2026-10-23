@@ -137,10 +137,6 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo span:last-child{
  overflow:hidden;
  text-overflow:ellipsis;
 }
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo svg{
- flex:0 0 14px;
- opacity:.85;
-}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus{
  display:grid!important;
  grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr)!important;
