@@ -36,4 +36,6 @@ assert.match(image,/<svg[^>]+viewBox="0 0 960 620"/);
 assert.match(image,/id="pitch"/);
 assert.match(image,/id="stands"/);
 assert.doesNotMatch(page.slice(page.indexOf("function GameQuiniela("),page.indexOf("function DinioImage(")),/Aplicar a todos los partidos/);
+assert.match(css,/qdStadiumMatch \.versus>div:first-child>small/);
+assert.match(css,/qdStadiumMatch \.versus>div:last-child \.teamFormDots/);
 console.log("Passed: Quiniela blue stadium, clean crests, capsule standings, completed-round progress, and press feedback.");
