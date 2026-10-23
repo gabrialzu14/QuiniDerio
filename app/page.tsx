@@ -323,15 +323,14 @@ function GameQuiniela({picks,setPicks,liveMatches,round,setRound,saved,onSave}:{
  const [saving,setSaving]=useState(false); const [clock,setClock]=useState(()=>Date.now()); useEffect(()=>{const id=window.setInterval(()=>setClock(Date.now()),30000);return()=>window.clearInterval(id)},[]); const fixtureOrder=(g:{date?:string,time?:string,status?:string})=>{if(g.status==="rest")return Number.MAX_SAFE_INTEGER;if(!g.date)return Number.MAX_SAFE_INTEGER-1;const [d,m,y]=g.date.split("/").map(Number);const [h=23,min=59]=(g.time||"23:59").split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()}; const games=weeklyTeams.map(team=>({name:team,...(quizFixtures[round]?.[team]||{})})).map(game=>game.name==="Cadete B"&&round===1?{...game,status:"rest",opponent:undefined,date:undefined,time:undefined,venue:undefined}:game).sort((a,b)=>fixtureOrder(a)-fixtureOrder(b));
  const playableGames=games.filter(game=>game.status!=="rest");
  const done=playableGames.filter(game=>picks[`${round}:${game.name}`]).length;
-  const isComplete=playableGames.length>0&&done===playableGames.length;
  const pending=playableGames.filter(game=>!game.opponent).length;
  const parseKickoff=(date?:string,time?:string)=>{if(!date||!time)return null;const [d,m,y]=date.split("/").map(Number);const [h,min]=time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()};
  const kickoffs=playableGames.map(g=>parseKickoff(g.date,g.time)).filter((v):v is number=>v!==null);
  const firstKickoff=kickoffs.length?Math.min(...kickoffs):null;
  const roundClosed=firstKickoff!==null&&Date.now()>=firstKickoff;
  return <section className="tabPage">
-  <div className="pageTop compactTop"><div className="roundBadge"><i/> {`JORNADA ${round} · ${roundClosed?"CERRADA":"ABIERTA"}`}</div><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
-  <div className={"roundProgress centeredProgress "+(isComplete?"complete":"")}><b>{done}/{playableGames.length}</b><div><i style={{width:`${playableGames.length?done/playableGames.length*100:0}%`}}/></div><span className="qdRoundProgressLabel">{isComplete&&<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="m6.8 12.1 3.5 3.4 6.9-7" fill="none" stroke="#082a31" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}{isComplete?"Completada":`${Math.max(0,playableGames.length-done)} pendiente${playableGames.length-done===1?"":"s"}`}</span></div>
+  <div className="pageTop compactTop"><h1>Tu quiniela</h1><p>Toca 1, X o 2 en cada partido.</p></div>
+  <h2 className="qdQuinielaRoundHeading">Jornada {round}</h2>
   <div className="matchStack">{games.map((game,i)=>{
    const {name:team,date="",time="",venue="",federationRound,competition}=game;
    const rival=game.opponent||"Rival por confirmar";
