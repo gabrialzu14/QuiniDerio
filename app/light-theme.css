@@ -67,3 +67,123 @@ html[data-theme="light"] body.qdModern .avatarCropTop b {color:var(--qd-text)!im
 html[data-theme="light"] body.qdModern .avatarCropTop button {color:var(--qd-text)!important;background:var(--qd-surface-raised)!important;min-width:44px!important;min-height:44px!important;}
 html[data-theme="light"] body.qdModern .avatarCropActions button {color:var(--qd-text)!important;background:var(--qd-surface-raised)!important;border-color:var(--qd-border)!important;min-height:44px!important;}
 html[data-theme="light"] body.qdModern .avatarCropActions button.primary {color:#fff!important;background:var(--qd-blue)!important;}
+
+/* WCAG AA light-theme tokens. Isolated from the dark theme. */
+html[data-theme="light"] body.qdModern {
+ --qd-bg:#f3f7fb;
+ --qd-surface:#fff;
+ --qd-surface-raised:#eff5fb;
+ --qd-border:#c8d8e6;
+ --qd-text:#152e46;
+ --qd-muted:#4e647b;
+ --qd-blue:#1764ce;
+ --qd-red:#ae2440;
+ --qd-light-ink:#152e46;
+ --qd-light-secondary:#4e647b;
+ --qd-light-rule:#cbd9e5;
+ --qd-light-positive:#146846;
+}
+html[data-theme="light"] body.qdModern :is(.pageTop>p,.predictionSectionTitle p,.predictionSectionTitle small,.rankingHeader,.rankingRowButton>span:first-child,.matchRivalsEmpty,.accountList small,.settingRow small,.photoHint,.qdClubName>small,.qdKick small,.accountTitle>p) {
+ color:var(--qd-light-secondary)!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern :is(.rankingRows .rankingRowButton,.accountList,.accountProfileCard,.seasonSticker,.matchRivalsCard,.predictionSummary,.playerStatsModal,.detailSheet,.classificationFormatRow,.predictionSessionNotice){
+ border-color:var(--qd-light-rule)!important;
+}
+html[data-theme="light"] body.qdModern :is(.rankingRows .rankingRowButton,.rankingPlayer,.rankingPlayer>span:last-child,.matchRivalsFixture b,.seasonSticker strong,.accountList b,.classificationFormatRow span,.detailRow span,.detailSheetHead h2){
+ color:var(--qd-light-ink)!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsCard {
+ background:#fff!important;
+ color:var(--qd-light-ink)!important;
+ border:1px solid var(--qd-light-rule)!important;
+ box-shadow:0 7px 22px rgba(35,69,109,.06)!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsCenter :is(.matchRivalsDate,.matchRivalsVenue){
+ color:#52647a!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers li{
+ border-top-color:var(--qd-light-rule)!important;
+ color:var(--qd-light-ink)!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers li>b{
+ color:var(--qd-light-ink)!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers li.currentPlayerPick{
+ background:#edf5fd!important;
+ border-top-color:#b3cde4!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers li.currentPlayerPick>b{
+ color:#123e66!important;
+ -webkit-text-fill-color:#123e66!important;
+ font-weight:850!important;
+ text-shadow:none!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .currentUserAvatar{
+ background:#dceefc!important;
+ border-color:#9bc4e6!important;
+ color:#145b92!important;
+ box-shadow:none!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pickResult.hasPick.pick1:not(.predictionCorrect){
+ background:#e0f0fd!important;
+ border-color:#4384bd!important;
+ color:#14578c!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pickResult.hasPick.pick2:not(.predictionCorrect){
+ background:#fdeaf0!important;
+ border-color:#cd6b81!important;
+ color:#97213b!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pickResult.hasPick.pickX:not(.predictionCorrect){
+ background:#e9edf3!important;
+ border-color:#8193a6!important;
+ color:#253e55!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pickResult.hasPick.predictionCorrect{
+ background:#e3f5eb!important;
+ border:2px solid #27966a!important;
+ color:#126343!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pickResult.hasPick.resultKnown:not(.predictionCorrect){
+ color:#425b70!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .predictionSectionTitle :is(h2,b){
+ color:var(--qd-light-ink)!important;
+}
+html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .rankingAvatar:not(.currentUserAvatar){
+ background:#e9f0f8!important;
+ color:#233d56!important;
+ border-color:#c6d5e6!important;
+}
+html[data-theme="light"] body.qdModern :is(.predictionUnifiedTabs,.rankingRoundTabs,.rankingTabs,.predictionTabs,.segmented) button:not(.active):not(:disabled){
+ color:#34556f!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern :is(.predictionUnifiedTabs,.rankingRoundTabs,.rankingTabs,.predictionTabs,.segmented) button:disabled{
+ color:#526c83!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern :is(.detailRow,.classificationFormatRow,.playerMatchList article) :is(small,em){
+ color:var(--qd-light-secondary)!important;
+}
+html[data-theme="light"] body.qdModern :is(input,select,textarea){
+ background:#fff!important;
+ color:var(--qd-light-ink)!important;
+ border-color:#a6bdcf!important;
+}
+html[data-theme="light"] body.qdModern :is(input,textarea)::placeholder{
+ color:#536d81!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern :is(.roundDockStatus,.savePrediction:disabled,.notificationOpt,.playerStatsCalculated,.playerStatsSummary small){
+ color:var(--qd-light-ink)!important;
+}
+html[data-theme="light"] body.qdModern :is(button,a,input,select,textarea):focus-visible{
+ outline:3px solid #1764ce!important;
+ outline-offset:3px!important;
+}

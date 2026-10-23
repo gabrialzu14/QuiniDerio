@@ -4998,7 +4998,8 @@ html:not([data-theme="light"]) .qdHome .qdSummary>button::after{
   color:#9edcff!important;
   box-shadow:0 0 0 3px rgba(62,158,218,.035)!important;
 }
-.predictionsPage .matchRivalsPlayers .currentPlayerPick>b{
+/* This pale text belongs to the dark theme only. The light theme uses dark ink. */
+html:not([data-theme="light"]) .predictionsPage .matchRivalsPlayers .currentPlayerPick>b{
   color:#f4f8fc!important;
   font-weight:850!important;
 }

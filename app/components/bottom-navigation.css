@@ -69,14 +69,31 @@ html body .dashboard .liquidNav.qdMotionNav button:focus-visible {
 html body .dashboard .liquidNav.qdMotionNav button.active svg {
   animation: none !important;
 }
+/* WCAG light-glass treatment. Geometry and motion stay unchanged. */
 html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav {
-  background: linear-gradient(145deg,rgba(235,246,255,.70),rgba(178,211,245,.58)) !important;
-  border-color: rgba(255,255,255,.78) !important;
-  box-shadow: inset 0 1px rgba(255,255,255,.9),0 12px 32px rgba(43,95,150,.16) !important;
+  background: linear-gradient(145deg,rgba(241,249,255,.96),rgba(214,234,252,.92)) !important;
+  border-color: rgba(88,145,197,.55) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.96),0 12px 32px rgba(43,95,150,.19) !important;
 }
 html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav .navIndicator {
-  background: linear-gradient(145deg,rgba(81,156,244,.30),rgba(77,147,230,.16));
-  border-color: rgba(255,255,255,.6);
+  background: linear-gradient(145deg,rgba(110,171,239,.36),rgba(82,146,218,.23))!important;
+  border-color: rgba(90,155,213,.40)!important;
+}
+html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav button{
+  color:#365571!important;
+  opacity:1!important;
+}
+html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav button.active{
+  color:#12528e!important;
+  opacity:1!important;
+}
+html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav button :is(.navIcon,small,svg){
+  color:inherit!important;
+  opacity:1!important;
+}
+html[data-theme="light"] body .dashboard .liquidNav.qdMotionNav button.active small{
+  color:#124b83!important;
+  font-weight:850!important;
 }
 @media (max-width: 390px) {
   html body .dashboard .liquidNav.qdMotionNav {

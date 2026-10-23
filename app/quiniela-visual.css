@@ -405,3 +405,86 @@ html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:last-ch
  align-self:center!important;
  margin:2px auto 0!important;
 }
+
+/* Light-theme Quiniela: isolated from the dark stadium treatment. */
+html[data-theme="light"] body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch{
+ border-color:#3579bb!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo{
+ background:transparent!important;
+ background-image:none!important;
+ border:0!important;
+ box-shadow:none!important;
+ padding:0!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{
+ opacity:1!important;
+ filter:none!important;
+ -webkit-filter:none!important;
+ -webkit-text-fill-color:initial!important;
+ text-shadow:none!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pick1{
+ background:#174e87!important;
+ border:1px solid #397fc2!important;
+ color:#fff!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pickX{
+ background:#f9fbff!important;
+ border:1px solid #91c6ec!important;
+ color:#142b45!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pick2{
+ background:#a82442!important;
+ border:1px solid #db5a73!important;
+ color:#fff!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]):is(.pick1,.pick2) :is(b,small){
+ color:#fff!important;
+ opacity:1!important;
+ -webkit-text-fill-color:#fff!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pickX :is(b,small){
+ color:#142b45!important;
+ opacity:1!important;
+ -webkit-text-fill-color:#142b45!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{
+ opacity:1!important;
+ outline:2px solid rgba(178,219,255,.9)!important;
+ outline-offset:2px!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pick1{
+ background:#176ed5!important;
+ border-color:#98d2ff!important;
+ color:#fff!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pickX{
+ background:#fff!important;
+ border-color:#81bcf4!important;
+ color:#14243b!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pick2{
+ background:#c92949!important;
+ border-color:#ff819a!important;
+ color:#fff!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pickX :is(b,small){
+ color:#14243b!important;
+ -webkit-text-fill-color:#14243b!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]:is(.pick1,.pick2) :is(b,small){
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:disabled{
+ opacity:1!important;
+ cursor:not-allowed;
+}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{
+ border-top-color:rgba(115,165,223,.36)!important;
+}
