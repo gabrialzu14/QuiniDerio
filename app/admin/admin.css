@@ -468,3 +468,23 @@ html[data-theme="light"] .adminReminderModal{background:linear-gradient(145deg,#
 html[data-theme="light"] .adminReminderTitle p,html[data-theme="light"] .adminReminderItem small{color:#47647e}
 html[data-theme="light"] .adminReminderItem{background:rgba(255,255,255,.65)}
 html[data-theme="light"] .adminReminderItem span:not(.adminReminderDot){color:#294b70}
+
+/* Light admin: legible disabled controls and subdued metadata without affecting dark mode. */
+html[data-theme="light"] body.qdModern .adminWorkspace :is(.adminTopbar,.adminRoundSelector,.adminSummary article,.adminMatchCard,.adminStaffPicker,.adminReminderModal){
+ border-color:#c6d6e4!important;
+}
+html[data-theme="light"] body.qdModern .adminWorkspace :is(.adminIntro p,.adminBrand small,.adminSectionHeading p,.adminRoundControl>p,.adminSummary small,.adminSummary article>span,.adminScoreSide>small,.adminMatchHint,.adminHomeOrder>span){
+ color:#4e647b!important;
+ opacity:1!important;
+}
+html[data-theme="light"] body.qdModern .adminWorkspace button:disabled{
+ opacity:1!important;
+ color:#536c83!important;
+ background:#eaf1f8!important;
+ border-color:#c6d6e4!important;
+ box-shadow:none!important;
+}
+html[data-theme="light"] body.qdModern .adminWorkspace button:not(:disabled):focus-visible{
+ outline:3px solid #1764ce!important;
+ outline-offset:3px!important;
+}
