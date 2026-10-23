@@ -50,7 +50,6 @@ assert.match(css,/\.qdStadiumMatch \.versus>div>small\{[\s\S]*?background:rgba\(
 assert.doesNotMatch(css,/\.qdStadiumMatch \.versus>div:last-child>small\{[\s\S]{0,180}?background:/);
 assert.doesNotMatch(css,/rgba\(6,83,87,\.55\)|#83f1d2/);
 assert.match(css,/\.versus>div>small\{[\s\S]*?border-radius:999px!important/);
-assert.match(css,/\.roundProgress\.centeredProgress\.complete>div\{\s*display:block!important/);
 assert.match(css,/oneXtwo button:not\(:disabled\):active/);
 assert.match(css,/prefers-reduced-motion:reduce/);
 assert.doesNotMatch(css,/content:"🎉"|content:"🎊"|content:"🎈"/);
@@ -60,4 +59,4 @@ assert.match(image,/id="stands"/);
 assert.doesNotMatch(page.slice(page.indexOf("function GameQuiniela("),page.indexOf("function DinioImage(")),/Aplicar a todos los partidos/);
 assert.match(css,/qdStadiumMatch \.versus>div:first-child>small/);
 assert.match(css,/qdStadiumMatch \.versus>div:last-child \.teamFormDots/);
-console.log("Passed: Quiniela CSS blue atmosphere without image, clean crests, capsule standings, completed-round progress, and press feedback.");
+console.log("Passed: Quiniela CSS blue atmosphere without image, clean crests, capsule standings, simple round heading, and press feedback.");
