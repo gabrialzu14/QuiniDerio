@@ -23,6 +23,10 @@ assert.match(page,/className="versus"/);
 assert.match(page,/onClick=\{\(\)=>setPicks\(v=>\(\{\.\.\.v,\[pickKey\]:x\}\)\)\}/);
 assert.match(css,/qdTab-quiniela/);
 assert.match(css,/url\("\/quiniela-stadium-blue\.svg"\)/);
+assert.match(css,/images\\.unsplash\\.com\\/photo-1679391029864-d46f366a456b/);
+assert.match(css,/background-size:cover,cover,cover!important/);
+assert.match(css,/background-position:center,center 43%,center 46%!important/);
+
 assert.match(css,/background-image:linear-gradient\(180deg,rgba\(7,25,61,\.13\)/);
 assert.match(image,/id="shade"/);
 assert.match(css,/background-image:linear-gradient\([\s\S]*?quiniela-stadium-blue\.svg/);
