@@ -382,3 +382,29 @@ html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureI
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .versus b{
  color:#f4f9ff!important;
 }
+
+/* Win over old inner-edge alignment rules, only inside Tu quiniela cards. */
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:first-child>b,
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:last-child>b{
+ text-align:center!important;
+ white-space:normal!important;
+ overflow-wrap:break-word!important;
+}
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:first-child>small,
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:last-child>small{
+ display:inline-flex!important;
+ width:max-content!important;
+ max-width:100%!important;
+ margin:2px auto 0!important;
+ text-align:center!important;
+ align-self:center!important;
+}
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:first-child .teamFormDots,
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:last-child .teamFormDots{
+ display:flex!important;
+ justify-content:center!important;
+ width:max-content!important;
+ max-width:100%!important;
+ align-self:center!important;
+ margin:2px auto 0!important;
+}
