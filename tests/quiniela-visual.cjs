@@ -25,7 +25,7 @@ assert.match(css,/\.pageTop h1\{[\s\S]*?filter:none!important/);
 assert.doesNotMatch(css,/position:absolute!important;\s*inset:0!important;\s*z-index:0!important/);
 assert.match(css,/\.matchCard\.qdStadiumMatch\{[\s\S]*?background-image:linear-gradient/);
 assert.match(css,/\.qdStadiumMatch::after\{[\s\S]*?display:none!important/);
-assert.match(css,/\.crestBox img\{[\s\S]*?filter:none!important/);
+assert.match(css,/\.crestBox\.crestNormalized img\[src\]\{[\s\S]*?filter:none!important/);
 assert.match(css,/\.versus>strong\{[\s\S]*?border-radius:50%!important/);
 assert.match(css,/\.versus>div>small\{[\s\S]*?border-radius:999px!important/);
 assert.match(css,/\.qdRoundProgressLabel svg/);
