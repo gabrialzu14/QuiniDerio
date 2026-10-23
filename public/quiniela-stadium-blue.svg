@@ -3,8 +3,8 @@
 <linearGradient id="sky" x1="0" y1="0" x2=".15" y2="1"><stop stop-color="#06142f"/><stop offset=".51" stop-color="#164b82"/><stop offset="1" stop-color="#1e5887"/></linearGradient>
 <radialGradient id="atmos"><stop stop-color="#307bbb" stop-opacity=".55"/><stop offset=".68" stop-color="#14477f" stop-opacity=".19"/><stop offset="1" stop-color="#071c3f" stop-opacity="0"/></radialGradient>
 <linearGradient id="stands" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2f6393"/><stop offset=".54" stop-color="#174a79"/><stop offset="1" stop-color="#0b294f"/></linearGradient>
-<linearGradient id="pitch" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1c6b85"/><stop offset=".54" stop-color="#207d87"/><stop offset="1" stop-color="#103b68"/></linearGradient>
-<linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#071d43" stop-opacity=".2"/><stop offset=".56" stop-color="#092c5d" stop-opacity=".08"/><stop offset="1" stop-color="#04132c" stop-opacity=".7"/></linearGradient>
+<linearGradient id="pitch" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#267990"/><stop offset=".54" stop-color="#2e8c95"/><stop offset="1" stop-color="#164b70"/></linearGradient>
+<linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#071d43" stop-opacity=".12"/><stop offset=".56" stop-color="#092c5d" stop-opacity=".04"/><stop offset="1" stop-color="#04132c" stop-opacity=".52"/></linearGradient>
 <radialGradient id="lamp"><stop stop-color="#c2e6ff" stop-opacity=".93"/><stop offset=".18" stop-color="#8dc7ff" stop-opacity=".55"/><stop offset="1" stop-color="#49a6ff" stop-opacity="0"/></radialGradient>
 <filter id="soft"><feGaussianBlur stdDeviation="2.1"/></filter>
 <filter id="glow"><feGaussianBlur stdDeviation="14"/></filter>
