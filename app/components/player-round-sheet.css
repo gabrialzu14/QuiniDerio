@@ -417,9 +417,10 @@ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard{
  align-items:center;
  justify-content:center;
  gap:3px;
- border:1px solid rgba(100,167,235,.29);
+ border:1px solid rgba(102,178,249,.46);
  border-radius:11px;
- background:rgba(58,118,181,.13);
+ background:linear-gradient(155deg,rgba(36,113,200,.34),rgba(20,77,158,.28));
+ box-shadow:inset 0 1px 0 rgba(191,224,255,.10);
  line-height:1;
  text-align:center;
 }
@@ -427,7 +428,7 @@ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong{
  font-size:13px;
  font-weight:900;
  letter-spacing:-.035em;
- color:#91d1ff;
+ color:#a9ddff;
  white-space:nowrap;
 }
 html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong small{
@@ -442,18 +443,9 @@ html body.qdModern .qdPlayerRoundModal .qdPlayerStatCard span{
  letter-spacing:.025em;
  white-space:nowrap;
 }
-html body.qdModern .qdPlayerRoundModal .qdPlayerStatAccuracy{
- background:rgba(36,123,199,.18);
- border-color:rgba(74,161,244,.32);
-}
-html body.qdModern .qdPlayerRoundModal .qdPlayerStatAverage strong{color:#a5dfff}
 html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatCard{
- background:#e7f0fb;
- border-color:#c9dbee;
-}
-html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatAccuracy{
- background:#e3f1ff;
- border-color:#b7d8f4;
+ background:linear-gradient(155deg,#e4f2ff,#d4e8fc);
+ border-color:#91beec;
 }
 html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatCard strong{color:#176caa}
 html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerStatCard span{color:#50708e}
