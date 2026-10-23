@@ -36,6 +36,10 @@ assert.match(css,/\.matchCard\.qdStadiumMatch\{[\s\S]*?background-image:linear-g
 assert.match(css,/\.qdStadiumMatch::after\{[\s\S]*?display:none!important/);
 assert.match(css,/\.crestBox\.crestNormalized img\[src\]\{[\s\S]*?filter:none!important/);
 assert.match(css,/\.versus>strong\{[\s\S]*?border-radius:50%!important/);
+// En Tu quiniela, local y visitante deben compartir una única cápsula azul de posición y puntos.
+assert.match(css,/\.qdStadiumMatch \.versus>div>small\{[\s\S]*?background:rgba\(14,66,130,\.78\)!important/);
+assert.doesNotMatch(css,/\.qdStadiumMatch \.versus>div:last-child>small\{[\s\S]{0,180}?background:/);
+assert.doesNotMatch(css,/rgba\(6,83,87,\.55\)|#83f1d2/);
 assert.match(css,/\.versus>div>small\{[\s\S]*?border-radius:999px!important/);
 assert.match(css,/\.qdRoundProgressLabel svg/);
 assert.match(css,/\.roundProgress\.centeredProgress\.complete>div>i/);
