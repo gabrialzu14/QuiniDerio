@@ -75,7 +75,7 @@ html body.qdModern .qdTab-quiniela .qdRoundProgressLabel svg{
  flex:0 0 17px;
  color:#18e2a8;
 }
-/* Stadium atmosphere stays visible through a blue tonal veil, especially at center. */
+/* Fondo uniforme de ambiente azul sin fotografía de estadio. */
 html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch{
  position:relative!important;
  isolation:isolate!important;
@@ -84,14 +84,18 @@ html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch{
  border-radius:23px!important;
  border:1px solid rgba(53,135,244,.68)!important;
  background-color:#0b2a58!important;
- /* Estadio nocturno aprobado, empaquetado localmente para PWA sin dependencias externas. */
- background-image:linear-gradient(180deg,rgba(4,18,46,.18) 0%,rgba(6,26,63,.05) 38%,rgba(5,24,61,.08) 63%,rgba(4,19,49,.52) 87%,rgba(6,26,59,.84) 100%),url("/quiniderio-stadium-night.webp")!important;
- background-repeat:no-repeat,no-repeat!important;
- background-size:cover,cover!important;
- background-position:center,center 48%!important;
+ /* Efecto azul oscuro original sin fotos, SVG ni recursos de fondo externos. */
+ background-image:
+  radial-gradient(ellipse 58% 45% at 50% 42%,rgba(34,104,180,.27) 0%,rgba(22,75,147,.09) 60%,transparent 100%),
+  radial-gradient(ellipse 42% 62% at 0% 46%,rgba(45,130,219,.15) 0%,transparent 85%),
+  radial-gradient(ellipse 42% 62% at 100% 46%,rgba(45,130,219,.15) 0%,transparent 85%),
+  linear-gradient(180deg,#0b2b59 0%,#0a2854 48%,#071f44 76%,#061a3b 100%)!important;
+ background-repeat:no-repeat!important;
+ background-size:cover!important;
+ background-position:center!important;
  box-shadow:inset 0 1px rgba(196,228,255,.12),0 10px 28px rgba(3,12,33,.18)!important;
 }
-/* The stadium lives on the card itself: no opaque pseudo-element can obscure it. */
+/* Sin pseudo-elementos opacos sobre el efecto de luces. */
 html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch::before,
 html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch::after{
  content:none!important;
@@ -114,7 +118,7 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo{
  padding:7px 10px!important;
  border:1px solid rgba(100,166,232,.23)!important;
  border-radius:12px!important;
- background:rgba(8,34,73,.30)!important;
+ background:rgba(8,34,73,.55)!important;
  box-shadow:inset 0 1px rgba(170,215,255,.09)!important;
  -webkit-backdrop-filter:blur(2px);
  backdrop-filter:blur(2px);
@@ -252,7 +256,7 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{
  position:relative!important;
  margin:0 -12px -12px!important;
  padding:12px 13px 13px!important;
- background:linear-gradient(180deg,rgba(7,30,68,.60),rgba(6,26,62,.88))!important;
+ background:linear-gradient(180deg,rgba(7,30,68,.82),rgba(6,26,62,.97))!important;
  border-top:1px solid rgba(74,146,222,.29)!important;
  border-radius:19px 19px 22px 22px!important;
 }
@@ -366,7 +370,7 @@ html body.qdModern .qdTab-quiniela .pageTop h1{
   width:40px!important;height:40px!important;max-width:40px!important;max-height:40px!important;
  }
 }
-/* Dark stadium remains deliberately blue in light mode, with fully legible labels. */
+/* La tarjeta mantiene contraste en tema claro. */
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch{
  color:#f4f9ff!important;
  border-color:rgba(53,135,244,.56)!important;
