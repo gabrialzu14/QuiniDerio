@@ -84,12 +84,11 @@ html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch{
  border-radius:23px!important;
  border:1px solid rgba(53,135,244,.68)!important;
  background-color:#0b2a58!important;
- /* Foto nocturna de fútbol (Unsplash, licencia libre) con SVG local de respaldo sin conexión.
-    Archivo dinámico: únicamente el estadio, sin logotipos, texto ni equipos superpuestos. */
- background-image:linear-gradient(180deg,rgba(4,18,46,.33) 0%,rgba(6,26,63,.12) 40%,rgba(5,24,61,.20) 65%,rgba(4,19,49,.74) 88%,#061a3b 100%),url("https://images.unsplash.com/photo-1679391029864-d46f366a456b?auto=format&fit=crop&w=1600&q=82"),url("/quiniela-stadium-blue.svg")!important;
- background-repeat:no-repeat,no-repeat,no-repeat!important;
- background-size:cover,cover,cover!important;
- background-position:center,center 43%,center 46%!important;
+ /* Estadio nocturno aprobado, empaquetado localmente para PWA sin dependencias externas. */
+ background-image:linear-gradient(180deg,rgba(4,18,46,.18) 0%,rgba(6,26,63,.05) 38%,rgba(5,24,61,.08) 63%,rgba(4,19,49,.52) 87%,rgba(6,26,59,.84) 100%),url("/quiniderio-stadium-night.webp")!important;
+ background-repeat:no-repeat,no-repeat!important;
+ background-size:cover,cover!important;
+ background-position:center,center 48%!important;
  box-shadow:inset 0 1px rgba(196,228,255,.12),0 10px 28px rgba(3,12,33,.18)!important;
 }
 /* The stadium lives on the card itself: no opaque pseudo-element can obscure it. */
@@ -115,10 +114,10 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo{
  padding:7px 10px!important;
  border:1px solid rgba(100,166,232,.23)!important;
  border-radius:12px!important;
- background:rgba(8,34,73,.46)!important;
+ background:rgba(8,34,73,.30)!important;
  box-shadow:inset 0 1px rgba(170,215,255,.09)!important;
- -webkit-backdrop-filter:blur(3px);
- backdrop-filter:blur(3px);
+ -webkit-backdrop-filter:blur(2px);
+ backdrop-filter:blur(2px);
 }
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo span{
  display:flex!important;
@@ -253,7 +252,7 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{
  position:relative!important;
  margin:0 -12px -12px!important;
  padding:12px 13px 13px!important;
- background:linear-gradient(180deg,rgba(7,30,68,.76),rgba(6,26,62,.96))!important;
+ background:linear-gradient(180deg,rgba(7,30,68,.60),rgba(6,26,62,.88))!important;
  border-top:1px solid rgba(74,146,222,.29)!important;
  border-radius:19px 19px 22px 22px!important;
 }
