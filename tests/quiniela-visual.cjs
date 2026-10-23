@@ -56,7 +56,7 @@ assert.doesNotMatch(css,/\.qdStadiumMatch \.versus>div:last-child>small\{[\s\S]{
 assert.doesNotMatch(css,/rgba\(6,83,87,\.55\)|#83f1d2/);
 assert.match(css,/\.versus>div>small\{[\s\S]*?border-radius:999px!important/);
 assert.match(css,/\.qdRoundProgressLabel svg/);
-assert.match(css,/\.roundProgress\.centeredProgress\.complete>div>i/);
+assert.match(css,/\.roundProgress\.centeredProgress\.complete>div\{\s*display:none!important/);
 assert.match(css,/oneXtwo button:not\(:disabled\):active/);
 assert.match(css,/prefers-reduced-motion:reduce/);
 assert.doesNotMatch(css,/content:"🎉"|content:"🎊"|content:"🎈"/);
