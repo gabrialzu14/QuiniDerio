@@ -20,9 +20,7 @@ const pairs=[
   ["Secondary light text","#4e647b","#ffffff"],
   ["My forecast","#123e66","#edf5fd"],
   ["Fixture date","#52647a","#ffffff"],
-  ["Local inactive label","#ffffff","#174e87"],
-  ["Draw inactive label","#142b45","#f9fbff"],
-  ["Away inactive label","#ffffff","#a82442"],
+  ["All inactive pick labels","#edf5ff","#143b69"],
   ["Local active label","#ffffff","#176ed5"],
   ["Away active label","#ffffff","#c92949"],
   ["Navigation inactive","#365571","#e3f2fe"],
@@ -45,7 +43,7 @@ assert.match(quiniela,/button\[aria-pressed="true"\]\.pick2\{[\s\S]*?background:
 assert.match(quiniela,/\.oneXtwo button:disabled\{\s*opacity:1!important/);
 for(const v of ["pick1","pickX","pick2"]){
   assert.match(quiniela,new RegExp('button\\[aria-pressed="true"\\]\\.'+v+'\\{'));
-  assert.match(quiniela,new RegExp('button:not\\(\\[aria-pressed="true"\\]\\)\\.'+v+'\\{'));
+
 }
 assert.match(page,/className=\{picks\[pickKey\]===x\?"active pick"\+x:"pick"\+x\}/);
 assert.doesNotMatch(light,/html:not\(\[data-theme="light"\]\)/);
