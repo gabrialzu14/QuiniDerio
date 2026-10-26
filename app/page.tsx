@@ -287,7 +287,7 @@ function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatc
     if(allFinished)return "finished";
     const kickoff=current.map(game=>fixtureTs(game||{})).reduce((a,b)=>Math.min(a,b),Number.MAX_SAFE_INTEGER);
     return rows.some(row=>["live","finished","final","suspended"].includes(row.status))||Date.now()>=kickoff?"live":"open";
-   })()} submitted={!!savedRounds[currentRound]} totalPot= leader={leader} myRank={myRank} position={myRankIndex>=0?myRankIndex+1:null} onQuiniela={()=>onOpenQuiniela(currentRound)} onRanking={onRanking}/>
+   })()} submitted={!!savedRounds[currentRound]} totalPot={totalPot} leader={leader} myRank={myRank} position={myRankIndex>=0?myRankIndex+1:null} onQuiniela={()=>onOpenQuiniela(currentRound)} onRanking={onRanking}/>
 
    <section className="qdRound">
     <div className="qdRoundHead"><div><h2>Partidos de la jornada</h2></div><span className="qdMatchdayPill">Jornada {homeRound}</span></div>
