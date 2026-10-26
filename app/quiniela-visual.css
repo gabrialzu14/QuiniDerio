@@ -428,3 +428,73 @@ html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo 
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{
  border-top-color:rgba(115,165,223,.36)!important;
 }
+
+/* QuiniDerio Preview: elegant 1/X/2 choice, truthful save state and compact portrait layout. */
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo{min-height:32px!important;margin-bottom:6px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus{gap:6px!important;margin-bottom:7px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div{grid-template-rows:50px 40px 26px 12px!important;row-gap:3px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>b{min-height:40px!important;max-height:40px!important;line-height:1.2!important;align-content:center!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>.qdStandingPills{margin:0 auto!important;min-height:26px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .teamFormDots{margin:0 auto!important;min-height:11px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{padding-top:10px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanelHeading{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:5px!important;margin-bottom:8px!important;min-height:21px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanelHeading .pickHint{margin:0!important;font-size:9px!important;letter-spacing:.09em!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus{
+ display:inline-flex!important;align-items:center!important;gap:5px!important;flex:0 0 auto!important;
+ max-width:58%!important;white-space:nowrap!important;
+ padding:4px 7px!important;border-radius:999px!important;
+ border:1px solid rgba(105,157,216,.32)!important;
+ background:rgba(21,58,105,.75)!important;color:#d9e9fb!important;
+ font-size:9px!important;font-weight:800!important;line-height:1!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus i{
+ display:block!important;width:6px!important;height:6px!important;flex:0 0 6px!important;border-radius:50%!important;background:#8cafd9!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-live{border-color:rgba(88,224,158,.49)!important;background:rgba(12,76,66,.66)!important;color:#bdfce1!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-live i{background:#50eda8!important;box-shadow:0 0 7px rgba(80,237,168,.45)!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-finished{border-color:rgba(102,179,234,.44)!important;color:#d3efff!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-finished i{background:#74cbff!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-suspended{border-color:rgba(255,184,98,.48)!important;color:#ffe3ba!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-suspended i{background:#ffbc69!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-pending-result{border-color:rgba(255,184,98,.33)!important;color:#f5dec4!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-pending-result i{background:#e9b57a!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{min-height:54px!important;border-radius:12px!important;overflow:hidden!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button b{font-size:21px!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{border-width:1px!important;outline:none!important;animation:qdQuinielaPickSelect .21s ease-out both!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick1{border-color:#67b6ff!important;box-shadow:inset 0 0 0 1px rgba(200,234,255,.26),0 3px 12px rgba(7,57,128,.18)!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pickX{border-color:#a3c8eb!important;box-shadow:inset 0 0 0 1px rgba(38,91,141,.22),0 3px 12px rgba(7,57,128,.12)!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick2{border-color:#ff899d!important;box-shadow:inset 0 0 0 1px rgba(255,224,233,.25),0 3px 12px rgba(122,26,52,.18)!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active::after{content:none!important;display:none!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickSelectedCheck{
+ position:absolute!important;top:5px!important;right:6px!important;width:14px!important;height:14px!important;
+ display:block!important;color:inherit!important;pointer-events:none!important;opacity:.9!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickSaveState{
+ display:flex!important;justify-content:center!important;align-items:center!important;gap:6px!important;
+ margin:7px 0 0!important;min-height:15px!important;font-size:10px!important;font-weight:750!important;color:#a9c5e8!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickSaveState.confirmed{color:#80eac4!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickSaveStateIcon{font-size:12px!important;line-height:1!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickLocked{
+ margin:5px auto 0!important;text-align:center!important;color:#ffc78d!important;font-size:10px!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:disabled{cursor:not-allowed!important;opacity:.61!important;filter:saturate(.62)!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:disabled[aria-pressed="true"]{opacity:.88!important}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{outline:none!important;outline-offset:0!important}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus{color:#eef6ff!important}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickSaveState.draft{color:#c7d7eb!important}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickSaveState.confirmed{color:#8cf8cb!important}
+@media(max-width:390px){
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div{grid-template-rows:46px 40px 26px 12px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanelHeading .pickHint{font-size:8px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus{font-size:8px!important;padding:4px 6px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo{gap:5px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{min-height:52px!important}
+}
+@media(max-width:330px){
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanelHeading{flex-wrap:wrap!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus{max-width:100%!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{animation:none!important}
+}
