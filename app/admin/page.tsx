@@ -182,6 +182,7 @@ export default function AdminPage(){
  };
  const changeRound=(n:number)=>{setRound(n);setPicker(null);setReminderSent({});setMessage(null);setFilter("all")};
  const changeTheme=()=>{const next=theme==="light"?"dark":"light";setTheme(next);document.documentElement.dataset.theme=next;localStorage.setItem("quiniderio-theme",next)};
+ const live=matches.filter(m=>m.status==="live").length,finished=matches.filter(m=>m.status==="finished").length;
  const visibleMatches=filter==="all"?matches:matches.filter(m=>m.status===filter),locked=!!busy||loading;
  if(allowed===null)return <main className="adminAccess"><section role="status"><div className="adminLoadingMark"/><h1>Cargando administración…</h1><p>Comprobando tu sesión.</p></section></main>;
  if(!allowed)return <main className="adminAccess"><section><span className="adminEyebrow">QUINIDERIO · ADMINISTRACIÓN</span><h1>Acceso restringido</h1><p>Este panel no está disponible para esta cuenta.</p><a className="adminPrimary" href="/">Volver a QuiniDerio</a></section></main>;
