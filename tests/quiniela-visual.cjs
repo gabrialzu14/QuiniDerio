@@ -100,7 +100,7 @@ console.log("Passed: Supabase-confirmed updates show centered neon green popup a
 
 assert.match(css,/qdUpdateSuccessPopup\{\s*position:relative;display:flex;flex-direction:row;align-items:center;justify-content:center/);
 assert.match(css,/gap:12px;width:min\(100%,340px\);min-height:105px/);
-assert.match(css,/qdUpdateSuccessMark\{\s*display:grid;place-items:center;flex:0 0 58px/);
+assert.match(css,/qdUpdateSuccessMark\{\s*position:relative;isolation:isolate;\s*display:grid;place-items:center;flex:0 0 58px/);
 assert.match(css,/white-space:nowrap!important/);
 assert.doesNotMatch(css,/qdUpdateSuccessPopup\{\s*position:relative;display:flex;flex-direction:column/);
 console.log("Passed: horizontal update confirmation with thick white check left of Actualizado.");
