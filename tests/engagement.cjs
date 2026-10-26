@@ -70,7 +70,12 @@ assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"a",4).round,4,"A co
 assert.equal(latestRoundSnapshot(fixtures,matches,ownScores,"nobody",6),null);
 assert.notEqual(recapSeenKey("a",4),recapSeenKey("b",4));
 assert.notEqual(recapSeenKey("a",4),recapSeenKey("a",5));
-console.log("Passed recap: J4 launch boundary, no past-round fallback, latest completion, unresolved/missing matches, byes, participation and seen keys.");
+const recapComponent=fs.readFileSync(require.resolve("../app/components/RoundRecap.tsx"),"utf8");
+const recapCss=fs.readFileSync(require.resolve("../app/engagement.css"),"utf8");
+assert(!recapComponent.includes("PARTIDOS COMPUTADOS"),"Do not render redundant computed matches card");
+assert(recapComponent.includes("PRONÓSTICOS ACERTADOS")&&recapComponent.includes("PUESTO DE JORNADA")&&recapComponent.includes("CLASIFICACIÓN GENERAL")&&recapComponent.includes("APORTACIÓN AL BOTE"),"Keep the remaining recap metrics");
+assert(recapCss.includes(".qdRecapGrid .qdRecapCard:last-child:nth-child(3){grid-column:1/-1"),"The final card must occupy full width");
+console.log("Passed recap: J4 launch boundary, no past-round fallback, latest completion, unresolved/missing matches, byes, participation and seen keys, clean three-card layout.");
 
 const {roundNeedsRefresh}=require("../app/lib/live-window.ts");
 const windowFixture={a:{date:"25/10/2026",time:"16:30"}};

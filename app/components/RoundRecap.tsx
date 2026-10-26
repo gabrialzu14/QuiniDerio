@@ -102,7 +102,6 @@ export default function RoundRecap({username}:{username:string}){
         <article className="qdRecapCard"><small>PUESTO DE JORNADA</small><strong>{snapshot.place===null?"—":<AnimatedNumber value={snapshot.place} suffix="º"/>}</strong></article>
         <article className="qdRecapCard"><small>CLASIFICACIÓN GENERAL</small><strong className={snapshot.movement!==null&&snapshot.movement<0?"qdRecapDown":"qdRecapUp"}>{snapshot.movement===null?"—":snapshot.movement>0?"↑ "+snapshot.movement:snapshot.movement<0?"↓ "+Math.abs(snapshot.movement):"="}</strong><span>{movementText}</span></article>
         <article className="qdRecapCard"><small>APORTACIÓN AL BOTE</small><strong className="qdRecapPot">{snapshot.pot===null?"—":<><AnimatedNumber value={Math.abs(snapshot.pot)}/> €</>}</strong><span>{snapshot.pot===null?"Sin datos":snapshot.pot<0?"Bonificación":snapshot.pot>0?"Aportas al bote":"Sin aportación"}</span></article>
-        <article className="qdRecapCard"><small>PARTIDOS COMPUTADOS</small><strong><AnimatedNumber value={snapshot.played}/></strong><span>Jornada finalizada</span></article>
       </div>
     </div>
    </section>

@@ -54,7 +54,8 @@
 .qdRecapProgress i{height:100%;display:block;background:linear-gradient(90deg,#25b984,#a4f2ce);border-radius:8px;transform-origin:left;animation:qdRecapBar 1.15s .42s both}
 .qdRecapGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
 .qdRecapGrid .qdRecapCard{min-height:112px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;padding:12px 9px}
-.qdRecapGrid .qdRecapCard:nth-child(1){animation-delay:.3s}.qdRecapGrid .qdRecapCard:nth-child(2){animation-delay:.4s}.qdRecapGrid .qdRecapCard:nth-child(3){animation-delay:.5s}.qdRecapGrid .qdRecapCard:nth-child(4){animation-delay:.6s}
+.qdRecapGrid .qdRecapCard:nth-child(1){animation-delay:.3s}.qdRecapGrid .qdRecapCard:nth-child(2){animation-delay:.4s}.qdRecapGrid .qdRecapCard:nth-child(3){animation-delay:.5s}
+.qdRecapGrid .qdRecapCard:last-child:nth-child(3){grid-column:1/-1;min-height:100px}
 .qdRecapGrid small{font-size:9px;letter-spacing:.065em;font-weight:850;color:#add0ee}
 .qdRecapGrid strong{font-size:29px;font-weight:900;line-height:1.1;font-variant-numeric:tabular-nums}
 .qdRecapGrid span{font-size:10px;color:#b6d0e6}
