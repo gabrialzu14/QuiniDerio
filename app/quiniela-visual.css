@@ -161,27 +161,47 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>strong{
  letter-spacing:.04em!important;
  box-shadow:inset 0 1px rgba(207,233,255,.12)!important;
 }
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>small{
+/* Opción 1: cápsulas separadas de posición y puntos, iguales para local y visitante. */
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>.qdStandingPills{
  grid-row:3!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:6px!important;
+ width:max-content!important;
+ max-width:100%!important;
+ min-width:0!important;
+ margin:2px auto 0!important;
+ white-space:nowrap!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPill{
  display:inline-flex!important;
  align-items:center!important;
  justify-content:center!important;
- width:max-content!important;
- max-width:100%!important;
- margin:2px auto 0!important;
- padding:4px 10px!important;
- border:1px solid rgba(66,150,247,.43)!important;
+ flex:0 1 auto!important;
+ min-width:0!important;
+ min-height:24px!important;
+ padding:4px 9px!important;
+ border:1px solid rgba(67,150,242,.65)!important;
  border-radius:999px!important;
- background:rgba(14,66,130,.78)!important;
- box-shadow:inset 0 1px rgba(177,218,255,.09)!important;
- color:#c5dcff!important;
+ color:#e8f3ff!important;
  font-size:10px!important;
- font-weight:750!important;
- line-height:1.25!important;
- white-space:nowrap!important;
+ font-weight:800!important;
+ line-height:1.2!important;
+ font-variant-numeric:tabular-nums!important;
  text-align:center!important;
+ white-space:nowrap!important;
+ box-shadow:inset 0 1px rgba(177,218,255,.09)!important;
 }
-/* Ambos equipos comparten la misma cápsula azul para posición y puntos. */
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPillRank{
+ background:rgba(10,43,89,.85)!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPillPoints{
+ background:rgba(24,101,205,.92)!important;
+ border-color:rgba(90,175,255,.83)!important;
+ color:#fff!important;
+}
+/* La forma reciente permanece centrada bajo las cápsulas. */
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .teamFormDots{
  grid-row:4!important;
  margin:2px auto 0!important;
@@ -270,7 +290,8 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick2{
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .fixtureInfo svg{width:12px;height:12px;flex-basis:12px}
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus{grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr)!important;gap:5px!important}
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>strong{width:40px!important;height:40px!important;font-size:13px!important}
- html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>small{font-size:9px!important;padding:3px 7px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPill{font-size:9px!important;padding:3px 6px!important;min-height:22px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus>div>.qdStandingPills{gap:4px!important}
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickPanel{margin:0 -10px -11px!important;padding:11px 10px!important}
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo{gap:6px!important}
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{min-height:57px!important}
@@ -321,13 +342,9 @@ html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:last-ch
  white-space:normal!important;
  overflow-wrap:break-word!important;
 }
-html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:first-child>small,
-html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:last-child>small{
- display:inline-flex!important;
- width:max-content!important;
- max-width:100%!important;
- margin:2px auto 0!important;
- text-align:center!important;
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:first-child>.qdStandingPills,
+html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:last-child>.qdStandingPills{
+ justify-self:center!important;
  align-self:center!important;
 }
 html body.qdModern .qdTab-quiniela .matchCard.qdStadiumMatch .versus>div:first-child .teamFormDots,

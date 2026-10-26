@@ -45,11 +45,17 @@ assert.match(css,/\.matchCard\.qdStadiumMatch\{[\s\S]*?background-image:\s*radia
 assert.match(css,/\.qdStadiumMatch::after\{[\s\S]*?display:none!important/);
 assert.match(css,/\.crestBox\.crestNormalized img\[src\]\{[\s\S]*?filter:none!important/);
 assert.match(css,/\.versus>strong\{[\s\S]*?border-radius:50%!important/);
-// En Tu quiniela, local y visitante deben compartir una única cápsula azul de posición y puntos.
-assert.match(css,/\.qdStadiumMatch \.versus>div>small\{[\s\S]*?background:rgba\(14,66,130,\.78\)!important/);
-assert.doesNotMatch(css,/\.qdStadiumMatch \.versus>div:last-child>small\{[\s\S]{0,180}?background:/);
+// League rank and points show in separate capsules for home and away, without touching the form dots.
+assert.match(page,/function QuinielaStanding\(/);
+assert.equal((page.match(/<QuinielaStanding position=/g)||[]).length,2);
+assert.match(page,/className="qdStandingPills"/);
+assert.match(page,/qdStandingPillRank/);
+assert.match(page,/qdStandingPillPoints/);
+assert.match(css,/\.qdStadiumMatch \.versus>div>\.qdStandingPills\{/);
+assert.match(css,/\.qdStadiumMatch \.versus \.qdStandingPillRank\{[\s\S]*?background:rgba\(10,43,89,\.85\)!important/);
+assert.match(css,/\.qdStadiumMatch \.versus \.qdStandingPillPoints\{[\s\S]*?background:rgba\(24,101,205,\.92\)!important/);
+assert.match(css,/@media\(max-width:390px\)\{[\s\S]*?\.qdStandingPill\{font-size:9px!important/);
 assert.doesNotMatch(css,/rgba\(6,83,87,\.55\)|#83f1d2/);
-assert.match(css,/\.versus>div>small\{[\s\S]*?border-radius:999px!important/);
 assert.match(css,/oneXtwo button:not\(:disabled\):active/);
 assert.match(css,/prefers-reduced-motion:reduce/);
 assert.doesNotMatch(css,/content:"🎉"|content:"🎊"|content:"🎈"/);
@@ -57,6 +63,6 @@ assert.match(image,/<svg[^>]+viewBox="0 0 960 620"/);
 assert.match(image,/id="pitch"/);
 assert.match(image,/id="stands"/);
 assert.doesNotMatch(page.slice(page.indexOf("function GameQuiniela("),page.indexOf("function DinioImage(")),/Aplicar a todos los partidos/);
-assert.match(css,/qdStadiumMatch \.versus>div:first-child>small/);
+assert.match(css,/qdStadiumMatch \.versus>div:first-child>\.qdStandingPills/);
 assert.match(css,/qdStadiumMatch \.versus>div:last-child \.teamFormDots/);
-console.log("Passed: Quiniela CSS blue atmosphere without image, clean crests, capsule standings, simple round heading, and press feedback.");
+console.log("Passed: Quiniela CSS blue atmosphere, separate rank/points capsules, form dots, mobile sizing and button feedback.");
