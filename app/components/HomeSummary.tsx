@@ -9,21 +9,34 @@ type Standing={username:string;hits:number};
 type Props={
   round:number; submitted:boolean; totalPot:number;
   leader?:Standing; myRank:Standing|null; position:number|null;
+  stage:"open"|"live"|"finished";
   onQuiniela:()=>void; onRanking:(destination:RankingDestination)=>void;
 };
 
-export default function HomeSummary({round,submitted,totalPot,leader,myRank,position,onQuiniela,onRanking}:Props){
+export default function HomeSummary({round,submitted,totalPot,leader,myRank,position,stage,onQuiniela,onRanking}:Props){
   const action=submitted?"Revisar mi quiniela":"Hacer mi quiniela";
   return <section className="qdOverviewSummary" aria-label="Resumen de tu quiniela">
-    <article className={"qdOverviewFeature "+(submitted?"is-submitted":"")}>
-      <div className="qdOverviewFeatureCopy">
-        <span className="qdOverviewEyebrow">TU QUINIELA</span>
-        <h2>{submitted?"Quiniela enviada":"Quiniela pendiente"}</h2>
-        <p>{submitted?"Consulta los resultados seleccionados.":"Selecciona un resultado para cada partido."}</p>
-        <button type="button" className="qdOverviewCta" onClick={onQuiniela}>{action}<Arrow/></button>
+    <article className={"qdOverviewFeature qdHeroSport "+(submitted?"is-submitted":"is-pending")}>
+      <div className="qdHeroSportBackdrop" aria-hidden="true"/>
+      <div className="qdHeroSportContent">
+        <span className="qdHeroSportSeason">TEMPORADA 2026/27</span>
+        <h1 className="qdHeroSportTitle">Jornada {round}</h1>
+        <span className={"qdHeroSportStatus "+(submitted?"submitted":"pending")}>
+          <span className="qdHeroSportStatusIcon" aria-hidden="true">{submitted?"✓":"!"}</span>
+          <span>{submitted?"Quiniela enviada":"Quiniela pendiente"}</span>
+        </span>
+        <div className="qdHeroSportStages" aria-label="Estado de la jornada">
+          {([{key:"open",name:"Abierta"},{key:"live",name:"En juego"},{key:"finished",name:"Finalizada"}] as const).map((item,i)=>{
+            const stages=["open","live","finished"];
+            const passed=stages.indexOf(stage)>i;
+            const current=stage===item.key;
+            return <span className={"qdHeroSportStage "+(current?"active":passed?"completed":"")} key={item.key} aria-current={current?"step":undefined}>
+              <span className="qdHeroSportStageDot">{current?"●":passed?"✓":"○"}</span><small>{item.name}</small>
+            </span>;
+          })}
+        </div>
+        <button type="button" className="qdOverviewCta qdHeroSportCta" onClick={onQuiniela}>{action}<Arrow/></button>
       </div>
-      <div className="qdOverviewRoundArt" aria-hidden="true"><i/><strong>{String(round).padStart(2,"0")}</strong><span>JORNADA</span></div>
-      <span className="qdOverviewFeatureStatus">{submitted?"✓ QUINIELA ENVIADA":"QUINIELA PENDIENTE"}</span>
     </article>
     <div className="qdOverviewStats">
       <Stat label="Bote acumulado" value={`${totalPot.toLocaleString("es-ES")} €`} visual={<AnimatedNumber value={totalPot} suffix=" €"/>} detail="Bote total" icon="pot" onClick={()=>onRanking("pot")}/>

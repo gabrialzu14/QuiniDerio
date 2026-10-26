@@ -27,7 +27,6 @@ import BottomNavigation from "./components/BottomNavigation";
 import useTabNavigation from "./components/useTabNavigation";
 import usePageScrollLock from "./components/usePageScrollLock";
 import HomeSummary,{type RankingDestination} from "./components/HomeSummary";
-import MatchdayHeader from "./components/MatchdayHeader";
 import AppSplash from "./components/AppSplash";
 import DataLoading from "./components/DataLoading";
 import VoteTrend from "./components/VoteTrend";
@@ -279,8 +278,16 @@ function HomeOverview({savedRounds,onOpenQuiniela,onTab,onRanking,picks,liveMatc
    <div className="qdSeason"><small>TEMPORADA</small><b>2026/27</b></div>
   </aside>
   <div className="qdHomeMain">
-   <MatchdayHeader round={currentRound}/>
-   <HomeSummary round={currentRound} submitted={!!savedRounds[currentRound]} totalPot={totalPot} leader={leader} myRank={myRank} position={myRankIndex>=0?myRankIndex+1:null} onQuiniela={()=>onOpenQuiniela(currentRound)} onRanking={onRanking}/>
+   <HomeSummary round={currentRound} stage={(()=>{
+    if(liveRound!==currentRound)return "open";
+    const current=weeklyTeams.map(team=>quizFixtures[currentRound]?.[team]).filter(game=>game&&game.status!=="rest");
+    const rows=Object.values(liveMatches);
+    const resolved=rows.filter(row=>["finished","final"].includes(row.status)).length;
+    const allFinished=current.length>0&&resolved===current.length;
+    if(allFinished)return "finished";
+    const kickoff=current.map(game=>fixtureTs(game||{})).reduce((a,b)=>Math.min(a,b),Number.MAX_SAFE_INTEGER);
+    return rows.some(row=>["live","finished","final","suspended"].includes(row.status))||Date.now()>=kickoff?"live":"open";
+   })()} submitted={!!savedRounds[currentRound]} totalPot= leader={leader} myRank={myRank} position={myRankIndex>=0?myRankIndex+1:null} onQuiniela={()=>onOpenQuiniela(currentRound)} onRanking={onRanking}/>
 
    <section className="qdRound">
     <div className="qdRoundHead"><div><h2>Partidos de la jornada</h2></div><span className="qdMatchdayPill">Jornada {homeRound}</span></div>
