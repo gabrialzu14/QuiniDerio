@@ -82,21 +82,28 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
   return()=>window.clearTimeout(id);
  },[games,round,busy]);
  const refreshDerioForms=async()=>{
+  // A round's saved form describes the five games BEFORE that fixture.
+  // Use that snapshot as a historical baseline, then append completed results.
   const {data,error}=await supabase.from("quini_live_matches")
-   .select("round,team,is_home,home_score,away_score,status")
-   .lt("round",round).eq("status","finished").order("round",{ascending:false});
+   .select("round,team,is_home,home_score,away_score,status,fixture_details")
+   .lt("round",round).order("round",{ascending:true});
   if(error)throw error;
   const forms=new Map<RoundTeam,string>();
   for(const team of ROUND_TEAMS){
-   const previous=(data||[]).filter(match=>match.team===team&&typeof match.is_home==="boolean"&&
-    match.home_score!==null&&match.away_score!==null&&
-    Number.isFinite(Number(match.home_score))&&Number.isFinite(Number(match.away_score))).slice(0,5);
-   if(!previous.length)continue;
-   forms.set(team,previous.reverse().map(match=>{
-    const ours=match.is_home?Number(match.home_score):Number(match.away_score);
-    const theirs=match.is_home?Number(match.away_score):Number(match.home_score);
-    return ours>theirs?"V":ours<theirs?"D":"E";
-   }).join(""));
+   const fixtures=(data||[]).filter(match=>match.team===team);
+   let history="";
+   for(const match of fixtures){
+    const snapshot=typeof match.fixture_details?.derioForm==="string"
+     ?match.fixture_details.derioForm.toUpperCase().replace(/[^VED]/g,"").slice(-5):"";
+    if(snapshot.length>history.length)history=snapshot;
+    if(match.status!=="finished"||typeof match.is_home!=="boolean"||
+       match.home_score===null||match.away_score===null)continue;
+    const ours=Number(match.is_home?match.home_score:match.away_score);
+    const theirs=Number(match.is_home?match.away_score:match.home_score);
+    if(!Number.isFinite(ours)||!Number.isFinite(theirs))continue;
+    history=(history+(ours>theirs?"V":ours<theirs?"D":"E")).slice(-5);
+   }
+   if(history)forms.set(team,history);
   }
   setGames(previous=>previous.map(game=>forms.has(game.team)?{...game,derioForm:forms.get(game.team)!}:game));
   return forms;
