@@ -66,3 +66,21 @@ assert.doesNotMatch(page.slice(page.indexOf("function GameQuiniela("),page.index
 assert.match(css,/qdStadiumMatch \.versus>div:first-child>\.qdStandingPills/);
 assert.match(css,/qdStadiumMatch \.versus>div:last-child \.teamFormDots/);
 console.log("Passed: Quiniela CSS blue atmosphere, separate rank/points capsules, form dots, mobile sizing and button feedback.");
+
+/* Preview: mobile portrait refinement, persisted feedback and real fixture state. */
+assert.match(page,/confirmedPicks:\s*Record<string,string>/);
+assert.match(page,/setConfirmedPicks\(prev=>\(\{\.\.\.prev,\.\.\.confirmed\}\)\)/);
+assert.match(page,/if\(error\)throw error;[\s\S]*?setConfirmedPicks/);
+assert.match(page,/savedOnServer\?"Guardado en servidor":"Por enviar"/);
+assert.match(page,/quinielaMatchStatus\(match\?\.status,kickoff,clock\)/);
+assert.match(page,/status==="suspended"/);
+assert.match(page,/className="qdPickSelectedCheck"/);
+assert.match(page,/roundClosed\|\|!game\.opponent\|\|saving/);
+assert.match(css,/qdStadiumMatch \.oneXtwo button\.active::after\{content:none!important/);
+assert.match(css,/grid-template-rows:50px 40px 26px 12px!important/);
+assert.match(css,/qdFixtureStatus-live/);
+assert.match(css,/qdFixtureStatus-finished/);
+assert.match(css,/qdFixtureStatus-suspended/);
+assert.match(css,/qdPickSaveState\.confirmed/);
+assert.match(css,/max-width:390px/);
+console.log("Passed preview: server-confirmed saved state, modern single-ring choices, aligned portrait cards, match badges.");
