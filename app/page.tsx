@@ -382,7 +382,6 @@ function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:R
  const [rivalsError,setRivalsError]=useState(false);
  const [sessionRequired,setSessionRequired]=useState(false);
  const [rivalsRefresh,setRivalsRefresh]=useState(0);
- const [visibleMatchIndex,setVisibleMatchIndex]=useState(0);
 
  useEffect(()=>{
   const controller=new AbortController();
@@ -440,8 +439,6 @@ function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:R
   return()=>{controller.abort();if(poll!==null)window.clearInterval(poll);window.removeEventListener("focus",resume);window.removeEventListener("online",resume);document.removeEventListener("visibilitychange",resume);if(channel)void supabase.removeChannel(channel)};
  },[selectedScope,selectedRound,rivalsRefresh]);
 
- useEffect(()=>setVisibleMatchIndex(0),[selectedRound]);
-
  const playableTeams=teams.filter(team=>quizFixtures[selectedRound]?.[team]?.status!=="rest");
  const roundKickoffs=playableTeams.map(team=>{const game=quizFixtures[selectedRound]?.[team];if(!game?.date||!game?.time)return null;const [d,m,y]=game.date.split("/").map(Number);const [h,min]=game.time.split(":").map(Number);if(!d||!m||!y||Number.isNaN(h)||Number.isNaN(min))return null;return new Date(y,m-1,d,h,min).getTime()}).filter((v):v is number=>v!==null);
  const firstRoundKickoff=roundKickoffs.length?Math.min(...roundKickoffs):null;
@@ -452,7 +449,6 @@ function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:R
   const toTs=(team:string)=>{const game=quizFixtures[selectedRound]?.[team];if(!game?.date||!game?.time)return Number.MAX_SAFE_INTEGER;const [d,m,y]=game.date.split("/").map(Number),[h,min]=game.time.split(":").map(Number);return new Date(y,m-1,d,h,min).getTime()};
   return toTs(a)-toTs(b);
  });
- const activeMatchIndex=Math.min(visibleMatchIndex,Math.max(roundMatchTeams.length-1,0));
 
  return <section ref={motionRoot} className={"tabPage predictionsPage unifiedPredictionsPage"+(selectedScope==="season"?"":" roundPredictionsMode")}>
   <div className="pageTop porraPageTop"><p className="eyebrow">TEMPORADA 2026/27</p><h1>Todos los Pronósticos</h1><p>Consulta tus predicciones y las de los demás participantes.</p></div>
@@ -481,8 +477,7 @@ function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:R
    </section>
   </>:<section className="rivalsPanel rivalsTab matchRivalsPanel unifiedRoundPredictions">
    <div className="predictionSectionTitle"><div><small>JORNADA {selectedRound}</small><h2>Pronósticos</h2><p>Tu pronóstico y el de los demás participantes, partido a partido.</p></div></div>
-   {!rivalsLoading&&!rivalsError&&roundMatchTeams.length>1&&<div className="roundMatchPager" role="navigation" aria-label="Navegación entre partidos"><button type="button" onClick={()=>setVisibleMatchIndex(Math.max(0,activeMatchIndex-1))} disabled={activeMatchIndex===0} aria-label="Partido anterior"><span aria-hidden="true">‹</span><span>Anterior</span></button><span className="roundMatchPagerStatus" role="status" aria-live="polite">Partido {activeMatchIndex+1} de {roundMatchTeams.length}</span><button type="button" onClick={()=>setVisibleMatchIndex(Math.min(roundMatchTeams.length-1,activeMatchIndex+1))} disabled={activeMatchIndex===roundMatchTeams.length-1} aria-label="Partido siguiente"><span>Siguiente</span><span aria-hidden="true">›</span></button></div>}
-   {rivalsLoading?<p role="status">Cargando pronósticos…</p>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:<div className="matchRivalsList">{roundMatchTeams.map((team,index)=>{
+   {rivalsLoading?<p role="status">Cargando pronósticos…</p>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:<div className="matchRivalsList">{roundMatchTeams.map(team=>{
     const game=quizFixtures[selectedRound]?.[team]||{};
     const opponent=game.opponent||"Rival por confirmar",isHome=game.isHome!==false;
     const teamLabel=game.teamLabel||team;const home=isHome?teamLabel:opponent,away=isHome?opponent:teamLabel;
@@ -491,7 +486,7 @@ function MyPredictions({picks,round,dinio,season,onEdit,onRequireLogin}:{picks:R
     const finished=winningPick!==null;
     const myPick=picks[`${selectedRound}:${team}`];
     const entries=rivalSeasons.map(player=>({player,pick:picksByPlayerTeam.get(`${player.user_id}:${team}`)})).filter(entry=>entry.pick);
-    return <article className={"matchRivalsCard"+(index===activeMatchIndex?" activeMobileMatch":"")} key={team}><header className="matchRivalsFixture"><div className="matchRivalsTeam matchRivalsTeamHome"><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":rivalCrestFor(selectedRound,team,game.crest)} name={home} normalized/><b className="matchRivalsTeamName">{home}</b></div><div className="matchRivalsCenter"><small className="matchRivalsDate">{game.date||"Fecha pendiente"} · {game.time||"Hora pendiente"}</small><MatchScore home={result?.home_score} away={result?.away_score} status={result?.status}/><small className="matchRivalsVenue">{game.venue||"Campo por confirmar"}</small></div><div className="matchRivalsTeam matchRivalsTeamAway"><ClubCrest src={isHome?rivalCrestFor(selectedRound,team,game.crest):"/api/assets/Escudos/cd_derio.png"} name={away} normalized/><b className="matchRivalsTeamName">{away}</b></div></header>{rivalsUnlocked&&hasStartedMatch&&!sessionRequired&&<VoteTrend key={selectedRound+":"+team} votes={rivalPicks.filter(row=>row.team===team).map(row=>row.pick)}/>} {!rivalsUnlocked?<p className="matchRivalsEmpty">Los pronósticos de los rivales estarán disponibles cuando comience la jornada.</p>:<ul className="matchRivalsPlayers">{myPick&&<li className="currentPlayerPick"><span className="rankingAvatar currentUserAvatar">TÚ</span><b>Mi pronóstico</b><strong className={"pickResult hasPick pick"+myPick+" "+(finished?"resultKnown ":"")+(winningPick===myPick?"predictionCorrect":"")}>{myPick}</strong></li>}{entries.map(({player,pick})=><li key={player.user_id}><span className="rankingAvatar">{player.profile_pic?<img loading="lazy" src={player.profile_pic} alt=""/>:player.username?.[0]?.toUpperCase()}</span><b>{player.username}</b><strong className={"pickResult hasPick pick"+pick+" "+(finished?"resultKnown ":"")+(winningPick===pick?"predictionCorrect":"")}>{pick}</strong></li>)}{!myPick&&!entries.length&&<li className="matchRivalsEmpty">Aún no hay pronósticos para este partido.</li>}</ul>}</article>
+    return <article className="matchRivalsCard" key={team}><header className="matchRivalsFixture"><div className="matchRivalsTeam matchRivalsTeamHome"><ClubCrest src={isHome?"/api/assets/Escudos/cd_derio.png":rivalCrestFor(selectedRound,team,game.crest)} name={home} normalized/><b className="matchRivalsTeamName">{home}</b></div><div className="matchRivalsCenter"><small className="matchRivalsDate">{game.date||"Fecha pendiente"} · {game.time||"Hora pendiente"}</small><MatchScore home={result?.home_score} away={result?.away_score} status={result?.status}/><small className="matchRivalsVenue">{game.venue||"Campo por confirmar"}</small></div><div className="matchRivalsTeam matchRivalsTeamAway"><ClubCrest src={isHome?rivalCrestFor(selectedRound,team,game.crest):"/api/assets/Escudos/cd_derio.png"} name={away} normalized/><b className="matchRivalsTeamName">{away}</b></div></header>{rivalsUnlocked&&hasStartedMatch&&!sessionRequired&&<VoteTrend key={selectedRound+":"+team} votes={rivalPicks.filter(row=>row.team===team).map(row=>row.pick)}/>} {!rivalsUnlocked?<p className="matchRivalsEmpty">Los pronósticos de los rivales estarán disponibles cuando comience la jornada.</p>:<ul className="matchRivalsPlayers">{myPick&&<li className="currentPlayerPick"><span className="rankingAvatar currentUserAvatar">TÚ</span><b>Mi pronóstico</b><strong className={"pickResult hasPick pick"+myPick+" "+(finished?"resultKnown ":"")+(winningPick===myPick?"predictionCorrect":"")}>{myPick}</strong></li>}{entries.map(({player,pick})=><li key={player.user_id}><span className="rankingAvatar">{player.profile_pic?<img loading="lazy" src={player.profile_pic} alt=""/>:player.username?.[0]?.toUpperCase()}</span><b>{player.username}</b><strong className={"pickResult hasPick pick"+pick+" "+(finished?"resultKnown ":"")+(winningPick===pick?"predictionCorrect":"")}>{pick}</strong></li>)}{!myPick&&!entries.length&&<li className="matchRivalsEmpty">Aún no hay pronósticos para este partido.</li>}</ul>}</article>
    })}</div>}
   </section>}
  </section>
