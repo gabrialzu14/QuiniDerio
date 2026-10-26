@@ -70,7 +70,10 @@ console.log("Passed: Quiniela CSS blue atmosphere, separate rank/points capsules
 /* Preview: mobile portrait refinement, persisted feedback and real fixture state. */
 assert.match(page,/quinielaMatchStatus\(match\?\.status,kickoff,clock\)/);
 assert.match(page,/status==="suspended"/);
-assert.match(page,/className="qdPickSelectedCheck"/);
+assert.doesNotMatch(page,/qdPickSelectedCheck/);
+assert.doesNotMatch(css,/qdPickSelectedCheck/);
+assert.match(page,/\{statusText&&<span className=\{"qdFixtureStatus qdFixtureStatus-"/);
+assert.doesNotMatch(page,/scheduled:"Pendiente"|"pending-result":"Resultado pendiente"/);
 assert.match(page,/roundClosed\|\|!game\.opponent\|\|saving/);
 assert.match(css,/qdStadiumMatch \.oneXtwo button\.active::after\{content:none!important/);
 assert.match(css,/grid-template-rows:50px 40px 26px 12px!important/);

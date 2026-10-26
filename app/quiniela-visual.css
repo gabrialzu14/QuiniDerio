@@ -456,8 +456,6 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-finished{bor
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-finished i{background:#74cbff!important}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-suspended{border-color:rgba(255,184,98,.48)!important;color:#ffe3ba!important}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-suspended i{background:#ffbc69!important}
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-pending-result{border-color:rgba(255,184,98,.33)!important;color:#f5dec4!important}
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus-pending-result i{background:#e9b57a!important}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{min-height:54px!important;border-radius:12px!important;overflow:hidden!important}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button b{font-size:21px!important}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{border-width:1px!important;outline:none!important;animation:qdQuinielaPickSelect .21s ease-out both!important}
@@ -465,10 +463,6 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick1{
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pickX{border-color:#a3c8eb!important;box-shadow:inset 0 0 0 1px rgba(38,91,141,.22),0 3px 12px rgba(7,57,128,.12)!important}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active.pick2{border-color:#ff899d!important;box-shadow:inset 0 0 0 1px rgba(255,224,233,.25),0 3px 12px rgba(122,26,52,.18)!important}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.active::after{content:none!important;display:none!important}
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickSelectedCheck{
- position:absolute!important;top:5px!important;right:6px!important;width:14px!important;height:14px!important;
- display:block!important;color:inherit!important;pointer-events:none!important;opacity:.9!important;
-}
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickLocked{
  margin:5px auto 0!important;text-align:center!important;color:#ffc78d!important;font-size:10px!important;
 }
