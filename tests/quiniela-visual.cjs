@@ -90,10 +90,17 @@ assert.match(page,/if\(error\)throw error;[\s\S]*?setSubmitToast\(wasSaved\?"Act
 assert.match(page,/submitToast==="Actualizado!"&&tab==="quiniela"/);
 assert.match(page,/createPortal\(<div className="qdUpdateSuccessBackdrop" role="status" aria-live="polite"/);
 assert.match(page,/className="qdUpdateSuccessMark"/);
-assert.match(page,/stroke="#fff" strokeWidth="5\.5" strokeLinecap="round" strokeLinejoin="round"/);
+assert.match(page,/stroke="#fff" strokeWidth="7\.5" strokeLinecap="round" strokeLinejoin="round"/);
 assert.match(page,/<strong>Actualizado<\/strong>/);
 assert.match(page,/submitToast&&<div className="submitSuccessToast"/);
 assert.match(css,/background:linear-gradient\(160deg,#17dd76 0%,#06bf61 50%,#078f50 100%\)/);
 assert.match(css,/qdUpdateTickDraw/);
 assert.match(css,/@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?qdUpdateSuccessMark path/);
 console.log("Passed: Supabase-confirmed updates show centered neon green popup and thick white tick; new submissions unchanged.");
+
+assert.match(css,/qdUpdateSuccessPopup\{\s*position:relative;display:flex;flex-direction:row;align-items:center;justify-content:center/);
+assert.match(css,/gap:12px;width:min\(100%,340px\);min-height:105px/);
+assert.match(css,/qdUpdateSuccessMark\{\s*display:grid;place-items:center;flex:0 0 58px/);
+assert.match(css,/white-space:nowrap!important/);
+assert.doesNotMatch(css,/qdUpdateSuccessPopup\{\s*position:relative;display:flex;flex-direction:column/);
+console.log("Passed: horizontal update confirmation with thick white check left of Actualizado.");
