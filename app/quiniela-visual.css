@@ -194,12 +194,14 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPill{
  box-shadow:inset 0 1px rgba(177,218,255,.09)!important;
 }
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPillRank{
- background:rgba(10,43,89,.85)!important;
-}
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPillPoints{
  background:rgba(24,101,205,.92)!important;
  border-color:rgba(90,175,255,.83)!important;
  color:#fff!important;
+}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .qdStandingPillPoints{
+ background:rgba(10,43,89,.85)!important;
+ border-color:rgba(67,150,242,.65)!important;
+ color:#e8f3ff!important;
 }
 /* La forma reciente permanece centrada bajo las cápsulas. */
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .teamFormDots{
@@ -377,30 +379,17 @@ html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo 
  text-shadow:none!important;
  box-shadow:inset 0 1px 0 rgba(255,255,255,.12)!important;
 }
-html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pick1{
- background:#174e87!important;
- border:1px solid #397fc2!important;
- color:#fff!important;
+/* Light mode: 1, X and 2 share a neutral resting state; only the selected pick uses its identity color. */
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]):is(.pick1,.pickX,.pick2){
+ background:#143b69!important;
+ border:1px solid #426e9d!important;
+ color:#edf5ff!important;
+ box-shadow:inset 0 1px rgba(210,235,255,.1)!important;
 }
-html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pickX{
- background:#f9fbff!important;
- border:1px solid #91c6ec!important;
- color:#142b45!important;
-}
-html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pick2{
- background:#a82442!important;
- border:1px solid #db5a73!important;
- color:#fff!important;
-}
-html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]):is(.pick1,.pick2) :is(b,small){
- color:#fff!important;
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]):is(.pick1,.pickX,.pick2) :is(b,small){
+ color:#edf5ff!important;
  opacity:1!important;
- -webkit-text-fill-color:#fff!important;
-}
-html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not([aria-pressed="true"]).pickX :is(b,small){
- color:#142b45!important;
- opacity:1!important;
- -webkit-text-fill-color:#142b45!important;
+ -webkit-text-fill-color:#edf5ff!important;
 }
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{
  opacity:1!important;
