@@ -1,5 +1,6 @@
 "use client";
 import "./home-summary.css";
+import HeroDepthBackground from "./HeroDepthBackground";
 import type {ReactNode} from "react";
 import {AnimatedNumber} from "./DynamicMotion";
 
@@ -17,6 +18,7 @@ export default function HomeSummary({round,submitted,totalPot,leader,myRank,posi
   const action=submitted?"Revisar mi quiniela":"Hacer mi quiniela";
   return <section className="qdOverviewSummary" aria-label="Resumen de tu quiniela">
     <article className={"qdOverviewFeature qdHeroSport "+(submitted?"is-submitted":"is-pending")}>
+      <HeroDepthBackground/>
       <div className="qdHeroSportBackdrop" aria-hidden="true"/>
       <div className="qdHeroSportContent">
         <span className="qdHeroSportSeason">TEMPORADA 2026/27</span>

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "npm test && next build",
     "start": "next start",
-    "test": "node tests/match-details.cjs && node tests/admin-route.cjs && node tests/mobile-navigation.cjs && node tests/new-round.cjs && node tests/engagement.cjs && node tests/push-registration.cjs && node tests/push-client.cjs && node tests/player-performance.cjs && node tests/quiniela-visual.cjs && node tests/light-contrast.cjs && node tests/round-defaults.cjs && node tests/admin-finished-cards.cjs && node tests/home-hero.cjs"
+    "test": "node tests/match-details.cjs && node tests/admin-route.cjs && node tests/mobile-navigation.cjs && node tests/new-round.cjs && node tests/engagement.cjs && node tests/push-registration.cjs && node tests/push-client.cjs && node tests/player-performance.cjs && node tests/quiniela-visual.cjs && node tests/light-contrast.cjs && node tests/round-defaults.cjs && node tests/admin-finished-cards.cjs && node tests/home-hero.cjs && node tests/hero-depth.cjs"
   },
   "dependencies": {
     "next": "16.0.10",
