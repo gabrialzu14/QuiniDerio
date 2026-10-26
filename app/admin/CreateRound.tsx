@@ -81,6 +81,33 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
   },350);
   return()=>window.clearTimeout(id);
  },[games,round,busy]);
+ const refreshDerioForms=async()=>{
+  const {data,error}=await supabase.from("quini_live_matches")
+   .select("round,team,is_home,home_score,away_score,status")
+   .lt("round",round).eq("status","finished").order("round",{ascending:false});
+  if(error)throw error;
+  const forms=new Map<RoundTeam,string>();
+  for(const team of ROUND_TEAMS){
+   const previous=(data||[]).filter(match=>match.team===team&&typeof match.is_home==="boolean"&&
+    match.home_score!==null&&match.away_score!==null&&
+    Number.isFinite(Number(match.home_score))&&Number.isFinite(Number(match.away_score))).slice(0,5);
+   if(!previous.length)continue;
+   forms.set(team,previous.reverse().map(match=>{
+    const ours=match.is_home?Number(match.home_score):Number(match.away_score);
+    const theirs=match.is_home?Number(match.away_score):Number(match.home_score);
+    return ours>theirs?"V":ours<theirs?"D":"E";
+   }).join(""));
+  }
+  setGames(previous=>previous.map(game=>forms.has(game.team)?{...game,derioForm:forms.get(game.team)!}:game));
+  return forms;
+ };
+ useEffect(()=>{
+  const timer=window.setTimeout(()=>{
+   if(ready.current)void refreshDerioForms().catch(()=>setError("No se ha podido actualizar automáticamente la forma del Derio."));
+  },0);
+  return()=>window.clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+ },[round]);
  const edit=(team:RoundTeam,patch:Partial<GameForm>)=>
   setGames(prev=>prev.map(g=>g.team===team?{...g,...patch}:g));
  const input=(g:GameForm,key:typeof textFieldNames[number],label:string,opts?:{type?:string;placeholder?:string;min?:number;max?:number;pattern?:string})=>
@@ -100,10 +127,11 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
   if(!window.confirm("¿Publicar la jornada "+round+" con "+scheduled.length+" partidos y "+(games.length-scheduled.length)+" descansos? Después podrás editar los partidos en el panel."))return;
   submitLock.current=true;setBusy(true);setError("");setProgress("Comprobando datos…");
   try{
+   const autoForms=await refreshDerioForms();
    const {data:{session}}=await supabase.auth.getSession();
    if(!session)throw new Error("La sesión ha caducado. Accede de nuevo al panel.");
    const token=session.access_token;
-   const updated=games.map(g=>({...g}));
+   const updated=games.map(g=>({...g,derioForm:autoForms.get(g.team)??g.derioForm}));
    for(const g of updated){
     if(g.rest||!g.file)continue;
     setProgress("Subiendo escudo de "+g.team+"…");
