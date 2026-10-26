@@ -34,7 +34,7 @@ export default function MatchEditor({match,disabled,onSave}:{match:ManagedMatch,
    const details:MatchDetails={
     teamLabel:text("teamLabel"),opponent:text("opponent"),
     date:text("date").split("-").reverse().join("/"),
-    time:text("time"),venue:text("venue"),location:text("location"),
+    time:text("time"),venue:match.is_home&&!text("venue")?"Ibaiondo":text("venue"),location:match.is_home&&!text("location")?"Derio":text("location"),
     derioPosition:num("derioPosition"),opponentPosition:num("opponentPosition"),
     derioPoints:num("derioPoints"),opponentPoints:num("opponentPoints"),
     derioForm:text("derioForm").toUpperCase(),opponentForm:text("opponentForm").toUpperCase(),
@@ -59,8 +59,8 @@ export default function MatchEditor({match,disabled,onSave}:{match:ManagedMatch,
   <label>Equipo rival<input name="opponent" defaultValue={d.opponent} required maxLength={80}/></label>
   <label>Día<input name="date" type="date" required min="2020-01-01" max="2100-12-31" defaultValue={d.date.split("/").reverse().join("-")}/></label>
   <label>Hora (España)<input name="time" type="time" required defaultValue={d.time}/></label>
-  <label>Nombre del campo<input name="venue" defaultValue={d.venue} maxLength={160}/></label>
-  <label>Ubicación / localidad<input name="location" defaultValue={d.location} placeholder="Localidad o dirección" maxLength={160}/></label>
+  <label>Nombre del campo<input name="venue" defaultValue={match.is_home?d.venue||"Ibaiondo":d.venue} maxLength={160}/></label>
+  <label>Ubicación / localidad<input name="location" defaultValue={match.is_home?d.location||"Derio":d.location} placeholder="Localidad o dirección" maxLength={160}/></label>
   <label>Competición<input name="competition" defaultValue={d.competition||""} maxLength={80}/></label>
   <label>Jornada federativa<input type="number" name="federationRound" min={1} max={100} defaultValue={d.federationRound??""}/></label>
   {([["derioPosition","Posición del equipo",1],["opponentPosition","Posición del rival",1],

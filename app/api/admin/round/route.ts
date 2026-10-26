@@ -32,6 +32,12 @@ export async function POST(req:NextRequest){
    console.error("quini-publish-round",error.code,error.message);
    return NextResponse.json({error:"No se ha podido publicar la jornada. Ningún partido se ha guardado."},{status:500,headers});
   }
-  return NextResponse.json({ok:true,round:payload.round,created:Number(data),rests:payload.games.length-Number(data)},{headers});
+  // The publication RPC also activates the immediately following round atomically.
+  const {data:settings,error:settingsError}=await db.from("quini_app_settings")
+   .select("active_round").eq("id",1).single();
+  if(settingsError||!settings)throw new Error("Unable to confirm active round after publication");
+  const activeRound=Number(settings.active_round);
+  return NextResponse.json({ok:true,round:payload.round,created:Number(data),
+   rests:payload.games.length-Number(data),activeRound,activated:activeRound===payload.round},{headers});
  }catch(e){console.error("quini-create-round",e);return NextResponse.json({error:"No se ha podido crear la jornada."},{status:500,headers})}
 }

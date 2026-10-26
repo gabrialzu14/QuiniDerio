@@ -2,6 +2,7 @@
 import {useEffect,useRef,useState} from "react";
 import {supabase} from "../lib/supabase";
 import {ROUND_TEAMS,type RoundTeam} from "../lib/new-round";
+import {buildRoundDefaults,type HistoricalMatch,type HistoricalRest,type RoundAutoDefaults} from "../lib/round-defaults";
 import "./create-round.css";
 
 type GameForm={
@@ -30,7 +31,7 @@ const COMPETITIONS:Record<RoundTeam,string>={
 };
 const makeInitial=():GameForm[]=>
  ROUND_TEAMS.map(team=>({
-  team,rest:false,isHome:true,opponent:"",date:"",time:"",venue:"",location:"",
+  team,rest:false,isHome:true,opponent:"",date:"",time:"",venue:"Ibaiondo",location:"Derio",
   competition:COMPETITIONS[team],federationRound:"",derioPosition:"",
   opponentPosition:"",derioPoints:"",opponentPoints:"",
   derioForm:"",opponentForm:"",crest:"",file:null
@@ -49,7 +50,7 @@ function CrestPreview({file,src}:{file:File|null,src:string}){
    <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M12 22s8-4 8-11V4l-8-2-8 2v7c0 7 8 11 8 11Z"/><path d="m8 12 3 3 5-5"/></svg>}
  </div>;
 }
-export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCreated:(round:number)=>void}){
+export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCreated:(round:number,activeRound:number)=>void}){
  const[round,setRound]=useState(nextRound);
  const[games,setGames]=useState<GameForm[]>(makeInitial);
  const[busy,setBusy]=useState(false);
@@ -58,7 +59,9 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
  const[expanded,setExpanded]=useState<RoundTeam[]>([...ROUND_TEAMS]);
  const ready=useRef(false);
  const submitLock=useRef(false);
- useEffect(()=>{setRound(nextRound);setGames(makeInitial());ready.current=false},[nextRound]);
+ const manualFields=useRef(new Set<string>());
+ const autoDefaults=useRef<Partial<Record<RoundTeam,RoundAutoDefaults>>>({});
+ useEffect(()=>{manualFields.current.clear();autoDefaults.current={};setRound(nextRound);setGames(makeInitial());ready.current=false},[nextRound]);
  useEffect(()=>{
   if(!ready.current){
    try{
@@ -81,42 +84,73 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
   },350);
   return()=>window.clearTimeout(id);
  },[games,round,busy]);
- const refreshDerioForms=async()=>{
-  // A round's saved form describes the five games BEFORE that fixture.
-  // Use that snapshot as a historical baseline, then append completed results.
-  const {data,error}=await supabase.from("quini_live_matches")
-   .select("round,team,is_home,home_score,away_score,status,fixture_details")
-   .lt("round",round).order("round",{ascending:true});
-  if(error)throw error;
-  const forms=new Map<RoundTeam,string>();
-  for(const team of ROUND_TEAMS){
-   const fixtures=(data||[]).filter(match=>match.team===team);
-   let history="";
-   for(const match of fixtures){
-    const snapshot=typeof match.fixture_details?.derioForm==="string"
-     ?match.fixture_details.derioForm.toUpperCase().replace(/[^VED]/g,"").slice(-5):"";
-    if(snapshot.length>history.length)history=snapshot;
-    if(match.status!=="finished"||typeof match.is_home!=="boolean"||
-       match.home_score===null||match.away_score===null)continue;
-    const ours=Number(match.is_home?match.home_score:match.away_score);
-    const theirs=Number(match.is_home?match.away_score:match.home_score);
-    if(!Number.isFinite(ours)||!Number.isFinite(theirs))continue;
-    history=(history+(ours>theirs?"V":ours<theirs?"D":"E")).slice(-5);
+ const refreshRoundDefaults=async()=>{
+  const [gamesResult,restsResult]=await Promise.all([
+   supabase.from("quini_live_matches")
+    .select("round,team,is_home,home_score,away_score,status,fixture_details")
+    .lt("round",round).order("round",{ascending:true}),
+   supabase.from("quini_rest_fixtures")
+    .select("round,team,federation_round")
+    .lt("round",round)
+  ]);
+  if(gamesResult.error||restsResult.error)throw gamesResult.error||restsResult.error;
+  const defaults=buildRoundDefaults(
+   (gamesResult.data||[]) as HistoricalMatch[],
+   (restsResult.data||[]) as HistoricalRest[],round);
+  autoDefaults.current=defaults;
+  setGames(previous=>previous.map(game=>{
+   const auto=defaults[game.team];
+   const patch:Partial<GameForm>={};
+   for(const field of ["derioPoints","derioForm","federationRound"] as const){
+    if(manualFields.current.has(game.team+":"+field))continue;
+    const raw=field==="federationRound"
+     ?game.rest?auto.restFederationRound:auto.federationRound
+     :auto[field];
+    patch[field]=raw===null?"":String(raw);
    }
-   if(history)forms.set(team,history);
-  }
-  setGames(previous=>previous.map(game=>forms.has(game.team)?{...game,derioForm:forms.get(game.team)!}:game));
-  return forms;
+   if(game.isHome){
+    if(!manualFields.current.has(game.team+":venue"))patch.venue="Ibaiondo";
+    if(!manualFields.current.has(game.team+":location"))patch.location="Derio";
+   }
+   return {...game,...patch};
+  }));
+  return defaults;
  };
  useEffect(()=>{
   const timer=window.setTimeout(()=>{
-   if(ready.current)void refreshDerioForms().catch(()=>setError("No se ha podido actualizar automáticamente la forma del Derio."));
+   if(ready.current)void refreshRoundDefaults().catch(()=>setError("No se han podido actualizar los datos automáticos del Derio."));
   },0);
   return()=>window.clearTimeout(timer);
   // eslint-disable-next-line react-hooks/exhaustive-deps
  },[round]);
- const edit=(team:RoundTeam,patch:Partial<GameForm>)=>
-  setGames(prev=>prev.map(g=>g.team===team?{...g,...patch}:g));
+ const edit=(team:RoundTeam,patch:Partial<GameForm>)=>{
+  for(const field of ["derioPoints","derioForm","federationRound","venue","location"] as const){
+   if(field in patch)manualFields.current.add(team+":"+field);
+  }
+  setGames(previous=>previous.map(game=>{
+   if(game.team!==team)return game;
+   const adjusted={...patch};
+   if(typeof patch.isHome==="boolean"&&patch.isHome!==game.isHome){
+    if(patch.isHome){
+     adjusted.venue="Ibaiondo";
+     adjusted.location="Derio";
+    }else{
+     if(game.venue==="Ibaiondo")adjusted.venue="";
+     if(game.location==="Derio")adjusted.location="";
+    }
+    manualFields.current.delete(team+":venue");
+    manualFields.current.delete(team+":location");
+   }
+   if(typeof patch.rest==="boolean"&&patch.rest!==game.rest){
+    const auto=autoDefaults.current[team];
+    if(auto&&!manualFields.current.has(team+":federationRound")){
+     const fed=patch.rest?auto.restFederationRound:auto.federationRound;
+     adjusted.federationRound=fed===null?"":String(fed);
+    }
+   }
+   return {...game,...adjusted};
+  }));
+ };
  const input=(g:GameForm,key:typeof textFieldNames[number],label:string,opts?:{type?:string;placeholder?:string;min?:number;max?:number;pattern?:string})=>
   <label className="qdNewField" key={key}>{label}
    <input name={g.team+"-"+key} type={opts?.type||"text"} value={g[key]}
@@ -131,14 +165,26 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
   if(!scheduled.length){setError("Añade al menos un partido. Los demás equipos pueden descansar.");return}
   const empty=scheduled.find(g=>!g.opponent.trim()||!g.date||!g.time||!g.venue.trim());
   if(empty){setError("Completa el rival, la fecha, la hora y el campo de "+empty.team+".");return}
-  if(!window.confirm("¿Publicar la jornada "+round+" con "+scheduled.length+" partidos y "+(games.length-scheduled.length)+" descansos? Después podrás editar los partidos en el panel."))return;
+  if(!window.confirm("¿Publicar la jornada "+round+" con "+scheduled.length+" partidos y "+(games.length-scheduled.length)+" descansos? Si es la siguiente jornada, se activará automáticamente. Después podrás editar los partidos en el panel."))return;
   submitLock.current=true;setBusy(true);setError("");setProgress("Comprobando datos…");
   try{
-   const autoForms=await refreshDerioForms();
+   const auto=await refreshRoundDefaults();
    const {data:{session}}=await supabase.auth.getSession();
    if(!session)throw new Error("La sesión ha caducado. Accede de nuevo al panel.");
    const token=session.access_token;
-   const updated=games.map(g=>({...g,derioForm:autoForms.get(g.team)??g.derioForm}));
+   const updated=games.map(g=>{
+    const calculated=auto[g.team];
+    const use=(field:"derioForm"|"derioPoints"|"federationRound",value:string)=>
+     manualFields.current.has(g.team+":"+field)?g[field]:value;
+    const fed=g.rest?calculated.restFederationRound:calculated.federationRound;
+    return {...g,
+     derioForm:use("derioForm",calculated.derioForm),
+     derioPoints:use("derioPoints",calculated.derioPoints===null?"":String(calculated.derioPoints)),
+     federationRound:use("federationRound",fed===null?"":String(fed)),
+     venue:g.isHome&&!manualFields.current.has(g.team+":venue")?"Ibaiondo":g.venue,
+     location:g.isHome&&!manualFields.current.has(g.team+":location")?"Derio":g.location
+    };
+   });
    for(const g of updated){
     if(g.rest||!g.file)continue;
     setProgress("Subiendo escudo de "+g.team+"…");
@@ -178,10 +224,10 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
     body:JSON.stringify(payload)
    });
    const json=await response.json().catch(()=>({}));
-   if(!response.ok)throw new Error(json.error||"No se ha podido publicar la jornada.");
+   if(!response.ok||!Number.isInteger(json.activeRound))throw new Error(json.error||"No se ha podido confirmar la activación de la jornada.");
    try{localStorage.removeItem("qd-admin-round-draft-"+round)}catch{}
    setProgress("");
-   onCreated(round);
+   onCreated(round,Number(json.activeRound));
   }catch(e){
    setError(e instanceof Error?e.message:"No se ha podido publicar la jornada.");
   }finally{submitLock.current=false;setBusy(false);setProgress("")}
@@ -190,10 +236,10 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
  return <section className="qdCreateRound" aria-labelledby="qd-create-round-title">
   <div className="qdCreateRoundHeading">
    <div><span className="adminEyebrow">GESTIÓN DE JORNADAS</span><h2 id="qd-create-round-title">Crear jornada</h2>
-    <p>Configura todos los encuentros, escudos y descansos. Se publicarán juntos y estarán disponibles en la app sin editar el código.</p></div>
+    <p>Configura todos los encuentros, escudos y descansos. Se publicarán juntos y, si corresponde la siguiente jornada, quedarán activados automáticamente.</p></div>
    <label className="qdCreateRoundNumber">Jornada
     <input type="number" min={1} max={60} value={round} disabled={busy}
-     onChange={e=>{const n=Number(e.target.value);if(Number.isInteger(n)&&n>=1&&n<=60){ready.current=false;setRound(n);setGames(makeInitial())}}}/>
+     onChange={e=>{const n=Number(e.target.value);if(Number.isInteger(n)&&n>=1&&n<=60){ready.current=false;manualFields.current.clear();autoDefaults.current={};setRound(n);setGames(makeInitial())}}}/>
    </label>
   </div>
   <div className="qdCreateRoundSummary">

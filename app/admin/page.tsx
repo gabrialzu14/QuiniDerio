@@ -196,11 +196,17 @@ export default function AdminPage(){
   {message&&<div className={"adminFeedback "+message.kind} role={message.kind==="error"?"alert":"status"}>{message.text}<button aria-label="Cerrar aviso" onClick={()=>setMessage(null)}>×</button></div>}
   {view!=="create"&&loadError?<section className="adminEmpty" role="alert"><h2>No se ha podido cargar la jornada</h2><p>{loadError}</p><button className="adminPrimary" onClick={()=>void load(round)}>Reintentar</button></section>:view!=="create"&&loading?<section className="adminLoading" role="status"><div className="adminLoadingMark"/><p>Cargando jornada {round}…</p></section>:<>
    {view==="create"&&<CreateRound nextRound={Math.max(0,...publishedRounds)+1}
-    onCreated={created=>{
+    onCreated={(created,newActive)=>{
      setPublishedRounds(prev=>[...new Set([...prev,created])].sort((a,b)=>a-b));
      changeRound(created);
      setView("matches");
-     setMessage({kind:"success",text:"Jornada "+created+" creada y publicada correctamente. Ya puedes editar sus partidos."});
+     if(Number.isInteger(newActive)&&newActive>0){
+      setActiveRound(newActive);
+      window.dispatchEvent(new Event("quini-round-advanced"));
+     }
+     setMessage({kind:"success",text:newActive===created
+      ?"Jornada "+created+" publicada y activada automáticamente. Los jugadores ya pueden pronosticar."
+      :"Jornada "+created+" publicada. Se activará al llegar a esa jornada; actualmente está activa la J"+newActive+"."});
      void load(created,true);
     }}/>}
    {view==="matches"&&<section aria-labelledby="admin-matches-title"><div className="adminSectionHeading"><div><h2 id="admin-matches-title">Partidos de la jornada</h2><p>Edita los equipos, horarios, campo, clasificación y forma de cada encuentro.</p></div><label className="adminFilter">Mostrar<select aria-label="Filtrar partidos" value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">Todos los partidos</option><option value="live">En juego</option><option value="scheduled">Por jugar</option><option value="finished">Finalizados</option><option value="suspended">Suspendidos</option></select></label></div>

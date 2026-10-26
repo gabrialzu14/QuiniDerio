@@ -50,7 +50,9 @@ export function parseNewRound(input:unknown):{round:number,games:ParsedRoundGame
   const federationRound=checkFederationRound(d.federationRound);
   const crest=validateCrest(d.crest||"");
   if(d.teamLabel!==team)throw new Error("El equipo del club no coincide con la ficha.");
-  const details:MatchDetails={...d,crest,competition,federationRound};
+  const details:MatchDetails={...d,crest,competition,federationRound,
+   venue:item.is_home&&!d.venue?"Ibaiondo":d.venue,
+   location:item.is_home&&!d.location?"Derio":d.location};
   return {team:team as RoundTeam,status:"scheduled",opponent:d.opponent,is_home:item.is_home,scheduled_at:kickoffUtc(d.date,d.time),details};
  });
  if(!games.some(g=>g.status==="scheduled"))throw new Error("Debe haber al menos un partido en la jornada.");
