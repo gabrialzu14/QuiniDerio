@@ -85,32 +85,24 @@ assert.doesNotMatch(page,/Guardado en servidor|Por enviar|qdPickSaveState|confir
 assert.doesNotMatch(css,/qdPickSaveState/);
 console.log("Passed: modern single-ring choices, aligned portrait cards, match badges and clean pick panels.");
 
-/* Updating an already-submitted round shows a neon confirmation; first submissions keep their toast. */
+/* A genuine successful Supabase save shows one subtle bottom toast for updates and first submissions. */
 assert.match(page,/if\(error\)throw error;[\s\S]*?setSubmitToast\(wasSaved\?"Actualizado!":"Enviado!"\)/);
-assert.match(page,/submitToast==="Actualizado!"&&tab==="quiniela"/);
-assert.match(page,/createPortal\(<div className="qdUpdateSuccessBackdrop" role="status" aria-live="polite"/);
-assert.match(page,/className="qdUpdateSuccessMark"/);
-assert.match(page,/stroke="#fff" strokeWidth="7\.5" strokeLinecap="round" strokeLinejoin="round"/);
-assert.match(page,/<strong>Actualizado<\/strong>/);
+assert.match(page,/submitToast&&tab==="quiniela"&&typeof document!=="undefined"/);
+assert.match(page,/createPortal\(<div className="qdSaveToast" key=\{updateSuccessSequence\} role="status" aria-live="polite"/);
+assert.match(page,/submitToast==="Actualizado!"\?"Actualizado":"Enviado"/);
+assert.match(page,/className="qdSaveToastTick"/);
+assert.match(page,/stroke="#fff" strokeWidth="4\.4" strokeLinecap="round" strokeLinejoin="round"/);
+assert.match(page,/setUpdateSuccessSequence\(v=>v\+1\)/);
+assert.match(page,/updateSuccessTimer.current=window.setTimeout/);
 assert.match(page,/submitToast&&<div className="submitSuccessToast"/);
-assert.match(css,/background:linear-gradient\(160deg,#17dd76 0%,#06bf61 50%,#078f50 100%\)/);
-assert.match(css,/qdUpdateTickDraw/);
-assert.match(css,/@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?qdUpdateSuccessMark path/);
-console.log("Passed: Supabase-confirmed updates show centered neon green popup and thick white tick; new submissions unchanged.");
-
-assert.match(css,/qdUpdateSuccessPopup\{\s*position:relative;display:flex;flex-direction:row;align-items:center;justify-content:center/);
-assert.match(css,/gap:12px;width:min\(100%,340px\);min-height:105px/);
-assert.match(css,/qdUpdateSuccessMark\{\s*position:relative;isolation:isolate;\s*display:grid;place-items:center;flex:0 0 58px/);
-assert.match(css,/white-space:nowrap!important/);
-assert.doesNotMatch(css,/qdUpdateSuccessPopup\{\s*position:relative;display:flex;flex-direction:column/);
-console.log("Passed: horizontal update confirmation with thick white check left of Actualizado.");
-
-/* Tick animation renders each successful update, respects reduced-motion, and leaves status rendering intact. */
-assert.match(page,/key=\{updateSuccessSequence\}/);
-assert.match(page,/if\(wasSaved\)setUpdateSuccessSequence\(v=>v\+1\)/);
-assert.match(css,/qdUpdateTickDraw \.64s \.18s/);
-assert.match(css,/qdUpdateTickBounce \.46s \.87s/);
-assert.match(css,/qdUpdateTickHalo \.53s \.78s/);
-assert.match(css,/@keyframes qdUpdateTickDraw\{from\{stroke-dashoffset:70/);
-assert.match(css,/qdUpdateSuccessMark::before\{animation:none!important;opacity:0!important/);
-console.log("Passed: SVG tick draws, bounces and emits brief halo on each successful update; reduced motion supported.");
+assert.doesNotMatch(page,/qdUpdateSuccessBackdrop|qdUpdateSuccessPopup|qdUpdateSuccessMark/);
+assert.doesNotMatch(css,/qdUpdateSuccessBackdrop|qdUpdateSuccessPopup|qdUpdateSuccessMark/);
+assert.match(css,/\.qdSaveToast\{\s*position:fixed!important;/);
+assert.match(css,/bottom:calc\(94px \+ env\(safe-area-inset-bottom\)\)!important/);
+assert.match(css,/max-width:calc\(100vw - 32px\)!important/);
+assert.match(css,/pointer-events:none!important/);
+assert.match(css,/animation:qdSaveToastSlide 1\.8s/);
+assert.match(css,/@keyframes qdSaveToastSlide/);
+assert.match(css,/qdSaveToastCheck \.42s \.18s/);
+assert.match(css,/@media\(prefers-reduced-motion:reduce\)[\s\S]*?qdSaveToastFade/);
+console.log("Passed: unobtrusive animated bottom save toast, white tick, no screen-blocking overlay, success-only state.");

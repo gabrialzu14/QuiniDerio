@@ -485,60 +485,68 @@ html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtur
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{animation:none!important}
 }
 
-/* Confirmation of an existing Quiniela update; only visible after a successful Supabase upsert. */
-html body.qdModern .qdUpdateSuccessBackdrop{
- position:fixed;inset:0;z-index:10040;display:grid;place-items:center;
- padding:calc(18px + env(safe-area-inset-top)) 20px calc(18px + env(safe-area-inset-bottom));
- background:rgba(2,20,15,.46);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
- pointer-events:none;animation:qdUpdateBackdropIn .24s ease both;
+/* Minimal bottom notification on successful Supabase submission/update. No overlay or interruption. */
+html body.qdModern .qdSaveToast{
+ position:fixed!important;
+ z-index:10040!important;
+ left:50%!important;
+ bottom:calc(94px + env(safe-area-inset-bottom))!important;
+ box-sizing:border-box!important;
+ width:max-content!important;
+ max-width:calc(100vw - 32px)!important;
+ min-height:50px!important;
+ padding:10px 16px!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:10px!important;
+ background:linear-gradient(145deg,#16b967 0%,#0c995a 100%)!important;
+ border:1px solid rgba(179,255,215,.68)!important;
+ border-radius:16px!important;
+ color:#fff!important;
+ box-shadow:0 7px 22px rgba(0,28,18,.27),0 0 14px rgba(22,211,117,.16)!important;
+ pointer-events:none!important;
+ will-change:transform,opacity;
+ animation:qdSaveToastSlide 1.8s cubic-bezier(.19,.8,.25,1) both!important;
 }
-html body.qdModern .qdUpdateSuccessPopup{
- position:relative;display:flex;flex-direction:row;align-items:center;justify-content:center;
- gap:12px;width:min(100%,340px);min-height:105px;padding:20px 22px;
- border:2px solid #89ffc2;border-radius:26px;
- background:linear-gradient(160deg,#17dd76 0%,#06bf61 50%,#078f50 100%);
- color:#fff;box-shadow:0 0 0 5px rgba(50,255,148,.16),0 0 40px rgba(22,255,128,.52),0 22px 75px rgba(0,54,27,.50),inset 0 1px 0 rgba(255,255,255,.56);
- text-align:center;animation:qdUpdatePopupIn .42s cubic-bezier(.15,.84,.22,1.18) both;
+html body.qdModern .qdSaveToast strong{
+ color:#fff!important;
+ font-size:14px!important;
+ font-weight:850!important;
+ line-height:1.15!important;
+ letter-spacing:.005em!important;
+ white-space:nowrap!important;
 }
-html body.qdModern .qdUpdateSuccessMark{
- position:relative;isolation:isolate;
- display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;
- color:#fff;
+html body.qdModern .qdSaveToastTick{
+ display:grid!important;place-items:center!important;
+ flex:0 0 29px!important;
+ width:29px!important;height:29px!important;
+ border-radius:50%!important;
+ background:rgba(255,255,255,.14)!important;
+ color:#fff!important;
 }
-html body.qdModern .qdUpdateSuccessMark svg{
- display:block;width:55px;height:55px;overflow:visible;
- transform-origin:50% 50%;animation:qdUpdateTickBounce .46s .87s cubic-bezier(.2,.85,.25,1) both;
- filter:drop-shadow(0 2px 2px rgba(0,84,36,.22));
+html body.qdModern .qdSaveToastTick svg{display:block!important;width:24px!important;height:24px!important;overflow:visible!important}
+html body.qdModern .qdSaveToastTick path{
+ stroke-dasharray:36!important;
+ stroke-dashoffset:0!important;
+ animation:qdSaveToastCheck .42s .18s cubic-bezier(.2,.75,.3,1) both!important;
 }
-html body.qdModern .qdUpdateSuccessMark path{
- stroke-dasharray:70;stroke-dashoffset:70;
- animation:qdUpdateTickDraw .64s .18s cubic-bezier(.3,.02,.23,1) both;
+@keyframes qdSaveToastSlide{
+ 0%{opacity:0;transform:translate3d(-50%,48px,0) scale(.96)}
+ 18%{opacity:1;transform:translate3d(-50%,0,0) scale(1)}
+ 79%{opacity:1;transform:translate3d(-50%,0,0) scale(1)}
+ 100%{opacity:0;transform:translate3d(-50%,15px,0) scale(.99)}
 }
-html body.qdModern .qdUpdateSuccessMark::before{
- content:"";position:absolute;inset:0;border:2px solid rgba(255,255,255,.78);
- border-radius:50%;opacity:0;pointer-events:none;
- animation:qdUpdateTickHalo .53s .78s ease-out both;
-}
-html body.qdModern .qdUpdateSuccessPopup strong{
- color:#fff!important;font-size:clamp(22px,6vw,28px)!important;font-weight:900!important;white-space:nowrap!important;
- line-height:1.1!important;letter-spacing:-.045em!important;text-shadow:0 2px 9px rgba(0,79,40,.32)!important;
-}
-@keyframes qdUpdateBackdropIn{from{opacity:0}to{opacity:1}}
-@keyframes qdUpdatePopupIn{0%{opacity:0;transform:translateY(18px) scale(.84)}72%{opacity:1;transform:translateY(-3px) scale(1.035)}100%{opacity:1;transform:none}}
-@keyframes qdUpdateTickDraw{from{stroke-dashoffset:70;opacity:1}to{stroke-dashoffset:0;opacity:1}}
-@keyframes qdUpdateTickBounce{
- 0%,100%{transform:scale(1)}
- 38%{transform:scale(1.2)}
- 72%{transform:scale(.94)}
-}
-@keyframes qdUpdateTickHalo{
- 0%{opacity:.73;transform:scale(.8)}
- 100%{opacity:0;transform:scale(1.6)}
-}
+@keyframes qdSaveToastCheck{from{stroke-dashoffset:36;opacity:.35}to{stroke-dashoffset:0;opacity:1}}
 @media(prefers-reduced-motion:reduce){
- html body.qdModern .qdUpdateSuccessBackdrop,html body.qdModern .qdUpdateSuccessPopup,
- html body.qdModern .qdUpdateSuccessMark svg,html body.qdModern .qdUpdateSuccessMark path{
-  animation:none!important;transform:none!important;stroke-dashoffset:0!important;opacity:1!important;
+ html body.qdModern .qdSaveToast{
+  animation:qdSaveToastFade 1.8s linear both!important;
+  will-change:auto!important;
  }
- html body.qdModern .qdUpdateSuccessMark::before{animation:none!important;opacity:0!important}
+ html body.qdModern .qdSaveToastTick path{animation:none!important;stroke-dashoffset:0!important;opacity:1!important}
+}
+@keyframes qdSaveToastFade{
+ 0%{opacity:0;transform:translate3d(-50%,0,0)}
+ 12%,80%{opacity:1;transform:translate3d(-50%,0,0)}
+ 100%{opacity:0;transform:translate3d(-50%,0,0)}
 }
