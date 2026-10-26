@@ -302,7 +302,7 @@ html body.qdModern .predictionsPage .matchRivalsFixture .matchRivalsCenter .matc
  }
 }
 
-/* Marcadores: white line at the calendar Saturday -> Sunday boundary. */
+/* Marcadores: subtle 1px weekend divider matching normal fixture separators. */
 html body.qdModern .qdHome .qdRound .qdFixture.qdWeekendBoundaryEnd{
  border-bottom:0!important;
 }
@@ -317,14 +317,14 @@ html body.qdModern .qdHome .qdRound .qdFixture.qdWeekendBoundaryStart::before{
  top:0!important;
  left:7%!important;
  right:7%!important;
- height:2px!important;
+ height:1px!important;
  border:0!important;
- background:#fff!important;
+ background:linear-gradient(90deg,transparent,rgba(255,255,255,.48) 30%,rgba(255,255,255,.48) 70%,transparent)!important;
  opacity:1!important;
- box-shadow:0 0 4px rgba(255,255,255,.22)!important;
+ box-shadow:none!important;
  pointer-events:none!important;
 }
 html[data-theme="light"] body.qdModern .qdHome .qdRound .qdFixture.qdWeekendBoundaryStart::before{
- background:#fff!important;
- box-shadow:0 0 0 1px rgba(35,92,151,.25)!important;
+ background:linear-gradient(90deg,transparent,rgba(35,92,151,.35) 30%,rgba(35,92,151,.35) 70%,transparent)!important;
+ box-shadow:none!important;
 }
