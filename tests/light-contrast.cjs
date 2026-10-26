@@ -45,7 +45,7 @@ for(const v of ["pick1","pickX","pick2"]){
   assert.match(quiniela,new RegExp('button\\[aria-pressed="true"\\]\\.'+v+'\\{'));
 
 }
-assert.match(page,/className=\{picks\[pickKey\]===x\?"active pick"\+x:"pick"\+x\}/);
+assert.match(page,/aria-pressed=\{currentPick===x\} className=\{currentPick===x\?"active pick"\+x:"pick"\+x\}/);
 assert.doesNotMatch(light,/html:not\(\[data-theme="light"\]\)/);
 assert.doesNotMatch(nav,/html:not\(\[data-theme="light"\]\) body \.dashboard \.liquidNav/);
 assert.ok(admin.includes('html[data-theme="light"] body.qdModern .adminWorkspace button:disabled'));
