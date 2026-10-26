@@ -27,6 +27,7 @@ export default function AdminPage(){
  const[round,setRound]=useState(CURRENT_ROUND),[view,setView]=useState<View>("matches"),[filter,setFilter]=useState("all");
  const[publishedRounds,setPublishedRounds]=useState<number[]>(PUBLISHED_ROUNDS);
  const[activeRound,setActiveRound]=useState<number|null>(null);
+ const initialRoundSelection=useRef(false);
  const[activeRoundError,setActiveRoundError]=useState("");
  const[theme,setTheme]=useState("dark"),[reminderSending,setReminderSending]=useState("");
  const[reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
@@ -80,7 +81,12 @@ export default function AdminPage(){
    if(!active)return;
    if(error||!data){setActiveRoundError("No se ha podido consultar la jornada activa.");return}
    setActiveRoundError("");
-   setActiveRound(Number(data.active_round));
+   const current=Number(data.active_round);
+   setActiveRound(current);
+   if(!initialRoundSelection.current&&Number.isInteger(current)&&current>0){
+    initialRoundSelection.current=true;
+    setRound(current);
+   }
   };
   void loadList();
   void loadCurrentRound();
