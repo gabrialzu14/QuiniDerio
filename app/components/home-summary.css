@@ -164,8 +164,7 @@ html body.qdModern .qdHeroSportBackdrop{
  pointer-events:none!important;
  background-image:
   linear-gradient(180deg,rgba(4,16,40,.39) 0%,rgba(6,24,55,.53) 28%,rgba(5,25,58,.86) 57%,rgba(5,22,48,.97) 100%),
-  linear-gradient(90deg,rgba(3,18,43,.32),transparent 55%,rgba(3,18,43,.29)),
-  url("https://d2ol7oe51mr4n9.cloudfront.net/user_3KbkQHsfzMXuzARrRy7KzJhQi08/d47c0a71-f32a-43c2-9e1f-66f80eaa51cc.webp");
+  linear-gradient(90deg,rgba(3,18,43,.32),transparent 55%,rgba(3,18,43,.29));
  background-size:cover!important;
  background-position:center 53%!important;
  background-repeat:no-repeat!important;
@@ -419,3 +418,20 @@ html[data-theme="light"] body.qdModern .qdHome .qdOverviewSummary .qdOverviewSta
  html body.qdModern .qdHeroSportStage,html body.qdModern .qdHeroSportStatus{transition:none!important}
  html body.qdModern .qdHeroSportStatus.submitted .qdHeroSportCheck{animation:none!important;stroke-dashoffset:0!important}
 }
+
+/* Only the photo moves; the contrast overlays and content stay fixed. */
+html body.qdModern .qdHeroDepthImage{
+ position:absolute;inset:-20px;z-index:0;pointer-events:none;
+ background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_3KbkQHsfzMXuzARrRy7KzJhQi08/d47c0a71-f32a-43c2-9e1f-66f80eaa51cc.webp");
+ background-size:cover;background-position:center 53%;background-repeat:no-repeat;
+ filter:saturate(.92);
+}
+html body.qdModern .qdOverviewSummary .qdHeroDepthActivate{
+ position:absolute;top:6px;right:8px;z-index:3;
+ max-width:calc(100% - 16px);min-height:24px;padding:4px 9px;
+ border:1px solid rgba(145,198,255,.4);border-radius:999px;
+ background:rgba(7,35,75,.92);color:#e5f1ff;
+ font-size:10px;line-height:1.3;font-weight:600;
+}
+.qdHeroDepthActivate[hidden]{display:none!important}
+.qdHeroDepthActivate:disabled{opacity:.6}
