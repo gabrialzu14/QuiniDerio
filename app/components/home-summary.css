@@ -141,3 +141,258 @@ html[data-theme="light"] .qdOverviewStatHead>svg { color: #316eaa; }
 @media(prefers-reduced-motion:reduce){
  .qdOverviewSummary .qdOverviewFeature,.qdOverviewSummary .qdOverviewStats .qdOverviewStat{animation:none!important}
 }
+
+/* Preview · Opción 2 — Ibaiondo sporting hero, mobile-first. */
+html body.qdModern .qdHome .qdOverviewSummary{padding:0 0 19px!important;gap:13px!important}
+html body.qdModern .qdHome .qdOverviewFeature.qdHeroSport{
+ position:relative!important;isolation:isolate!important;
+ display:block!important;
+ min-width:0!important;
+ min-height:400px!important;
+ padding:26px 24px 22px!important;
+ border-radius:23px!important;
+ border:1px solid rgba(68,140,222,.64)!important;
+ background:#07234b!important;
+ overflow:hidden!important;
+ box-shadow:0 16px 35px rgba(0,9,31,.28),inset 0 1px rgba(199,232,255,.18)!important;
+ color:#fff!important;
+}
+html body.qdModern .qdHeroSportBackdrop{
+ position:absolute!important;
+ inset:0!important;
+ z-index:0!important;
+ pointer-events:none!important;
+ background-image:
+  linear-gradient(180deg,rgba(4,16,40,.28) 0%,rgba(6,24,55,.42) 28%,rgba(5,25,58,.80) 57%,rgba(5,22,48,.96) 100%),
+  linear-gradient(90deg,rgba(3,18,43,.32),transparent 55%,rgba(3,18,43,.29)),
+  url("/ibaiondo-home-hero.webp");
+ background-size:cover!important;
+ background-position:center 53%!important;
+ background-repeat:no-repeat!important;
+ filter:saturate(.92)!important;
+}
+html body.qdModern .qdHeroSportContent{
+ position:relative!important;
+ z-index:1!important;
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:center!important;
+ text-align:center!important;
+ min-height:350px!important;
+ width:100%!important;
+}
+html body.qdModern .qdHeroSportSeason{
+ display:block!important;
+ margin-top:4px!important;
+ font-size:10px!important;
+ letter-spacing:.18em!important;
+ color:#c2ddff!important;
+ font-weight:850!important;
+}
+html body.qdModern .qdHeroSportTitle{
+ display:block!important;
+ margin:13px 0 2px!important;
+ font-size:clamp(38px,7vw,62px)!important;
+ font-weight:900!important;
+ letter-spacing:-.065em!important;
+ line-height:1.05!important;
+ color:#fff!important;
+ text-shadow:0 2px 16px rgba(0,16,43,.7)!important;
+}
+html body.qdModern .qdHeroSportStatus{
+ display:inline-flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:8px!important;
+ margin:84px auto 15px!important;
+ padding:8px 15px!important;
+ border-radius:999px!important;
+ border:1px solid rgba(135,217,204,.45)!important;
+ background:rgba(4,36,53,.63)!important;
+ color:#f3fffc!important;
+ font-size:15px!important;
+ font-weight:850!important;
+ -webkit-backdrop-filter:blur(6px)!important;
+ backdrop-filter:blur(6px)!important;
+}
+html body.qdModern .qdHeroSportStatus.pending{
+ border-color:rgba(247,189,82,.56)!important;
+}
+html body.qdModern .qdHeroSportStatusIcon{
+ display:grid!important;place-items:center!important;
+ border-radius:50%!important;
+ width:20px!important;height:20px!important;
+ background:#39cf97!important;
+ color:#082844!important;
+ font-size:13px!important;
+ font-weight:950!important;
+}
+html body.qdModern .qdHeroSportStatus.pending .qdHeroSportStatusIcon{background:#ffd475!important}
+html body.qdModern .qdHeroSportStages{
+ width:100%!important;
+ max-width:330px!important;
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:6px!important;
+ margin:0 auto 16px!important;
+}
+html body.qdModern .qdHeroSportStage{
+ position:relative!important;
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:center!important;
+ justify-content:center!important;
+ min-height:52px!important;
+ gap:5px!important;
+ opacity:.62!important;
+}
+html body.qdModern .qdHeroSportStage.active,
+html body.qdModern .qdHeroSportStage.completed{opacity:1!important}
+html body.qdModern .qdHeroSportStage:not(:first-child)::before{
+ content:""!important;
+ position:absolute!important;
+ right:calc(50% + 15px)!important;
+ top:13px!important;
+ width:calc(100% - 24px)!important;
+ border-top:1px solid rgba(164,206,249,.48)!important;
+}
+html body.qdModern .qdHeroSportStageDot{
+ display:grid!important;place-items:center!important;
+ width:26px!important;height:26px!important;
+ border-radius:50%!important;
+ border:1px solid #91b6e8!important;
+ background:rgba(5,31,70,.79)!important;
+ color:#b6d7ff!important;
+ font-size:11px!important;
+ font-weight:900!important;
+}
+html body.qdModern .qdHeroSportStage.active .qdHeroSportStageDot,
+html body.qdModern .qdHeroSportStage.completed .qdHeroSportStageDot{
+ background:#31cfa0!important;
+ color:#073550!important;
+ border-color:#66ffd0!important;
+}
+html body.qdModern .qdHeroSportStage small{
+ font-size:10px!important;
+ font-weight:750!important;
+ letter-spacing:.01em!important;
+ color:#e5f1ff!important;
+}
+html body.qdModern .qdOverviewSummary .qdOverviewCta.qdHeroSportCta{
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:14px!important;
+ width:min(100%,315px)!important;
+ min-height:48px!important;
+ padding:13px 18px!important;
+ margin:0 auto!important;
+ background:linear-gradient(135deg,#287ff5,#1365d7)!important;
+ border:1px solid rgba(145,198,255,.55)!important;
+ border-radius:12px!important;
+ box-shadow:0 8px 22px rgba(0,41,116,.32)!important;
+ color:#fff!important;
+ font-size:13px!important;
+ font-weight:850!important;
+ text-align:center!important;
+}
+html body.qdModern .qdHome .qdOverviewStats{
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:8px!important;
+}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat{
+ position:relative!important;
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:flex-start!important;
+ justify-content:space-between!important;
+ gap:7px!important;
+ min-width:0!important;
+ min-height:117px!important;
+ padding:13px 11px!important;
+ border-radius:15px!important;
+ border:1px solid rgba(71,136,214,.4)!important;
+ background:linear-gradient(160deg,#10345e,#0a2344)!important;
+ color:#f1f8ff!important;
+ box-shadow:inset 0 1px rgba(175,222,255,.06)!important;
+}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat-pot{border-color:rgba(255,194,83,.32)!important}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat-leader{border-color:rgba(125,190,255,.42)!important}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat-rank{border-color:rgba(124,134,255,.36)!important}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatHead{
+ display:flex!important;
+ width:100%!important;
+ align-items:flex-start!important;
+ gap:4px!important;
+ justify-content:space-between!important;
+}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatLabel{
+ font-size:8px!important;
+ line-height:1.2!important;
+ font-weight:800!important;
+ letter-spacing:0!important;
+ color:#b0c9e6!important;
+}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatHead>svg{
+ display:block!important;
+ flex:0 0 16px!important;
+ width:16px!important;height:16px!important;
+ color:#8cbbff!important;
+}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat-pot .qdOverviewStatHead>svg{color:#ffcb70!important}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat>strong{
+ display:block!important;
+ width:100%!important;
+ grid-column:auto!important;grid-row:auto!important;
+ min-width:0!important;
+ font-size:clamp(18px,4.7vw,26px)!important;
+ font-weight:850!important;
+ line-height:1.08!important;
+ color:#fff!important;
+ white-space:nowrap!important;
+ overflow:hidden!important;
+ text-overflow:ellipsis!important;
+}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat-leader>strong{font-size:clamp(15px,4.1vw,21px)!important}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatDetail{
+ display:flex!important;
+ grid-column:auto!important;
+ gap:4px!important;
+ justify-content:flex-start!important;
+ color:#a7c7ec!important;
+ font-size:9px!important;
+}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatDetail svg{display:none!important}
+html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat-rank{
+ grid-column:auto!important;
+ grid-template-columns:none!important;
+}
+html body.qdModern .qdHomeMain{
+ padding-bottom:calc(105px + env(safe-area-inset-bottom))!important;
+}
+@media(max-width:420px){
+ html body.qdModern .qdHome .qdOverviewFeature.qdHeroSport{min-height:385px!important;padding:23px 15px 19px!important}
+ html body.qdModern .qdHeroSportContent{min-height:342px!important}
+ html body.qdModern .qdHeroSportTitle{font-size:42px!important}
+ html body.qdModern .qdHeroSportStatus{margin-top:78px!important}
+ html body.qdModern .qdHeroSportBackdrop{background-position:center 53%!important}
+ html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat{padding:12px 9px!important;min-height:112px!important}
+}
+@media(max-width:345px){
+ html body.qdModern .qdHome .qdOverviewStats{gap:5px!important}
+ html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat{padding:10px 7px!important}
+ html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatLabel{font-size:7px!important}
+ html body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat>strong{font-size:19px!important}
+ html body.qdModern .qdHeroSportStatus{margin-top:65px!important}
+}
+html[data-theme="light"] body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat{
+ background:linear-gradient(145deg,#fff,#e8f3ff)!important;
+ border-color:#b7d2ee!important;
+ color:#123a63!important;
+}
+html[data-theme="light"] body.qdModern .qdHome .qdOverviewSummary .qdOverviewStat>strong{color:#11365b!important}
+html[data-theme="light"] body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatLabel,
+html[data-theme="light"] body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatDetail{color:#42688b!important}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern .qdHeroSportStage,html body.qdModern .qdHeroSportStatus{transition:none!important}
+}
