@@ -84,3 +84,16 @@ assert.match(css,/max-width:390px/);
 assert.doesNotMatch(page,/Guardado en servidor|Por enviar|qdPickSaveState|confirmedPicks/);
 assert.doesNotMatch(css,/qdPickSaveState/);
 console.log("Passed: modern single-ring choices, aligned portrait cards, match badges and clean pick panels.");
+
+/* Updating an already-submitted round shows a neon confirmation; first submissions keep their toast. */
+assert.match(page,/if\(error\)throw error;[\s\S]*?setSubmitToast\(wasSaved\?"Actualizado!":"Enviado!"\)/);
+assert.match(page,/submitToast==="Actualizado!"&&tab==="quiniela"/);
+assert.match(page,/createPortal\(<div className="qdUpdateSuccessBackdrop" role="status" aria-live="polite"/);
+assert.match(page,/className="qdUpdateSuccessMark"/);
+assert.match(page,/stroke="#fff" strokeWidth="5\.5" strokeLinecap="round" strokeLinejoin="round"/);
+assert.match(page,/<strong>Actualizado<\/strong>/);
+assert.match(page,/submitToast&&<div className="submitSuccessToast"/);
+assert.match(css,/background:linear-gradient\(160deg,#17dd76 0%,#06bf61 50%,#078f50 100%\)/);
+assert.match(css,/qdUpdateTickDraw/);
+assert.match(css,/@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?qdUpdateSuccessMark path/);
+console.log("Passed: Supabase-confirmed updates show centered neon green popup and thick white tick; new submissions unchanged.");
