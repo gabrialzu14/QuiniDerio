@@ -227,6 +227,26 @@ html body.qdModern .qdHeroSportStatusIcon{
  font-size:13px!important;
  font-weight:950!important;
 }
+html body.qdModern .qdHeroSportStatus.submitted .qdHeroSportStatusIcon{
+ width:26px!important;height:26px!important;
+ flex:0 0 26px!important;
+ background:linear-gradient(145deg,#a3ffe2 0%,#39dca5 48%,#1dbb88 100%)!important;
+ color:#064537!important;
+ border:1px solid rgba(216,255,244,.73)!important;
+ box-shadow:0 0 0 3px rgba(65,232,172,.11),inset 0 1px 0 rgba(255,255,255,.56),0 2px 9px rgba(3,29,33,.26)!important;
+}
+html body.qdModern .qdHeroSportStatus.submitted .qdHeroSportCheck{
+ display:block!important;
+ width:17px!important;height:17px!important;
+ overflow:visible!important;
+ stroke-dasharray:24!important;
+ stroke-dashoffset:0!important;
+ animation:qdHeroCheckDraw .55s cubic-bezier(.2,.8,.2,1) both!important;
+}
+@keyframes qdHeroCheckDraw{
+ from{stroke-dashoffset:24;opacity:.35}
+ to{stroke-dashoffset:0;opacity:1}
+}
 html body.qdModern .qdHeroSportStatus.pending .qdHeroSportStatusIcon{background:#ffd475!important}
 html body.qdModern .qdHeroSportStages{
  width:100%!important;
@@ -395,4 +415,5 @@ html[data-theme="light"] body.qdModern .qdHome .qdOverviewSummary .qdOverviewSta
 html[data-theme="light"] body.qdModern .qdHome .qdOverviewSummary .qdOverviewStatDetail{color:#42688b!important}
 @media(prefers-reduced-motion:reduce){
  html body.qdModern .qdHeroSportStage,html body.qdModern .qdHeroSportStatus{transition:none!important}
+ html body.qdModern .qdHeroSportStatus.submitted .qdHeroSportCheck{animation:none!important;stroke-dashoffset:0!important}
 }

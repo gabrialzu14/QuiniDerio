@@ -22,7 +22,7 @@ export default function HomeSummary({round,submitted,totalPot,leader,myRank,posi
         <span className="qdHeroSportSeason">TEMPORADA 2026/27</span>
         <h1 className="qdHeroSportTitle">Jornada {round}</h1>
         <span className={"qdHeroSportStatus "+(submitted?"submitted":"pending")}>
-          <span className="qdHeroSportStatusIcon" aria-hidden="true">{submitted?"✓":"!"}</span>
+          <span className="qdHeroSportStatusIcon" aria-hidden="true">{submitted?<svg className="qdHeroSportCheck" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" focusable="false"><path d="m5 12.5 4.5 4.4L19 7.5"/></svg>:"!"}</span>
           <span>{submitted?"Quiniela enviada":"Quiniela pendiente"}</span>
         </span>
         <div className="qdHeroSportStages" aria-label="Estado de la jornada">
