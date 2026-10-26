@@ -104,3 +104,13 @@ assert.match(css,/qdUpdateSuccessMark\{\s*display:grid;place-items:center;flex:0
 assert.match(css,/white-space:nowrap!important/);
 assert.doesNotMatch(css,/qdUpdateSuccessPopup\{\s*position:relative;display:flex;flex-direction:column/);
 console.log("Passed: horizontal update confirmation with thick white check left of Actualizado.");
+
+/* Tick animation renders each successful update, respects reduced-motion, and leaves status rendering intact. */
+assert.match(page,/key=\{updateSuccessSequence\}/);
+assert.match(page,/if\(wasSaved\)setUpdateSuccessSequence\(v=>v\+1\)/);
+assert.match(css,/qdUpdateTickDraw \.64s \.18s/);
+assert.match(css,/qdUpdateTickBounce \.46s \.87s/);
+assert.match(css,/qdUpdateTickHalo \.53s \.78s/);
+assert.match(css,/@keyframes qdUpdateTickDraw\{from\{stroke-dashoffset:70/);
+assert.match(css,/qdUpdateSuccessMark::before\{animation:none!important;opacity:0!important/);
+console.log("Passed: SVG tick draws, bounces and emits brief halo on each successful update; reduced motion supported.");

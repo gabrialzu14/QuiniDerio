@@ -501,20 +501,44 @@ html body.qdModern .qdUpdateSuccessPopup{
  text-align:center;animation:qdUpdatePopupIn .42s cubic-bezier(.15,.84,.22,1.18) both;
 }
 html body.qdModern .qdUpdateSuccessMark{
+ position:relative;isolation:isolate;
  display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;
  color:#fff;
 }
-html body.qdModern .qdUpdateSuccessMark svg{display:block;width:55px;height:55px;overflow:visible;filter:drop-shadow(0 2px 2px rgba(0,84,36,.22))}
-html body.qdModern .qdUpdateSuccessMark path{stroke-dasharray:65;stroke-dashoffset:0;animation:qdUpdateTickDraw .48s .18s cubic-bezier(.18,.72,.26,1) both}
+html body.qdModern .qdUpdateSuccessMark svg{
+ display:block;width:55px;height:55px;overflow:visible;
+ transform-origin:50% 50%;animation:qdUpdateTickBounce .46s .87s cubic-bezier(.2,.85,.25,1) both;
+ filter:drop-shadow(0 2px 2px rgba(0,84,36,.22));
+}
+html body.qdModern .qdUpdateSuccessMark path{
+ stroke-dasharray:70;stroke-dashoffset:70;
+ animation:qdUpdateTickDraw .64s .18s cubic-bezier(.3,.02,.23,1) both;
+}
+html body.qdModern .qdUpdateSuccessMark::before{
+ content:"";position:absolute;inset:0;border:2px solid rgba(255,255,255,.78);
+ border-radius:50%;opacity:0;pointer-events:none;
+ animation:qdUpdateTickHalo .53s .78s ease-out both;
+}
 html body.qdModern .qdUpdateSuccessPopup strong{
  color:#fff!important;font-size:clamp(22px,6vw,28px)!important;font-weight:900!important;white-space:nowrap!important;
  line-height:1.1!important;letter-spacing:-.045em!important;text-shadow:0 2px 9px rgba(0,79,40,.32)!important;
 }
 @keyframes qdUpdateBackdropIn{from{opacity:0}to{opacity:1}}
 @keyframes qdUpdatePopupIn{0%{opacity:0;transform:translateY(18px) scale(.84)}72%{opacity:1;transform:translateY(-3px) scale(1.035)}100%{opacity:1;transform:none}}
-@keyframes qdUpdateTickDraw{from{stroke-dashoffset:65;opacity:.2}to{stroke-dashoffset:0;opacity:1}}
+@keyframes qdUpdateTickDraw{from{stroke-dashoffset:70;opacity:1}to{stroke-dashoffset:0;opacity:1}}
+@keyframes qdUpdateTickBounce{
+ 0%,100%{transform:scale(1)}
+ 38%{transform:scale(1.2)}
+ 72%{transform:scale(.94)}
+}
+@keyframes qdUpdateTickHalo{
+ 0%{opacity:.73;transform:scale(.8)}
+ 100%{opacity:0;transform:scale(1.6)}
+}
 @media(prefers-reduced-motion:reduce){
- html body.qdModern .qdUpdateSuccessBackdrop,html body.qdModern .qdUpdateSuccessPopup,html body.qdModern .qdUpdateSuccessMark path{
+ html body.qdModern .qdUpdateSuccessBackdrop,html body.qdModern .qdUpdateSuccessPopup,
+ html body.qdModern .qdUpdateSuccessMark svg,html body.qdModern .qdUpdateSuccessMark path{
   animation:none!important;transform:none!important;stroke-dashoffset:0!important;opacity:1!important;
  }
+ html body.qdModern .qdUpdateSuccessMark::before{animation:none!important;opacity:0!important}
 }
