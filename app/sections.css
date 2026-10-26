@@ -146,6 +146,37 @@ html:not([data-theme="light"]) body.qdModern .predictionUnifiedTabs button:disab
 html:not([data-theme="light"]) body.qdModern .predictionsPage .predictionUnifiedTabs button:disabled{filter:none!important;background-image:none!important}
 html:not([data-theme="light"]) body.qdModern .predictionsPage .unifiedRoundPredictions{background:var(--qd-surface)!important;background-image:none!important;border-color:var(--qd-border)!important;box-shadow:none!important}
 
+/* A single complete match on mobile; the document remains the only vertical scroller. */
+.roundMatchPager{display:none}
+@media(max-width:700px){
+ html body.qdModern .predictionsPage.roundPredictionsMode .pageTop{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;margin:0!important;padding:0!important;border:0!important}
+ html body.qdModern .predictionsPage.roundPredictionsMode .qdRoundJump{display:none!important}
+ html body.qdModern .predictionsPage .unifiedRoundPredictions{display:flex;flex-direction:column;margin-top:5px!important;padding:8px!important}
+ html body.qdModern .predictionsPage .unifiedRoundPredictions .roundMatchPager{order:0}
+ html body.qdModern .predictionsPage .unifiedRoundPredictions .predictionSectionTitle{order:1}
+ html body.qdModern .predictionsPage .unifiedRoundPredictions .matchRivalsList{order:2}
+ html body.qdModern .predictionsPage .unifiedRoundPredictions .predictionSectionTitle{margin:5px 0 7px!important}
+ html body.qdModern .predictionsPage .unifiedRoundPredictions .predictionSectionTitle h2{font-size:20px!important}
+ html body.qdModern .predictionsPage .unifiedRoundPredictions .predictionSectionTitle p{display:none!important}
+ html body.qdModern .predictionsPage .roundMatchPager{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;margin:0 0 9px;padding:0;background:transparent!important;border:0!important;box-shadow:none!important;color:var(--qd-text)}
+ html body.qdModern .predictionsPage .roundMatchPager button{display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;min-height:44px;padding:7px 6px;border:1px solid var(--qd-border);border-radius:11px;background:var(--qd-surface-raised);color:var(--qd-text);font-family:inherit;font-size:12px;font-weight:700;line-height:1.1;cursor:pointer}
+ html body.qdModern .predictionsPage .roundMatchPager button:disabled{opacity:.42;cursor:default}
+ html body.qdModern .predictionsPage .roundMatchPager button span[aria-hidden]{font-size:22px;line-height:.7}
+ html body.qdModern .predictionsPage .roundMatchPagerStatus{min-width:103px;text-align:center;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+ html body.qdModern .predictionsPage .matchRivalsList{grid-template-columns:minmax(0,1fr)!important;margin-top:0}
+ html body.qdModern .predictionsPage .matchRivalsCard:not(.activeMobileMatch){display:none!important}
+ html body.qdModern .predictionsPage .matchRivalsCard.activeMobileMatch{padding:10px 12px 12px!important;overflow:visible}
+ html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsPlayers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:9px;row-gap:0;padding:0 2px!important;min-width:0}
+ html body.qdModern .predictionsPage .matchRivalsPlayers li{display:grid;grid-template-columns:24px minmax(0,1fr) 28px;align-items:center;gap:5px;min-width:0;min-height:35px;padding:4px 0;box-sizing:border-box}
+ html body.qdModern .predictionsPage .matchRivalsPlayers .rankingAvatar{width:24px;height:24px;flex:0 0 24px;font-size:10px}
+ html body.qdModern .predictionsPage .matchRivalsPlayers li>b{min-width:0;font-size:12px;line-height:1.2;overflow-wrap:anywhere;word-break:normal}
+ html body.qdModern .predictionsPage .matchRivalsPlayers .pickResult{width:28px;height:27px;flex:0 0 28px;border-radius:8px;font-size:13px}
+ html body.qdModern .predictionsPage .matchRivalsPlayers li.currentPlayerPick{grid-column:1/-1;grid-template-columns:24px minmax(0,1fr) 28px;min-height:39px;margin-bottom:2px;padding:4px 6px!important;border-radius:8px}
+ html body.qdModern .predictionsPage .matchRivalsPlayers li.matchRivalsEmpty{grid-column:1/-1}
+ html body.qdModern .predictionsPage .matchRivalsCard .qdVoteTrend{margin:6px 0!important;padding:7px 10px!important}
+ html body.qdModern .predictionsPage .matchRivalsCard .qdVoteTrendTop{margin-bottom:5px}
+}
+
 /* Desempate por tarjetas: lectura cómoda en el panel de reglas, también en móvil. */
 .detailRows .qdCardTieRule {
   display: block;
