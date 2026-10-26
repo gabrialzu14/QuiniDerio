@@ -412,6 +412,7 @@ function MyPredictions({picks,round,dinio,season,username,profilePic,onEdit,onRe
  const [rivalsLoading,setRivalsLoading]=useState(false);
  const [rivalsError,setRivalsError]=useState(false);
  const [sessionRequired,setSessionRequired]=useState(false);
+ const [viewerId,setViewerId]=useState<string|null>(null);
  const [rivalsRefresh,setRivalsRefresh]=useState(0);
 
  useEffect(()=>{
@@ -451,7 +452,10 @@ function MyPredictions({picks,round,dinio,season,username,profilePic,onEdit,onRe
    const {data:{session},error:sessionError}=await supabase.auth.getSession();
    const user=session?.user;
    if(sessionError)console.warn("No se ha podido recuperar la sesión:",sessionError);
-   if(!controller.signal.aborted)setSessionRequired(!user);
+   if(!controller.signal.aborted){
+    setViewerId(user?.id||null);
+    setSessionRequired(!user);
+   }
    const seasonMode=selectedScope==="season";
    const since=revision,id=++request;
    const [profiles,predictions,results]=await Promise.all([
@@ -484,7 +488,7 @@ function MyPredictions({picks,round,dinio,season,username,profilePic,onEdit,onRe
 
   {selectedScope==="season"?<>
     <div className="qdUserForecastList" aria-label="Pronósticos por participante">
-     <SeasonUserCard userId="own" username={username} avatar={profilePic} season={season} dinio={dinio} mine/>
+     {viewerId&&<SeasonUserCard userId={viewerId} username={username} avatar={profilePic} season={season} dinio={dinio} mine/>}
      {rivalsLoading?<div className="predictionsSkeleton" role="status" aria-label="Cargando participantes">{Array.from({length:4},(_,i)=><div className="predictionsSkeletonRow" key={i}><i/><span><b/><small/></span><em/></div>)}</div>:rivalsError?<div role="alert" className="rivalsEmpty"><b>No se pudieron cargar los pronósticos</b><button type="button" onClick={()=>setRivalsRefresh(n=>n+1)}>Reintentar</button></div>:rivalSeasons.length?rivalSeasons.map(user=><SeasonUserCard key={user.user_id} userId={user.user_id} username={user.username} avatar={user.profile_pic} season={user.season} dinio={user.dinio}/>):<div className="rivalsEmpty">Aún no hay otros pronósticos publicados</div>}
     </div>
    </>:<section className="rivalsPanel rivalsTab matchRivalsPanel unifiedRoundPredictions">
