@@ -106,3 +106,21 @@ assert.match(css,/@keyframes qdSaveToastSlide/);
 assert.match(css,/qdSaveToastCheck \.42s \.18s/);
 assert.match(css,/@media\(prefers-reduced-motion:reduce\)[\s\S]*?qdSaveToastFade/);
 console.log("Passed: unobtrusive animated bottom save toast, white tick, no screen-blocking overlay, success-only state.");
+
+/* Pronósticos: own pick uses the exact 2-column participant grid; header is symmetric. */
+const matchLayout=read("app/sections.css");
+assert.match(page,/className="matchRivalsFixture"/);
+assert.match(page,/className="matchRivalsTeam matchRivalsTeamHome"/);
+assert.match(page,/className="matchRivalsTeam matchRivalsTeamAway"/);
+assert.match(page,/className="matchRivalsCenter"/);
+assert.match(page,/className="currentPlayerPick"/);
+assert.match(matchLayout,/li\.currentPlayerPick\{grid-column:auto!important;grid-template-columns:22px minmax\(0,1fr\) 28px!important/);
+assert.doesNotMatch(matchLayout,/li\.currentPlayerPick\{grid-column:1\/-1/);
+assert.match(matchLayout,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)!important/);
+assert.match(matchLayout,/\.matchRivalsPlayers li,[\s\S]*?li\.currentPlayerPick\{\s*grid-column:auto!important/);
+assert.match(matchLayout,/\.matchRivalsPlayers li \.pickResult\{[\s\S]*?justify-self:center!important;align-self:center!important/);
+assert.match(matchLayout,/\.matchRivalsCard \.matchRivalsFixture\{\s*display:grid!important;\s*grid-template-columns:minmax\(0,1fr\) minmax\(108px,1\.17fr\) minmax\(0,1fr\)!important/);
+assert.match(matchLayout,/\.matchRivalsTeam \.crestBox\{[\s\S]*?width:38px!important;height:38px!important/);
+assert.match(matchLayout,/\.matchRivalsTeam \.matchRivalsTeamName\{[\s\S]*?text-align:center!important/);
+assert.match(matchLayout,/\.matchRivalsCenter \.matchRivalsScore\{[\s\S]*?font-variant-numeric:tabular-nums!important/);
+console.log("Passed: symmetrical crest and match information, current-user pick aligned with every participant.");
