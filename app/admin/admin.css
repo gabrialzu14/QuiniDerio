@@ -26,13 +26,7 @@
 .adminRoundSelector nav {display:flex;gap:6px;flex-wrap:wrap;}
 .adminRoundSelector button {min-width:44px;padding:10px;}
 .adminWorkspace .adminRoundSelector button.active,.adminWorkspace .adminPrimary,.adminAccess .adminPrimary {background:var(--qd-blue);color:#fff;border-color:transparent;}
-.adminSummary {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0 30px;}
-.adminSummary article {padding:22px;border:1px solid var(--qd-border);border-radius:17px;background:var(--qd-surface);}
-.adminSummary article>span {display:block;min-height:30px;font-size:11px;line-height:1.4;color:var(--qd-muted);font-weight:700;}
-.adminSummary strong {display:block;font-size:32px;letter-spacing:-1px;margin:4px 0 10px;font-variant-numeric:tabular-nums;}
-.adminSummary small {display:block;font-size:11px;color:var(--qd-muted);}
-.adminSummaryLive {box-shadow:inset 0 3px 0 var(--qd-blue);}
-.adminViewTabs {display:flex;gap:8px;overflow-x:auto;padding:0 0 18px;border-bottom:1px solid var(--qd-border);margin-bottom:26px;}
+.adminViewTabs {display:flex;gap:8px;overflow-x:auto;padding:0 0 18px;border-bottom:1px solid var(--qd-border);margin:20px 0 26px;}
 .adminViewTabs button {white-space:nowrap;background:transparent;color:var(--qd-muted);}
 .adminViewTabs button.active {background:var(--qd-surface-raised);color:var(--qd-text);border-color:var(--qd-blue);}
 .adminSectionHeading {display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:22px;}
@@ -140,12 +134,7 @@ html[data-theme="light"] .adminWorkspace .adminFilter select {background:var(--q
  .adminRoundSelector {display:block;padding:18px;}
  .adminRoundSelector nav {display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;margin-top:16px;}
  .adminRoundSelector button {min-width:0;padding:8px 2px;font-size:11px;}
- .adminSummary {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 24px;}
- .adminSummary article {padding:16px;}
- .adminSummary article>span {min-height:30px;}
- .adminSummary strong {font-size:28px;}
- .adminSummary small {font-size:10px;}
- .adminViewTabs {gap:6px;}
+ .adminViewTabs {gap:6px;margin-top:16px;}
  .adminViewTabs button {font-size:12px;padding:10px 12px;}
  .adminSectionHeading {display:block;margin-bottom:18px;}
  .adminSectionHeading h2 {font-size:22px;}
@@ -470,10 +459,10 @@ html[data-theme="light"] .adminReminderItem{background:rgba(255,255,255,.65)}
 html[data-theme="light"] .adminReminderItem span:not(.adminReminderDot){color:#294b70}
 
 /* Light admin: legible disabled controls and subdued metadata without affecting dark mode. */
-html[data-theme="light"] body.qdModern .adminWorkspace :is(.adminTopbar,.adminRoundSelector,.adminSummary article,.adminMatchCard,.adminStaffPicker,.adminReminderModal){
+html[data-theme="light"] body.qdModern .adminWorkspace :is(.adminTopbar,.adminRoundSelector,.adminMatchCard,.adminStaffPicker,.adminReminderModal){
  border-color:#c6d6e4!important;
 }
-html[data-theme="light"] body.qdModern .adminWorkspace :is(.adminIntro p,.adminBrand small,.adminSectionHeading p,.adminRoundControl>p,.adminSummary small,.adminSummary article>span,.adminScoreSide>small,.adminMatchHint,.adminHomeOrder>span){
+html[data-theme="light"] body.qdModern .adminWorkspace :is(.adminIntro p,.adminBrand small,.adminSectionHeading p,.adminRoundControl>p,.adminScoreSide>small,.adminMatchHint,.adminHomeOrder>span){
  color:#4e647b!important;
  opacity:1!important;
 }
