@@ -148,14 +148,13 @@ export default function SuspendedResultPopup(){
     <div className="qdResultScore" aria-hidden="true"><span>FINAL</span><strong><AnimatedNumber value={6}/><i>–</i><AnimatedNumber value={1}/></strong></div>
     <div className="qdResultClub qdResultAway" aria-hidden="true"><img src="/api/assets/Escudos/cd_derio.png?opt=4" alt="" width="76" height="76"/><strong>Derio Fem B</strong><small>VISITANTE</small></div>
    </div>
-   <div className="qdResultOutcome"><div><small>SIGNO GANADOR</small><strong>Victoria de Ibaiondo</strong></div><b aria-label="Signo ganador: 1">1</b></div>
    <div className="qdResultPoints" role="group" aria-label="Tara y Lander suman 1 punto cada uno">
     <article><span>Tara</span><strong><AnimatedNumber value={1} prefix="+"/><small> pto.</small></strong></article>
     <article><span>Lander</span><strong><AnimatedNumber value={1} prefix="+"/><small> pto.</small></strong></article>
    </div>
    <p id="qdResultDescription" className="qdResultDescription">Los aciertos y la clasificación de la Jornada 1 ya están actualizados.</p>
    {error?<p className="qdResultError" role="alert">{error}</p>:null}
-   <button ref={action} className="qdResultAction" type="button" disabled={saving||leaving} onClick={()=>void confirm()}>{saving?"Guardando…":"Entendido"}<span aria-hidden="true">→</span></button>
+   <button ref={action} className="qdResultAction" type="button" disabled={saving||leaving} onClick={()=>void confirm()}>{saving?"Guardando…":"Entendido"}</button>
   </section>
  </div>,document.body);
 }
