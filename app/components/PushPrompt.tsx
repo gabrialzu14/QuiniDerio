@@ -15,7 +15,7 @@ export default function PushPrompt(){const[show,setShow]=useState(false),[busy,s
     if(!mounted||dismissedThisVisit.current)return;
     if(state.enabled){setShow(false);return}
     // Let any other blocking dialog finish, without depending on the old Jornada 1 notice.
-    if(document.querySelector(".roundPendingOverlay,.qdDavidExpulsionOverlay,.qdCardCorrectionOverlay,.qdRecapOverlay")){timer=setTimeout(()=>void check(),600);return}
+    if(document.querySelector(".roundPendingOverlay,.qdDavidExpulsionOverlay,.qdCardCorrectionOverlay,.qdRecapOverlay,.qdResultOverlay")){timer=setTimeout(()=>void check(),600);return}
     setLeaving(false);setSuccess(false);
     setErr(state.error?pushErrorMessage(state.error):state.permission==="denied"?pushErrorMessage("denied"):"");
     setShow(true);

@@ -99,6 +99,8 @@ export default function DavidCardCorrectionPopup(){
     if(!active)return;
     if(readError){schedule(2500);return}
     if(data){shownRef.current=true;try{localStorage.setItem(LOCAL_KEY(id),"seen")}catch{}return}
+    // Another announcement may have opened while the server request was in flight.
+    if(document.querySelector('[aria-modal="true"],.roundPendingOverlay,.pushPromptBackdrop,.assistantPredictionOverlay')){schedule(800);return}
     setUserId(id);
     setError("");
     setLeaving(false);
