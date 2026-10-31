@@ -6,6 +6,8 @@ html body.qdModern .qdPlayerRoundOverlay{
  backdrop-filter:blur(15px) saturate(120%);
 }
 html body.qdModern .qdPlayerRoundModal{
+ --qd-pick-away:#7a1e48;
+ --qd-pick-away-border:#b95f89;
  width:min(100%,460px)!important;
  max-height:min(88dvh,850px)!important;
  padding:19px 16px 15px!important;

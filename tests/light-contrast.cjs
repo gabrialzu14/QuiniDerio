@@ -8,9 +8,6 @@ const quiniela=read("app/quiniela-visual.css");
 const nav=read("app/components/bottom-navigation.css");
 const page=read("app/page.tsx");
 const admin=read("app/admin/admin.css");
-const engagement=read("app/engagement.css");
-const awayColor=engagement.match(/--qd-pick-away:(#[a-f0-9]{6});/)?.[1];
-assert.ok(awayColor,"Away prediction color must be defined");
 function luma(hex){
   const n=hex.replace("#","");
   const c=[0,2,4].map(i=>parseInt(n.slice(i,i+2),16)/255);
@@ -25,7 +22,7 @@ const pairs=[
   ["Fixture date","#52647a","#ffffff"],
   ["All inactive pick labels","#edf5ff","#143b69"],
   ["Local active label","#ffffff","#176ed5"],
-  ["Away active label","#ffffff",awayColor],
+  ["Away active label","#ffffff","#c92949"],
   ["Navigation inactive","#365571","#e3f2fe"],
   ["Navigation active","#12528e","#e3f2fe"],
   ["Correct pick","#126343","#e3f5eb"]
@@ -42,7 +39,7 @@ assert.match(quiniela,/button:not\(\[aria-pressed="true"\]\):is\(\.pick1,\.pickX
 assert.match(quiniela,/button:not\(\[aria-pressed="true"\]\):is\(\.pick1,\.pickX,\.pick2\) :is\(b,small\)\{[\s\S]*?color:#edf5ff!important/,"Unselected labels must share the same ink");
 assert.match(quiniela,/button\[aria-pressed="true"\]\.pick1\{[\s\S]*?background:#176ed5!important/);
 assert.match(quiniela,/button\[aria-pressed="true"\]\.pickX\{[\s\S]*?background:#fff!important/);
-assert.match(quiniela,/button\[aria-pressed="true"\]\.pick2\{[\s\S]*?background:var\(--qd-pick-away\)!important/);
+assert.match(quiniela,/button\[aria-pressed="true"\]\.pick2\{[\s\S]*?background:#c92949!important/);
 assert.match(quiniela,/\.oneXtwo button:disabled\{\s*opacity:1!important/);
 for(const v of ["pick1","pickX","pick2"]){
   assert.match(quiniela,new RegExp('button\\[aria-pressed="true"\\]\\.'+v+'\\{'));
