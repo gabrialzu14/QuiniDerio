@@ -135,9 +135,9 @@ html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pic
  color:#14578c!important;
 }
 html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pickResult.hasPick.pick2:not(.predictionCorrect){
- background:#fdeaf0!important;
- border-color:#cd6b81!important;
- color:#97213b!important;
+ background:var(--qd-pick-away-light)!important;
+ border-color:var(--qd-pick-away-border)!important;
+ color:var(--qd-pick-away)!important;
 }
 html[data-theme="light"] body.qdModern .predictionsPage .matchRivalsPlayers .pickResult.hasPick.pickX:not(.predictionCorrect){
  background:#e9edf3!important;

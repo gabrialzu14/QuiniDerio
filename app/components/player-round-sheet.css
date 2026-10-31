@@ -168,7 +168,7 @@ html body.qdModern .qdPlayerRoundModal .qdPlayerPick{
 }
 html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pick1{background:#236ac3!important;border-color:#569de9!important}
 html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pickX{background:#e8f0ff!important;color:#18345f!important;border-color:#f3f7ff!important}
-html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pick2{background:#cc405d!important;border-color:#ef8195!important}
+html body.qdModern .qdPlayerRoundModal .qdPlayerPick.pick2{background:var(--qd-pick-away)!important;border-color:var(--qd-pick-away-border)!important}
 .qdPlayerPickVerdict{display:grid;place-items:center;font-size:14px;font-weight:850;width:18px;height:18px;border-radius:50%}
 .qdPlayerPickVerdict.hit{color:#67e5ac}.qdPlayerPickVerdict.miss{color:#ff9bad}
 .qdPlayerRoundLoading{min-height:145px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
@@ -346,7 +346,7 @@ html body.qdModern .qdPlayerRoundModal .qdCompactPick.pickX{
  background:#596879!important;border-color:#718294!important;color:#fff!important;
 }
 html body.qdModern .qdPlayerRoundModal .qdCompactPick.pick2{
- background:#ca3f59!important;border-color:#e1697f!important;color:#fff!important;
+ background:var(--qd-pick-away)!important;border-color:var(--qd-pick-away-border)!important;color:#fff!important;
 }
 html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-hit{
  background:#15b88a!important;border-color:#47d6ae!important;color:#fff!important;
