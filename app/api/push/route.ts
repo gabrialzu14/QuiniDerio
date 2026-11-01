@@ -53,11 +53,16 @@ export async function GET(req: NextRequest) {
     const auth = await authenticated(req);
     if (!auth) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     const playerId = await findPlayer(auth.db, auth.user.id);
-    if (!playerId) return NextResponse.json({ endpoints: [] }, { headers: { "Cache-Control": "no-store" } });
+    if (!playerId) return NextResponse.json({ endpoints: [], inactiveEndpoints: [] }, { headers: { "Cache-Control": "no-store" } });
     const { data, error } = await auth.db.from("push_subscriptions")
-      .select("endpoint").eq("player_id", playerId).eq("enabled", true);
+      .select("endpoint,enabled").eq("player_id", playerId);
     if (error) throw error;
-    return NextResponse.json({ endpoints: (data || []).map(s => s.endpoint) }, { headers: { "Cache-Control": "no-store" } });
+    // An expired provider endpoint can still exist in the browser. Clients must
+    // replace it instead of repeatedly marking the same dead endpoint enabled.
+    return NextResponse.json({
+      endpoints: (data || []).filter(s => s.enabled).map(s => s.endpoint),
+      inactiveEndpoints: (data || []).filter(s => !s.enabled).map(s => s.endpoint)
+    }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("push-status", error);
     return NextResponse.json({ error: "push" }, { status: 500 });

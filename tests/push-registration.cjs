@@ -45,7 +45,7 @@ const subscription={endpoint:'https://web.push.apple.com/test-device',keys:{p256
  assert.equal(players[1].full_name,'Existing Name');assert.equal(subs[0].player_id,'owned-player');
  assert.equal(players[1].notifications_enabled,true);
  assert.deepEqual((await (await GET(req(null,'valid','GET'))).json()).endpoints,[subscription.endpoint]);
- subs[0].enabled=false;assert.equal((await POST(req({subscription}))).status,200);assert.equal(subs.length,1);assert.equal(subs[0].enabled,true);
+ subs[0].enabled=false;const inactive=await (await GET(req(null,'valid','GET'))).json();assert.deepEqual(inactive.endpoints,[]);assert.deepEqual(inactive.inactiveEndpoints,[subscription.endpoint],'Tell the device to replace its provider-revoked subscription');assert.equal((await POST(req({subscription}))).status,200);assert.equal(subs.length,1);assert.equal(subs[0].enabled,true);
  const second={...subscription,endpoint:'https://fcm.googleapis.com/test-device'};
  assert.equal((await POST(req({subscription:second}))).status,200);assert.equal(subs.length,2,'Keep other devices enabled');
  assert.equal((await DELETE(req({endpoint:subscription.endpoint},'valid','DELETE'))).status,200);assert.equal(subs.length,1);assert.equal(players[1].notifications_enabled,true);
