@@ -31,13 +31,14 @@ function pageFixture(name,destination=null){
 }
 for(const name of ['MyPredictions','Ranking']){
  const page=pageFixture(name);
- assert.equal(page.rail().value,4,name+' enters at the active round');
- page.setActive(7);assert.equal(page.rail().value,7,'Late settings hydration follows the real active round');
+ const startsInGeneral=name==='Ranking';
+ assert.equal(page.rail().value,startsInGeneral?'all':4,name+' opens its intended default');
+ page.setActive(7);assert.equal(page.rail().value,startsInGeneral?'all':7,'Settings hydration keeps General selected and updates the default prediction round');
  assert.equal(page.rail().enabledRounds.has(7),true,'The real current round stays available while fixtures load');
  page.rail().onChange(2);page.setActive(8);assert.equal(page.rail().value,2,'A deliberate historical selection must remain visible');
  page.rail().onChange('all');assert.equal(page.rail().value,'all','Season/general summaries remain selectable');
  page.rail().onChange(8);page.setActive(9);assert.equal(page.rail().value,9,'Returning to current resumes following the current round');
- const revisit=pageFixture(name);revisit.setActive(9);assert.equal(revisit.rail().value,9,'Re-entry starts at current, never at a previous manual choice');
+ const revisit=pageFixture(name);revisit.setActive(9);assert.equal(revisit.rail().value,startsInGeneral?'all':9,'Re-entry restores the section default instead of a previous manual choice');
 }
 for(const destination of ['hits','pot','self'])assert.equal(pageFixture('Ranking',destination).rail().value,'all','An explicit cumulative summary link keeps its intended destination');
 {
@@ -74,4 +75,4 @@ assert.equal(railFixture({value:2,enabledRounds:new Set([1,2])}).button(),undefi
 {
  const f=railFixture();f.button().props.onClick();assert.ok(f.stats().frames);f.choose(1);assert.equal(f.stats().frames,0,'Manual selection cancels an in-progress jump');assert.deepEqual(f.stats().changes,[1]);assert.ok(f.button(),'Keep the action available when the visitor stays at a past round');
 }
-console.log('Passed round navigation: both real views start at current, delayed settings, manual history, summaries, tab re-entry, conditional CTA, animated scroll, focus, cancellation and reduced motion.');
+console.log('Passed round navigation: standings open in General, predictions at current, delayed settings, manual history, summaries, tab re-entry, conditional CTA, animated scroll, focus, cancellation and reduced motion.');

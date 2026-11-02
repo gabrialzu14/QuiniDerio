@@ -537,8 +537,8 @@ function Ranking({destination}:{destination:RankingDestination|null}){
  const[pot,setPot]=useState<Array<{user_id:string,username:string,pot_euros:number}>>([]);
  const[profiles,setProfiles]=useState<Record<string,{username:string,profile_pic:string}>>({});
  const[view,setView]=useState<"hits"|"pot">(destination==="pot"?"pot":"hits");
- // Summary cards intentionally link to the cumulative view; normal navigation opens the active round.
- const[rankingScope,selectRankingScope]=useRoundScope(activeRound,destination?"all":undefined);
+ // Open the cumulative standings; preserve any round chosen within this section.
+ const[rankingScope,selectRankingScope]=useRoundScope(activeRound,"all");
  const rankingRound=rankingScope==="all"?null:rankingScope;
  const motionRoot=useRef<HTMLElement>(null);useScrollReveal(motionRoot);
  const[currentUserId,setCurrentUserId]=useState("");
