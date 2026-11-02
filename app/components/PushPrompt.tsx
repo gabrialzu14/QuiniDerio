@@ -34,7 +34,9 @@ export default function PushPrompt(){
       checking=true;
       try{
         const state=await getPushState();
-        if(!mounted.current||open.current||busyRef.current||hidden()||state.enabled)return;
+        // A network/session error is not evidence that an active device is off.
+        // Leave its subscription and the weekly reminder timestamp untouched.
+        if(!mounted.current||open.current||busyRef.current||hidden()||!state.verified||state.enabled)return;
         let seen=lastShown.current;
         try{const stored=localStorage.getItem(PUSH_PROMPT_SEEN_KEY);if(stored)seen=stored}catch{}
         if(!pushPromptDue(seen))return;
@@ -100,12 +102,14 @@ export default function PushPrompt(){
   };
   if(!show)return null;
   return <div className={"pushPromptBackdrop "+(leaving?"isLeaving":"")}>
-    <section className={"pushPrompt "+(success?"pushSuccess":"")} role="dialog" aria-modal="true" aria-labelledby="push-prompt-title" aria-describedby="push-prompt-description" aria-busy={busy}>
+    <section className={"pushPrompt "+(success?"pushSuccess":"")} role="dialog" aria-modal="true" aria-labelledby="push-prompt-title" aria-describedby={success?"push-prompt-description":"push-prompt-description push-prompt-help"} aria-busy={busy}>
       <div className="pushBell" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
       {success?<>
         <h2 id="push-prompt-title">¡Notificaciones activadas!</h2><p id="push-prompt-description" role="status">Ya recibirás los avisos importantes de cada jornada.</p>
       </>:<>
-        <h2 id="push-prompt-title">Notificaciones</h2><p id="push-prompt-description">Activa las notificaciones para recibir recordatorios si aún no has enviado tu quiniela, además de avisos de cierre y resultados.</p>
+        <h2 id="push-prompt-title">Notificaciones corregidas</h2>
+        <p id="push-prompt-description">He corregido el problema que impedía activar las notificaciones. Prueba a activarlas de nuevo para recibir los avisos de QuiniDerio.</p>
+        <p id="push-prompt-help" className="pushPromptHelp">Si no consigues activarlas, contacta conmigo, <strong>Gabri</strong>, y lo resolveré lo antes posible.</p>
         {err&&<small role="status" aria-live="polite">{err}</small>}
         <button type="button" disabled={busy} onClick={activate}>{busy?"Activando…":"Activar notificaciones"}</button>
         <button type="button" className="later" disabled={busy} onClick={close}>Ahora no</button>
