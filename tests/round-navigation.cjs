@@ -1,0 +1,77 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),ts=require('typescript');
+const read=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8');
+const compile=source=>ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText;
+const nodes=tree=>!tree||typeof tree!=='object'?[]:[tree,...[tree.props?.children].flat(Infinity).flatMap(nodes)];
+function harness(){
+ let slots=[],index=0,pending=[];
+ const same=(a,b)=>a&&b&&a.length===b.length&&a.every((v,i)=>Object.is(v,b[i]));
+ const effect=(fn,deps)=>{const i=index++,previous=slots[i];if(!previous||!same(previous.deps,deps)){slots[i]={deps,cleanup:previous?.cleanup};pending.push(()=>{slots[i].cleanup?.();slots[i].cleanup=fn()})}};
+ const react={
+  useState:initial=>{const i=index++;if(!(i in slots))slots[i]=typeof initial==='function'?initial():initial;return [slots[i],next=>{slots[i]=typeof next==='function'?next(slots[i]):next}]},
+  useRef:initial=>{const i=index++;if(!(i in slots))slots[i]={current:initial};return slots[i]},
+  useEffect:effect,useLayoutEffect:effect,
+  useMemo:(fn,deps)=>{const i=index++;if(!slots[i]||!same(slots[i].deps,deps))slots[i]={deps,value:fn()};return slots[i].value}
+ };
+ const jsx={jsx:(type,props)=>({type,props}),jsxs:(type,props)=>({type,props}),Fragment:'fragment'};
+ const context={exports:{},require:name=>{if(name==='react')return react;if(name==='react/jsx-runtime')return jsx;throw Error(name)},...react,window:{matchMedia:()=>({matches:false}),scrollTo:()=>{}},requestAnimationFrame:()=>1,cancelAnimationFrame:()=>{},Date,Set,Map,AbortController,console};
+ return {context,render:fn=>{index=0;pending=[];return fn()},flush:()=>{for(const f of pending)f();pending=[]},load:source=>{context.exports={};vm.runInNewContext(compile(source),context);return context.exports}};
+}
+const pageSource=ts.createSourceFile('page.tsx',read('app/page.tsx'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+const declaration=name=>pageSource.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text===name).getText(pageSource);
+function pageFixture(name,destination=null){
+ const h=harness();let active=4;
+ const RoundRail=()=>null;
+ const useRoundScope=h.load(read('app/components/useRoundScope.ts')).default;
+ Object.assign(h.context,{useRoundScope,useFixtures:()=>({}),useActiveRound:()=>active,useScrollReveal:()=>{},usePageScrollLock:()=>{},teams:[],teamData:[],RoundRail,asset:p=>p,UsersIcon:()=>null,DinioImage:()=>null,quiniRoundOpeningKey:()=>null});
+ const Component=h.load(declaration(name)+'\nexports.Component='+name+';').Component;
+ const props=name==='Ranking'?{destination}:{picks:{},round:1,dinio:'NO',season:{positions:{}},onEdit:()=>{},onRequireLogin:()=>{}};
+ const render=()=>h.render(()=>Component(props));
+ const rail=()=>nodes(render()).find(n=>n.type===RoundRail).props;
+ return {rail,setActive:n=>{active=n}};
+}
+for(const name of ['MyPredictions','Ranking']){
+ const page=pageFixture(name);
+ assert.equal(page.rail().value,4,name+' enters at the active round');
+ page.setActive(7);assert.equal(page.rail().value,7,'Late settings hydration follows the real active round');
+ assert.equal(page.rail().enabledRounds.has(7),true,'The real current round stays available while fixtures load');
+ page.rail().onChange(2);page.setActive(8);assert.equal(page.rail().value,2,'A deliberate historical selection must remain visible');
+ page.rail().onChange('all');assert.equal(page.rail().value,'all','Season/general summaries remain selectable');
+ page.rail().onChange(8);page.setActive(9);assert.equal(page.rail().value,9,'Returning to current resumes following the current round');
+ const revisit=pageFixture(name);revisit.setActive(9);assert.equal(revisit.rail().value,9,'Re-entry starts at current, never at a previous manual choice');
+}
+for(const destination of ['hits','pot','self'])assert.equal(pageFixture('Ranking',destination).rail().value,'all','An explicit cumulative summary link keeps its intended destination');
+{
+ const h=harness(),scrolls=[];h.context.window.scrollTo=x=>scrolls.push(x);
+ const useNavigation=h.load(read('app/components/useTabNavigation.ts')).default;
+ const render=()=>h.render(()=>useNavigation());
+ let nav=render();h.flush();assert.equal(nav.tab,'inicio');assert.equal(nav.entryKey,0);
+ for(const next of ['pronosticos','clasificacion','pronosticos','pronosticos']){const before=nav.entryKey;nav.navigateTab(next);nav=render();h.flush();assert.equal(nav.tab,next);assert.equal(nav.entryKey,before+1,'Every tab entry, including tapping the current tab again, resets its round view')}
+ assert.ok(scrolls.some(s=>s.behavior==='smooth'),'Tapping the active tab still scrolls to the top');
+}
+function railFixture({value=2,currentRound=4,reduced=false,enabledRounds=new Set([1,2,3,4,5])}={}){
+ const h=harness();let frameId=0,frames=new Map(),changes=[],focus=[],animations=0;
+ const buttons=new Map(['all',1,2,3,4,5].map((round,i)=>[String(round),{offsetLeft:i*80,offsetWidth:46,disabled:round!=='all'&&!enabledRounds.has(round),focus:()=>focus.push(round)}]));
+ const rail={scrollLeft:0,clientWidth:220,scrollWidth:600,addEventListener:()=>{},removeEventListener:()=>{},querySelector:selector=>buttons.get(selector.match(/data-scope="([^"]+)"/)[1])};
+ const arrow={animate:()=>{animations++;return {cancel:()=>{}}}},marker={style:{}};
+ h.context.window.matchMedia=()=>({matches:reduced});
+ h.context.requestAnimationFrame=fn=>{const id=++frameId;frames.set(id,fn);return id};h.context.cancelAnimationFrame=id=>frames.delete(id);
+ const Component=h.load(read('app/components/RoundRail.tsx')).default;
+ const props=()=>({value,currentRound,onChange:next=>{changes.push(next);value=next},rounds:[1,2,3,4,5],enabledRounds,initialLabel:'General',label:'Jornada'});
+ const render=()=>{const tree=h.render(()=>Component(props()));for(const n of nodes(tree)){if(!n.props?.ref)continue;const cls=n.props.className||'';if(cls==='qdRoundRail')n.props.ref.current=rail;if(cls==='qdLaunchArrow')n.props.ref.current=arrow;if(cls==='qdRoundTrain')n.props.ref.current=marker}h.flush();return tree};
+ const button=()=>nodes(render()).find(n=>n.props?.className==='qdAdvanceRound');
+ const tick=time=>{const pending=[...frames.values()];frames.clear();for(const fn of pending)fn(time)};
+ return {render,button,tick,stats:()=>({changes,focus,animations,frames:frames.size}),choose:round=>nodes(render()).find(n=>n.props?.['data-scope']===round).props.onClick(),rail};
+}
+assert.equal(railFixture({value:4}).button(),undefined,'Hide the jump action while already at current');
+assert.equal(railFixture({value:2,enabledRounds:new Set([1,2])}).button(),undefined,'Never offer a disabled destination');
+{
+ const f=railFixture({value:'all'});const button=f.button();assert.match(button.props['aria-label'],/jornada 4/);button.props.onClick();assert.equal(f.button().props['aria-busy'],true,'A click gives immediate visible feedback');
+ f.tick(0);f.tick(2000);assert.deepEqual(f.stats().changes,[4]);assert.deepEqual(f.stats().focus,[4]);assert.equal(f.stats().animations,1);assert.equal(f.button(),undefined);assert.equal(f.rail.scrollLeft,233,'The current round is centered after the animated scroll');
+}
+{
+ const f=railFixture({reduced:true});f.button().props.onClick();assert.deepEqual(f.stats().changes,[4]);assert.deepEqual(f.stats().focus,[4]);assert.equal(f.stats().frames,0);assert.equal(f.stats().animations,0);assert.equal(f.button(),undefined,'Reduced-motion navigation is immediate and still hides the action');
+}
+{
+ const f=railFixture();f.button().props.onClick();assert.ok(f.stats().frames);f.choose(1);assert.equal(f.stats().frames,0,'Manual selection cancels an in-progress jump');assert.deepEqual(f.stats().changes,[1]);assert.ok(f.button(),'Keep the action available when the visitor stays at a past round');
+}
+console.log('Passed round navigation: both real views start at current, delayed settings, manual history, summaries, tab re-entry, conditional CTA, animated scroll, focus, cancellation and reduced motion.');
