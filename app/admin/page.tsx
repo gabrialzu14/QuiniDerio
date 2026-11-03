@@ -29,7 +29,7 @@ export default function AdminPage(){
  const[activeRound,setActiveRound]=useState<number|null>(null);
  const initialRoundSelection=useRef(false);
  const[activeRoundError,setActiveRoundError]=useState("");
- const[theme,setTheme]=useState("dark"),[reminderSending,setReminderSending]=useState("");
+ const[reminderSending,setReminderSending]=useState("");
  const[reminderSent,setReminderSent]=useState<Record<string,boolean>>({});
  const[reminderReport,setReminderReport]=useState<ReminderResult|null>(null);
  const[reminderHistory,setReminderHistory]=useState<ReminderRecipient[]>([]);
@@ -59,7 +59,7 @@ export default function AdminPage(){
  },[]);
  useEffect(()=>{document.body.classList.add("qd-mounted");return()=>document.body.classList.remove("qd-mounted")},[]);
  useEffect(()=>{
-  setTheme(document.documentElement.dataset.theme||"dark");let active=true;
+  let active=true;
   const verify=async()=>{const {data:{session}}=await supabase.auth.getSession();let user=session?.user||null;if(session){const fresh=await supabase.auth.getUser();user=fresh.data.user||user}if(active)setAllowed(user?.email?.trim().toLowerCase()===ADMIN)};
   void verify();const {data:listener}=supabase.auth.onAuthStateChange(()=>{setTimeout(()=>{if(active)void verify()},0)});
   return()=>{active=false;listener.subscription.unsubscribe();requestId.current++};
@@ -181,13 +181,12 @@ export default function AdminPage(){
   }finally{setBusy("")}
  };
  const changeRound=(n:number)=>{setRound(n);setPicker(null);setReminderSent({});setMessage(null);setFilter("all")};
- const changeTheme=()=>{const next=theme==="light"?"dark":"light";setTheme(next);document.documentElement.dataset.theme=next;localStorage.setItem("quiniderio-theme",next)};
  const live=matches.filter(m=>m.status==="live").length,finished=matches.filter(m=>m.status==="finished").length;
  const visibleMatches=filter==="all"?matches:matches.filter(m=>m.status===filter),locked=!!busy||loading;
  if(allowed===null)return <main className="adminAccess"><section role="status"><div className="adminLoadingMark"/><h1>Cargando administración…</h1><p>Comprobando tu sesión.</p></section></main>;
  if(!allowed)return <main className="adminAccess"><section><span className="adminEyebrow">QUINIDERIO · ADMINISTRACIÓN</span><h1>Acceso restringido</h1><p>Este panel no está disponible para esta cuenta.</p><a className="adminPrimary" href="/">Volver a QuiniDerio</a></section></main>;
  return <main className="adminWorkspace">
-  <header className="adminTopbar"><a href="/" className="adminBrand" aria-label="Volver a QuiniDerio"><img src="/api/assets/branding/LogoApp.png" alt=""/><span><b className="qdWordmark"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>ADMINISTRACIÓN</small></span></a><div><button className="adminTheme" onClick={changeTheme} aria-label={theme==="light"?"Activar modo oscuro":"Activar modo claro"}>{theme==="light"?"☾ Oscuro":"☀ Claro"}</button><a className="adminBack" href="/">‹ Volver a la app</a></div></header>
+  <header className="adminTopbar"><a href="/" className="adminBrand" aria-label="Volver a QuiniDerio"><img src="/api/assets/branding/LogoApp.png" alt=""/><span><b className="qdWordmark"><span className="qd-quini">QUINI</span><span className="qd-de">DE</span><span className="qd-rio">RIO</span></b><small>ADMINISTRACIÓN</small></span></a><div><a className="adminBack" href="/">‹ Volver a la app</a></div></header>
   <section className="adminIntro"><div><span className="adminEyebrow">TEMPORADA 2026/27</span><h1>Panel Admin</h1><p>Datos de los partidos, resultados y tarjetas se comparten con todos los usuarios.</p></div><span className="adminRoundBadge">Jornada {round}</span></section>
   <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Jornada activa para jugadores: {activeRound===null?"Cargando…":"J"+activeRound}. Los controles se aplican a la jornada seleccionada.</small></div><nav aria-label="Seleccionar jornada">{publishedRounds.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}<button type="button" className="adminCreateRoundTrigger" aria-current={view==="create"?"page":undefined}
   onClick={()=>{setView("create");setMessage(null)}}>+ Crear jornada</button></nav></section>
