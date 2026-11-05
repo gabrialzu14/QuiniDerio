@@ -85,7 +85,12 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
   if(frame.current)return;
   const node=rail.current;
   if(!node)return;
-  if(alignedRound.current!==currentRound){
+  if(value==="all"){
+   // Keep the full General / season label visible whenever this summary is selected.
+   // Do not advance the rail to the current round while it would crop this label.
+   node.scrollLeft=0;
+   alignedRound.current=currentRound;
+  }else if(alignedRound.current!==currentRound){
    // Leave the active round as the rightmost visible chip when opening a section.
    const current=node.querySelector<HTMLElement>('[data-scope="'+currentRound+'"]');
    if(current){
