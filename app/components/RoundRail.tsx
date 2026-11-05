@@ -89,8 +89,8 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
    // Leave the active round as the rightmost visible chip when opening a section.
    const current=node.querySelector<HTMLElement>('[data-scope="'+currentRound+'"]');
    if(current){
-    const offset=current.getBoundingClientRect().right-node.getBoundingClientRect().right+12;
-    node.scrollLeft=Math.max(0,Math.min(node.scrollWidth-node.clientWidth,node.scrollLeft+offset));
+    const desired=current.offsetLeft+current.offsetWidth-node.clientWidth+12;
+    node.scrollLeft=Math.max(0,Math.min(node.scrollWidth-node.clientWidth,desired));
     alignedRound.current=currentRound;
    }
   }else if(previousValue.current!==value){
