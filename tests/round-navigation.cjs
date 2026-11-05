@@ -63,6 +63,14 @@ function railFixture({value=2,currentRound=4,reduced=false,enabledRounds=new Set
  const tick=time=>{const pending=[...frames.values()];frames.clear();for(const fn of pending)fn(time)};
  return {render,button,tick,stats:()=>({changes,focus,animations,frames:frames.size}),choose:round=>nodes(render()).find(n=>n.props?.['data-scope']===round).props.onClick(),rail};
 }
+{
+ const general=railFixture({value:'all'});
+ general.render();
+ assert.equal(general.rail.scrollLeft,0,'Opening General must keep the complete label visible');
+ const current=railFixture({value:4});
+ current.render();
+ assert.ok(current.rail.scrollLeft>0,'Opening a round must still align the current jornada toward the right');
+}
 assert.equal(railFixture({value:4}).button(),undefined,'Hide the jump action while already at current');
 assert.equal(railFixture({value:2,enabledRounds:new Set([1,2])}).button(),undefined,'Never offer a disabled destination');
 {
