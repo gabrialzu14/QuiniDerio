@@ -79,12 +79,27 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
   event.preventDefault();
   event.stopPropagation();
  };
+ const alignedRound=useRef<number|null>(null);
+ const previousValue=useRef<Scope>(value);
  useEffect(()=>{
   if(frame.current)return;
-  const button=rail.current?.querySelector<HTMLElement>('[data-scope="'+value+'"]');
   const node=rail.current;
-  if(button&&node)node.scrollLeft=Math.max(0,button.offsetLeft-(node.clientWidth-button.offsetWidth)/2);
- },[value]);
+  if(!node)return;
+  if(alignedRound.current!==currentRound){
+   // Leave the active round as the rightmost visible chip when opening a section.
+   const current=node.querySelector<HTMLElement>('[data-scope="'+currentRound+'"]');
+   if(current){
+    const offset=current.getBoundingClientRect().right-node.getBoundingClientRect().right+12;
+    node.scrollLeft=Math.max(0,Math.min(node.scrollWidth-node.clientWidth,node.scrollLeft+offset));
+    alignedRound.current=currentRound;
+   }
+  }else if(previousValue.current!==value){
+   // Preserve centered navigation for manual selections.
+   const selected=node.querySelector<HTMLElement>('[data-scope="'+value+'"]');
+   if(selected)node.scrollLeft=Math.max(0,selected.offsetLeft-(node.clientWidth-selected.offsetWidth)/2);
+  }
+  previousValue.current=value;
+ },[value,currentRound,rounds.length]);
  const advance=()=>{
   const node=rail.current;
   const target=node?.querySelector<HTMLButtonElement>('[data-scope="'+currentRound+'"]');
