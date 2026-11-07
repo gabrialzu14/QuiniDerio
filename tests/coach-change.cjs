@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript'),vm=require('node:vm');
+const context={exports:{}};
+vm.runInNewContext(ts.transpileModule(fs.readFileSync('app/lib/coach-change.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,context);
+const {normalizeCoachPredictions,currentCoachName,DERIO_COACH_CHANGE}=context.exports;
+const original=Object.freeze({positions:Object.freeze({'Derio A':'7'}),firstCoach:'Nando Alonso',coachCards:'Nando Alonso',firstDelegate:'Gabri Alzueta',assistantCoachCards:'David Perez',extra:'Nando Alonso'});
+const migrated=normalizeCoachPredictions(original);
+assert.equal(migrated.firstCoach,'Aner Blanco');assert.equal(migrated.coachCards,'Aner Blanco');
+assert.equal(original.firstCoach,'Nando Alonso','No mutation of cached input');
+for(const key of Object.keys(original).filter(k=>!['firstCoach','coachCards'].includes(k)))assert.equal(migrated[key],original[key],'Unrelated choices and positions stay untouched');
+assert.equal(normalizeCoachPredictions(migrated),migrated,'Repeated migration is idempotent');
+const other={firstCoach:'Peio Garcia',coachCards:'Ibai Mateos'};
+assert.equal(normalizeCoachPredictions(other),other,'Other coaches stay untouched');
+assert.equal(currentCoachName('Nando Alonso'),'Aner Blanco');
+assert.equal(currentCoachName('Aner Taranilla'),'Aner Taranilla','Do not confuse Aner with another staff member');
+assert.equal(currentCoachName(''),'');
+assert.equal(normalizeCoachPredictions({}).firstCoach,undefined,'Incomplete drafts remain incomplete');
+for(const key of ['photo','photoLarge','previousPhoto'])assert.ok(fs.statSync('public'+DERIO_COACH_CHANGE[key]).size>0);
+console.log('Passed coach continuity: both choices, immutable drafts, idempotence, other coaches/positions unchanged, versioned portraits.');

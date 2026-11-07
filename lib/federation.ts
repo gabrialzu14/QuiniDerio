@@ -1,10 +1,12 @@
+import {DERIO_COACH_CHANGE} from "../app/lib/coach-change";
+
 export type FederationTeam = {
   id: string; name: string; coach: string; delegate: string;
   calendar: string; standings: string;
 };
 
 export const federationTeams: FederationTeam[] = [
-  {id:"derio-a",name:"Derio A",coach:"Nando Alonso",delegate:"Gabri Alzueta",calendar:"https://www.euskadifutbol.eus/pnfg/NPcd/NFG_CmpJornada?cod_primaria=1000120&CodCompeticion=24057857&CodGrupo=24057858&CodTemporada=22&CodJornada={J}&Sch_Tipo_Juego=1&cod_agrupacion=1",standings:"https://www.euskadifutbol.eus/pnfg/NPcd/NFG_VisClasificacion?cod_primaria=1000120&codjornada={J}&codcompeticion=24057857&codgrupo=24057858&cod_agrupacion=1"},
+  {id:"derio-a",name:"Derio A",coach:DERIO_COACH_CHANGE.current,delegate:"Gabri Alzueta",calendar:"https://www.euskadifutbol.eus/pnfg/NPcd/NFG_CmpJornada?cod_primaria=1000120&CodCompeticion=24057857&CodGrupo=24057858&CodTemporada=22&CodJornada={J}&Sch_Tipo_Juego=1&cod_agrupacion=1",standings:"https://www.euskadifutbol.eus/pnfg/NPcd/NFG_VisClasificacion?cod_primaria=1000120&codjornada={J}&codcompeticion=24057857&codgrupo=24057858&cod_agrupacion=1"},
   {id:"derio-b",name:"Derio B",coach:"Gorka Barrio",delegate:"Mikel Elejalde",calendar:"https://www.fvf-bff.eus/pnfg/NPcd/NFG_CmpJornada?cod_primaria=1000120&CodCompeticion=24058476&CodGrupo=24109682&CodTemporada=22&CodJornada={J}&Sch_Tipo_Juego=1&cod_agrupacion=1773563",standings:"https://www.fvf-bff.eus/pnfg/NPcd/NFG_VisClasificacion?cod_primaria=1000120&codjornada={J}&codcompeticion=24058476&codgrupo=24109682&cod_agrupacion=1773563"},
   {id:"derio-fem",name:"Derio Fem",coach:"Iker Ibarluzea",delegate:"Omar El Kabouri",calendar:"https://www.euskadifutbol.eus/pnfg/NPcd/NFG_CmpJornada?cod_primaria=1000120&CodCompeticion=24057866&CodGrupo=24057867&CodTemporada=22&CodJornada={J}&Sch_Tipo_Juego=1&cod_agrupacion=1",standings:"https://www.euskadifutbol.eus/pnfg/NPcd/NFG_VisClasificacion?cod_primaria=1000120&codjornada={J}&codcompeticion=24057866&codgrupo=24057867&cod_agrupacion=1"},
   {id:"derio-fem-b",name:"Derio Fem B",coach:"Ibai Mateos",delegate:"Aner Taranilla",calendar:"https://www.fvf-bff.eus/pnfg/NPcd/NFG_CmpJornada?cod_primaria=1000120&CodCompeticion=24058462&CodGrupo=24265685&CodTemporada=22&CodJornada={J}&Sch_Tipo_Juego=1&cod_agrupacion=1773567",standings:"https://www.fvf-bff.eus/pnfg/NPcd/NFG_VisClasificacion?cod_primaria=1000120&codjornada={J}&codcompeticion=24058462&codgrupo=24265685&cod_agrupacion=1773567"},

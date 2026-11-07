@@ -15,7 +15,7 @@ type Card={id:string,round:number,team:string,person:string,card_type:"yellow"|"
 type View="matches"|"pending"|"round"|"create";
 type ReminderRecipient={user_id:string;username:string;status:"accepted"|"failed"|"no_subscription"|"unknown";reason:string|null;accepted_devices:number;failed_devices:number;created_at?:string};
 type ReminderResult={round:number;requestId:string;summary:{total:number;accepted:number;failed:number;no_subscription:number;unknown:number};reports:ReminderRecipient[]};
-const STAFF:Record<string,string[]>={"Derio A":["Nando Alonso","Julen de Miguel","Gabri Alzueta"],"Derio B":["Gorka Barrio","David Perez","Mikel Elejalde"],"Derio Fem":["Iker Ibarluzea","Galder Ferreiro","Omar El Kabouri"],"Derio Fem B":["Ibai Mateos","Eneko Sanchez","Aner Taranilla"],"Juvenil A":["Peio Garcia","Koldo Corral"],"Juvenil B":["Mikel Tara","Asel Ibañez"],"Cadete B":["Gaizka Garcia","Galder Carreras"]};
+const STAFF:Record<string,string[]>={"Derio A":["Aner Blanco","Julen de Miguel","Gabri Alzueta"],"Derio B":["Gorka Barrio","David Perez","Mikel Elejalde"],"Derio Fem":["Iker Ibarluzea","Galder Ferreiro","Omar El Kabouri"],"Derio Fem B":["Ibai Mateos","Eneko Sanchez","Aner Taranilla"],"Juvenil A":["Peio Garcia","Koldo Corral"],"Juvenil B":["Mikel Tara","Asel Ibañez"],"Cadete B":["Gaizka Garcia","Galder Carreras"]};
 export default function AdminPage(){
  const[allowed,setAllowed]=useState<boolean|null>(null);
  const[matches,setMatches]=useState<Match[]>([]),[cards,setCards]=useState<Card[]>([]);
