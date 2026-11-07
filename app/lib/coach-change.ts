@@ -1,6 +1,6 @@
 /** The Derio A prediction slot continues with its new head coach. */
 export const DERIO_COACH_CHANGE = {
-  announcementId: "derio-a-aner-blanco-2026-11-07-v2",
+  announcementId: "derio-a-aner-blanco-2026-11-07-v3",
   previous: "Nando Alonso",
   current: "Aner Blanco",
   photo: "/coaches/aner-blanco-20261107.webp",
@@ -33,14 +33,14 @@ export type CoachPredictionImpact = {
   userId: string;
   name: string;
   hasProfilePic: boolean;
-  changes: {field: "firstCoach" | "coachCards"; label: string}[];
+  changes: {field: "firstCoach" | "coachCards"; label: string; shortLabel: string; cardColor: "red" | "yellow"}[];
 };
 
 /** Read only the two affected choices; a participant can have either or both. */
 export function coachPredictionImpacts(profiles: CoachImpactProfile[]): CoachPredictionImpact[] {
   const choices = [
-    {field: "firstCoach", label: "Primer entrenador expulsado"},
-    {field: "coachCards", label: "Entrenador con más tarjetas"},
+    {field: "firstCoach", label: "Primer entrenador expulsado", shortLabel: "Primer expulsado", cardColor: "red"},
+    {field: "coachCards", label: "Entrenador con más tarjetas", shortLabel: "Más tarjetas", cardColor: "yellow"},
   ] as const;
   const impacts: CoachPredictionImpact[] = [];
   for (const profile of profiles) {

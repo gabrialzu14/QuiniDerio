@@ -1,61 +1,55 @@
-# Prompt: aviso del cambio de entrenador en dos partes
+# Prompt: aviso visual de entrenador en dos pasos
 
-Conecta con el repositorio `gabrialzu14/QuiniDerio`, el proyecto Vercel `quiniderio` y su proyecto Supabase `QuiniDerio`. Actualiza el aviso ya publicado del relevo de Nando Alonso por Aner Blanco. Divídelo en dos pantallas consecutivas, anima todo el recorrido y vuelve a mostrarlo a todos los usuarios, incluidos quienes confirmaron la versión anterior. Publica en `main` al terminar las comprobaciones.
+Actualiza QuiniDerio en `gabrialzu14/QuiniDerio`, Vercel `quiniderio` y el proyecto Supabase `QuiniDerio`. Mantén el cambio ya aplicado de Nando Alonso a Aner Blanco, sus fotografías y las predicciones migradas. Mejora la transición del aviso y simplifica la segunda pantalla con tarjetas de fútbol, menos texto y nombres destacados. Publica en `main` al terminar las comprobaciones.
 
-## Continuidad de las predicciones
+## Primer paso
 
-El entrenador y sus referencias ya están actualizados. Inspecciona el código y los datos actuales y conserva las tarjetas de equipo, formularios, predicciones, panel de administración e identidad del Derio A.
+Conserva la composición aprobada: antetítulo «DERIO A», título «Cambio de entrenador», fotos de Nando Alonso y Aner Blanco, sus nombres y la explicación de continuidad de las predicciones. Reutiliza los WebP transparentes existentes, con sus variantes de resolución y sus animaciones.
 
-Las elecciones de «Primer entrenador expulsado» y «Entrenador con más tarjetas» ya han pasado de Nando Alonso a Aner Blanco. Conserva esa migración y la normalización existente de borradores locales y perfiles antiguos. La segunda parte del aviso debe consultar y explicar el cambio ya realizado, sin reescribir elecciones.
+El primer botón «Entendido» debe avanzar al segundo paso sin cerrar el modal y sin guardar una confirmación.
 
-Conserva las posiciones pronosticadas, el resto de elecciones, los estados de bloqueo, participantes, quinielas, resultados, aciertos y puntos. La actualización no debe modificar las tarjetas históricas ni atribuir a Aner acciones ocurridas con Nando. No confundas a Aner Blanco con Aner Taranilla. Comprueba las cantidades y las huellas de los datos que deben permanecer intactos antes y después.
+## Transición continua
 
-## Fotografías existentes
+Usa un único fondo y una única ventana para ambos pasos. El modal y el botón deben conservar su posición y dimensiones al avanzar. Mantén ambas pantallas montadas dentro de un contenedor estable y realiza un fundido con un desplazamiento horizontal corto. Coordina la salida de la primera pantalla y la entrada de la segunda durante unos 350–380 ms, sin fotogramas vacíos ni saltos de altura.
 
-Reutiliza los retratos transparentes de Nando y Aner ya publicados. Conserva su encuadre, identidad, ropa, contornos y fidelidad, así como las variantes WebP de Aner de 384 y 768 píxeles.
+Carga los participantes durante la primera parte para que la segunda pueda entrar completa. Mantén el contenido del paso inactivo fuera del foco y de la lectura accesible mediante `inert` y `aria-hidden`. El botón permanece bloqueado mientras dura la transición. Con movimiento reducido, cambia de pantalla de forma inmediata conservando el mismo recorrido.
 
-Mantén las URL versionadas, el canal alfa y la selección de resolución según el dispositivo. La primera parte debe conservar la composición ya aprobada con ambos entrenadores.
+## Segundo paso: información visual
 
-## Primera parte: cambio de entrenador
-
-Diseña un modal acorde al estilo de QuiniDerio: tipografía Inter, fondo azul profundo, texto de alto contraste y acentos azules. Adapta expresamente los colores al modo claro.
-
-Contenido exacto:
+Usa únicamente:
 
 - Antetítulo: «DERIO A».
-- Título: «Cambio de entrenador».
-- Introducción: «Aner Blanco toma el relevo de Nando Alonso.».
-- Foto de Nando con nombre y etiqueta «HASTA AHORA».
-- Foto de Aner con nombre y etiqueta «NUEVO ENTRENADOR».
-- Bloque destacado: «Tus predicciones siguen en juego».
-- Explicación: «Las predicciones de Nando pasan a ser las de Aner. Se conservan tus elecciones y puntos.».
-- Botón principal: «Entendido», sin flecha.
-- Nota: «A continuación, los participantes afectados.».
+- Título: «Predicciones actualizadas».
+- Una sola línea de cambio, compartida por todos: «Nando Alonso → Aner Blanco», con **Aner Blanco** en negrita.
+- Una fila compacta por participante, con avatar, **nombre en negrita**, categoría breve y la tarjeta de fútbol correspondiente.
+- Nota breve: «Puntos intactos.».
+- Botón final: «Entendido».
 
-Mantén ambas fotos visibles al mismo tiempo. Anima el fondo y la apertura del modal; introduce las tarjetas desde lados opuestos con un escalonado suave, un pequeño asentamiento de los retratos, una flecha que conecte el relevo y la aparición del indicador del nuevo entrenador. Introduce después la explicación y el botón. Usa movimientos cortos, naturales y fluidos con `transform` y `opacity`, sin animar medidas que provoquen saltos de diseño. Añade salida animada e interacción discreta del botón. Respeta `prefers-reduced-motion`.
+Correspondencia obligatoria de las tarjetas:
 
-Al pulsar «Entendido», realiza una transición de salida y entrada hacia la segunda parte dentro del mismo modal. Esta primera pulsación no cierra el aviso ni guarda una confirmación. Muestra un indicador discreto de progreso «1 / 2» y después «2 / 2». Conserva el antetítulo «DERIO A», sin añadir «Nueva etapa».
+| Campo | Predicción | Texto breve | Tarjeta |
+| --- | --- | --- | --- |
+| `firstCoach` | Primer entrenador expulsado | Primer expulsado | Roja |
+| `coachCards` | Entrenador con más tarjetas | Más tarjetas | Amarilla |
 
-## Segunda parte: predicciones afectadas
+Dibuja las tarjetas con SVG o CSS: forma vertical, esquinas ligeramente redondeadas, color vivo y un reflejo discreto. No uses emojis como sustituto. El texto de la categoría debe acompañar al color para que el significado sea accesible.
 
-Título: «Predicciones actualizadas». Introducción: «Estos son los participantes afectados y lo que cambia en sus elecciones.».
+Obtén los participantes de `quini_public_profiles`, leyendo solo `user_id`, `username`, `season` y `has_profile_pic`. Filtra las dos elecciones de entrenador que ya señalan a Aner, admitiendo Nando como nombre anterior. Conserva el orden alfabético y agrupa ambas categorías cuando una persona tenga las dos. Los nombres deben proceder de los datos reales y no escribirse en el código. Usa el avatar actual o una inicial si no carga; destaca «TÚ» en la fila del usuario que está leyendo el aviso.
 
-Consulta `quini_public_profiles` y utiliza solo `user_id`, `username`, `season` y `has_profile_pic`. Obtén los participantes cuyas elecciones `firstCoach` o `coachCards` señalan a Aner Blanco, admitiendo también Nando Alonso si algún cliente conserva datos antiguos. La información de los participantes debe proceder de Supabase; no escribas sus nombres en el código ni inventes afectados.
+Presenta todos los afectados de forma legible en móvil y escritorio. Las filas deben ser compactas para que los cinco participantes actuales se vean sin un bloque extenso de texto. En ventanas muy bajas, permite desplazamiento dentro de la lista y conserva el botón accesible.
 
-Presenta una tarjeta por participante, ordenada por nombre. Incluye su avatar con alternativa de inicial, su nombre de usuario y la etiqueta «TÚ» cuando corresponda al usuario actual. Cada elección afectada debe indicar su categoría exacta y un antes y un después claramente diferenciados: «ANTES · Nando Alonso» → «AHORA · Aner Blanco». Traduce `firstCoach` como «Primer entrenador expulsado» y `coachCards` como «Entrenador con más tarjetas». Si una persona tiene ambas elecciones, agrúpalas en su misma tarjeta.
+Introduce las filas con un escalonado breve y anima la aparición de las tarjetas con un movimiento suave de entrada. Anima también la flecha de Nando a Aner. Evita repetir en cada fila los nombres de ambos entrenadores, las etiquetas «ANTES» y «AHORA», párrafos explicativos o contadores que añadan ruido. Mantén los colores de QuiniDerio, tipografía Inter, contraste adecuado y adaptación al modo claro.
 
-Añade contadores animados de participantes y predicciones. Introduce las tarjetas de forma escalonada y anima la flecha y la aparición de Aner después de Nando. Mantén legibles todos los nombres y evita movimientos continuos que dificulten la lectura. Incluye el texto «Se conservan los puntos y el resto de predicciones.».
+## Confirmación y nueva publicación
 
-El listado debe poder desplazarse dentro del modal cuando no quepa, manteniendo accesible el botón final «Entendido». Incluye carga animada, mensaje de error y botón «Reintentar». No permitas confirmar hasta que la consulta haya terminado correctamente. La segunda pantalla solo informa de la actualización ya realizada: no vuelve a modificar las predicciones ni los puntos.
+Solo la segunda pulsación de «Entendido», con los datos cargados correctamente, guarda la confirmación. Comprueba la sesión real y resiste dobles pulsaciones. Si falla la carga o el guardado, muestra un error breve y permite reintentar; conserva el aviso pendiente.
 
-El modal debe ser cómodo en móvil vertical y escritorio. Cuida márgenes de seguridad de iPhone, pantallas estrechas y ventanas bajas; permite desplazamiento interno si hace falta. Evita contenido cortado, texto desbordado y retratos deformados.
+Utiliza el identificador `derio-a-aner-blanco-2026-11-07-v3` en `quini_announcement_acknowledgements` para que todos vuelvan a recibir esta versión. Conserva las confirmaciones anteriores y la separación por usuario y dispositivo. Espera a que terminen la pantalla de carga y otros diálogos antes de mostrarlo.
 
-## Comportamiento por usuario
+Esta actualización es informativa: conserva predicciones, participantes, resultados, tarjetas históricas y puntos.
 
-Muestra el aviso al entrar con sesión válida. Espera a que termine la pantalla de carga y a que se cierren otros diálogos. No lo superpongas a los avisos existentes. Usa un identificador nuevo de comunicación, `derio-a-aner-blanco-2026-11-07-v2`, para volver a mostrar el recorrido completo a todos los usuarios. Conserva las confirmaciones de la versión anterior. Guarda la nueva confirmación en `quini_announcement_acknowledgements` únicamente después de pulsar «Entendido» en la segunda parte. Tras confirmar no debe repetirse en otro dispositivo. Si se recarga la app después de la primera parte, el aviso sigue pendiente y vuelve a empezar. Al cambiar de cuenta, cada usuario conserva su propio estado.
+## Comprobaciones
 
-El guardado debe comprobar la sesión, resistir dobles pulsaciones y permitir reintentar si falla la conexión. No marques el aviso como leído cuando el servidor no haya guardado la confirmación. Protege el foco del teclado, el bloqueo del desplazamiento, los nombres accesibles y la restauración del foco al cerrar. Cancela solicitudes y temporizadores al desmontar el componente o cambiar de usuario.
+Verifica que las cuatro elecciones actuales de primer expulsado usan tarjeta roja y la elección de más tarjetas usa tarjeta amarilla, sin confundir las categorías ni incluir otras elecciones. Prueba los dos pasos, la precarga, la recarga intermedia, el guardado final, los errores recuperables y la separación entre cuentas.
 
-## Validación y publicación
-
-Ejecuta las pruebas existentes y verifica TypeScript y el build. Comprueba la clasificación de afectados, una o dos elecciones por persona, exclusión de elecciones de otros entrenadores, ausencia de mutaciones al leer y nueva identidad del aviso. Prueba la primera pulsación sin confirmación, recarga intermedia, transición animada, lista real, reintento de carga, confirmación final, fallo de guardado, doble pulsación y aislamiento entre cuentas. Revisa ambas partes a 320 y 375 píxeles, en escritorio y en los dos temas. Comprueba que el foco no abandone el modal, que Escape no permita saltarse una parte y que los usuarios con movimiento reducido puedan completar el mismo recorrido. Publica el commit verificado y comprueba que producción corresponde a él. Informa del resultado real y de cualquier comprobación que no se haya podido completar.
+Mide la posición y el tamaño del modal antes y después de avanzar: deben mantenerse. Revisa las cinco filas en móvil de 320 y 375 píxeles y en escritorio, ambos temas y el recorrido con teclado. Ejecuta las pruebas y el build, publica el commit correcto y comprueba el despliegue de producción.

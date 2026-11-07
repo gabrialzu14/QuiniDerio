@@ -39,5 +39,7 @@ assert.equal(JSON.stringify(input),before,'Reading the notice must not write or 
 const both=coachPredictionImpacts([{user_id:'both',username:'Dos elecciones',season:{firstCoach:'Nando Alonso',coachCards:'Aner Blanco'}}]);
 assert.equal(both.length,1);assert.equal(both[0].changes.length,2,'Group both affected choices under the same participant');
 assert.equal(coachPredictionImpacts([{user_id:'no',username:'Sin cambios',season:{firstCoach:'Aner Taranilla',coachCards:'Nando'}}]).length,0);
-assert.match(DERIO_COACH_CHANGE.announcementId,/-v2$/,'Reissue with a new identity without deleting earlier acknowledgements');
+assert.equal(impacts.find(p=>p.name==='Carlos').changes[0].cardColor,'yellow','Most cards uses the yellow card');
+assert.equal(impacts.find(p=>p.name==='Ana').changes[0].cardColor,'red','First dismissal uses the red card');
+assert.match(DERIO_COACH_CHANGE.announcementId,/-v3$/,'Reissue the clearer two-part notice without deleting earlier acknowledgements');
 console.log('Passed impact detail: five participants, four first-dismissal choices, one most-cards choice, grouping, legacy names, unrelated fields, invalid drafts and reissue identity.');

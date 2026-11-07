@@ -105,12 +105,11 @@ export default function CoachChangePopup() {
   const advance = useCallback(() => {
     if (!userId || identity.current !== userId || pageRef.current !== 1 || switchingRef.current) return;
     switchingRef.current = true; setSwitching(true);
+    pageRef.current = 2; setPage(2);
     pageTimer.current = setTimeout(() => {
       if (identity.current !== userId) return;
-      pageRef.current = 2; setPage(2);
       switchingRef.current = false; setSwitching(false);
-      modal.current?.scrollTo({top: 0});
-    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 180);
+    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 380);
   }, [userId]);
 
   const confirm = useCallback(async () => {
@@ -146,10 +145,10 @@ export default function CoachChangePopup() {
     const previous = document.activeElement as HTMLElement | null;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Tab") {
-        const controls = Array.from(modal.current?.querySelectorAll<HTMLElement>('button:not(:disabled),[tabindex="0"]') || []);
+        const controls = Array.from(modal.current?.querySelectorAll<HTMLElement>('button:not(:disabled),[tabindex="0"]') || []).filter(control => !control.closest('[aria-hidden="true"]'));
         const first = controls[0], last = controls[controls.length - 1];
         const current = document.activeElement;
-        if (!first) {event.preventDefault(); modal.current?.querySelector<HTMLElement>("h2")?.focus({preventScroll: true})}
+        if (!first) {event.preventDefault(); modal.current?.querySelector<HTMLElement>(".qdCoachScreen.isActive h2")?.focus({preventScroll: true})}
         else if (event.shiftKey && (current === first || !controls.includes(current as HTMLElement))) {event.preventDefault(); last.focus({preventScroll: true})}
         else if (!event.shiftKey && (current === last || !controls.includes(current as HTMLElement))) {event.preventDefault(); first.focus({preventScroll: true})}
       }
@@ -165,7 +164,7 @@ export default function CoachChangePopup() {
   useEffect(() => {
     if (!open) return;
     if (page === 1) action.current?.focus({preventScroll: true});
-    else modal.current?.querySelector<HTMLElement>("h2")?.focus({preventScroll: true});
+    else modal.current?.querySelector<HTMLElement>(".qdCoachScreen.isActive h2")?.focus({preventScroll: true});
   }, [open, page]);
   useEffect(() => () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -174,13 +173,13 @@ export default function CoachChangePopup() {
 
   if (!open || typeof document === "undefined") return null;
   return createPortal(<div className={"qdCoachOverlay" + (leaving ? " isLeaving" : "")}>
-    <section ref={modal} className={"qdCoachModal" + (page === 2 ? " isDetails" : "")} role="dialog" aria-modal="true" aria-labelledby="qdCoachTitle" aria-describedby="qdCoachDescription">
+    <section ref={modal} className="qdCoachModal qdCoachWizard" role="dialog" aria-modal="true" aria-labelledby={page === 1 ? "qdCoachIntroTitle" : "qdCoachImpactTitle"} aria-describedby={page === 1 ? "qdCoachIntroDescription" : "qdCoachImpactDescription"}>
       <div className="qdCoachStepProgress" aria-label={`Paso ${page} de 2`}><span>{page} / 2</span><div aria-hidden="true"><i className="isActive"/><i className={page === 2 ? "isActive" : ""}/></div></div>
-      <div key={page} className={"qdCoachPage" + (switching ? " isSwitching" : "")}>
-      {page === 1 ? <>
+      <div className="qdCoachWizardStage">
+      <div className={"qdCoachScreen qdCoachIntroScreen" + (page === 1 ? " isActive" : " isBefore")} aria-hidden={page !== 1} inert={page !== 1}>
       <div className="qdCoachHeading">
         <span className="qdCoachEyebrow"><i aria-hidden="true"/> DERIO A</span>
-        <h2 id="qdCoachTitle">Cambio de entrenador</h2>
+        <h2 id="qdCoachIntroTitle">Cambio de entrenador</h2>
         <p>Aner Blanco toma el relevo de Nando Alonso.</p>
       </div>
       <div className="qdCoachStage" role="group" aria-label="De Nando Alonso a Aner Blanco">
@@ -197,12 +196,17 @@ export default function CoachChangePopup() {
       </div>
       <div className="qdCoachTransfer">
         <span className="qdCoachTransferIcon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M5 8h14m-4-4 4 4-4 4M19 16H5m4 4-4-4 4-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
-        <div><strong>Tus predicciones siguen en juego</strong><p id="qdCoachDescription">Las predicciones de Nando pasan a ser las de Aner. Se conservan tus elecciones y puntos.</p></div>
+        <div><strong>Tus predicciones siguen en juego</strong><p id="qdCoachIntroDescription">Las predicciones de Nando pasan a ser las de Aner. Se conservan tus elecciones y puntos.</p></div>
       </div>
-      </> : <CoachChangeDetails userId={userId} onReadyChange={markDetailsReady}/>}
+      </div>
+      <div className={"qdCoachScreen qdCoachImpactScreen" + (page === 2 ? " isActive" : "")} aria-hidden={page !== 2} inert={page !== 2}>
+        <CoachChangeDetails userId={userId} onReadyChange={markDetailsReady}/>
+      </div>
+      </div>
+      <div className="qdCoachFooter">
       {error ? <p className="qdCoachError" role="alert">{error}</p> : null}
       <button ref={action} className="qdCoachAction" type="button" disabled={saving || leaving || switching || (page === 2 && !detailsReady)} onClick={() => page === 1 ? advance() : void confirm()}>{saving ? "Guardando…" : "Entendido"}</button>
-      <p className="qdCoachFootnote">{page === 1 ? "A continuación, los participantes afectados." : "No tienes que hacer ningún cambio."}</p>
+      <p className="qdCoachFootnote" aria-hidden={page === 2}>{page === 1 ? "A continuación, los participantes afectados." : "\u00a0"}</p>
       </div>
     </section>
   </div>, document.body);

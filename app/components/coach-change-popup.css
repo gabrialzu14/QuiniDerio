@@ -64,64 +64,38 @@
 @media(max-height:580px){.qdCoachModal{padding:17px}.qdCoachPhoto{height:125px}.qdCoachHeading h2{font-size:23px}.qdCoachHeading p{font-size:11px}.qdCoachStage{margin:15px 0}.qdCoachCaption strong{font-size:19px}.qdCoachTransfer{padding:10px}.qdCoachFootnote{display:none}}
 @media(prefers-reduced-motion:reduce){.qdCoachOverlay,.qdCoachOverlay *,.qdCoachOverlay *:before,.qdCoachOverlay *:after{animation:none!important;transition:none!important}}
 
-/* The same announcement continues into its participant-by-participant impact. */
-.qdCoachStepProgress{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 13px;color:var(--coach-muted);font-size:9px;font-variant-numeric:tabular-nums;line-height:1}
+/* One fixed shell: pages crossfade inside it and the footer never jumps. */
+.qdCoachWizard{height:min(690px,calc(100dvh - 40px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));display:flex;flex-direction:column;overflow:hidden}
+.qdCoachStepProgress{display:flex;flex:0 0 auto;align-items:center;justify-content:center;gap:9px;margin:0 0 13px;color:var(--coach-muted);font-size:9px;line-height:1;font-variant-numeric:tabular-nums}
 .qdCoachStepProgress>div{display:flex;gap:4px}.qdCoachStepProgress i{width:22px;height:3px;border-radius:3px;background:#689bc12b;transition:background .3s ease,box-shadow .3s ease}.qdCoachStepProgress i.isActive{background:#83c7fa;box-shadow:0 0 9px #6ebdf130}
-.qdCoachPage{animation:qdCoachPageIn .4s cubic-bezier(.16,1,.3,1) both}.qdCoachPage.isSwitching{animation:qdCoachPageOut .18s ease both;pointer-events:none}
-.qdCoachModal.isDetails{display:flex;flex-direction:column;overflow:hidden}
-.qdCoachModal.isDetails .qdCoachStepProgress{flex:0 0 auto}
-.qdCoachModal.isDetails .qdCoachPage{display:flex;flex:1 1 auto;flex-direction:column;min-height:0}
-.qdCoachModal.isDetails .qdCoachAction,.qdCoachModal.isDetails .qdCoachFootnote,.qdCoachModal.isDetails .qdCoachError{flex:0 0 auto;animation:qdCoachRise .4s .35s both}
-.qdCoachDetails{display:flex;flex:1 1 auto;flex-direction:column;min-height:0}
-.qdCoachDetails .qdCoachHeading{flex:0 0 auto;animation:qdCoachRise .4s .02s both}
-.qdCoachDetails h2:focus{outline:none}.qdCoachDetails .qdCoachHeading p{font-size:11px;max-width:330px;margin-inline:auto}
-.qdCoachImpactStats{display:flex;justify-content:center;gap:20px;margin:18px 0 15px;flex:0 0 auto;color:var(--coach-muted);font-size:10px;animation:qdCoachRise .4s .08s both}
-.qdCoachImpactStats span{display:flex;gap:5px;align-items:baseline}.qdCoachImpactStats b{font-size:19px;letter-spacing:-.04em;color:#a0d9ff;font-variant-numeric:tabular-nums;font-weight:750}
-.qdCoachImpactList{list-style:none;display:flex;flex-direction:column;gap:8px;min-height:95px;max-height:470px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#609dcb66 transparent;margin:0;padding:1px 4px 4px 1px;outline-offset:3px}
-.qdCoachImpactList:focus-visible{outline:2px solid #8dc4f2;border-radius:14px}
-.qdCoachImpactPerson{position:relative;flex:0 0 auto;padding:12px 14px;border:1px solid var(--coach-line);border-radius:16px;background:linear-gradient(120deg,#18354b66,#1127384d);animation:qdCoachImpactIn .5s calc(.1s + var(--impact-index,0)*.07s) cubic-bezier(.16,1,.3,1) both}
+.qdCoachWizardStage{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;isolation:isolate}
+.qdCoachScreen{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translate3d(18px,0,0);pointer-events:none;transition:opacity .24s ease,transform .34s cubic-bezier(.22,1,.36,1),visibility 0s .34s;will-change:opacity,transform}
+.qdCoachScreen.isActive{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:.04s,.04s,0s}
+.qdCoachScreen.isBefore{transform:translate3d(-18px,0,0)}
+.qdCoachScreen:not(.isActive) *{animation:none!important}
+.qdCoachIntroScreen{display:block;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#609dcb66 transparent}
+.qdCoachFooter{flex:0 0 auto;animation:qdCoachRise .4s .55s both}.qdCoachFooter .qdCoachAction{animation:none;margin-top:16px}.qdCoachFooter .qdCoachFootnote{min-height:13px;animation:none}.qdCoachFooter .qdCoachError{font-size:10px;margin-top:8px}
+.qdCoachDetails{display:flex;flex:1 1 auto;flex-direction:column;justify-content:center;min-height:0}
+.qdCoachDetails .qdCoachHeading{flex:0 0 auto;animation:qdCoachRise .35s .03s both}.qdCoachDetails h2:focus{outline:none}
+.qdCoachDetails .qdCoachHeading h2{font-size:clamp(22px,5.7vw,28px);margin-top:10px}
+.qdCoachCoachSwap{display:flex;flex:0 0 auto;align-items:center;justify-content:center;gap:13px;margin:17px 0 20px;padding:13px 8px;border:1px solid var(--coach-line);border-radius:13px;background:#79b9e80a;font-size:13px;line-height:1.25;color:var(--coach-muted);animation:qdCoachRise .4s .08s both}
+.qdCoachCoachSwap>span{font-weight:500}.qdCoachCoachSwap>strong{font-weight:800;color:#a0d9ff}.qdCoachCoachSwap>svg{flex:0 0 auto;color:#8bc9f7;animation:qdCoachSwapArrow .55s .2s both}
+.qdCoachImpactList{list-style:none;display:flex;flex-direction:column;gap:8px;min-height:75px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#609dcb66 transparent;margin:0;padding:1px 3px 3px 1px;outline-offset:3px}
+.qdCoachImpactList:focus-visible{outline:2px solid #8dc4f2;border-radius:12px}
+.qdCoachImpactPerson{display:flex;align-items:center;gap:11px;flex:0 0 auto;min-height:54px;box-sizing:border-box;padding:10px 12px;border:1px solid var(--coach-line);border-radius:14px;background:linear-gradient(120deg,#18354b66,#1127384d);animation:qdCoachImpactIn .4s calc(.08s + var(--impact-index,0)*.055s) cubic-bezier(.16,1,.3,1) both}
 .qdCoachImpactPerson.isYou{border-color:#75bffd88;background:linear-gradient(125deg,#27598455,#13364e77)}
-.qdCoachImpactPersonHead{display:flex;align-items:center;gap:9px;min-width:0;margin-bottom:8px}
-.qdCoachImpactAvatar{display:grid;place-items:center;flex:0 0 29px;height:29px;overflow:hidden;border:1px solid #93c1e32e;border-radius:10px;color:#c1e7ff;background:linear-gradient(145deg,#315778,#20364f);font-size:12px;font-weight:750}
-.qdCoachImpactAvatar img{display:block;width:100%;height:100%;object-fit:cover}
-.qdCoachImpactPersonHead>strong{min-width:0;overflow-wrap:anywhere;font-size:13px;line-height:1.2;letter-spacing:-.015em;color:var(--coach-ink)}
-.qdCoachImpactPersonHead>small{margin-left:auto;padding:3px 6px;border-radius:6px;background:#6fbbe51c;color:#a0d9ff;font-size:8px;font-weight:750;letter-spacing:.06em}
-.qdCoachImpactChoice+.qdCoachImpactChoice{margin-top:10px;padding-top:9px;border-top:1px solid var(--coach-line)}
-.qdCoachImpactChoice>p{margin:0 0 7px;color:var(--coach-muted);font-size:10px;line-height:1.4}
-.qdCoachImpactChange{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);align-items:center;gap:5px}
-.qdCoachImpactChange small{display:block;margin-bottom:3px;font-size:7px;font-weight:700;letter-spacing:.12em;line-height:1.2}
-.qdCoachImpactChange b{display:block;font-size:12px;font-weight:650;line-height:1.3;overflow-wrap:break-word;letter-spacing:-.015em}
-.qdCoachImpactBefore{color:var(--coach-muted);animation:qdCoachBefore .55s calc(.25s + var(--impact-index,0)*.07s) both}
-.qdCoachImpactBefore b{font-weight:500}
-.qdCoachImpactArrow{display:grid;place-items:center;color:#8cc9f5;animation:qdCoachImpactArrow .5s calc(.38s + var(--impact-index,0)*.07s) both}
-.qdCoachImpactAfter{color:#a0d9ff;animation:qdCoachAfter .55s calc(.42s + var(--impact-index,0)*.07s) cubic-bezier(.16,1,.3,1) both}
-.qdCoachImpactAfter small{color:#83bde4}
-.qdCoachImpactNote{display:flex;align-items:center;justify-content:center;gap:7px;flex:0 0 auto;margin:14px 0 0;color:var(--coach-muted);font-size:10px;line-height:1.5;text-wrap:balance;animation:qdCoachRise .4s .4s both}
-.qdCoachImpactNote svg{flex:0 0 auto;color:#78d9b5}
-.qdCoachImpactEmpty{margin:20px 0;padding:25px 15px;border:1px solid var(--coach-line);border-radius:15px;text-align:center;color:var(--coach-muted);font-size:12px}
-.qdCoachImpactLoading{padding:20px 0 8px;min-height:230px}.qdCoachImpactLoading>p{text-align:center;color:var(--coach-muted);font-size:11px}
-.qdCoachImpactSkeleton{display:grid;grid-template-columns:29px 1fr;gap:8px;margin-bottom:10px;padding:13px;border:1px solid var(--coach-line);border-radius:15px;animation:qdCoachSkeleton 1.4s ease-in-out infinite}
-.qdCoachImpactSkeleton i{grid-row:1/3;height:29px;border-radius:9px;background:#80b6d722}.qdCoachImpactSkeleton span,.qdCoachImpactSkeleton b{height:9px;border-radius:4px;background:#80b6d722}.qdCoachImpactSkeleton span{width:42%}.qdCoachImpactSkeleton b{width:78%}
-.qdCoachImpactLoadError{margin:20px 0;padding:18px;border:1px solid var(--coach-line);border-radius:15px;text-align:center;color:var(--coach-muted);font-size:12px;line-height:1.6}
-.qdCoachImpactLoadError button{min-height:44px;margin-top:8px;padding:0 18px;border:1px solid #72b4e555;border-radius:10px;background:#24659b44;color:var(--coach-ink);font-size:12px;font-weight:700}
-@media(min-width:560px) and (min-height:780px){.qdCoachImpactList{max-height:560px}.qdCoachImpactPerson{padding:8px 12px}.qdCoachImpactPersonHead{margin-bottom:6px}.qdCoachImpactAvatar{flex-basis:24px;height:24px;border-radius:8px}.qdCoachImpactChoice>p{margin-bottom:5px}}
-@keyframes qdCoachPageIn{from{opacity:0;transform:translateX(13px)}to{opacity:1;transform:none}}
-@keyframes qdCoachPageOut{to{opacity:0;transform:translateX(-13px)}}
-@keyframes qdCoachImpactIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes qdCoachBefore{from{opacity:.4}to{opacity:1}}
-@keyframes qdCoachAfter{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
-@keyframes qdCoachImpactArrow{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
-@keyframes qdCoachSkeleton{0%,100%{opacity:.45}50%{opacity:.9}}
-[data-theme="light"] .qdCoachStepProgress i.isActive{background:#3276ab;box-shadow:none}
-[data-theme="light"] .qdCoachImpactStats b,[data-theme="light"] .qdCoachImpactAfter{color:#235f8d}
-[data-theme="light"] .qdCoachImpactAfter small{color:#416d8e}
-[data-theme="light"] .qdCoachImpactPerson{background:linear-gradient(120deg,#f3f8fc,#edf5fa);border-color:#cbdfea}
-[data-theme="light"] .qdCoachImpactPerson.isYou{background:#e6f2fd;border-color:#5d9bcb}
-[data-theme="light"] .qdCoachImpactAvatar{background:linear-gradient(145deg,#e0edf7,#cbdfed);color:#24587b;border-color:#b9d1e4}
-[data-theme="light"] .qdCoachImpactPersonHead>small{background:#d3e8f8;color:#245f8d}
-[data-theme="light"] .qdCoachImpactArrow{color:#377eae}
-[data-theme="light"] .qdCoachImpactNote svg{color:#247557}
-[data-theme="light"] .qdCoachImpactLoadError button{background:#e0edf8;border-color:#a3c8e2}
-@media(max-width:380px){.qdCoachImpactPerson{padding:10px 11px}.qdCoachImpactPersonHead{margin-bottom:7px}.qdCoachImpactChange b{font-size:11px}.qdCoachImpactList{gap:7px}.qdCoachImpactStats{margin:14px 0 12px;gap:14px}.qdCoachImpactNote{font-size:9px}}
-@media(max-height:700px){.qdCoachStepProgress{margin-bottom:10px}.qdCoachImpactPerson{padding:10px 12px}.qdCoachImpactStats{margin:13px 0 10px}.qdCoachImpactNote{margin-top:10px}}
-@media(max-height:580px){.qdCoachStepProgress{font-size:8px;margin-bottom:7px}.qdCoachModal:not(.isDetails) .qdCoachPhoto{height:112px}.qdCoachImpactPerson{padding:9px 10px}.qdCoachDetails .qdCoachHeading h2{font-size:22px}.qdCoachImpactStats b{font-size:17px}.qdCoachImpactNote{font-size:9px}.qdCoachImpactLoading{min-height:150px}.qdCoachImpactList{min-height:75px}}
+.qdCoachImpactAvatar{display:grid;place-items:center;flex:0 0 30px;height:30px;overflow:hidden;border:1px solid #93c1e32e;border-radius:10px;color:#c1e7ff;background:linear-gradient(145deg,#315778,#20364f);font-size:12px;font-weight:750}.qdCoachImpactAvatar img{display:block;width:100%;height:100%;object-fit:cover}
+.qdCoachImpactPersonCopy{flex:1;min-width:0}.qdCoachImpactPersonCopy>strong{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;line-height:1.2;overflow-wrap:anywhere;color:var(--coach-ink)}
+.qdCoachImpactPersonCopy>strong small{padding:2px 4px;border-radius:5px;background:#6fbbe51c;color:#a0d9ff;font-size:7px;letter-spacing:.05em}
+.qdCoachImpactPersonCopy>span{display:flex;flex-wrap:wrap;gap:2px 9px;margin-top:3px;color:var(--coach-muted);font-size:10px;line-height:1.3;font-weight:550}
+.qdCoachPredictionCards{display:flex;gap:4px;margin-left:auto}.qdCoachPredictionCard{display:grid;place-items:center;flex:0 0 auto;filter:drop-shadow(0 3px 5px #0003);animation:qdCoachCardIn .45s calc(.16s + var(--impact-index,0)*.055s) cubic-bezier(.16,1,.3,1) both}.qdCoachPredictionCard.is-red{color:#fa4662}.qdCoachPredictionCard.is-yellow{color:#ffd243}
+.qdCoachImpactNote{display:flex;align-items:center;justify-content:center;gap:6px;flex:0 0 auto;margin:13px 0 0;color:var(--coach-muted);font-size:10px;line-height:1.4;animation:qdCoachRise .35s .4s both}.qdCoachImpactNote strong{font-weight:650}.qdCoachImpactNote svg{flex:0 0 auto;color:#78d9b5}
+.qdCoachImpactEmpty{margin:15px 0;padding:20px;border:1px solid var(--coach-line);border-radius:14px;text-align:center;color:var(--coach-muted);font-size:12px}
+.qdCoachImpactLoading{padding:12px 0;min-height:160px}.qdCoachImpactLoading>p{text-align:center;color:var(--coach-muted);font-size:11px}.qdCoachImpactSkeleton{display:grid;grid-template-columns:29px 1fr;gap:8px;margin-bottom:9px;padding:12px;border:1px solid var(--coach-line);border-radius:14px;animation:qdCoachSkeleton 1.4s ease-in-out infinite}.qdCoachImpactSkeleton i{grid-row:1/3;height:29px;border-radius:9px;background:#80b6d722}.qdCoachImpactSkeleton span,.qdCoachImpactSkeleton b{height:9px;border-radius:4px;background:#80b6d722}.qdCoachImpactSkeleton span{width:42%}.qdCoachImpactSkeleton b{width:78%}
+.qdCoachImpactLoadError{margin:15px 0;padding:16px;border:1px solid var(--coach-line);border-radius:14px;text-align:center;color:var(--coach-muted);font-size:12px;line-height:1.5}.qdCoachImpactLoadError button{min-height:44px;margin-top:8px;padding:0 18px;border:1px solid #72b4e555;border-radius:10px;background:#24659b44;color:var(--coach-ink);font-size:12px;font-weight:700}
+@keyframes qdCoachImpactIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes qdCoachCardIn{from{opacity:0;transform:translateY(6px) rotate(-9deg) scale(.88)}to{opacity:1;transform:none}}@keyframes qdCoachSwapArrow{from{opacity:0;transform:translateX(-5px)}to{opacity:1;transform:none}}@keyframes qdCoachSkeleton{0%,100%{opacity:.45}50%{opacity:.9}}
+[data-theme="light"] .qdCoachStepProgress i.isActive{background:#3276ab;box-shadow:none}[data-theme="light"] .qdCoachCoachSwap{background:#edf5fb}[data-theme="light"] .qdCoachCoachSwap>strong{color:#235f8d}[data-theme="light"] .qdCoachCoachSwap>svg{color:#377eae}[data-theme="light"] .qdCoachImpactPerson{background:linear-gradient(120deg,#f3f8fc,#edf5fa);border-color:#cbdfea}[data-theme="light"] .qdCoachImpactPerson.isYou{background:#e6f2fd;border-color:#5d9bcb}[data-theme="light"] .qdCoachImpactAvatar{background:linear-gradient(145deg,#e0edf7,#cbdfed);color:#24587b;border-color:#b9d1e4}[data-theme="light"] .qdCoachImpactPersonCopy>strong small{background:#d3e8f8;color:#245f8d}[data-theme="light"] .qdCoachImpactNote svg{color:#247557}[data-theme="light"] .qdCoachImpactLoadError button{background:#e0edf8;border-color:#a3c8e2}
+@media(max-width:380px){.qdCoachImpactPerson{gap:9px;padding:8px 10px;min-height:50px}.qdCoachImpactPersonCopy>strong{font-size:13px}.qdCoachCoachSwap{gap:10px;font-size:12px}.qdCoachImpactList{gap:7px}}
+@media(max-height:700px){.qdCoachStepProgress{margin-bottom:10px}.qdCoachCoachSwap{margin:12px 0 15px;padding:10px 8px}.qdCoachImpactNote{margin-top:10px}}
+@media(max-height:580px){.qdCoachStepProgress{font-size:8px;margin-bottom:7px}.qdCoachWizard .qdCoachPhoto{height:100px}.qdCoachDetails .qdCoachHeading h2{font-size:22px;margin-top:7px}.qdCoachCoachSwap{margin:9px 0 11px;padding:9px 7px}.qdCoachImpactPerson{min-height:45px;padding:6px 9px;gap:8px}.qdCoachImpactAvatar{flex-basis:26px;height:26px;border-radius:8px}.qdCoachPredictionCard svg{width:19px;height:26px}.qdCoachImpactList{gap:5px}.qdCoachImpactNote{margin-top:9px;font-size:9px}.qdCoachFooter .qdCoachAction{margin-top:12px}.qdCoachImpactLoading{min-height:130px}}
+@media(prefers-reduced-motion:reduce){.qdCoachScreen{transition:none!important;transform:none!important;will-change:auto}}
