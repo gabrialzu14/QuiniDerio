@@ -132,7 +132,7 @@ export default function CoachChangePopup() {
   return createPortal(<div className={"qdCoachOverlay" + (leaving ? " isLeaving" : "")}>
     <section className="qdCoachModal" role="dialog" aria-modal="true" aria-labelledby="qdCoachTitle" aria-describedby="qdCoachDescription">
       <div className="qdCoachHeading">
-        <span className="qdCoachEyebrow"><i aria-hidden="true"/> DERIO A · NUEVA ETAPA</span>
+        <span className="qdCoachEyebrow"><i aria-hidden="true"/> DERIO A</span>
         <h2 id="qdCoachTitle">Cambio de entrenador</h2>
         <p>Aner Blanco toma el relevo de Nando Alonso.</p>
       </div>
