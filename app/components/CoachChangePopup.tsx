@@ -5,6 +5,7 @@ import {createPortal} from "react-dom";
 import {supabase} from "../lib/supabase";
 import {DERIO_COACH_CHANGE as change} from "../lib/coach-change";
 import usePageScrollLock from "./usePageScrollLock";
+import CoachChangeDetails from "./CoachChangeDetails";
 import "./coach-change-popup.css";
 
 const OTHER_DIALOG = '[aria-modal="true"],.roundPendingOverlay,.pushPromptBackdrop,.assistantPredictionOverlay';
@@ -15,6 +16,14 @@ export default function CoachChangePopup() {
   const [leaving, setLeaving] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [page, setPage] = useState<1 | 2>(1);
+  const [switching, setSwitching] = useState(false);
+  const [detailsReady, setDetailsReady] = useState(false);
+  const pageRef = useRef<1 | 2>(1);
+  const switchingRef = useRef(false);
+  const detailsReadyRef = useRef(false);
+  const modal = useRef<HTMLElement>(null);
+  const pageTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const identity = useRef("");
   const opened = useRef(false);
   const busy = useRef("");
@@ -31,6 +40,9 @@ export default function CoachChangePopup() {
       opened.current = false;
       busy.current = "";
       if (closeTimer.current) clearTimeout(closeTimer.current);
+      if (pageTimer.current) clearTimeout(pageTimer.current);
+      pageRef.current = 1; switchingRef.current = false; detailsReadyRef.current = false;
+      setPage(1); setSwitching(false); setDetailsReady(false);
       setOpen(false); setLeaving(false); setSaving(false); setError(""); setUserId(id);
     };
     const {data: {subscription}} = supabase.auth.onAuthStateChange((_event, session) => {
@@ -70,7 +82,8 @@ export default function CoachChangePopup() {
         // Recheck after the request: older notices may have opened in the meantime.
         if (document.hidden || blocked()) {schedule(650); return}
         opened.current = true;
-        setLeaving(false); setError(""); setOpen(true);
+        pageRef.current = 1; detailsReadyRef.current = false;
+        setPage(1); setDetailsReady(false); setLeaving(false); setError(""); setOpen(true);
       } catch {if (active) schedule(5000)} finally {checking = false}
     };
     const resume = () => schedule(350);
@@ -85,8 +98,24 @@ export default function CoachChangePopup() {
     };
   }, [userId]);
 
+  const markDetailsReady = useCallback((ready: boolean) => {
+    detailsReadyRef.current = ready; setDetailsReady(ready);
+  }, []);
+
+  const advance = useCallback(() => {
+    if (!userId || identity.current !== userId || pageRef.current !== 1 || switchingRef.current) return;
+    switchingRef.current = true; setSwitching(true);
+    pageTimer.current = setTimeout(() => {
+      if (identity.current !== userId) return;
+      pageRef.current = 2; setPage(2);
+      switchingRef.current = false; setSwitching(false);
+      modal.current?.scrollTo({top: 0});
+    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 180);
+  }, [userId]);
+
   const confirm = useCallback(async () => {
-    if (!userId || identity.current !== userId || busy.current || acknowledged.current.has(userId)) return;
+    if (!userId || identity.current !== userId || busy.current || acknowledged.current.has(userId) ||
+      pageRef.current !== 2 || !detailsReadyRef.current || switchingRef.current) return;
     busy.current = userId; setSaving(true); setError("");
     try {
       const {data: {user}, error: authError} = await supabase.auth.getUser();
@@ -115,22 +144,40 @@ export default function CoachChangePopup() {
   useEffect(() => {
     if (!open) return;
     const previous = document.activeElement as HTMLElement | null;
-    action.current?.focus({preventScroll: true});
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Tab") {event.preventDefault(); action.current?.focus({preventScroll: true})}
-      if (event.key === "Escape") {event.preventDefault(); void confirm()}
+      if (event.key === "Tab") {
+        const controls = Array.from(modal.current?.querySelectorAll<HTMLElement>('button:not(:disabled),[tabindex="0"]') || []);
+        const first = controls[0], last = controls[controls.length - 1];
+        const current = document.activeElement;
+        if (!first) {event.preventDefault(); modal.current?.querySelector<HTMLElement>("h2")?.focus({preventScroll: true})}
+        else if (event.shiftKey && (current === first || !controls.includes(current as HTMLElement))) {event.preventDefault(); last.focus({preventScroll: true})}
+        else if (!event.shiftKey && (current === last || !controls.includes(current as HTMLElement))) {event.preventDefault(); first.focus({preventScroll: true})}
+      }
+      // Both parts must be explicitly read and confirmed; Escape cannot skip a part.
+      if (event.key === "Escape") event.preventDefault();
     };
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
       if (previous?.isConnected) previous.focus({preventScroll: true});
     };
-  }, [open, confirm]);
-  useEffect(() => () => {if (closeTimer.current) clearTimeout(closeTimer.current)}, []);
+  }, [open]);
+  useEffect(() => {
+    if (!open) return;
+    if (page === 1) action.current?.focus({preventScroll: true});
+    else modal.current?.querySelector<HTMLElement>("h2")?.focus({preventScroll: true});
+  }, [open, page]);
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (pageTimer.current) clearTimeout(pageTimer.current);
+  }, []);
 
   if (!open || typeof document === "undefined") return null;
   return createPortal(<div className={"qdCoachOverlay" + (leaving ? " isLeaving" : "")}>
-    <section className="qdCoachModal" role="dialog" aria-modal="true" aria-labelledby="qdCoachTitle" aria-describedby="qdCoachDescription">
+    <section ref={modal} className={"qdCoachModal" + (page === 2 ? " isDetails" : "")} role="dialog" aria-modal="true" aria-labelledby="qdCoachTitle" aria-describedby="qdCoachDescription">
+      <div className="qdCoachStepProgress" aria-label={`Paso ${page} de 2`}><span>{page} / 2</span><div aria-hidden="true"><i className="isActive"/><i className={page === 2 ? "isActive" : ""}/></div></div>
+      <div key={page} className={"qdCoachPage" + (switching ? " isSwitching" : "")}>
+      {page === 1 ? <>
       <div className="qdCoachHeading">
         <span className="qdCoachEyebrow"><i aria-hidden="true"/> DERIO A</span>
         <h2 id="qdCoachTitle">Cambio de entrenador</h2>
@@ -152,9 +199,11 @@ export default function CoachChangePopup() {
         <span className="qdCoachTransferIcon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M5 8h14m-4-4 4 4-4 4M19 16H5m4 4-4-4 4-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
         <div><strong>Tus predicciones siguen en juego</strong><p id="qdCoachDescription">Las predicciones de Nando pasan a ser las de Aner. Se conservan tus elecciones y puntos.</p></div>
       </div>
+      </> : <CoachChangeDetails userId={userId} onReadyChange={markDetailsReady}/>}
       {error ? <p className="qdCoachError" role="alert">{error}</p> : null}
-      <button ref={action} className="qdCoachAction" type="button" disabled={saving || leaving} onClick={() => void confirm()}>{saving ? "Guardando…" : "Entendido"}</button>
-      <p className="qdCoachFootnote">No tienes que hacer ningún cambio.</p>
+      <button ref={action} className="qdCoachAction" type="button" disabled={saving || leaving || switching || (page === 2 && !detailsReady)} onClick={() => page === 1 ? advance() : void confirm()}>{saving ? "Guardando…" : "Entendido"}</button>
+      <p className="qdCoachFootnote">{page === 1 ? "A continuación, los participantes afectados." : "No tienes que hacer ningún cambio."}</p>
+      </div>
     </section>
   </div>, document.body);
 }
