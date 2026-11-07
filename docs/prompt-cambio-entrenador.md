@@ -22,7 +22,7 @@ Diseña un modal acorde al estilo de QuiniDerio: tipografía Inter, fondo azul p
 
 Contenido exacto:
 
-- Antetítulo: «DERIO A · NUEVA ETAPA».
+- Antetítulo: «DERIO A».
 - Título: «Cambio de entrenador».
 - Introducción: «Aner Blanco toma el relevo de Nando Alonso.».
 - Foto de Nando con nombre y etiqueta «HASTA AHORA».
