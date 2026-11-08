@@ -172,10 +172,11 @@ html body .dashboard:has(> .liquidNav.qdMotionNav) {
     min-height: 62px !important;
   }
   html body .dashboard .liquidNav.qdMotionNav small {
-    font-size: 8px !important;
-    line-height: 1.05 !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
+    font-size: 8.5px !important;
+    line-height: 1.1 !important;
+    letter-spacing: -.35px !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
   }
 }
 @media (orientation: landscape) and (max-height: 500px) {

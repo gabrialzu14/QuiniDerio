@@ -187,3 +187,5 @@ html[data-theme="light"] body.qdModern :is(button,a,input,select,textarea):focus
  outline:3px solid #1764ce!important;
  outline-offset:3px!important;
 }
+/* Stadium match cards keep their dark navy surface in light mode. */
+html[data-theme="light"] body.qdModern .qdStadiumMatch .liveMatchStrip>b{color:#f4f9ff!important}

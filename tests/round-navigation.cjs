@@ -24,7 +24,7 @@ function pageFixture(name,destination=null){
  const useRoundScope=h.load(read('app/components/useRoundScope.ts')).default;
  const coachContext={exports:{}};vm.runInNewContext(compile(read('app/lib/coach-change.ts')),coachContext);
  const {currentCoachName}=coachContext.exports;
- Object.assign(h.context,{currentCoachName,useRoundScope,useFixtures:()=>({}),useActiveRound:()=>active,useScrollReveal:()=>{},usePageScrollLock:()=>{},teams:[],teamData:[],RoundRail,asset:p=>p,UsersIcon:()=>null,DinioImage:()=>null,quiniRoundOpeningKey:()=>null});
+ Object.assign(h.context,{currentCoachName,useRoundScope,useFixtures:()=>({}),useActiveRound:()=>active,useScrollReveal:()=>{},usePageScrollLock:()=>{},useBackDismiss:()=>{},AvatarImage:()=>null,teams:[],teamData:[],RoundRail,asset:p=>p,UsersIcon:()=>null,DinioImage:()=>null,quiniRoundOpeningKey:()=>null});
  const Component=h.load(declaration(name)+'\nexports.Component='+name+';').Component;
  const props=name==='Ranking'?{destination}:{picks:{},round:1,dinio:'NO',season:{positions:{}},onEdit:()=>{},onRequireLogin:()=>{}};
  const render=()=>h.render(()=>Component(props));
@@ -45,11 +45,21 @@ for(const name of ['MyPredictions','Ranking']){
 for(const destination of ['hits','pot','self'])assert.equal(pageFixture('Ranking',destination).rail().value,'all','An explicit cumulative summary link keeps its intended destination');
 {
  const h=harness(),scrolls=[];h.context.window.scrollTo=x=>scrolls.push(x);
+ // Minimal session history: the Android back button must return to Inicio, not close the app.
+ const listeners=[],stack=[{}];let at=0;
+ const history={get state(){return stack[at]},get length(){return stack.length},pushState:st=>{stack.splice(at+1);stack.push(st);at++},replaceState:st=>{stack[at]=st},back:()=>{if(at>0){at--;for(const l of [...listeners])l({state:stack[at]})}}};
+ Object.assign(h.context.window,{addEventListener:(t,l)=>{if(t==='popstate')listeners.push(l)},removeEventListener:(t,l)=>{const i=listeners.indexOf(l);if(i>=0)listeners.splice(i,1)}});
+ h.context.history=history;
  const useNavigation=h.load(read('app/components/useTabNavigation.ts')).default;
  const render=()=>h.render(()=>useNavigation());
  let nav=render();h.flush();assert.equal(nav.tab,'inicio');assert.equal(nav.entryKey,0);
  for(const next of ['pronosticos','clasificacion','pronosticos','pronosticos']){const before=nav.entryKey;nav.navigateTab(next);nav=render();h.flush();assert.equal(nav.tab,next);assert.equal(nav.entryKey,before+1,'Every tab entry, including tapping the current tab again, resets its round view')}
  assert.ok(scrolls.some(s=>s.behavior==='smooth'),'Tapping the active tab still scrolls to the top');
+ assert.equal(history.length,2,'Switching between tabs keeps a single entry above Inicio');
+ history.back();nav=render();h.flush();
+ assert.equal(nav.tab,'inicio','Back from any tab returns to Inicio');
+ nav.navigateTab('quiniela');nav=render();h.flush();nav.navigateTab('inicio');nav=render();h.flush();
+ assert.equal(nav.tab,'inicio');assert.equal(history.state.qdTab??'inicio','inicio','Tapping Inicio reuses the Inicio entry');assert.equal(at,0);
 }
 function railFixture({value=2,currentRound=4,reduced=false,enabledRounds=new Set([1,2,3,4,5])}={}){
  const h=harness();let frameId=0,frames=new Map(),changes=[],focus=[],animations=0;

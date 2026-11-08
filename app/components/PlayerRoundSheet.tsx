@@ -1,4 +1,5 @@
 "use client";
+import AvatarImage from "./AvatarImage";
 import {useCallback,useEffect,useMemo,useRef,useState} from "react";
 import {createPortal} from "react-dom";
 import {useScrollReveal} from "./DynamicMotion";
@@ -155,7 +156,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
   <section ref={motionRoot} role="dialog" aria-modal="true" aria-label={"Jornada "+round+" de "+player.username} className="playerStatsModal qdPlayerRoundModal" onClick={event=>event.stopPropagation()}>
    <header className="qdPlayerRoundHeader">
     <div className="playerStatsIdentity">
-     <span className="playerStatsAvatar">{player.profile_pic?<img src={player.profile_pic} alt=""/>:player.username.slice(0,1).toUpperCase()}</span>
+     <span className="playerStatsAvatar"><AvatarImage src={player.profile_pic} name={player.username}/></span>
      <div className="qdPlayerIdentityCopy">
       <h2 title={player.username}>{player.username}</h2>
       <p>Jornada {round}</p>

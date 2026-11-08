@@ -291,7 +291,7 @@ html body.qdModern .predictionsPage .matchRivalsFixture .matchRivalsCenter .matc
   text-align:center!important;
   line-height:1!important;
  }
- html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsPlayers li.matchRivalsEmpty{grid-column:1/-1!important}
+ html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsPlayers li.matchRivalsEmpty{grid-column:1/-1!important;display:block!important;min-height:0!important;text-align:center!important}
  html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsPlayers li .pickResult{
   display:grid!important;place-items:center!important;
   justify-self:center!important;align-self:center!important;
