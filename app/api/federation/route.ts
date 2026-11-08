@@ -6,11 +6,8 @@ const SUPABASE_URL="https://bwonxnayayopbohxuphs.supabase.co";
 const SUPABASE_KEY="sb_publishable_k0vRQvM6VQtxUcqnyuUGLA_qE6APi09";
 export async function GET(){
  try{
-  const edge=await fetch(SUPABASE_URL+"/functions/v1/federation-fixtures",{headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY},cache:"no-store",signal:AbortSignal.timeout(50000)});
-  if(edge.ok){
-   const data=await edge.json();
-   if(data?.teams?.some((x:any)=>x.opponent)) return NextResponse.json(data,{headers:CACHE_HEADERS});
-  }
+  // The old federation-fixtures function crawled up to 240 federation pages on every app load
+  // and never returned data; fixtures now come from quini_live_matches (federation-sync keeps them current).
   const now=new Date().toISOString();
   const r=await fetch(SUPABASE_URL+"/rest/v1/matches?select=id,team_id,federation_round,opponent,is_home,kickoff,status,derio_position,opponent_position&status=in.(scheduled,postponed,rest)&or=(kickoff.is.null,kickoff.gte."+encodeURIComponent(now)+")&order=kickoff.asc.nullslast",{headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY},cache:"no-store"});
   const matches=r.ok?await r.json():[];
