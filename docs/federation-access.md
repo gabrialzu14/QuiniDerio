@@ -15,9 +15,13 @@ introducen en administración.
 pausas entre peticiones, como máximo una ejecución cada 10 minutos y solo para los partidos aún no jugados
 (unas 12 páginas por ejecución).
 
-**Estado (9/11/2026):** desde los servidores de Supabase ambas federaciones devuelven páginas vacías o cierran
-la conexión, aunque la sesión se crea bien: bloquean el tráfico de centros de datos. Para activar la
-sincronización automática hace falta que la federación permita el acceso del servidor de QuiniDerio (por
-ejemplo, admitiendo el agente anterior) o que facilite otra vía (exportación o API). No se debe sortear ese
-bloqueo. La función está desplegada pero **no programada**; se puede probar sin escribir datos con
-`?dry=1&round=N`.
+**Servidores (9/11/2026):** desde Supabase y desde Vercel ambas federaciones abren la sesión pero devuelven las
+páginas vacías (0 bytes) o cierran la conexión: no sirven datos a servidores. No se debe sortear ese bloqueo.
+La función `federation-sync` queda desplegada pero **sin programar** (prueba sin escribir: `?dry=1&round=N`).
+
+**Cómo se cargan los datos: botón "Cargar jornada"** (`app/lib/federation-import.ts`). Es un favorito del
+navegador del administrador. Pulsado en euskadifutbol.eus o fvf-bff.eus, consulta en QuiniDerio la jornada
+federativa pendiente de cada equipo de esa web, lee en ese mismo navegador su calendario y su clasificación
+(dos páginas por equipo), guarda solo el partido del Derio y las filas del Derio y su rival, y abre
+`/admin#fed=…`. Allí se revisan los cambios y se guardan con "Guardar todo". Lo pulsa el administrador
+cuando quiere (por ejemplo, cada domingo); no hay ejecuciones automáticas.

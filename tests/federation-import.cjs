@@ -41,8 +41,25 @@ assert.equal(F.planImport({k:'cal',g:'24109682',j:8,m:[{h:'DERIO "B"',a:'X',d:''
 const payload=F.decodeFederationHash('#fed='+encodeURIComponent(JSON.stringify({k:'cla',g:'24109682',j:'8',r:[{p:'1',n:'A',pt:'3',fo:'G'}]})));
 assert.equal(payload.j,8);assert.equal(payload.r[0].p,1);
 assert.equal(F.decodeFederationHash('#fed=%7Bbad'),null);
-const code=F.bookmarkletCode('https://quiniderio.vercel.app');
+const code=F.bookmarkletCode('https://quiniderio.vercel.app','https://example.supabase.co','sb_publishable_test');
 assert.ok(code.startsWith('javascript:'));
-assert.match(decodeURIComponent(code),/https:\/\/quiniderio\.vercel\.app\/admin#fed=/);
-assert.doesNotMatch(decodeURIComponent(code),/ntype|resultado/i,'The bookmarklet never reads scores');
+const src=decodeURIComponent(code);
+assert.match(src,/"app":"https:\/\/quiniderio\.vercel\.app"/);assert.match(src,/\/admin#fed=/);
+assert.match(src,/status=eq\.scheduled/,'Asks QuiniDerio which jornadas are pending');
+assert.match(src,/"t":"Cadete B","o":"https:\/\/www\.fvf-bff\.eus","c":"24058487","g":"24190893"/,'Cadete B is included');
+assert.doesNotMatch(src,/ntype|resultado/i,'The bookmarklet never reads scores');
+new Function('return '+src.slice('javascript:'.length).replace(/\(\)$/,''));// parses, never runs
+
+// "Cargar jornada": several teams at once, calendar then standings merged per match.
+const fem=row(7,'Derio Fem B',{federationRound:9,opponent:'Bizkerre C'});
+const multi=F.planImportAll({k:'multi',missing:['Juvenil A'],items:[
+ {k:'cla',g:'24109682',j:8,r:[{p:1,n:'SONDIKA "B"',pt:21,fo:'GGGGG'},{p:12,n:'DERIO "B"',pt:9,fo:'EGGEP'}]},
+ {k:'cal',g:'24109682',j:9,m:[{h:'DERIO "B"',a:'SONDIKA "B"',d:'15-11-2026',t:'12:00',f:'IBAIONDO'}]},
+ {k:'cal',g:'24265685',j:9,m:[]}]},[...rows,fem]);
+const derioB=multi.find(p=>p.team==='Derio B'&&!p.error);
+assert.equal(derioB.round,7);
+assert.deepEqual(derioB.changes.map(c=>c.field).sort(),['date','derioForm','derioPoints','derioPosition','federationOpponent','opponentForm','opponentPoints','opponentPosition','time','venue'],'One merged plan per match');
+assert.equal(derioB.details.opponentPosition,1,'The rival found by the calendar is used for the standings');
+assert.ok(multi.some(p=>p.error&&/Juvenil A/.test(p.error)),'Teams without a pending jornada are reported');
+assert.ok(multi.some(p=>p.error&&/Derio Fem B/.test(p.error)),'A jornada without a Derio fixture is reported');
 console.log('Passed federation import: team matching, calendar and standings plans, finished jornadas untouched, hash decoding and bookmarklet.');

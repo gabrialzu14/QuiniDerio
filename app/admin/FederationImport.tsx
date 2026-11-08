@@ -1,18 +1,20 @@
 "use client";
 import {useEffect,useRef,useState} from "react";
 import {supabase} from "../lib/supabase";
-import {bookmarkletCode,decodeFederationHash,planImport,type ImportPlan} from "../lib/federation-import";
+import {bookmarkletCode,decodeFederationHash,planImport,planImportAll,type ImportPlan} from "../lib/federation-import";
 
-/** Review and save data sent from a federation page with the "Enviar a QuiniDerio" bookmark. */
+type Ready=Extract<ImportPlan,{round:number}>;
+const isReady=(p:ImportPlan):p is Ready=>!("error" in p);
+
+/** Review and save the data loaded with the "Cargar jornada" bookmark on a federation website. */
 export default function FederationImport({onSaved}:{onSaved:()=>void}){
- const [plan,setPlan]=useState<ImportPlan|null>(null);
- const [kind,setKind]=useState<"cal"|"cla"|null>(null);
+ const [plans,setPlans]=useState<ImportPlan[]|null>(null);
  const [status,setStatus]=useState<{kind:"ok"|"error",text:string}|null>(null);
  const [saving,setSaving]=useState(false);
  const [showHelp,setShowHelp]=useState(false);
  const [copied,setCopied]=useState(false);
  const link=useRef<HTMLAnchorElement>(null);
- const code=typeof window==="undefined"?"":bookmarkletCode(window.location.origin);
+ const code=typeof window==="undefined"?"":bookmarkletCode(window.location.origin,process.env.NEXT_PUBLIC_SUPABASE_URL||"",process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY||"");
 
  useEffect(()=>{
   // React refuses javascript: URLs in JSX; set it directly so the link can be dragged to the bookmarks bar.
@@ -21,24 +23,29 @@ export default function FederationImport({onSaved}:{onSaved:()=>void}){
  useEffect(()=>{
   const payload=decodeFederationHash(window.location.hash);
   if(!payload)return;
-  setKind(payload.k);
   void (async()=>{
    const {data,error}=await supabase.from("quini_live_matches").select("round,team,opponent,is_home,scheduled_at,fixture_details,status").eq("status","scheduled");
-   if(error){setPlan({team:null,error:"No se han podido cargar las jornadas pendientes."});return}
-   setPlan(planImport(payload,(data||[]) as any));
+   if(error){setPlans([{team:null,error:"No se han podido cargar las jornadas pendientes."}]);return}
+   const rows=(data||[]) as any[];
+   setPlans(payload.k==="multi"?planImportAll(payload,rows):[planImport(payload,rows)]);
   })();
  },[]);
- const close=()=>{setPlan(null);setKind(null);history.replaceState(history.state,"",window.location.pathname)};
- const save=async()=>{
-  if(!plan||"error" in plan)return;
+ const close=()=>{setPlans(null);history.replaceState(history.state,"",window.location.pathname)};
+ const toSave=(plans||[]).filter(isReady).filter(p=>p.changes.some(c=>c.field!=="note"));
+ const saveAll=async()=>{
+  if(!toSave.length)return;
   setSaving(true);setStatus(null);
+  const done:string[]=[],failed:string[]=[];
   try{
    const {data:{session}}=await supabase.auth.getSession();
    if(!session)throw new Error("Vuelve a iniciar sesión.");
-   const res=await fetch("/api/admin/live",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({round:plan.round,team:plan.team,action:"details",details:plan.details})});
-   if(!res.ok){const json=await res.json().catch(()=>null);throw new Error(json?.message||"No se ha podido guardar.")}
-   setStatus({kind:"ok",text:`${plan.team} · Jornada ${plan.round} actualizado con los datos de la federación.`});
-   close();onSaved();
+   for(const plan of toSave){
+    const res=await fetch("/api/admin/live",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({round:plan.round,team:plan.team,action:"details",details:plan.details})});
+    if(res.ok)done.push(plan.team);else{const json=await res.json().catch(()=>null);failed.push(`${plan.team} (${json?.message||"error"})`)}
+   }
+   setStatus(failed.length?{kind:"error",text:`Guardado: ${done.join(", ")||"nada"}. No guardado: ${failed.join(", ")}.`}:{kind:"ok",text:`Actualizado con la federación: ${done.join(", ")}.`});
+   if(!failed.length)close();
+   onSaved();
   }catch(e){setStatus({kind:"error",text:e instanceof Error?e.message:"No se ha podido guardar."})}
   finally{setSaving(false)}
  };
@@ -46,31 +53,32 @@ export default function FederationImport({onSaved}:{onSaved:()=>void}){
 
  return <section className="fedImport" aria-label="Datos de la federación">
   {status&&<p className={"fedImportStatus "+status.kind} role="status">{status.text}</p>}
-  {plan&&<div className="fedImportCard">
-   <header><small>{kind==="cal"?"JORNADA DE LA FEDERACIÓN":"CLASIFICACIÓN DE LA FEDERACIÓN"}</small>
-    <h2>{"error" in plan?(plan.team||"Datos no reconocidos"):`${plan.team} · Jornada ${plan.round}`}</h2></header>
-   {"error" in plan?<p className="fedImportError">{plan.error}</p>:plan.changes.length?<table className="fedImportTable">
-    <thead><tr><th>Dato</th><th>Ahora</th><th>Federación</th></tr></thead>
-    <tbody>{plan.changes.map(c=><tr key={c.field}><td>{c.label}</td><td>{c.from}</td><td><b>{c.to}</b></td></tr>)}</tbody>
-   </table>:<p className="fedImportError">Todo coincide con la federación; no hay nada que cambiar.</p>}
+  {plans&&<div className="fedImportCard">
+   <header><small>DATOS DE LA FEDERACIÓN</small><h2>Cargar jornada</h2></header>
+   {plans.map((plan,i)=>isReady(plan)?<div className="fedImportTeam" key={plan.team+plan.round}>
+    <h3>{plan.team} · Jornada {plan.round}</h3>
+    {plan.changes.length?<table className="fedImportTable">
+     <thead><tr><th>Dato</th><th>Ahora</th><th>Federación</th></tr></thead>
+     <tbody>{plan.changes.map(c=><tr key={c.field}><td>{c.label}</td><td>{c.from}</td><td><b>{c.to}</b></td></tr>)}</tbody>
+    </table>:<p className="fedImportSame">Todo coincide con la federación.</p>}
+   </div>:<p className="fedImportError" key={"e"+i}>{plan.error}</p>)}
    <div className="fedImportActions">
-    {!("error" in plan)&&plan.changes.some(c=>c.field!=="note")&&<button type="button" className="primary" disabled={saving} onClick={save}>{saving?"Guardando…":"Guardar cambios"}</button>}
+    {toSave.length>0&&<button type="button" className="primary" disabled={saving} onClick={saveAll}>{saving?"Guardando…":`Guardar todo (${toSave.length})`}</button>}
     <button type="button" onClick={close} disabled={saving}>Descartar</button>
    </div>
   </div>}
-  <button type="button" className="fedImportHelpToggle" aria-expanded={showHelp} onClick={()=>setShowHelp(v=>!v)}>Botón "Enviar a QuiniDerio"</button>
+  <button type="button" className="fedImportHelpToggle" aria-expanded={showHelp} onClick={()=>setShowHelp(v=>!v)}>Botón "Cargar jornada"</button>
   {showHelp&&<div className="fedImportHelp">
    <ol>
-    <li>Pulsa <b>Copiar código</b>.</li>
-    <li>En el navegador del móvil, guarda esta página en marcadores y edita ese marcador: pon de nombre <b>Enviar a QuiniDerio</b> y pega el código en la dirección (URL).</li>
-    <li>En la federación, abre la <b>jornada</b> (para fecha, hora y campo) o la <b>clasificación</b> (para posiciones, puntos y forma) del equipo.</li>
-    <li>Toca el marcador: se abre esta página con los datos para revisarlos y guardarlos.</li>
+    <li>Una sola vez: pulsa <b>Copiar código</b>, guarda cualquier página en favoritos en el navegador del móvil y edita ese favorito: nombre <b>Cargar jornada</b> y, en la dirección (URL), pega el código.</li>
+    <li>Cada semana, con la jornada ya creada aquí: abre la <a href="https://www.fvf-bff.eus/pnfg/" target="_blank" rel="noreferrer">Federación Vizcaína</a> y toca el favorito (Derio B, Derio Fem B, Juvenil A, Juvenil B y Cadete B).</li>
+    <li>Revisa y pulsa <b>Guardar todo</b>. Después haz lo mismo desde la <a href="https://www.euskadifutbol.eus/pnfg/" target="_blank" rel="noreferrer">Federación Vasca</a> (Derio A y Derio Fem).</li>
    </ol>
    <div className="fedImportActions">
     <button type="button" className="primary" onClick={copy}>{copied?"Código copiado":"Copiar código"}</button>
-    <a ref={link} className="fedImportBookmark" onClick={e=>e.preventDefault()} title="En ordenador, arrástralo a la barra de marcadores">Enviar a QuiniDerio</a>
+    <a ref={link} className="fedImportBookmark" onClick={e=>e.preventDefault()} title="En ordenador, arrástralo a la barra de marcadores">Cargar jornada</a>
    </div>
-   <p className="fedImportNote">Solo lee la tabla que tienes en pantalla en tu navegador; no lee los resultados de los partidos.</p>
+   <p className="fedImportNote">Lo hace tu navegador al pulsarlo: lee el calendario y la clasificación de cada equipo y nunca los resultados de los partidos.</p>
   </div>}
  </section>;
 }

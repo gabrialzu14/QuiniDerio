@@ -499,3 +499,8 @@ html[data-theme="light"] body.qdModern .adminWorkspace button:not(:disabled):foc
 .fedImportStatus.ok{background:#098552;color:#fff}.fedImportStatus.error{background:#c8102e;color:#fff}
 .fedImportCard header{display:block}
 @media (pointer:coarse){.fedImportBookmark{display:none!important}}
+.fedImportTeam{padding:10px 0;border-top:1px solid #ffffff14}
+.fedImportTeam:first-of-type{border-top:0}
+.fedImportTeam h3{margin:0 0 6px;font-size:16px}
+.fedImportSame{margin:0;color:#8ea6c4;font-size:14px}
+.fedImportHelp a{color:#7fb8ff}

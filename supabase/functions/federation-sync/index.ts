@@ -18,6 +18,7 @@ const SOURCES:Record<string,Source>={
  "Derio Fem B":{origin:BIZKAIA,competition:"24058462",group:"24265685",agrupacion:"1773567"},
  "Juvenil A":{origin:BIZKAIA,competition:"24058479",group:"24153519",agrupacion:"1773564"},
  "Juvenil B":{origin:BIZKAIA,competition:"24058483",group:"24155723",agrupacion:"1773564"},
+ "Cadete B":{origin:BIZKAIA,competition:"24058487",group:"24190893",agrupacion:"1773565"},
 };
 const calendarUrl=(s:Source,j:number)=>`${s.origin}/pnfg/NPcd/NFG_CmpJornada?cod_primaria=1000120&CodCompeticion=${s.competition}&CodGrupo=${s.group}&CodTemporada=22&CodJornada=${j}&Sch_Tipo_Juego=1&cod_agrupacion=${s.agrupacion}`;
 const standingsUrl=(s:Source,j:number)=>`${s.origin}/pnfg/NPcd/NFG_VisClasificacion?cod_primaria=1000120&codjornada=${j}&codcompeticion=${s.competition}&codgrupo=${s.group}&cod_agrupacion=${s.agrupacion}`;
