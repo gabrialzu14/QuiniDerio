@@ -60,7 +60,9 @@ html body.qdModern .rankingRows {display:grid;gap:8px!important;}
 html body.qdModern .rankingRowButton {min-height:78px!important;margin:0!important;padding:14px 22px!important;color:var(--qd-text)!important;border-radius:14px!important;opacity:1!important;transform:none!important;}
 html body.qdModern .rankingRowButton:first-child {border-color:color-mix(in srgb,var(--qd-blue) 55%,transparent)!important;background:var(--qd-surface-raised)!important;}
 html body.qdModern .rankingRows .rankingRowButton.rankingUpper {background:color-mix(in srgb,var(--qd-blue) 18%,var(--qd-surface))!important;border-color:color-mix(in srgb,var(--qd-blue) 45%,var(--qd-border))!important;}
-html body.qdModern .rankingRows .rankingRowButton.rankingLower {background:color-mix(in srgb,var(--qd-red) 18%,var(--qd-surface))!important;border-color:color-mix(in srgb,var(--qd-red) 45%,var(--qd-border))!important;}
+/* Lower half in a clear red: 18% red over the navy surface read as maroon. */
+html body.qdModern .rankingRows .rankingRowButton.rankingLower {background:linear-gradient(90deg,color-mix(in srgb,#e8183a 80%,var(--qd-surface)),color-mix(in srgb,#e8183a 60%,var(--qd-surface)))!important;border-color:color-mix(in srgb,#ff5c70 75%,var(--qd-border))!important;}
+html[data-theme="light"] body.qdModern .rankingRows .rankingRowButton.rankingLower {background:linear-gradient(90deg,color-mix(in srgb,#e8183a 20%,var(--qd-surface)),color-mix(in srgb,#e8183a 9%,var(--qd-surface)))!important;border-color:color-mix(in srgb,#dc1431 55%,var(--qd-border))!important;}
 html body.qdModern .rankingRows .rankingRowButton.rankingMiddle {background:var(--qd-surface)!important;border-color:var(--qd-border)!important;}
 html body.qdModern .rankingRowButton>span:first-child {color:var(--qd-muted)!important;font-variant-numeric:tabular-nums;}
 html body.qdModern .rankingRowButton>strong {color:var(--qd-text)!important;font-size:22px!important;font-variant-numeric:tabular-nums;}

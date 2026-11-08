@@ -199,7 +199,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
         <div className="qdCompactSide qdCompactAway"><TeamCrest src={isHome?rivalCrest:ownCrest} name={away}/><span className="qdCompactName" title={away}>{away}</span></div>
        </div>
        <div className="qdCompactPickSlot">
-        <b aria-label={(correct?"Pronóstico acertado: ":incorrect?"Pronóstico fallado: ":"Pronóstico: ")+(pick||"sin pronóstico")} className={"qdPlayerPick qdCompactPick "+(pick?"pick"+pick:"")+(correct?" is-hit":incorrect?" is-miss":"")}>{pick||"—"}</b>
+        <b aria-label={(correct?"Pronóstico acertado: ":incorrect?"Pronóstico fallado: ":"Pronóstico: ")+(pick||"sin pronóstico")} className={"qdPlayerPick qdCompactPick"+(correct?" is-hit":incorrect?" is-miss":" is-pending")}>{pick||"—"}</b>
        </div>
       </article>;
      }):<p className="qdPlayerRoundMessage">No hay partidos disponibles para esta jornada.</p>}

@@ -6,8 +6,8 @@ html body.qdModern .qdPlayerRoundOverlay{
  backdrop-filter:blur(15px) saturate(120%);
 }
 html body.qdModern .qdPlayerRoundModal{
- --qd-pick-away:#7a1e48;
- --qd-pick-away-border:#b95f89;
+ --qd-pick-away:#dc1431;
+ --qd-pick-away-border:#ff7d8f;
  width:min(100%,460px)!important;
  max-height:min(88dvh,850px)!important;
  padding:19px 16px 15px!important;
@@ -351,11 +351,25 @@ html body.qdModern .qdPlayerRoundModal .qdCompactPick.pick2{
  background:var(--qd-pick-away)!important;border-color:var(--qd-pick-away-border)!important;color:#fff!important;
 }
 html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-hit{
- background:#15b88a!important;border-color:#47d6ae!important;color:#fff!important;
+ background:linear-gradient(165deg,#17ad6c 0%,#098552 55%,#077a4b 100%)!important;border-color:#5ff0ad!important;color:#fff!important;
+ box-shadow:inset 0 1px rgba(255,255,255,.35),0 0 14px rgba(31,196,126,.45)!important;
 }
 html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-miss{
- background:#d84a62!important;border-color:#e87a8d!important;color:#fff!important;
+ background:linear-gradient(165deg,#f2334d 0%,#dc1431 55%,#c8102e 100%)!important;border-color:#ff9aa7!important;color:#fff!important;
+ box-shadow:inset 0 1px rgba(255,255,255,.35),0 0 14px rgba(255,40,70,.45)!important;
 }
+/* Not played yet: only the 1, X or 2, no colour. */
+html body.qdModern .qdPlayerRoundModal .qdCompactPick.is-pending{
+ background:rgba(255,255,255,.06)!important;border-color:rgba(190,215,240,.28)!important;color:#eef5ff!important;box-shadow:none!important;
+}
+html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdCompactPick.is-pending{
+ background:#fff!important;border-color:rgba(75,113,152,.35)!important;color:#173c5c!important;
+}
+/* Played: the whole row reads as hit (green) or miss (red). */
+html body.qdModern.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct{background:linear-gradient(90deg,rgba(31,196,126,.20),rgba(31,196,126,.08))!important;border-color:rgba(70,220,150,.55)!important}
+html body.qdModern.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{background:linear-gradient(90deg,rgba(235,30,60,.22),rgba(235,30,60,.08))!important;border-color:rgba(255,95,115,.55)!important}
+html[data-theme="light"] body.qdModern.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct{background:#e3f7ec!important;border-color:#5fcf98!important}
+html[data-theme="light"] body.qdModern.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{background:#fde6ea!important;border-color:#f08a99!important}
 html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch,
 html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.correct,
 html[data-theme="light"] body.qdModern .qdPlayerRoundModal .qdPlayerCompactMatch.incorrect{

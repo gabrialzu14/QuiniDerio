@@ -55,7 +55,6 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingSelf{outline
 
 /* Places gained or lost since the previous jornada. */
 html body.qdModern .rankingRow .rankingMove{display:inline-flex;align-items:center;margin-left:7px;padding:2px 6px;border-radius:var(--qd-radius-pill,999px);font-size:var(--qd-fs-caption,11px);font-weight:800;line-height:1.2;letter-spacing:0;vertical-align:middle;white-space:nowrap}
-html body.qdModern .rankingRow .rankingMove.up{background:rgba(51,209,154,.16);color:#86f2c9}
-html body.qdModern .rankingRow .rankingMove.down{background:rgba(239,51,79,.18);color:#ffa3b0}
-html[data-theme="light"] body.qdModern .rankingRow .rankingMove.up{background:#dff5ea;color:#0f6a45}
-html[data-theme="light"] body.qdModern .rankingRow .rankingMove.down{background:#fde4e8;color:#a91f3d}
+/* Solid badges stay readable on blue and red rows alike. */
+html body.qdModern .rankingRow .rankingMove.up{background:#098552;color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.25)}
+html body.qdModern .rankingRow .rankingMove.down{background:#fff;color:#c8102e;box-shadow:0 0 0 1px rgba(200,16,46,.25)}

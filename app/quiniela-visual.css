@@ -397,7 +397,7 @@ html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo 
  outline-offset:2px!important;
 }
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pick1{
- background:#176ed5!important;
+ background:#1767e8!important;
  border-color:#98d2ff!important;
  color:#fff!important;
 }
@@ -407,7 +407,7 @@ html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo 
  color:#14243b!important;
 }
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pick2{
- background:#c92949!important;
+ background:#dc1431!important;
  border-color:#ff819a!important;
  color:#fff!important;
 }
@@ -467,7 +467,8 @@ html body.qdModern .qdTab-quiniela .qdStadiumMatch .qdPickLocked{
  margin:5px auto 0!important;text-align:center!important;color:#ffc78d!important;font-size:10px!important;
 }
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:disabled{cursor:not-allowed!important;opacity:.61!important;filter:saturate(.62)!important}
-html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:disabled[aria-pressed="true"]{opacity:.88!important}
+/* A closed jornada still shows your pick in its full colour; only the other options dim. */
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:disabled[aria-pressed="true"]{opacity:1!important;filter:none!important}
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{outline:none!important;outline-offset:0!important}
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdStadiumMatch .qdFixtureStatus{color:#eef6ff!important}
 @media(max-width:390px){
@@ -550,3 +551,55 @@ html body.qdModern .qdSaveToastTick path{
  12%,80%{opacity:1;transform:translate3d(-50%,0,0)}
  100%{opacity:0;transform:translate3d(-50%,0,0)}
 }
+
+/*
+ * Vivid 1/X/2: saturated colours with a light sheen once chosen, a glow
+ * while pressing and a short flash when the pick is set. Both themes.
+ * Small labels sit on the darker lower half (white text >= 5:1).
+ */
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button{--qd-glow:rgba(90,170,255,.55);overflow:hidden!important}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.pick1{--qd-glow:rgba(45,145,255,.78)}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.pickX{--qd-glow:rgba(150,210,255,.85)}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button.pick2{--qd-glow:rgba(255,48,78,.78)}
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button:not(:disabled):active{
+ transform:scale(.94)!important;
+ filter:brightness(1.2) saturate(1.15)!important;
+ box-shadow:0 0 0 2px var(--qd-glow),0 0 30px 2px var(--qd-glow)!important;
+}
+html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pick1{
+ background:#1767e8!important;
+ background-image:linear-gradient(165deg,#4597ff 0%,#1767e8 48%,#1158d8 100%)!important;
+ border-color:#b4ddff!important;color:#fff!important;
+ box-shadow:inset 0 1px rgba(255,255,255,.45),0 0 0 1px rgba(150,205,255,.5),0 0 24px rgba(40,140,255,.72),0 8px 20px rgba(17,88,216,.45)!important;
+}
+html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pickX{
+ background:#fff!important;
+ background-image:linear-gradient(165deg,#ffffff 0%,#f1f6ff 55%,#dfeaff 100%)!important;
+ border-color:#fff!important;color:#10284d!important;
+ box-shadow:inset 0 1px #fff,0 0 0 2px rgba(120,200,255,.9),0 0 26px rgba(130,200,255,.75)!important;
+}
+html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pick2{
+ background:#dc1431!important;
+ background-image:linear-gradient(165deg,#ff4f64 0%,#dc1431 48%,#c8102e 100%)!important;
+ border-color:#ffb3bd!important;color:#fff!important;
+ box-shadow:inset 0 1px rgba(255,255,255,.4),0 0 0 1px rgba(255,150,165,.5),0 0 24px rgba(255,40,70,.7),0 8px 20px rgba(200,16,46,.45)!important;
+}
+html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"].pickX :is(b,small){color:#10284d!important;-webkit-text-fill-color:#10284d!important}
+html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]:is(.pick1,.pick2) :is(b,small){color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+/* Sheen across the top of the chosen button. */
+html body.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]::after{
+ content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+ background:radial-gradient(120% 70% at 50% -10%,rgba(255,255,255,.42),rgba(255,255,255,0) 60%);
+}
+html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{
+ animation:qdPickLightUp .55s cubic-bezier(.2,.8,.25,1) both!important;
+}
+@keyframes qdPickLightUp{
+ 0%{transform:scale(.95);filter:brightness(1.45) saturate(1.2)}
+ 35%{transform:scale(1.04);filter:brightness(1.2);box-shadow:0 0 0 3px var(--qd-glow),0 0 42px 8px var(--qd-glow)}
+ 100%{transform:scale(1);filter:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{animation:none!important}
+}
+
