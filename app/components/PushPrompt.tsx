@@ -40,7 +40,8 @@ export default function PushPrompt(){
         let seen=lastShown.current;
         try{const stored=localStorage.getItem(PUSH_PROMPT_SEEN_KEY);if(stored)seen=stored}catch{}
         if(!pushPromptDue(seen))return;
-        if(document.querySelector(".roundPendingOverlay,.qdDavidExpulsionOverlay,.qdCardCorrectionOverlay,.qdRecapOverlay,.qdResultOverlay")){
+        // Wait for any other notice (e.g. the coach change) so two dialogs never overlap.
+        if(document.querySelector('.roundPendingOverlay,.qdDavidExpulsionOverlay,.qdCardCorrectionOverlay,.qdRecapOverlay,.qdResultOverlay,.qdCoachOverlay,[aria-modal="true"]')){
           timer=setTimeout(()=>void check(),600);return;
         }
         // Count the appearance, even if the app is closed without dismissing.

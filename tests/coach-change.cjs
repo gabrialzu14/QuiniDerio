@@ -43,3 +43,9 @@ assert.equal(impacts.find(p=>p.name==='Carlos').changes[0].cardColor,'yellow','M
 assert.equal(impacts.find(p=>p.name==='Ana').changes[0].cardColor,'red','First dismissal uses the red card');
 assert.match(DERIO_COACH_CHANGE.announcementId,/-v3$/,'Reissue the clearer two-part notice without deleting earlier acknowledgements');
 console.log('Passed impact detail: five participants, four first-dismissal choices, one most-cards choice, grouping, legacy names, unrelated fields, invalid drafts and reissue identity.');
+// Every participant must see the notice: the weekly notifications prompt waits instead of covering it.
+const pushPrompt=fs.readFileSync('app/components/PushPrompt.tsx','utf8');
+assert.match(pushPrompt,/querySelector\('[^']*\.qdCoachOverlay[^']*\[aria-modal="true"\]/,'The notifications prompt waits while the coach-change notice is open');
+const coachPopup=fs.readFileSync('app/components/CoachChangePopup.tsx','utf8');
+assert.match(coachPopup,/<div className=\{"qdCoachOverlay/,'The coach notice keeps the overlay class other notices wait for');
+console.log('Passed notice queue: the notifications prompt never overlaps the coach-change notice.');
