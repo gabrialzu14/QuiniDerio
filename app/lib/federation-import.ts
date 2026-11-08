@@ -9,19 +9,9 @@
  */
 import {nameKey,displayName,isDerio} from "../../supabase/functions/federation-sync/parse";
 import {matchDetails,type ManagedMatch,type MatchDetails} from "./match-details";
+import {TEAM_SOURCES} from "../../supabase/functions/federation-sync/sources";
+export {TEAM_SOURCES} from "../../supabase/functions/federation-sync/sources";
 
-export type TeamSource={t:string,o:string,c:string,g:string,a:string};
-const EUSKADI="https://www.euskadifutbol.eus",BIZKAIA="https://www.fvf-bff.eus";
-/** Where each QuiniDerio team plays: origin, competition, group and agrupación codes. */
-export const TEAM_SOURCES:TeamSource[]=[
- {t:"Derio A",o:EUSKADI,c:"24057857",g:"24057858",a:"1"},
- {t:"Derio Fem",o:EUSKADI,c:"24057866",g:"24057867",a:"1"},
- {t:"Derio B",o:BIZKAIA,c:"24058476",g:"24109682",a:"1773563"},
- {t:"Derio Fem B",o:BIZKAIA,c:"24058462",g:"24265685",a:"1773567"},
- {t:"Juvenil A",o:BIZKAIA,c:"24058479",g:"24153519",a:"1773564"},
- {t:"Juvenil B",o:BIZKAIA,c:"24058483",g:"24155723",a:"1773564"},
- {t:"Cadete B",o:BIZKAIA,c:"24058487",g:"24190893",a:"1773565"},
-];
 /** Federation group code -> QuiniDerio team. */
 export const FEDERATION_GROUPS:Record<string,string>=Object.fromEntries(TEAM_SOURCES.map(s=>[s.g,s.t]));
 

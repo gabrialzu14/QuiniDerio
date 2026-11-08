@@ -25,3 +25,10 @@ federativa pendiente de cada equipo de esa web, lee en ese mismo navegador su ca
 (dos páginas por equipo), guarda solo el partido del Derio y las filas del Derio y su rival, y abre
 `/admin#fed=…`. Allí se revisan los cambios y se guardan con "Guardar todo". Lo pulsa el administrador
 cuando quiere (por ejemplo, cada domingo); no hay ejecuciones automáticas.
+
+**Carga semanal (desde el 9/11/2026):** cada domingo a las 20:36 (Europe/Madrid) una sesión de Claude Code ejecuta
+`node --experimental-strip-types --no-warnings scripts/federation-load.mjs --sql /tmp/federation.sql` y aplica el SQL
+en Supabase. Solo actualiza los partidos con estado `scheduled` de la jornada pendiente de cada equipo (fecha, hora,
+campo, posiciones, puntos y forma). Si la fecha de un equipo no cae en el mismo fin de semana que el resto de su
+jornada, no se escribe y se avisa: suele indicar una jornada federativa mal anotada. Cada ejecución deja un registro
+en `quini_federation_sync_runs` (`source: weekly-claude`). Prueba sin escribir: `--round N --dry`.
