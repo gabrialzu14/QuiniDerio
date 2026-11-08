@@ -504,3 +504,4 @@ html[data-theme="light"] body.qdModern .adminWorkspace button:not(:disabled):foc
 .fedImportTeam h3{margin:0 0 6px;font-size:16px}
 .fedImportSame{margin:0;color:#8ea6c4;font-size:14px}
 .fedImportHelp a{color:#7fb8ff}
+.fedImportHelp ul{margin:6px 0 0;padding-left:18px;display:grid;gap:4px}

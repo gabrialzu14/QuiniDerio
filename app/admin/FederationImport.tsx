@@ -70,13 +70,17 @@ export default function FederationImport({onSaved}:{onSaved:()=>void}){
   <button type="button" className="fedImportHelpToggle" aria-expanded={showHelp} onClick={()=>setShowHelp(v=>!v)}>Botón "Cargar jornada"</button>
   {showHelp&&<div className="fedImportHelp">
    <ol>
-    <li>Una sola vez: pulsa <b>Copiar código</b>, guarda cualquier página en favoritos en el navegador del móvil y edita ese favorito: nombre <b>Cargar jornada</b> y, en la dirección (URL), pega el código.</li>
-    <li>Cada semana, con la jornada ya creada aquí: abre la <a href="https://www.fvf-bff.eus/pnfg/" target="_blank" rel="noreferrer">Federación Vizcaína</a> y toca el favorito (Derio B, Derio Fem B, Juvenil A, Juvenil B y Cadete B).</li>
-    <li>Revisa y pulsa <b>Guardar todo</b>. Después haz lo mismo desde la <a href="https://www.euskadifutbol.eus/pnfg/" target="_blank" rel="noreferrer">Federación Vasca</a> (Derio A y Derio Fem).</li>
+    <li>Una sola vez: pulsa <b>Copiar código</b>, guarda cualquier página en favoritos y edita ese favorito: nombre <b>Cargar jornada</b> y, en la dirección (URL), pega el código.</li>
+    <li>Cada semana, con la jornada ya creada aquí, abre la <a href="https://www.fvf-bff.eus/pnfg/" target="_blank" rel="noreferrer">Federación Vizcaína</a> y lanza el favorito <b>desde esa página</b>:
+     <ul>
+      <li><b>Chrome (Android o iPhone):</b> toca la barra de direcciones, escribe <b>Cargar jornada</b> y elige la sugerencia con la estrella. Abrirlo desde la lista de favoritos no funciona en Chrome.</li>
+      <li><b>Safari (iPhone):</b> abre los favoritos (el libro) y toca <b>Cargar jornada</b>.</li>
+     </ul></li>
+    <li>Aparece abajo "Cargando…" y vuelve aquí con los datos: revisa y pulsa <b>Guardar todo</b>. Repite desde la <a href="https://www.euskadifutbol.eus/pnfg/" target="_blank" rel="noreferrer">Federación Vasca</a> (Derio A y Derio Fem).</li>
    </ol>
    <div className="fedImportActions">
     <button type="button" className="primary" onClick={copy}>{copied?"Código copiado":"Copiar código"}</button>
-    <a ref={link} className="fedImportBookmark" onClick={e=>e.preventDefault()} title="En ordenador, arrástralo a la barra de marcadores">Cargar jornada</a>
+    <a ref={link} className="fedImportBookmark" onClick={e=>{e.preventDefault();setStatus({kind:"error",text:"Este botón no se pulsa aquí: guárdalo en favoritos y lánzalo desde la web de la federación (pasos 2 y 3)."})}} title="En ordenador, arrástralo a la barra de marcadores">Cargar jornada</a>
    </div>
    <p className="fedImportNote">Lo hace tu navegador al pulsarlo: lee el calendario y la clasificación de cada equipo y nunca los resultados de los partidos.</p>
   </div>}
