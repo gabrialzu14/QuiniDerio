@@ -3,6 +3,7 @@ import "./matchday.css";
 import "./sections.css";
 import "./light-theme.css";
 import "./a11y.css";
+import "./tokens.css";
 import {Inter} from "next/font/google";
 const inter=Inter({subsets:["latin"],variable:"--font-inter",display:"swap"});
 const appIcon="https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png";

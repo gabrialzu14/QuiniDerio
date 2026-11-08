@@ -1,0 +1,95 @@
+/*
+ * QuiniDerio design tokens: the single source for type, spacing, radii and
+ * brand colours. New CSS should use these variables instead of literal values.
+ *
+ * Type scale (minimum readable size is 11px; only tab-bar labels go to 10px,
+ * as in iOS):
+ *   caption 11 · label 12 · body 14 · title 17 · headline 22 · display 30
+ */
+:root{
+ --qd-fs-nav:10px;
+ --qd-fs-caption:11px;
+ --qd-fs-label:12px;
+ --qd-fs-body:14px;
+ --qd-fs-title:17px;
+ --qd-fs-headline:22px;
+ --qd-fs-display:30px;
+
+ --qd-space-1:4px;
+ --qd-space-2:8px;
+ --qd-space-3:12px;
+ --qd-space-4:16px;
+ --qd-space-5:24px;
+ --qd-space-6:32px;
+
+ --qd-radius-sm:10px;
+ --qd-radius-md:14px;
+ --qd-radius-lg:20px;
+ --qd-radius-pill:999px;
+
+ --qd-brand-navy:#061a3b;
+ --qd-brand-red:#ef334f;
+ --qd-brand-blue:#338de0;
+ /* Blue behind white text: 4.5:1 minimum. */
+ --qd-action-blue:#1c71ee;
+}
+
+/*
+ * Minimum type size. Each selector below rendered between 7px and 10px
+ * (measured on iPhone 15 across every tab). The repeated .qdModern raises
+ * specificity above the older layered rules without touching them.
+ */
+html body.qdModern.qdModern.qdModern.qdModern :is(
+ .brandMark small,
+ .qdMatchState,
+ .qdCardsHeaderRow span,
+ .qdOverviewStatLabel,
+ .qdOverviewStatDetail,
+ .predictionSectionTitle small,
+ .profileNameButton small,
+ .profileNameButton em,
+ .profileNameButton strong,
+ .pickHint,
+ .qdFixtureStatus,
+ .oneXtwo button small,
+ .rankingHeader span,
+ .photoHint,
+ .matchRivalsDate,
+ .matchRivalsVenue,
+ .matchRivalsTeamName,
+ .qdHeroSportSeason,
+ .qdHeroSportStage small,
+ .qdMatchdayPill,
+ .qdRoundTabs button,
+ .qdClubName b,
+ .qdClubName small,
+ .pageTop.compactTop>p,
+ .fixtureInfo span,
+ .qdStandingPill,
+ .qdPickLocked,
+ .pageTop .eyebrow,
+ .accountTitle .eyebrow
+){
+ font-size:var(--qd-fs-caption)!important;
+}
+/* Wider uppercase labels lose a little tracking so they keep their line. */
+html body.qdModern.qdModern.qdModern.qdModern :is(.brandMark small,.qdOverviewStatLabel,.qdCardsHeaderRow span,.pickHint){
+ letter-spacing:.06em!important;
+}
+/* Tab bar: 10px like iOS; the narrowest phones keep the measured fit. */
+html body.qdModern.qdModern.qdModern.qdModern .dashboard .liquidNav.qdMotionNav small{
+ font-size:var(--qd-fs-nav)!important;
+ letter-spacing:-.2px!important;
+}
+@media (max-width:380px){
+ html body.qdModern.qdModern.qdModern.qdModern .dashboard .liquidNav.qdMotionNav small{
+  font-size:9px!important;
+  letter-spacing:-.3px!important;
+ }
+}
+@media (max-width:340px){
+ html body.qdModern.qdModern.qdModern.qdModern .dashboard .liquidNav.qdMotionNav small{
+  font-size:8.5px!important;
+  letter-spacing:-.35px!important;
+ }
+}
