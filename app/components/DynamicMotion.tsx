@@ -71,5 +71,6 @@ export function AnimatedNumber({value,suffix="",prefix="",decimals=0}:{value:num
   return()=>cancelAnimationFrame(frame);
   // eslint-disable-next-line react-hooks/exhaustive-deps
  },[safe,visible,prefix,suffix,decimals]);
- return <span className="qdAnimatedNumber" aria-label={format(safe)}><span aria-hidden="true" ref={root}>{format(0)}</span></span>;
+ // The final value is read by screen readers; the animated digits are visual only.
+ return <span className="qdAnimatedNumber"><span aria-hidden="true" ref={root}>{format(0)}</span><span className="qdSrOnly">{format(safe)}</span></span>;
 }

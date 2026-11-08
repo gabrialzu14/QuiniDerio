@@ -189,3 +189,5 @@ html[data-theme="light"] body.qdModern :is(button,a,input,select,textarea):focus
 }
 /* Stadium match cards keep their dark navy surface in light mode. */
 html[data-theme="light"] body.qdModern .qdStadiumMatch .liveMatchStrip>b{color:#f4f9ff!important}
+html[data-theme="light"] body.qdModern .authForm input::placeholder{color:#5d6f84!important}
+html[data-theme="light"] body.qdModern .porraAccount .segmented button:not(.active){color:#405969!important}

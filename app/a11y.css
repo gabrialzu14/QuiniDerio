@@ -1,0 +1,8 @@
+/* Accessibility fixes shared by both themes (WCAG 2.1 AA). Light-only overrides live in light-theme.css. */
+/* Example text in empty fields must not read as an already typed value. */
+html body.qdModern .authForm input::placeholder{font-weight:400!important;color:#8a9bb0!important;opacity:1!important}
+/* Readable secondary text (WCAG AA 4.5:1). */
+html body.qdModern .rankingRow>span.qdStaticRank{opacity:.8!important}
+html:not([data-theme="light"]) body.qdModern .porraAccount .segmented button:not(.active){color:#a3b6c8!important}
+/* Text for screen readers only. */
+.qdSrOnly{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}

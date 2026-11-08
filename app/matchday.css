@@ -11,7 +11,7 @@ body.qdModern {
   --qd-border:rgba(88,157,255,.24);
   --qd-text:#eef4ff;
   --qd-muted:#9fc5f5;
-  --qd-blue:#2878ef;
+  --qd-blue:#1c71ee;
   --qd-red:#ff5269;
   --qd-ease:cubic-bezier(.22,1,.36,1);
   background:var(--qd-bg)!important;
