@@ -1,0 +1,45 @@
+.qdFirstCoachOverlay{--first-coach-ink:#f2f7ff;--first-coach-muted:#a9bfd2;position:fixed;inset:0;z-index:10030;display:grid;place-items:center;padding:20px 16px;padding-top:max(20px,env(safe-area-inset-top));padding-bottom:max(20px,env(safe-area-inset-bottom));background:#020b18cf;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overscroll-behavior:contain;animation:qdFirstCoachBackdrop .28s ease both}
+.qdFirstCoachModal{position:relative;isolation:isolate;box-sizing:border-box;width:min(100%,450px);max-height:calc(100dvh - 40px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow:auto;overscroll-behavior:contain;padding:28px;border:1px solid #91bae333;border-radius:28px;text-align:center;color:var(--first-coach-ink);background:radial-gradient(ellipse at 95% 0%,#194f7c3d,transparent 55%),linear-gradient(155deg,#10263b,#071522 72%);box-shadow:0 32px 110px #0008,0 1px 0 #ffffff0d inset;animation:qdFirstCoachModalIn .5s cubic-bezier(.16,1,.3,1) both}
+.qdFirstCoachEyebrow{display:block;color:#8dc4f2;font-size:10px;font-weight:750;letter-spacing:.2em;animation:qdFirstCoachRise .4s .08s both}
+.qdFirstCoachModal h2{margin:12px 0 0;color:var(--first-coach-ink);font-size:clamp(25px,6.5vw,32px);font-weight:800;letter-spacing:-.045em;line-height:1.1;animation:qdFirstCoachRise .45s .12s both}
+.qdFirstCoachStage{position:relative;isolation:isolate;width:100%;height:250px;margin:16px 0 0;perspective:900px}
+.qdFirstCoachHalo{position:absolute;z-index:-1;inset:22px 4px 0;border-radius:50%;background:radial-gradient(ellipse at 65% 55%,#f3425d26,transparent 55%),radial-gradient(ellipse at 35% 60%,#448fd640,transparent 65%);animation:qdFirstCoachHaloIn .8s .15s both}
+.qdFirstCoachPortrait{position:absolute;left:50%;bottom:0;width:208px;height:244px;transform:translateX(-50%);overflow:hidden;border-radius:22px 22px 18px 18px;animation:qdFirstCoachPortraitIn .7s .16s cubic-bezier(.16,1,.3,1) both}
+.qdFirstCoachPortrait:after{content:"";position:absolute;inset:75% 0 0;background:linear-gradient(transparent,#091927);pointer-events:none}
+.qdFirstCoachPortrait img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom}
+.qdFirstCoachPortrait>span{display:grid;place-items:center;width:100%;height:100%;border:1px solid #8cbbdc2b;border-radius:22px;background:linear-gradient(145deg,#22425d,#102a40);color:#d9edff;font-size:82px;font-weight:800;letter-spacing:-.08em;box-sizing:border-box}
+.qdFirstCoachCardAnchor{position:absolute;z-index:3;top:66px;right:calc(50% - 139px);width:74px;height:106px;transform-origin:50% 80%;animation:qdFirstCoachCardLift .85s .38s cubic-bezier(.2,1.35,.4,1) both}
+.qdFirstCoachRedCard{position:relative;width:100%;height:100%;overflow:hidden;box-sizing:border-box;border:1px solid #ffb1bb94;border-radius:9px;background:linear-gradient(145deg,#ff5b72,#f32f4c 53%,#c91432);box-shadow:0 14px 25px #02091373,0 0 33px #f1365140,0 1px 0 #ffd9dfb3 inset;transform:rotate(12deg);animation:qdFirstCoachCardFloat 4s 1.4s ease-in-out infinite}
+.qdFirstCoachRedCard:before{content:"";position:absolute;inset:5px;border:1px solid #ffffff26;border-radius:5px}
+.qdFirstCoachRedCard:after{content:"";position:absolute;inset:-40% -80%;background:linear-gradient(115deg,transparent 40%,#ffffff45 49%,transparent 58%);transform:translateX(-60%);animation:qdFirstCoachCardShine 1s 1s ease both}
+.qdFirstCoachRedCard i{position:absolute;left:13px;right:13px;top:15px;height:2px;border-radius:2px;background:#ffffff66}
+.qdFirstCoachSpark{position:absolute;z-index:4;width:4px;height:4px;border-radius:50%;background:#ff899a;box-shadow:0 0 10px #ff617c80;animation:qdFirstCoachSparkIn .9s .55s ease both;pointer-events:none}
+.qdFirstCoachSpark.isOne{left:calc(50% + 113px);top:39px}.qdFirstCoachSpark.isTwo{left:calc(50% + 151px);top:121px;width:3px;height:3px;animation-delay:.68s}.qdFirstCoachSpark.isThree{left:calc(50% - 109px);top:165px;width:3px;height:3px;animation-delay:.76s}
+.qdFirstCoachIdentity{position:relative;margin-top:11px;animation:qdFirstCoachRise .5s .5s both}
+.qdFirstCoachIdentity h3{margin:0;color:var(--first-coach-ink);font-size:clamp(25px,7vw,32px);font-weight:850;letter-spacing:-.04em;line-height:1.15}
+.qdFirstCoachIdentity p{margin:7px 0 0;color:var(--first-coach-muted);font-size:11px;font-weight:650;letter-spacing:.14em;text-transform:uppercase}
+.qdFirstCoachAction{display:block;width:100%;min-height:48px;margin-top:25px;border:1px solid #75b5ed66;border-radius:14px;background:linear-gradient(120deg,#2876b9,#19588f);color:#fff;font-size:13px;font-weight:750;box-shadow:0 6px 20px #030d191f;animation:qdFirstCoachRise .5s .65s both;transition:transform .18s,filter .18s}
+.qdFirstCoachAction:hover{filter:brightness(1.12)}.qdFirstCoachAction:active:not(:disabled){transform:scale(.985)}.qdFirstCoachAction:focus-visible{outline:3px solid #a9dcff;outline-offset:4px}.qdFirstCoachAction:disabled{cursor:wait;opacity:.65}
+.qdFirstCoachError{margin:16px 0 0;color:#ffb5bd;font-size:11px;line-height:1.5}
+.qdFirstCoachOverlay.isLeaving{animation:qdFirstCoachBackdrop .24s ease reverse both;pointer-events:none}.qdFirstCoachOverlay.isLeaving .qdFirstCoachModal{animation:qdFirstCoachModalOut .24s ease both}
+@keyframes qdFirstCoachBackdrop{from{opacity:0}to{opacity:1}}
+@keyframes qdFirstCoachModalIn{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes qdFirstCoachModalOut{to{opacity:0;transform:translateY(10px) scale(.98)}}
+@keyframes qdFirstCoachRise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@keyframes qdFirstCoachPortraitIn{from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}to{opacity:1;transform:translateX(-50%)}}
+@keyframes qdFirstCoachHaloIn{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+@keyframes qdFirstCoachCardLift{from{opacity:0;transform:translateY(86px) rotate(-28deg) scale(.6)}to{opacity:1;transform:none}}
+@keyframes qdFirstCoachCardFloat{0%,100%{transform:rotate(12deg) translateY(0)}50%{transform:rotate(9deg) translateY(-5px)}}
+@keyframes qdFirstCoachCardShine{from{transform:translateX(-60%)}to{transform:translateX(60%)}}
+@keyframes qdFirstCoachSparkIn{0%{opacity:0;transform:translateY(15px) scale(.3)}35%{opacity:1}100%{opacity:.55;transform:none}}
+[data-theme="light"] .qdFirstCoachOverlay{--first-coach-ink:#102f49;--first-coach-muted:#526b7e;background:#18334e66}
+[data-theme="light"] .qdFirstCoachModal{background:radial-gradient(ellipse at 95% 0%,#e0eef9,transparent 55%),#fff;border-color:#d4e3ef;box-shadow:0 32px 110px #10283f40}
+[data-theme="light"] .qdFirstCoachEyebrow{color:#24618c}
+[data-theme="light"] .qdFirstCoachPortrait:after{background:linear-gradient(transparent,#fff)}
+[data-theme="light"] .qdFirstCoachPortrait>span{background:linear-gradient(145deg,#dbe9f5,#edf5fb);border-color:#c1d8e8;color:#275b82}
+[data-theme="light"] .qdFirstCoachHalo{background:radial-gradient(ellipse at 65% 55%,#f3425d1c,transparent 55%),radial-gradient(ellipse at 35% 60%,#448fd626,transparent 65%)}
+[data-theme="light"] .qdFirstCoachError{color:#a32640}
+@media(max-width:380px){.qdFirstCoachModal{padding:24px 20px;border-radius:24px}.qdFirstCoachStage{height:226px}.qdFirstCoachPortrait{width:188px;height:222px}.qdFirstCoachCardAnchor{right:calc(50% - 126px);top:59px;width:66px;height:95px}.qdFirstCoachAction{margin-top:22px}.qdFirstCoachSpark.isTwo{left:calc(50% + 131px)}}
+@media(max-height:680px){.qdFirstCoachModal{padding:22px}.qdFirstCoachStage{height:205px;margin-top:10px}.qdFirstCoachPortrait{width:176px;height:202px}.qdFirstCoachCardAnchor{top:52px;right:calc(50% - 120px);width:64px;height:91px}.qdFirstCoachModal h2{font-size:26px}.qdFirstCoachIdentity{margin-top:8px}.qdFirstCoachAction{margin-top:20px}}
+@media(max-height:540px){.qdFirstCoachModal{padding:18px}.qdFirstCoachStage{height:155px;margin-top:8px}.qdFirstCoachPortrait{width:138px;height:153px}.qdFirstCoachCardAnchor{top:36px;right:calc(50% - 94px);width:50px;height:72px}.qdFirstCoachIdentity h3{font-size:24px}.qdFirstCoachModal h2{font-size:23px}.qdFirstCoachAction{margin-top:16px}.qdFirstCoachEyebrow{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.qdFirstCoachOverlay,.qdFirstCoachOverlay *,.qdFirstCoachOverlay *:before,.qdFirstCoachOverlay *:after{animation:none!important;transition:none!important}}
