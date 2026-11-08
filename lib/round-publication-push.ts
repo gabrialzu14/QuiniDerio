@@ -9,7 +9,7 @@ type Delivery = {
 export function publicationMessage(round:number){
  return {title:`Jornada ${round} ya disponible`,
   body:'Ya puedes completar tus pronósticos en QuiniDerio.',
-  url:'/',tag:`quiniderio-round-available-${round}`};
+  url:'/?tab=quiniela',tag:`quiniderio-round-available-${round}`};
 }
 
 // Injectable transport keeps verification isolated from real subscriber devices.

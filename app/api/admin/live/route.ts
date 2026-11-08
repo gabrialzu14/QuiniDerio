@@ -4,7 +4,7 @@ import {validateDetails,kickoffUtc} from "../../../lib/match-details";
 import webpush from "web-push";
 const url=process.env.NEXT_PUBLIC_SUPABASE_URL||"";const key=process.env.SUPABASE_SERVICE_ROLE_KEY||"";const ADMIN="gabrialzueta@gmail.com";
 function db(){if(!url||!key)throw new Error("supabase_env");return createClient(url,key,{auth:{persistSession:false}})}
-async function sendToAllPlayerEndpoints(client:ReturnType<typeof db>,notificationKey:string,kind:string,title:string,body:string){
+async function sendToAllPlayerEndpoints(client:ReturnType<typeof db>,notificationKey:string,kind:string,title:string,body:string,openUrl="/"){
  const {data:subs}=await client.from("push_subscriptions").select("player_id,endpoint,p256dh,auth").eq("enabled",true);
  const players=new Map<string,any[]>();for(const s of subs||[])players.set(s.player_id,[...(players.get(s.player_id)||[]),s]);
  for(const [playerId,endpoints] of players){
@@ -12,7 +12,7 @@ async function sendToAllPlayerEndpoints(client:ReturnType<typeof db>,notificatio
   const {data:already}=await client.from("push_notification_log").select("id").eq("notification_key",playerKey).limit(1);
   if(already?.length)continue;
   let delivered=false;
-  for(const s of endpoints){try{await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},JSON.stringify({title,body,url:"/",tag:"quiniderio-"+notificationKey}),{TTL:86400,urgency:"normal"});delivered=true}catch(e:any){if(e?.statusCode===404||e?.statusCode===410)await client.from("push_subscriptions").update({enabled:false,updated_at:new Date().toISOString()}).eq("endpoint",s.endpoint)}}
+  for(const s of endpoints){try{await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},JSON.stringify({title,body,url:openUrl,tag:"quiniderio-"+notificationKey}),{TTL:86400,urgency:"normal"});delivered=true}catch(e:any){if(e?.statusCode===404||e?.statusCode===410)await client.from("push_subscriptions").update({enabled:false,updated_at:new Date().toISOString()}).eq("endpoint",s.endpoint)}}
   if(delivered)await client.from("push_notification_log").insert({player_id:playerId,round_id:null,kind,notification_key:playerKey});
  }
 }
@@ -27,7 +27,7 @@ async function sendRoundCompletePush(round:number){
  if(!expected.every(team=>["finished","final","suspended"].includes(String((matches||[]).find(m=>m.team===team)?.status||""))))return;
  const pub=process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY||"",priv=process.env.VAPID_PRIVATE_KEY||"";if(!pub||!priv)return;
  webpush.setVapidDetails(process.env.VAPID_SUBJECT||"mailto:admin@quiniderio.app",pub,priv);
- await sendToAllPlayerEndpoints(client,"round_complete:"+round,"round_complete","Jornada "+round+" finalizada","Ya están disponibles los resultados y la clasificación.");
+ await sendToAllPlayerEndpoints(client,"round_complete:"+round,"round_complete","Jornada "+round+" finalizada","Ya están disponibles los resultados y la clasificación.","/?tab=clasificacion");
 }
 async function admin(req:NextRequest){const token=req.headers.get("authorization")?.replace(/^Bearer\s+/i,"");if(!token)return null;const {data}=await db().auth.getUser(token);return data.user?.email?.toLowerCase()===ADMIN?data.user:null}
 async function syncCardTotals(round:number,team:string){const client=db();const [{count:yellow},{count:red}]=await Promise.all([client.from("quini_match_cards").select("*",{count:"exact",head:true}).eq("round",round).eq("team",team).eq("card_type","yellow"),client.from("quini_match_cards").select("*",{count:"exact",head:true}).eq("round",round).eq("team",team).eq("card_type","red")]);const {data,error}=await client.from("quini_live_matches").update({yellow_cards:yellow||0,red_cards:red||0,updated_at:new Date().toISOString()}).eq("round",round).eq("team",team).select().single();if(error)throw error;return data}

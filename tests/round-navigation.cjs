@@ -50,6 +50,7 @@ for(const destination of ['hits','pot','self'])assert.equal(pageFixture('Ranking
  const history={get state(){return stack[at]},get length(){return stack.length},pushState:st=>{stack.splice(at+1);stack.push(st);at++},replaceState:st=>{stack[at]=st},back:()=>{if(at>0){at--;for(const l of [...listeners])l({state:stack[at]})}}};
  Object.assign(h.context.window,{addEventListener:(t,l)=>{if(t==='popstate')listeners.push(l)},removeEventListener:(t,l)=>{const i=listeners.indexOf(l);if(i>=0)listeners.splice(i,1)}});
  h.context.history=history;
+ Object.assign(h.context,{location:{href:'https://quiniderio.app/',pathname:'/',hash:''},navigator:{},URL,URLSearchParams});
  const useNavigation=h.load(read('app/components/useTabNavigation.ts')).default;
  const render=()=>h.render(()=>useNavigation());
  let nav=render();h.flush();assert.equal(nav.tab,'inicio');assert.equal(nav.entryKey,0);
@@ -60,6 +61,21 @@ for(const destination of ['hits','pot','self'])assert.equal(pageFixture('Ranking
  assert.equal(nav.tab,'inicio','Back from any tab returns to Inicio');
  nav.navigateTab('quiniela');nav=render();h.flush();nav.navigateTab('inicio');nav=render();h.flush();
  assert.equal(nav.tab,'inicio');assert.equal(history.state.qdTab??'inicio','inicio','Tapping Inicio reuses the Inicio entry');assert.equal(at,0);
+}
+{
+ // Notifications and home-screen shortcuts open /?tab=…; back still returns to Inicio.
+ const h=harness(),listeners=[],stack=[{}];let at=0,url='/?tab=quiniela';
+ const history={get state(){return stack[at]},get length(){return stack.length},pushState:st=>{stack.splice(at+1);stack.push(st);at++},replaceState:(st,_t,u)=>{stack[at]=st;if(u!==undefined)url=u},back:()=>{if(at>0){at--;for(const l of [...listeners])l({state:stack[at]})}}};
+ Object.assign(h.context.window,{scrollTo:()=>{},addEventListener:(t,l)=>{if(t==='popstate')listeners.push(l)},removeEventListener:()=>{}});
+ Object.assign(h.context,{history,location:{href:'https://quiniderio.app/?tab=quiniela',pathname:'/',hash:''},navigator:{},URL,URLSearchParams});
+ const mod=h.load(read('app/components/useTabNavigation.ts'));
+ assert.equal(mod.tabFromUrl('/?tab=clasificacion'),'clasificacion');assert.equal(mod.tabFromUrl('/?tab=admin'),null);assert.equal(mod.tabFromUrl('/'),null);
+ const render=()=>h.render(()=>mod.default());
+ let nav=render();h.flush();nav=render();h.flush();
+ assert.equal(nav.tab,'quiniela','?tab=quiniela opens the Quiniela tab');
+ assert.equal(url,'/','The ?tab= query is removed after opening');
+ history.back();nav=render();h.flush();
+ assert.equal(nav.tab,'inicio','Back from a deep-linked tab returns to Inicio');
 }
 function railFixture({value=2,currentRound=4,reduced=false,enabledRounds=new Set([1,2,3,4,5])}={}){
  const h=harness();let frameId=0,frames=new Map(),changes=[],focus=[],animations=0;

@@ -3,7 +3,8 @@ const clearBadge=async()=>{try{if(self.registration.clearAppBadge)await self.reg
 self.addEventListener("install",()=>self.skipWaiting());
 self.addEventListener("activate",e=>e.waitUntil((async()=>{await self.clients.claim();await clearBadge()})()));
 self.addEventListener("push",e=>{let d={};try{d=e.data?e.data.json():{}}catch{}e.waitUntil((async()=>{await clearBadge();await self.registration.showNotification(d.title||"QuiniDerio",{body:d.body||"Tienes un nuevo aviso.",renotify:false,icon:"https://bwonxnayayopbohxuphs.supabase.co/storage/v1/object/public/Images/branding/LogoApp.png",tag:d.tag||"quiniderio",data:{url:d.url||"/"}});await clearBadge();setTimeout(()=>{clearBadge()},1000);setTimeout(()=>{clearBadge()},4000)})())});
-self.addEventListener("notificationclick",e=>{e.notification.close();e.waitUntil((async()=>{await clearBadge();const cs=await self.clients.matchAll({type:"window",includeUncontrolled:true});if(cs.length)return cs[0].focus();return self.clients.openWindow(e.notification.data?.url||"/")})())});
+/* Open the tab the notification is about; reuse the running app when there is one. */
+self.addEventListener("notificationclick",e=>{e.notification.close();e.waitUntil((async()=>{await clearBadge();const url=new URL(e.notification.data?.url||"/",self.location.origin).href;const cs=await self.clients.matchAll({type:"window",includeUncontrolled:true});const c=cs.find(x=>x.focused)||cs[0];if(c){c.postMessage({type:"OPEN_URL",url});return c.focus()}return self.clients.openWindow(url)})())});
 self.addEventListener("message",e=>{if(e.data?.type==="CLEAR_BADGE")e.waitUntil(clearBadge())});
 
 const CACHE="quiniderio-shell-v5";const SHELL=["/","/manifest.webmanifest","/launch.svg?v=5","/api/assets/branding/EscudoCarga.png?opt=4"];const MAX_ENTRIES=160;

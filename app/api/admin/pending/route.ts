@@ -82,7 +82,7 @@ export async function POST(req:NextRequest){
    else if(!configured)report=defaultReport("failed","Configuración del servicio push no disponible.");
    else{
     let accepted=0,failed=0;const problems:string[]=[];
-    const payload=JSON.stringify({title:"QUINIDERIO",body:"Tienes pronósticos pendientes de la Jornada "+round+".",url:"/",tag:"pending-"+round});
+    const payload=JSON.stringify({title:"QUINIDERIO",body:"Tienes pronósticos pendientes de la Jornada "+round+".",url:"/?tab=quiniela",tag:"pending-"+round});
     for(const s of devices){
      try{
       await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},payload,{TTL:3600});

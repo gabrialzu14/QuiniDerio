@@ -1,8 +1,11 @@
 {
+  "id": "/",
   "name": "QuiniDerio",
   "short_name": "QuiniDerio",
   "description": "La quiniela de los equipos del CD Derio",
+  "lang": "es",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#061a3b",
   "theme_color": "#061a3b",
@@ -12,6 +15,26 @@
       "sizes": "any",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Hacer mi quiniela",
+      "short_name": "Quiniela",
+      "description": "Elige tus pronósticos de la jornada",
+      "url": "/?tab=quiniela"
+    },
+    {
+      "name": "Clasificación",
+      "short_name": "Clasificación",
+      "description": "Consulta la clasificación general",
+      "url": "/?tab=clasificacion"
+    },
+    {
+      "name": "Pronósticos de todos",
+      "short_name": "Pronósticos",
+      "description": "Mira lo que han elegido los demás",
+      "url": "/?tab=pronosticos"
     }
   ]
 }

@@ -61,7 +61,7 @@ export async function GET(req:NextRequest){
    let ok=false;
    for(const s of devices){
     try{
-     await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},JSON.stringify({title,body,url:"/",tag:"quiniderio-"+notificationKey}),{TTL:3600,urgency:kind==="start"?"high":"normal"});
+     await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},JSON.stringify({title,body,url:kind==="start"?"/?tab=pronosticos":"/?tab=quiniela",tag:"quiniderio-"+notificationKey}),{TTL:3600,urgency:kind==="start"?"high":"normal"});
      ok=true;
     }catch(e:any){
      if(e?.statusCode===404||e?.statusCode===410)await db("push_subscriptions?id=eq."+s.id,{method:"PATCH",body:JSON.stringify({enabled:false,updated_at:new Date().toISOString()})});
