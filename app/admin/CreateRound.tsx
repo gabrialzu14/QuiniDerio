@@ -57,6 +57,9 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
  const[progress,setProgress]=useState("");
  const[error,setError]=useState("");
  const[expanded,setExpanded]=useState<RoundTeam[]>([...ROUND_TEAMS]);
+ // Draft prepared from the federation by the weekly load (quini_round_drafts).
+ const[fedDraft,setFedDraft]=useState<{games:Partial<GameForm>[],notes:string[],updated_at:string}|null>(null);
+ const[localReady,setLocalReady]=useState(false);
  const ready=useRef(false);
  const submitLock=useRef(false);
  const manualFields=useRef(new Set<string>());
@@ -75,8 +78,29 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
     }
    }catch{}
    ready.current=true;
+   setLocalReady(true);
   }
  },[round]);
+ useEffect(()=>{
+  let active=true;setFedDraft(null);
+  void supabase.from("quini_round_drafts").select("games,notes,updated_at").eq("round",round).maybeSingle()
+   .then(({data})=>{if(active&&data)setFedDraft(data as any)});
+  return()=>{active=false};
+ },[round]);
+ useEffect(()=>{
+  // Apply each federation draft once; later manual edits are kept in the local draft.
+  if(!fedDraft||!localReady)return;
+  const key="qd-admin-round-fed-applied-"+round;
+  try{if(localStorage.getItem(key)===fedDraft.updated_at)return}catch{}
+  setGames(previous=>previous.map(game=>{
+   const draft=fedDraft.games.find(g=>g.team===game.team);
+   if(!draft)return game;
+   for(const field of ["derioPoints","derioForm","federationRound","venue","location"])manualFields.current.add(game.team+":"+field);
+   const {team:_team,crest,file:_file,...fields}=draft as GameForm;
+   return {...game,...fields,crest:game.crest||crest||"",file:game.file};
+  }));
+  try{localStorage.setItem(key,fedDraft.updated_at)}catch{}
+ },[fedDraft,localReady,round]);
  useEffect(()=>{
   if(!ready.current||busy)return;
   const id=window.setTimeout(()=>{
@@ -247,6 +271,11 @@ export default function CreateRound({nextRound,onCreated}:{nextRound:number,onCr
    <span><strong>{games.length-totalScheduled}</strong> descansos</span>
    <span>7 equipos del CD Derio</span>
   </div>
+  {fedDraft&&<div className="qdFedDraftNotice" role="status">
+   <b>Datos cargados de la federación</b>
+   <span>Actualizados el {new Date(fedDraft.updated_at).toLocaleString("es-ES",{weekday:"long",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})}. Revisa cada partido, añade los escudos que falten y publica.</span>
+   {fedDraft.notes.length>0&&<ul>{fedDraft.notes.map(note=><li key={note}>{note}</li>)}</ul>}
+  </div>}
   <form onSubmit={publish} className="qdCreateRoundForm">
    {games.map(g=><article className={"qdCreateRoundMatch "+(g.rest?"isRest":"")} key={g.team}>
     <header>

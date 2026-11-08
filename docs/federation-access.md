@@ -32,3 +32,7 @@ en Supabase. Solo actualiza los partidos con estado `scheduled` de la jornada pe
 campo, posiciones, puntos y forma). Si la fecha de un equipo no cae en el mismo fin de semana que el resto de su
 jornada, no se escribe y se avisa: suele indicar una jornada federativa mal anotada. Cada ejecución deja un registro
 en `quini_federation_sync_runs` (`source: weekly-claude`). Prueba sin escribir: `--round N --dry`.
+
+## Borradores de jornada nueva
+
+Si la siguiente jornada todavía no está creada, la carga semanal prepara un borrador en `quini_round_drafts` (ver `db/round-drafts.sql`). Incluye rivales, fecha, hora, campo, jornada federativa, posiciones, puntos y forma. Al abrir **Admin → Crear jornada** con ese número, el formulario se rellena con el borrador una sola vez por versión y muestra avisos (rivales nuevos sin escudo, horas sin publicar). El admin solo revisa, añade escudos y publica.
