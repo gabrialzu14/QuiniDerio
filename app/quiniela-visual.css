@@ -603,3 +603,12 @@ html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria
  html body.qdModern.qdModern .qdTab-quiniela .qdStadiumMatch .oneXtwo button[aria-pressed="true"]{animation:none!important}
 }
 
+
+/* "Jornada en juego" badge beside the round heading, with a blinking red dot. */
+html body.qdModern .qdTab-quiniela .qdQuinielaRoundRow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 16px}
+html body.qdModern .qdTab-quiniela .qdQuinielaRoundRow .qdQuinielaRoundHeading{margin:0!important}
+html body.qdModern .qdTab-quiniela .qdRoundLiveBadge{display:inline-flex;align-items:center;gap:7px;flex:none;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,92,112,.55);background:rgba(232,24,52,.14);color:#ffd9de;font-size:var(--qd-fs-caption,11px);font-weight:800;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+html body.qdModern .qdTab-quiniela .qdRoundLiveBadge i{width:8px;height:8px;border-radius:50%;background:#ff2d48;box-shadow:0 0 0 0 rgba(255,45,72,.7);animation:qdLiveBlink 1.2s ease-in-out infinite}
+@keyframes qdLiveBlink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,45,72,.6)}50%{opacity:.25;box-shadow:0 0 0 5px rgba(255,45,72,0)}}
+html[data-theme="light"] body.qdModern .qdTab-quiniela .qdRoundLiveBadge{background:#fde6ea;border-color:#f08a99;color:#a3102b}
+@media(prefers-reduced-motion:reduce){html body.qdModern .qdTab-quiniela .qdRoundLiveBadge i{animation:none}}
