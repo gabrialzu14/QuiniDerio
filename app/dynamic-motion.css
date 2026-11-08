@@ -145,3 +145,19 @@ html[data-theme="light"] body.qdModern .qdRoundNavigator .qdAdvanceRound[data-li
 html[data-theme="light"] body.qdModern .qdRoundNavigator .qdLaunchArrow{background:color-mix(in srgb,var(--chip) 82%,#000);color:#fff}
 html body.qdModern .qdRoundNavigator .qdAdvanceRound:focus-visible{outline:2px solid var(--chip);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){html body.qdModern .qdRoundNavigator .qdAdvanceRoundDot{animation:none}}
+
+/* The jump chip unfolds when it appears and folds away when it leaves. */
+html body.qdModern .qdRoundNavigator .qdRoundJump{overflow:hidden;transform-origin:top left}
+html body.qdModern .qdRoundNavigator .qdRoundJump.is-entering{animation:qdJumpUnfold .38s cubic-bezier(.2,.85,.25,1) both}
+html body.qdModern .qdRoundNavigator .qdRoundJump.is-entering .qdAdvanceRound{animation:qdJumpDrop .42s cubic-bezier(.2,.85,.25,1) both}
+html body.qdModern .qdRoundNavigator .qdRoundJump.is-leaving{pointer-events:none;animation:qdJumpFold .32s cubic-bezier(.4,0,.7,.2) both}
+html body.qdModern .qdRoundNavigator .qdRoundJump.is-leaving .qdAdvanceRound{animation:qdJumpLift .3s cubic-bezier(.4,0,.7,.2) both}
+html body.qdModern .qdRoundNavigator .qdAdvanceRoundGhost{cursor:default}
+@keyframes qdJumpUnfold{from{max-height:0;opacity:0;padding-top:0;padding-bottom:0}to{max-height:64px;opacity:1}}
+@keyframes qdJumpFold{from{max-height:64px;opacity:1}to{max-height:0;opacity:0;padding-top:0;padding-bottom:0}}
+@keyframes qdJumpDrop{from{transform:translateY(-12px) scale(.94);opacity:0}60%{opacity:1}to{transform:none;opacity:1}}
+@keyframes qdJumpLift{from{transform:none;opacity:1}to{transform:translateY(-10px) scale(.94);opacity:0}}
+@media(prefers-reduced-motion:reduce){
+ html body.qdModern .qdRoundNavigator .qdRoundJump.is-entering,html body.qdModern .qdRoundNavigator .qdRoundJump.is-entering .qdAdvanceRound{animation:none}
+ html body.qdModern .qdRoundNavigator .qdRoundJump.is-leaving{display:none}
+}

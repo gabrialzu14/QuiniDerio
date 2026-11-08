@@ -151,7 +151,6 @@ html:not([data-theme="light"]) body.qdModern .predictionsPage .unifiedRoundPredi
 /* Complete match cards stack vertically; the document remains the only scroller. */
 @media(max-width:700px){
  html body.qdModern .predictionsPage.roundPredictionsMode .pageTop{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;margin:0!important;padding:0!important;border:0!important}
- html body.qdModern .predictionsPage.roundPredictionsMode .qdRoundJump{display:none!important}
  html body.qdModern .predictionsPage .unifiedRoundPredictions{margin-top:5px!important;padding:8px!important}
  html body.qdModern .predictionsPage .unifiedRoundPredictions .predictionSectionTitle{margin:5px 0 7px!important}
  html body.qdModern .predictionsPage .unifiedRoundPredictions .predictionSectionTitle h2{font-size:20px!important}

@@ -140,8 +140,18 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
  };
  const canAdvance=rounds.includes(currentRound)&&(!enabledRounds||enabledRounds.has(currentRound));
  const showJump=canAdvance&&value!==currentRound;
+ // When the action goes away, a non-interactive copy folds up so it does not vanish abruptly.
+ const [leaving,setLeaving]=useState(false);
+ const wasShown=useRef(showJump);
+ useEffect(()=>{
+  if(wasShown.current&&!showJump)setLeaving(true);
+  if(showJump)setLeaving(false);
+  wasShown.current=showJump;
+ },[showJump]);
+ const jumpContent=(withRef:boolean)=><>{live&&<span className="qdAdvanceRoundDot" aria-hidden="true"/>}<span className="qdAdvanceRoundLabel">{live?`J${currentRound} en juego`:`Jornada actual · J${currentRound}`}</span><span ref={withRef?arrow:undefined} className="qdLaunchArrow" aria-hidden="true">Ir</span></>;
  return <div className={"qdRoundNavigator "+(travelling?"isTravelling":"")}>
-  {showJump&&<div className="qdRoundJump"><button className="qdAdvanceRound" data-live={live?"true":"false"} type="button" onClick={advance} disabled={travelling} aria-label={`Ir a jornada actual, jornada ${currentRound}${live?", en juego":""}`} aria-busy={travelling}>{live&&<span className="qdAdvanceRoundDot" aria-hidden="true"/>}<span className="qdAdvanceRoundLabel">{live?`J${currentRound} en juego`:`Jornada actual · J${currentRound}`}</span><span ref={arrow} className="qdLaunchArrow" aria-hidden="true">Ir</span></button></div>}
+  {showJump&&<div className="qdRoundJump is-entering"><button className="qdAdvanceRound" data-live={live?"true":"false"} type="button" onClick={advance} disabled={travelling} aria-label={`Ir a jornada actual, jornada ${currentRound}${live?", en juego":""}`} aria-busy={travelling}>{jumpContent(true)}</button></div>}
+  {!showJump&&leaving&&<div className="qdRoundJump is-leaving" aria-hidden="true" onAnimationEnd={event=>{if(event.target===event.currentTarget)setLeaving(false)}}><div className="qdAdvanceRound qdAdvanceRoundGhost" data-live={live?"true":"false"}>{jumpContent(false)}</div></div>}
   <div ref={rail} className="qdRoundRail" role="group" aria-label={label} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onClickCapture={onRailClickCapture} onWheel={stop} onKeyDown={stop}>
    <div className="qdRoundTrack">
     <button type="button" data-scope="all" aria-pressed={value==="all"} className={value==="all"?"active":""} onClick={()=>{stop();onChange("all")}}>{initialLabel}</button>
