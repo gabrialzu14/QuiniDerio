@@ -53,8 +53,41 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingSelf{outline
   }
 }
 
-/* Places gained or lost since the previous jornada. */
-html body.qdModern .rankingRow .rankingMove{display:inline-flex;align-items:center;margin-left:7px;padding:2px 6px;border-radius:var(--qd-radius-pill,999px);font-size:var(--qd-fs-caption,11px);font-weight:800;line-height:1.2;letter-spacing:0;vertical-align:middle;white-space:nowrap}
-/* Solid badges stay readable on blue and red rows alike. */
-html body.qdModern .rankingRow .rankingMove.up{background:#098552;color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.25)}
-html body.qdModern .rankingRow .rankingMove.down{background:#fff;color:#c8102e;box-shadow:0 0 0 1px rgba(200,16,46,.25)}
+/*
+ * General ranking, model A: dark rows with a glowing edge in the zone colour
+ * (leader green, upper half blue, middle neutral, lower half red).
+ */
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower){
+ --z:#5b6f88;
+ position:relative!important;overflow:hidden!important;
+ background:linear-gradient(90deg,color-mix(in srgb,var(--z) 24%,#0c2347),#0c2347 72%)!important;
+ border:1px solid color-mix(in srgb,var(--z) 50%,transparent)!important;
+ box-shadow:0 6px 18px -10px var(--z)!important;
+ color:#f2f7ff!important;
+}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingUpper{--z:#2f80ed}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingLower{--z:#e8183a}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingLeader{--z:#17b26a}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower)::before{
+ content:"";position:absolute;left:0;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;
+ background:var(--z);box-shadow:0 0 12px 1px var(--z);pointer-events:none;
+}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower) :is(b,strong,.rankingPlayer span){color:#f2f7ff!important}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower)>.qdStaticRank{
+ opacity:1!important;color:color-mix(in srgb,var(--z) 50%,#fff)!important;font-weight:900!important;
+}
+html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower){
+ background:linear-gradient(90deg,color-mix(in srgb,var(--z) 16%,#fff),#fff 72%)!important;
+ border-color:color-mix(in srgb,var(--z) 45%,transparent)!important;
+ box-shadow:0 6px 16px -12px var(--z)!important;color:#152e46!important;
+}
+html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower) :is(b,strong,.rankingPlayer span){color:#152e46!important}
+html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower)>.qdStaticRank{color:color-mix(in srgb,var(--z) 75%,#000)!important}
+
+/* Places gained or lost since the previous jornada: plain arrow under the position, no box. */
+html body.qdModern .rankingRow>.qdStaticRank{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1.05}
+html body.qdModern .rankingRow .rankingMove{display:block;padding:0;background:none!important;box-shadow:none!important;font-size:9.5px;font-weight:800;line-height:1;letter-spacing:0;white-space:nowrap}
+html body.qdModern .rankingRow .rankingMove.up{color:#3ddc97!important}
+html body.qdModern .rankingRow .rankingMove.down{color:#ff6b7f!important}
+html[data-theme="light"] body.qdModern .rankingRow .rankingMove.up{color:#0b7a4b!important}
+html[data-theme="light"] body.qdModern .rankingRow .rankingMove.down{color:#c8102e!important}
