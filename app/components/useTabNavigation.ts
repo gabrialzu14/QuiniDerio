@@ -30,6 +30,25 @@ export default function useTabNavigation(){
     dashboardRef.current?.scrollTo({top:0,behavior});
     window.scrollTo({top:0,behavior});
   };
+  const transitionDone=useRef<(()=>void)|null>(null);
+  /**
+   * Cross-fade between tabs with the View Transitions API (Chrome/Android,
+   * Safari 18+). The browser animates snapshots, so the document scroller is
+   * never transformed; without support or with reduced motion it is instant.
+   */
+  const changeTab=(next:MainTab)=>{
+    const doc=(typeof document==="undefined"?undefined:document) as (Document&{startViewTransition?:(update:()=>Promise<void>)=>unknown})|undefined;
+    if(!doc||typeof doc.startViewTransition!=="function"){setTab(next);return}
+    const calm=window.matchMedia("(prefers-reduced-motion: reduce)").matches||doc.body.classList.contains("qdModalOpen");
+    if(calm){setTab(next);return}
+    try{
+      doc.startViewTransition(()=>new Promise<void>(resolve=>{
+        transitionDone.current=resolve;
+        setTab(next);
+        window.setTimeout(resolve,350);
+      }));
+    }catch{setTab(next)}
+  };
   const navigateTab=(next:MainTab)=>{
     // Re-entering a round view also starts at its current round.
     setEntryKey(previous=>previous+1);
@@ -41,13 +60,13 @@ export default function useTabNavigation(){
     if(next===HOME&&tabFromState(history.state)!==HOME){
       // Reuse the existing Inicio entry so forward history never piles up.
       history.back();
-      setTab(HOME);
+      changeTab(HOME);
       tabRef.current=HOME;
       return;
     }
     if(current===HOME)history.pushState({qdTab:next},"");
     else history.replaceState({qdTab:next},"");
-    setTab(next);
+    changeTab(next);
     tabRef.current=next;
   };
   const navigateRef=useRef(navigateTab);
@@ -78,6 +97,11 @@ export default function useTabNavigation(){
     };
   },[]);
   // The document owns scrolling on desktop and installed mobile apps.
-  useLayoutEffect(()=>{scrollToTop("instant")},[tab]);
+  useLayoutEffect(()=>{
+    scrollToTop("instant");
+    // The new tab is in the DOM: let a running view transition take its snapshot.
+    transitionDone.current?.();
+    transitionDone.current=null;
+  },[tab]);
   return {tab,navigateTab,dashboardRef,entryKey};
 }

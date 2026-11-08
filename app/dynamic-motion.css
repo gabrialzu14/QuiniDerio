@@ -97,3 +97,15 @@ html body.qdModern .qdRoundRail .qdRoundTrack>button{
 html body.qdModern .qdRoundRail .qdRoundTrack>button:disabled{
  pointer-events:none!important;
 }
+
+/* Tab changes: short cross-fade driven by the View Transitions API (see useTabNavigation). */
+html body.qdModern .liquidNav.qdMotionNav{view-transition-name:qd-nav}
+::view-transition-group(qd-nav){animation:none}
+::view-transition-old(qd-nav){display:none}
+::view-transition-new(qd-nav){animation:none}
+@media (prefers-reduced-motion:no-preference){
+ ::view-transition-old(root){animation:qdTabFadeOut .14s ease-in both}
+ ::view-transition-new(root){animation:qdTabFadeIn .22s cubic-bezier(.2,.8,.2,1) both}
+}
+@keyframes qdTabFadeOut{to{opacity:0}}
+@keyframes qdTabFadeIn{from{opacity:0;transform:translateY(6px)}}

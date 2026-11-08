@@ -23,7 +23,7 @@ assert.doesNotMatch(fixtureHeader,/<svg\b/);
 assert.match(fixtureHeader,/Fecha por confirmar/);
 assert.match(fixtureHeader,/Lugar por confirmar/);
 assert.match(page,/className="versus"/);
-assert.match(page,/onClick=\{\(\)=>setPicks\(v=>\(\{\.\.\.v,\[pickKey\]:x\}\)\)\}/);
+assert.match(page,/onClick=\{\(\)=>\{if\(currentPick!==x\)tapHaptic\(\);setPicks\(v=>\(\{\.\.\.v,\[pickKey\]:x\}\)\)\}\}/,'Choosing 1/X/2 only stores the pick (plus a light vibration on Android)');
 assert.match(css,/qdTab-quiniela/);
 // El fondo debe usar únicamente degradados CSS, sin imágenes ni enlaces externos.
 const backgroundRule=css.match(/\.matchCard\.qdStadiumMatch\{([\s\S]*?)\n\}/)?.[1];
