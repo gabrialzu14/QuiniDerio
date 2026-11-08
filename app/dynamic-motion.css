@@ -125,3 +125,23 @@ html[data-theme="light"] body.qdModern .qdFixtureList .qdLiveTag.is-break{backgr
 /* Crests: a soft outline so light shields stand out; sizes are unchanged. */
 html body.qdModern :is(.crestBox img,.qdPlayerMatchCrest){filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.35))}
 html[data-theme="light"] body.qdModern :is(.crestBox img,.qdPlayerMatchCrest){filter:drop-shadow(0 0 1px rgba(10,30,60,.55)) drop-shadow(0 2px 3px rgba(10,30,60,.18))}
+
+/* "Ir a jornada actual" as a compact chip: red with a blinking dot while the jornada is in play, blue otherwise. */
+html body.qdModern .qdRoundNavigator .qdAdvanceRound{
+ --chip:#2f80ed;
+ display:inline-flex;align-items:center;gap:9px;min-height:38px;height:38px;padding:0 5px 0 13px;
+ border-radius:999px;border:1px solid color-mix(in srgb,var(--chip) 60%,transparent);
+ background:color-mix(in srgb,var(--chip) 15%,transparent);color:#e3efff;
+ font-size:13px;font-weight:800;line-height:1;white-space:nowrap;
+ box-shadow:0 0 18px -6px var(--chip);transform:none;
+}
+html body.qdModern .qdRoundNavigator .qdAdvanceRound[data-live="true"]{--chip:#ff2d48;color:#ffe1e5}
+html body.qdModern .qdRoundNavigator .qdAdvanceRound:hover:not(:disabled){background:color-mix(in srgb,var(--chip) 24%,transparent);border-color:var(--chip);box-shadow:0 0 22px -4px var(--chip);transform:none}
+html body.qdModern .qdRoundNavigator .qdAdvanceRound:active:not(:disabled){transform:scale(.97)!important}
+html body.qdModern .qdRoundNavigator .qdAdvanceRoundDot{width:8px;height:8px;flex:none;border-radius:50%;background:#ff2d48;animation:qdLiveBlink 1.2s ease-in-out infinite}
+html body.qdModern .qdRoundNavigator .qdLaunchArrow{width:auto;height:28px;flex:none;padding:0 11px;border-radius:999px;background:color-mix(in srgb,var(--chip) 82%,#000);color:#fff;font-size:12px;font-weight:800}
+html[data-theme="light"] body.qdModern .qdRoundNavigator .qdAdvanceRound{background:color-mix(in srgb,var(--chip) 10%,#fff);border-color:color-mix(in srgb,var(--chip) 45%,#fff);color:#164a8c;box-shadow:none}
+html[data-theme="light"] body.qdModern .qdRoundNavigator .qdAdvanceRound[data-live="true"]{color:#9b0f29}
+html[data-theme="light"] body.qdModern .qdRoundNavigator .qdLaunchArrow{background:color-mix(in srgb,var(--chip) 82%,#000);color:#fff}
+html body.qdModern .qdRoundNavigator .qdAdvanceRound:focus-visible{outline:2px solid var(--chip);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){html body.qdModern .qdRoundNavigator .qdAdvanceRoundDot{animation:none}}

@@ -2,8 +2,8 @@
 import {useEffect,useRef,useState} from "react";
 
 type Scope=number|"all";
-type Props={value:Scope;onChange:(scope:Scope)=>void;rounds:number[];currentRound:number;initialLabel:string;label:string;enabledRounds?:Set<number>};
-export default function RoundRail({value,onChange,rounds,currentRound,initialLabel,label,enabledRounds}:Props){
+type Props={value:Scope;onChange:(scope:Scope)=>void;rounds:number[];currentRound:number;initialLabel:string;label:string;enabledRounds?:Set<number>;live?:boolean};
+export default function RoundRail({value,onChange,rounds,currentRound,initialLabel,label,enabledRounds,live=false}:Props){
  const arrow=useRef<HTMLSpanElement>(null);
  const flight=useRef<Animation|null>(null);
  const rail=useRef<HTMLDivElement>(null);
@@ -141,7 +141,7 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
  const canAdvance=rounds.includes(currentRound)&&(!enabledRounds||enabledRounds.has(currentRound));
  const showJump=canAdvance&&value!==currentRound;
  return <div className={"qdRoundNavigator "+(travelling?"isTravelling":"")}>
-  {showJump&&<div className="qdRoundJump"><button className="qdAdvanceRound" type="button" onClick={advance} disabled={travelling} aria-label={`Ir a jornada actual, jornada ${currentRound}`} aria-busy={travelling}><span className="qdAdvanceRoundLabel">Ir a jornada actual</span><span className="qdAdvanceRoundTarget" aria-hidden="true">J{currentRound}</span><span ref={arrow} className="qdLaunchArrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12h10m-5-5 5 5-5 5"/></svg></span></button></div>}
+  {showJump&&<div className="qdRoundJump"><button className="qdAdvanceRound" data-live={live?"true":"false"} type="button" onClick={advance} disabled={travelling} aria-label={`Ir a jornada actual, jornada ${currentRound}${live?", en juego":""}`} aria-busy={travelling}>{live&&<span className="qdAdvanceRoundDot" aria-hidden="true"/>}<span className="qdAdvanceRoundLabel">{live?`J${currentRound} en juego`:`Jornada actual · J${currentRound}`}</span><span ref={arrow} className="qdLaunchArrow" aria-hidden="true">Ir</span></button></div>}
   <div ref={rail} className="qdRoundRail" role="group" aria-label={label} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onClickCapture={onRailClickCapture} onWheel={stop} onKeyDown={stop}>
    <div className="qdRoundTrack">
     <button type="button" data-scope="all" aria-pressed={value==="all"} className={value==="all"?"active":""} onClick={()=>{stop();onChange("all")}}>{initialLabel}</button>

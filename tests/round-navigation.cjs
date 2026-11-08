@@ -24,7 +24,7 @@ function pageFixture(name,destination=null){
  const useRoundScope=h.load(read('app/components/useRoundScope.ts')).default;
  const coachContext={exports:{}};vm.runInNewContext(compile(read('app/lib/coach-change.ts')),coachContext);
  const {currentCoachName}=coachContext.exports;
- Object.assign(h.context,{currentCoachName,useRoundScope,useFixtures:()=>({}),useActiveRound:()=>active,useScrollReveal:()=>{},usePageScrollLock:()=>{},useBackDismiss:()=>{},AvatarImage:()=>null,rankingMoves:()=>new Map(),RankingMove:()=>null,teams:[],teamData:[],RoundRail,asset:p=>p,UsersIcon:()=>null,DinioImage:()=>null,quiniRoundOpeningKey:()=>null});
+ Object.assign(h.context,{currentCoachName,useRoundScope,useFixtures:()=>({}),useActiveRound:()=>active,useScrollReveal:()=>{},usePageScrollLock:()=>{},useBackDismiss:()=>{},AvatarImage:()=>null,rankingMoves:()=>new Map(),RankingMove:()=>null,useRoundInPlay:()=>false,teams:[],teamData:[],RoundRail,asset:p=>p,UsersIcon:()=>null,DinioImage:()=>null,quiniRoundOpeningKey:()=>null});
  const Component=h.load(declaration(name)+'\nexports.Component='+name+';').Component;
  const props=name==='Ranking'?{destination}:{picks:{},round:1,dinio:'NO',season:{positions:{}},onEdit:()=>{},onRequireLogin:()=>{}};
  const render=()=>h.render(()=>Component(props));

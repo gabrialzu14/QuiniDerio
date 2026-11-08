@@ -57,7 +57,7 @@ html[data-theme="light"] .dashboard .rankingRows .rankingRow.rankingSelf{outline
  * General ranking, model A: dark rows with a glowing edge in the zone colour
  * (leader green, upper half blue, middle neutral, lower half red).
  */
-html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower){
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower,.rankingPotFirst,.rankingPotRest){
  --z:#5b6f88;
  position:relative!important;overflow:hidden!important;
  background:linear-gradient(90deg,color-mix(in srgb,var(--z) 24%,#0c2347),#0c2347 72%)!important;
@@ -68,25 +68,27 @@ html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:i
 html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingUpper{--z:#2f80ed}
 html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingLower{--z:#e8183a}
 html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingLeader{--z:#17b26a}
-html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower)::before{
+/* Bote acumulado: the first (who pays most) in red, the rest in blue. */
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingPotFirst{--z:#e8183a}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton.rankingPotRest{--z:#2f80ed}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower,.rankingPotFirst,.rankingPotRest)::before{
  content:"";position:absolute;left:0;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;
  background:var(--z);box-shadow:0 0 12px 1px var(--z);pointer-events:none;
 }
-html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower) :is(b,strong,.rankingPlayer span){color:#f2f7ff!important}
-html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower)>.qdStaticRank{
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower,.rankingPotFirst,.rankingPotRest) :is(b,strong,.rankingPlayer span){color:#f2f7ff!important}
+html body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower,.rankingPotFirst,.rankingPotRest)>.qdStaticRank{
  opacity:1!important;color:color-mix(in srgb,var(--z) 50%,#fff)!important;font-weight:900!important;
 }
-html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower){
+html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower,.rankingPotFirst,.rankingPotRest){
  background:linear-gradient(90deg,color-mix(in srgb,var(--z) 16%,#fff),#fff 72%)!important;
  border-color:color-mix(in srgb,var(--z) 45%,transparent)!important;
  box-shadow:0 6px 16px -12px var(--z)!important;color:#152e46!important;
 }
-html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower) :is(b,strong,.rankingPlayer span){color:#152e46!important}
-html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower)>.qdStaticRank{color:color-mix(in srgb,var(--z) 75%,#000)!important}
+html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower,.rankingPotFirst,.rankingPotRest) :is(b,strong,.rankingPlayer span){color:#152e46!important}
+html[data-theme="light"] body.qdModern.qdModern.qdModern .dashboard .rankingRows .rankingRowButton:is(.rankingLeader,.rankingUpper,.rankingMiddle,.rankingLower,.rankingPotFirst,.rankingPotRest)>.qdStaticRank{color:color-mix(in srgb,var(--z) 75%,#000)!important}
 
-/* Places gained or lost since the previous jornada: plain arrow under the position, no box. */
-html body.qdModern .rankingRow>.qdStaticRank{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1.05}
-html body.qdModern .rankingRow .rankingMove{display:block;padding:0;background:none!important;box-shadow:none!important;font-size:9.5px;font-weight:800;line-height:1;letter-spacing:0;white-space:nowrap}
+/* Places gained or lost since the previous jornada: plain coloured arrow right of the name, no box. */
+html body.qdModern .rankingRow .rankingMove{display:inline-block;margin-left:8px;padding:0;background:none!important;box-shadow:none!important;font-size:11px;font-weight:800;line-height:1;letter-spacing:0;white-space:nowrap;vertical-align:middle}
 html body.qdModern .rankingRow .rankingMove.up{color:#3ddc97!important}
 html body.qdModern .rankingRow .rankingMove.down{color:#ff6b7f!important}
 html[data-theme="light"] body.qdModern .rankingRow .rankingMove.up{color:#0b7a4b!important}
