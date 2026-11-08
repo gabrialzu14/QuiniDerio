@@ -6,6 +6,7 @@ import "./admin.css";
 import MatchEditor from "./MatchEditor";
 import usePageScrollLock from "../components/usePageScrollLock";
 import CreateRound from "./CreateRound";
+import FederationImport from "./FederationImport";
 import type {ManagedMatch} from "../lib/match-details";
 const ADMIN="gabrialzueta@gmail.com";
 const PUBLISHED_ROUNDS=publishedQuiniRounds();
@@ -190,6 +191,7 @@ export default function AdminPage(){
   <section className="adminIntro"><div><span className="adminEyebrow">TEMPORADA 2026/27</span><h1>Panel Admin</h1><p>Datos de los partidos, resultados y tarjetas se comparten con todos los usuarios.</p></div><span className="adminRoundBadge">Jornada {round}</span></section>
   <section className="adminRoundSelector" aria-label="Jornada activa"><div><b>Selecciona la jornada</b><small>Jornada activa para jugadores: {activeRound===null?"Cargando…":"J"+activeRound}. Los controles se aplican a la jornada seleccionada.</small></div><nav aria-label="Seleccionar jornada">{publishedRounds.map(n=><button type="button" key={n} disabled={!!busy||!!reminderSending} aria-current={round===n?"page":undefined} aria-label={"Jornada "+n} className={round===n?"active":""} onClick={()=>changeRound(n)}>J{n}</button>)}<button type="button" className="adminCreateRoundTrigger" aria-current={view==="create"?"page":undefined}
   onClick={()=>{setView("create");setMessage(null)}}>+ Crear jornada</button></nav></section>
+  <FederationImport onSaved={()=>void load(round,true)}/>
   <nav className="adminViewTabs" aria-label="Secciones de administración">{([["matches","Partidos"],["pending","Pronósticos pendientes"],["round","Control de jornada"],["create","Crear jornada"]] as [View,string][]).map(([key,label])=><button type="button" key={key} aria-current={view===key?"page":undefined} className={view===key?"active":""} onClick={()=>setView(key)}>{label}</button>)}</nav>
   {message&&<div className={"adminFeedback "+message.kind} role={message.kind==="error"?"alert":"status"}>{message.text}<button aria-label="Cerrar aviso" onClick={()=>setMessage(null)}>×</button></div>}
   {view!=="create"&&loadError?<section className="adminEmpty" role="alert"><h2>No se ha podido cargar la jornada</h2><p>{loadError}</p><button className="adminPrimary" onClick={()=>void load(round)}>Reintentar</button></section>:view!=="create"&&loading?<section className="adminLoading" role="status"><div className="adminLoadingMark"/><p>Cargando jornada {round}…</p></section>:<>

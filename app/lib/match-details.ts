@@ -1,6 +1,6 @@
 import {currentStandings,matchdayThreeStandings,currentForm,matchdayThreeForm} from "./team-context";
 import {quizFixtures} from "./quiz-fixtures";
-export type MatchDetails={teamLabel:string,opponent:string,date:string,time:string,venue:string,location:string,derioPosition:number|null,opponentPosition:number|null,derioPoints:number|null,opponentPoints:number|null,derioForm:string,opponentForm:string,crest?:string,competition?:string,federationRound?:number|null};
+export type MatchDetails={teamLabel:string,opponent:string,date:string,time:string,venue:string,location:string,derioPosition:number|null,opponentPosition:number|null,derioPoints:number|null,opponentPoints:number|null,derioForm:string,opponentForm:string,crest?:string,competition?:string,federationRound?:number|null,federationOpponent?:string};
 export type ManagedMatch={round:number,team:string,opponent:string,is_home:boolean|null,scheduled_at:string|null,fixture_details:MatchDetails|null};
 export type RestFixture={round:number,team:string,competition?:string,federation_round?:number|null};
 export function matchDetails(row:ManagedMatch):MatchDetails{
@@ -50,7 +50,9 @@ export function validateDetails(input:unknown):MatchDetails{
  const competition=v.competition===undefined?"":text("competition",80);
  const federationRound=v.federationRound===undefined||v.federationRound===null?null:num("federationRound",1);
  if(federationRound!==null&&federationRound>100)throw new Error("Jornada federativa no válida.");
- const d:MatchDetails={teamLabel:text("teamLabel",80,true),opponent:text("opponent",80,true),date:text("date",10,true),time:text("time",5,true),venue:text("venue",160),location:text("location",160),derioPosition:num("derioPosition",1),opponentPosition:num("opponentPosition",1),derioPoints:num("derioPoints",-999),opponentPoints:num("opponentPoints",-999),derioForm:form("derioForm"),opponentForm:form("opponentForm"),crest,competition,federationRound};
+ const d:MatchDetails={teamLabel:text("teamLabel",80,true),opponent:text("opponent",80,true),date:text("date",10,true),time:text("time",5,true),venue:text("venue",160),location:text("location",160),derioPosition:num("derioPosition",1),opponentPosition:num("opponentPosition",1),derioPoints:num("derioPoints",-999),opponentPoints:num("opponentPoints",-999),derioForm:form("derioForm"),opponentForm:form("opponentForm"),crest,competition,federationRound,
+  // Opponent name as the federation writes it, so later standings imports can find it.
+  ...(typeof v.federationOpponent==="string"&&v.federationOpponent.trim()?{federationOpponent:text("federationOpponent",120)}:{})};
  kickoffUtc(d.date,d.time);
  return d;
 }
