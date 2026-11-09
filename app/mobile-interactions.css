@@ -214,3 +214,23 @@ html[data-theme="light"] .qdPullNoticeOrb i{background:#409cda}
 @media(prefers-reduced-motion:reduce){
  .qdPullNotice,.qdPullNoticeOrb{animation:none!important;transition:none!important}
 }
+/* Pronósticos · cabecera del partido, opción A: escudo+nombre y bloque central
+   centrados entre sí en una sola fila; el nombre no reserva una segunda línea vacía. */
+html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsFixture{
+  align-items:center!important;
+  padding:16px 12px 14px!important;
+}
+html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsFixture .matchRivalsTeam{
+  grid-template-rows:auto auto!important;
+  align-content:center!important;
+  align-self:center!important;
+  row-gap:8px!important;
+}
+html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsFixture .matchRivalsTeam .matchRivalsTeamName{
+  min-height:0!important;
+  align-self:start!important;
+}
+html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsFixture .matchRivalsCenter{
+  align-self:center!important;
+  gap:4px!important;
+}
