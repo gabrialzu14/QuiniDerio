@@ -234,3 +234,5 @@ html body.qdModern .predictionsPage .matchRivalsCard .matchRivalsFixture .matchR
   align-self:center!important;
   gap:4px!important;
 }
+.potMissedRound{display:block;margin-top:2px;font-size:10px;font-weight:700;line-height:1.15;color:#ff5a5f;text-align:center}
+html[data-theme="light"] .potMissedRound{color:#c62828}
