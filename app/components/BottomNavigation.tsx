@@ -1,5 +1,7 @@
 "use client";
+import {useEffect,useState} from "react";
 import type {CSSProperties,ReactNode} from "react";
+import {createPortal} from "react-dom";
 import "./bottom-navigation.css";
 export type MainTab="inicio"|"quiniela"|"pronosticos"|"clasificacion"|"mas";
 const items:[MainTab,string,ReactNode][]=[
@@ -10,14 +12,19 @@ const items:[MainTab,string,ReactNode][]=[
   ["mas","Mi cuenta",<AccountIcon key="m"/>]
 ];
 export default function BottomNavigation({tab,onNavigate}:{tab:MainTab,onNavigate:(tab:MainTab)=>void}){
+  const [mounted,setMounted]=useState(false);
+  useEffect(()=>setMounted(true),[]);
   const indicatorStyle={"--active-index":items.findIndex(([id])=>id===tab)} as CSSProperties;
-  return <nav className="liquidNav qdMotionNav" aria-label="Navegación principal" style={indicatorStyle}>
+  if(!mounted)return null;
+  // Keep the fixed dock outside the scrolling/animated dashboard. In iOS PWAs,
+  // that ancestor can clip or rebase a fixed child during startup and tab changes.
+  return createPortal(<nav className="liquidNav qdMotionNav" aria-label="Navegación principal" style={indicatorStyle}>
     <span className="navIndicator" aria-hidden="true"/>
     {items.map(([id,label,icon])=><button type="button" key={id} aria-label={label}
       aria-current={tab===id?"page":undefined} className={tab===id?"active":""} onClick={()=>onNavigate(id)}>
       <span className="navIcon">{icon}</span><small>{label}</small>
     </button>)}
-  </nav>;
+  </nav>,document.body);
 }
 function HomeIcon(){return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3Z"/></svg>}
 function TargetIcon(){return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7a5 5 0 1 0 5 5"/><path d="M12 11a1 1 0 1 0 1 1"/><path d="m14.5 9.5 5-5"/><path d="M17 4.5h2.5V7"/></svg>}

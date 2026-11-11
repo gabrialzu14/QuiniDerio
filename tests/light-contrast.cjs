@@ -33,7 +33,7 @@ assert.match(light,/html\[data-theme="light"\] body\.qdModern \.predictionsPage 
 assert.match(light,/--qd-light-secondary:#4e647b/);
 assert.match(light,/\.matchRivalsCenter :is\(\.matchRivalsDate,\.matchRivalsVenue\)/);
 assert.match(light,/\.pickResult\.hasPick\.predictionCorrect/);
-assert.match(nav,/html\[data-theme="light"\] body \.dashboard \.liquidNav\.qdMotionNav button\.active small/);
+assert.match(nav,/html\[data-theme="light"\] body\.qdModern > nav\.liquidNav\.qdMotionNav button\.active small/);
 assert.match(quiniela,/\.qdStadiumMatch \.oneXtwo\{\s*background:transparent!important/);
 assert.match(quiniela,/button:not\(\[aria-pressed="true"\]\):is\(\.pick1,\.pickX,\.pick2\)\{[\s\S]*?background:#143b69!important/,"Unselected 1/X/2 must have the same neutral dark blue in light mode");
 assert.match(quiniela,/button:not\(\[aria-pressed="true"\]\):is\(\.pick1,\.pickX,\.pick2\) :is\(b,small\)\{[\s\S]*?color:#edf5ff!important/,"Unselected labels must share the same ink");

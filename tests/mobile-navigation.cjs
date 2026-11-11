@@ -81,7 +81,11 @@ function documentFixture(){
  assert.match(navGeometry,/width: calc\(\(100% - 2 \* var\(--qd-nav-inset\) - 4 \* var\(--qd-nav-gap\)\) \/ 5\) !important/);
  assert.match(navGeometry,/transform: translate3d\(calc\(var\(--active-index\) \* \(100% \+ var\(--qd-nav-gap\)\)\), 0, 0\) !important/);
  assert.match(navGeometry,/html\[data-nav="top"\]/);
- assert.doesNotMatch(navGeometry,/touch-action: none|pointer-events: none !important/);
+ assert.doesNotMatch(navGeometry.split("/* Dialogs temporarily cover the dock")[0],/touch-action: none|pointer-events: none !important/);
+ assert.match(navGeometry,/body\.qdModern > nav\.liquidNav\.qdMotionNav/);
+ assert.match(navGeometry,/body\.qdModern\.qdModalOpen > nav\.liquidNav\.qdMotionNav/);
+ const navComponent=readFileSync(path.join(__dirname,"../app/components/BottomNavigation.tsx"),"utf8");
+ assert.match(navComponent,/createPortal\([\s\S]*?document\.body\)/,"The dock must escape the scrolling dashboard on iOS");
  const rail=readFileSync(path.join(__dirname,"../app/components/RoundRail.tsx"),"utf8");
  const railCss=readFileSync(path.join(__dirname,"../app/dynamic-motion.css"),"utf8");
  assert.match(rail,/addEventListener\("touchmove",move,\{passive:false\}\)/);
