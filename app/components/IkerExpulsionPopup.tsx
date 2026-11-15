@@ -159,7 +159,7 @@ export default function IkerExpulsionPopup() {
       <div className="qdFirstCoachIdentity">
         <h3 id="qdIkerName">{notice.name}</h3>
         <p id="qdIkerStatus">EXPULSADO</p>
-        <p id="qdIkerReason" className="qdIkerReason">Por ayudar a levantarse a una jugadora de Indar Chubón.</p>
+        <p id="qdIkerReason" className="qdIkerReason">Por ayudar a levantarse a una jugadora de Indattsu.</p>
       </div>
       {error ? <p className="qdFirstCoachError" role="alert">{error}</p> : null}
       <button ref={action} className="qdFirstCoachAction" type="button" disabled={saving || leaving} onClick={() => void confirm()}>{saving ? "Guardando…" : "Entendido"}</button>
