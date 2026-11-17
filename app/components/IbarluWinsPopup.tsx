@@ -8,7 +8,7 @@ import "./ibarlu-wins-popup.css";
 
 /** Shown once per player, the first time they open the Quiniela tab:
  *  Iker Ibarluzea with four wins (the fourth tick lands animated), then a video. */
-const ANNOUNCEMENT = "ibarlu-4-victorias-2026-11";
+const ANNOUNCEMENT = "ibarlu-4-victorias-2026-11-v2";
 const LOCAL_KEY = "qd-ack-" + ANNOUNCEMENT;
 const PHOTO = "/api/assets/entrenadores/IkerIbarluzea.png?opt=4";
 const VIDEO = "/videos/ibarlu-4-victorias.mp4";
@@ -28,7 +28,7 @@ export default function IbarluWinsPopup({active}: {active: boolean}) {
   const [muted, setMuted] = useState(false);
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [ended, setEnded] = useState(false);
+  const [ended, setEnded] = useState(false); // sticky: once watched to the end, the X stays
   const [photoFailed, setPhotoFailed] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
   const checked = useRef("");
@@ -104,7 +104,7 @@ export default function IbarluWinsPopup({active}: {active: boolean}) {
           {ended && <button type="button" className="qdIbarluClose" aria-label="Cerrar" onClick={() => void close()}>×</button>}
           <video ref={video} src={VIDEO} poster="/videos/ibarlu-4-victorias.jpg" playsInline preload="auto"
             onClick={toggle}
-            onPlay={() => {setPlaying(true); setEnded(false)}} onPause={() => setPlaying(false)}
+            onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
             onEnded={() => {setPlaying(false); setEnded(true)}}
             onTimeUpdate={e => setTime(e.currentTarget.currentTime)}
             onLoadedMetadata={e => setDuration(e.currentTarget.duration)}/>
