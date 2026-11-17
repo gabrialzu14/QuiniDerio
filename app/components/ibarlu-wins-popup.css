@@ -1,0 +1,34 @@
+.qdIbarluBackdrop{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:16px;background:rgba(3,8,22,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:qdIbFade .25s ease}
+.qdIbarluPopup{position:relative;width:min(420px,100%);max-height:calc(100dvh - 32px);overflow:auto;border-radius:24px;background:linear-gradient(180deg,#132654,#0b1838);border:1px solid #2b4a8c;box-shadow:0 24px 60px rgba(0,0,0,.55);color:#fff;animation:qdIbPop .35s cubic-bezier(.2,.9,.3,1.2)}
+.qdIbarluIntro{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 20px 20px}
+.qdIbarluEyebrow{margin:0 0 10px;font-size:12px;font-weight:800;letter-spacing:.12em;color:#9fb8ef}
+.qdIbarluPhoto{width:200px;height:230px;display:grid;place-items:end center;filter:drop-shadow(0 12px 22px rgba(0,0,0,.45))}
+.qdIbarluPhoto img{width:100%;height:100%;object-fit:contain;object-position:50% 100%}
+.qdIbarluPhoto span{align-self:center;font-weight:800;font-size:28px}
+.qdIbarluIntro h2{margin:14px 0 14px;font-size:22px;font-weight:850;color:#fff}
+.qdIbarluTicks{display:flex;gap:10px;justify-content:center}
+.qdIbarluTick{width:46px;height:46px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(180deg,#2ee86f,#16a34a);box-shadow:0 0 14px rgba(34,197,94,.55),inset 0 -3px 0 rgba(0,0,0,.18)}
+.qdIbarluTick svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.qdIbarluTick.isNew{opacity:0;transform:scale(.2) rotate(-25deg);animation:qdIbTickIn .55s cubic-bezier(.2,1.6,.4,1) 1s forwards,qdIbGlow 1.4s ease-in-out 1.6s 2}
+.qdIbarluTick.isNew svg path{stroke-dasharray:24;stroke-dashoffset:24;animation:qdIbDraw .35s ease-out 1.4s forwards}
+.qdIbarluCaption{margin:14px 0 6px;font-size:15px;color:#c9d6f3}
+.qdIbarluCaption b{color:#4ade80;font-weight:850}
+.qdIbarluNext{min-width:180px;min-height:48px;border:0;border-radius:999px;background:#22c55e;color:#04140a;font-size:16px;font-weight:850;cursor:pointer;box-shadow:0 8px 22px rgba(34,197,94,.4)}
+.qdIbarluNext:active{transform:scale(.97)}
+.qdIbarluVideo{position:relative;background:#000;border-radius:24px;overflow:hidden}
+.qdIbarluVideo video{display:block;width:100%;height:auto;max-height:calc(100dvh - 110px);background:#000}
+.qdIbarluClose{position:absolute;top:10px;right:10px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:26px;line-height:1;cursor:pointer;animation:qdIbFade .3s ease}
+.qdIbarluControls{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0b1838}
+.qdIbarluControls button{flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#1d3570;color:#fff;display:grid;place-items:center;cursor:pointer}
+.qdIbarluControls button svg{width:22px;height:22px;fill:currentColor}
+.qdIbarluControls input[type=range]{flex:1;min-width:0;height:6px;-webkit-appearance:none;appearance:none;border-radius:999px;background:linear-gradient(90deg,#22c55e var(--p,0%),#34497a var(--p,0%));outline:none}
+.qdIbarluControls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;border:0}
+.qdIbarluControls input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:0}
+.qdIbarluTime{flex:none;font-size:12px;color:#c9d6f3;font-variant-numeric:tabular-nums}
+@keyframes qdIbFade{from{opacity:0}to{opacity:1}}
+@keyframes qdIbPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes qdIbTickIn{to{opacity:1;transform:none}}
+@keyframes qdIbDraw{to{stroke-dashoffset:0}}
+@keyframes qdIbGlow{50%{box-shadow:0 0 30px 6px rgba(74,222,128,.9)}}
+@media(prefers-reduced-motion:reduce){.qdIbarluTick.isNew{opacity:1;transform:none;animation:none}.qdIbarluTick.isNew svg path{stroke-dashoffset:0;animation:none}}
+.qdIbarluMoment{margin:0 0 18px;font-size:16px;font-weight:800;color:#fff;font-style:italic}
