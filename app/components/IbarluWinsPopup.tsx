@@ -90,15 +90,15 @@ export default function IbarluWinsPopup({active}: {active: boolean}) {
     <div className="qdIbarluBackdrop">
       <section className="qdIbarluPopup" role="dialog" aria-modal="true" aria-label="Iker Ibarluzea, cuatro victorias">
         {step === "intro" ? <div className="qdIbarluIntro">
-          <p className="qdIbarluEyebrow">DERIO FEM</p>
-          <div className="qdIbarluPhoto">{photoFailed ? <span>IKER</span> : <img src={PHOTO} alt="Iker Ibarluzea" onError={() => setPhotoFailed(true)}/>}</div>
-          <h2>Iker Ibarluzea</h2>
+          <div className="qdIbarluPhoto">{photoFailed ? <span>IKER</span> : <img src={PHOTO} alt="Iker Ibarlucea" onError={() => setPhotoFailed(true)}/>}</div>
+          <h2>Iker Ibarlucea</h2>
           <div className="qdIbarluTicks" aria-label="4 victorias seguidas">
             {[0, 1, 2, 3].map(i => <span key={i} className={"qdIbarluTick" + (i === 3 ? " isNew" : "")} aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
             </span>)}
           </div>
-          <p className="qdIbarluCaption"><b>4 victorias</b> seguidas</p>
+          <p className="qdIbarluCaption"><b>4 victorias consecutivas</b> con el Derio Fem</p>
+          <p className="qdIbarluMoment">Y esto merece su momento</p>
           <button type="button" className="qdIbarluNext" onClick={start}>Adelante</button>
         </div> : <div className="qdIbarluVideo">
           {ended && <button type="button" className="qdIbarluClose" aria-label="Cerrar" onClick={() => void close()}>×</button>}
