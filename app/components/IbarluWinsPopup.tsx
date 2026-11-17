@@ -8,7 +8,7 @@ import "./ibarlu-wins-popup.css";
 
 /** Shown once per player, the first time they open the Quiniela tab:
  *  Iker Ibarluzea with four wins (the fourth tick lands animated), then a video. */
-const ANNOUNCEMENT = "ibarlu-4-victorias-2026-11-v3";
+const ANNOUNCEMENT = "ibarlu-4-victorias-2026-11-v4";
 const LOCAL_KEY = "qd-ack-" + ANNOUNCEMENT;
 const PHOTO = "/api/assets/entrenadores/IkerIbarluzea.png?opt=4";
 const VIDEO = "/videos/ibarlu-4-victorias.mp4";
@@ -33,6 +33,20 @@ export default function IbarluWinsPopup({active}: {active: boolean}) {
   const video = useRef<HTMLVideoElement>(null);
   const checked = useRef("");
   usePageScrollLock(open);
+  const [count, setCount] = useState(0);
+  const [ready, setReady] = useState(false);
+
+  // Each tick lands ~0.4s after its drop starts (see the CSS delays); the
+  // counter follows them and "Adelante" appears when the animation ends.
+  useEffect(() => {
+    if (!open || step !== "intro") return;
+    const reduced = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {setCount(4); setReady(true); return}
+    setCount(0); setReady(false);
+    const timers = [890, 1590, 2290, 3140].map((ms, i) => setTimeout(() => setCount(i + 1), ms));
+    timers.push(setTimeout(() => setReady(true), 4300));
+    return () => timers.forEach(clearTimeout);
+  }, [open, step]);
 
   useEffect(() => {
     const {data: {subscription}} = supabase.auth.onAuthStateChange((_e, session) => setUserId(session?.user?.id || ""));
@@ -96,10 +110,11 @@ export default function IbarluWinsPopup({active}: {active: boolean}) {
             {[0, 1, 2, 3].map(i => <span key={i} className={"qdIbarluTick" + (i === 3 ? " isNew" : "")} aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
             </span>)}
+            <div className="qdIbarluConfetti" aria-hidden="true">{Array.from({length: 26}, (_, i) => <i key={i} style={{"--a": (i * 360 / 26) + "deg", "--d": (70 + (i * 37) % 70) + "px", "--c": ["#22c55e", "#ffffff", "#4ade80", "#bbf7d0"][i % 4]} as React.CSSProperties}/>)}</div>
           </div>
-          <p className="qdIbarluCaption"><b>4 victorias consecutivas</b> con el Derio Fem</p>
+          <p className="qdIbarluCaption"><b><span className="qdIbarluCount" key={count}>{count}</span> {count === 1 ? "victoria consecutiva" : "victorias consecutivas"}</b> con el Derio Fem</p>
           <p className="qdIbarluMoment">Y esto merece su momento</p>
-          <button type="button" className="qdIbarluNext" onClick={start}>Adelante</button>
+          <button type="button" className={"qdIbarluNext" + (ready ? " isReady" : "")} onClick={start} disabled={!ready} aria-hidden={!ready}>Adelante</button>
         </div> : <div className="qdIbarluVideo">
           {ended && <button type="button" className="qdIbarluClose" aria-label="Cerrar" onClick={() => void close()}>×</button>}
           <video ref={video} src={VIDEO} poster="/videos/ibarlu-4-victorias.jpg" playsInline preload="auto"
