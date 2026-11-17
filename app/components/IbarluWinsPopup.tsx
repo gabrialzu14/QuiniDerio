@@ -8,7 +8,7 @@ import "./ibarlu-wins-popup.css";
 
 /** Shown once per player, the first time they open the Quiniela tab:
  *  Iker Ibarluzea with four wins (the fourth tick lands animated), then a video. */
-const ANNOUNCEMENT = "ibarlu-4-victorias-2026-11-v2";
+const ANNOUNCEMENT = "ibarlu-4-victorias-2026-11-v3";
 const LOCAL_KEY = "qd-ack-" + ANNOUNCEMENT;
 const PHOTO = "/api/assets/entrenadores/IkerIbarluzea.png?opt=4";
 const VIDEO = "/videos/ibarlu-4-victorias.mp4";
