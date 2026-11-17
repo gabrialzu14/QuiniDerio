@@ -90,8 +90,8 @@ export default function IbarluWinsPopup({active}: {active: boolean}) {
     <div className="qdIbarluBackdrop">
       <section className="qdIbarluPopup" role="dialog" aria-modal="true" aria-label="Iker Ibarluzea, cuatro victorias">
         {step === "intro" ? <div className="qdIbarluIntro">
-          <div className="qdIbarluPhoto">{photoFailed ? <span>IKER</span> : <img src={PHOTO} alt="Iker Ibarlucea" onError={() => setPhotoFailed(true)}/>}</div>
-          <h2>Iker Ibarlucea</h2>
+          <div className="qdIbarluPhoto">{photoFailed ? <span>IKER</span> : <img src={PHOTO} alt="Iker Ibarluzea" onError={() => setPhotoFailed(true)}/>}</div>
+          <h2>Iker Ibarluzea</h2>
           <div className="qdIbarluTicks" aria-label="4 victorias seguidas">
             {[0, 1, 2, 3].map(i => <span key={i} className={"qdIbarluTick" + (i === 3 ? " isNew" : "")} aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
