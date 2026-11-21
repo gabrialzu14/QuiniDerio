@@ -1,0 +1,102 @@
+---
+name: ln-25-architecture-diagram-builder
+description: "Creates evidence-backed current or target architecture diagrams; not UI design."
+---
+
+# Architecture Diagram Builder
+
+**Goal:** Create the smallest set of understandable, evidence-backed diagrams needed to communicate current or proposed architecture. Change only approved architecture documentation; do not invent relationships, perform visual product design, replace prose evidence, audit fitness, or edit implementation.
+
+**Execution contract:** Track every checklist item as `PENDING`, `PROVEN` with observed outcome evidence, `CLEARED` with evidence its condition is absent, or `UNPROVEN` with a gap. Reading, delegation, tool failure, zero exit status, and self-reported success are not proof. Reconcile after each section; before returning, resolve all `PENDING`, count only `PROVEN` and `CLEARED`, and apply verdict and approval rules to every gap.
+Preserve intent, scope, mode, and existing authorization. Complete authorized work before required external approval; ask only consequential unresolved choices. If nobody can answer, report the exact question and apply the skill's gap verdict without waiting or guessing. Cite any blocking instruction and unresolved boundary; never invent approval gates. Scale depth to material risk; preserve mandatory checks, dependencies, and safety order while choosing verification methods.
+Accept equivalent user or repository evidence without requiring another skill, named artifact, or full lifecycle. Preserve source requirement and decision IDs. Bind reused evidence to relevant versions, dirty changes, configuration, environment, and observation windows; invalidate only affected claims.
+Choose the primary workflow by outcome and explicit selection. Consume neighboring contracts and valid evidence without duplicating ownership or restarting audits. Split distinct deliverables by scope, not mandatory skill invocation. Broad independent assessments use audit workflows; focused domain reviews remain read-only.
+On continuation, reconcile task, authorization, state, and gaps. Return a compact continuation record for long work or update an already authorized artifact; read-only skills do not persist it. Distinguish artifact readiness, verified behavior, and external-action authority.
+Trace applicable requirements to their authoritative owner, planned or implemented change, acceptance evidence and status in the existing artifact or response; no new registry is required. Explicit constraints remain binding until an authorized deviation; risk determines priority, not permission to ignore them.
+Investigate the causal flow beyond initially named files. Within implementation authority, include structural repair needed for the outcome; minimize total complexity and risk, not changed lines. This does not authorize unrelated cleanup or mutation during review.
+Before retrieval, define the evidence question; read selectively without skipping applicable instructions. Use tools for mechanical processing; summarize bounded results, errors, coverage, and source paths, keeping full output outside context.
+Before technical decisions, establish applicability and actual versions; verify version-dependent assumptions against official documentation or specifications. Search and read primary pages for current external recommendations; snippets are not evidence. Version-matched bundled documentation or valid prior evidence suffices. Record decision, version, source, and limitations. Mark unavailable evidence UNVERIFIED; block only essential dependent work. Prefer native mechanisms, justify added tools or abstractions with evidence, and reuse the existing rule owner.
+
+
+## Tool Routing
+
+| Need | Preferred capability | Fallback |
+|---|---|---|
+| Architecture evidence | Repository files, runtime wiring, IaC, contracts, and approved artifacts | User-provided model with `UNVERIFIED` labels |
+| Relationship tracing | Language intelligence, dependency tools, and focused search | Direct inspection of producers, consumers, and registrations |
+| Diagram format | Existing repository convention and renderer | Mermaid in Markdown, then plain ASCII |
+| Syntax verification | Repository renderer, parser, or preview | Manual fence, identifier, and relationship inspection |
+| Document mutation | Minimal patch to approved diagram artifacts | Return `BLOCKED` if path or evidence boundary is unsafe |
+
+Diagrams communicate a model; executable behavior remains authoritative for current state. Keep current, target, and transition views visibly distinct.
+
+## Artifact Rules
+
+- Reuse an existing diagram convention or use `docs/architecture/diagrams/<view>.md`.
+- Prefer Markdown with Mermaid for text-reviewable source; use ASCII when Mermaid is unsupported.
+- For static structure, choose the context, container, or component level that answers the requested question; do not create prerequisite overview diagrams when existing context suffices.
+- Keep diagram source reviewable in version control.
+- Split views when one diagram needs multiple unrelated stories.
+- Never use color as the only carrier of meaning.
+- Use stable element identifiers and concise display labels so revisions produce reviewable diffs.
+- Keep detailed evidence beside the diagram rather than crowding nodes and relationships.
+- Preserve an understandable existing notation; introduce a new notation only when it answers the audience question better.
+
+## Checklist
+
+### 1. Establish the Diagram Contract
+
+- [ ] Resolve audience, question, current or target state, scope, approved destination, and required notation.
+- [ ] Read repository instructions, relevant architecture artifacts, and existing diagram conventions.
+- [ ] Select the minimum useful view or views; reject diagrams that add no relationship clarity.
+- [ ] Define the evidence boundary and label user-supplied or proposed elements separately.
+- [ ] Keep the run read-only except for approved architecture diagram documentation.
+
+### 2. Build the Architecture Model
+
+- [ ] Identify relevant people, systems, applications/data stores (C4 containers when using C4), components, queues, and external dependencies; distinguish logical containers from OS/container-runtime deployment units.
+- [ ] Record responsibility, type, technology when decision-relevant, owner when known, and current/target status for each element.
+- [ ] Resolve relationship direction, label, protocol or data, synchronicity, and trust or network boundary where relevant.
+- [ ] Trace runtime discovery and registration before including current-state routes, handlers, jobs, plugins, or consumers.
+- [ ] Mark uncertain elements or relationships `UNKNOWN` rather than completing the picture aesthetically.
+
+### 3. Select and Draw Views
+
+- [ ] Create a system-context view when readers need system scope and external actors.
+- [ ] Create a container or deployment view for responsibilities, deployability, stores, or operational topology; include nodes, regions, networks, scaling, and failover when relevant to the audience question.
+- [ ] Create a component view only for a complex area whose internal boundaries change understanding.
+- [ ] Create sequence or dynamic views for critical success, failure, retry, timeout, recovery, or migration interactions.
+- [ ] Create data-flow or trust-boundary views when security, privacy, residency, or system-of-record questions require them.
+- [ ] Avoid mixing abstraction levels in one view unless the exception is explicit and necessary.
+
+### 4. Make the Diagram Self-Describing
+
+- [ ] Add title, diagram type, scope, current/target marker, intended audience, and observation or proposal date.
+- [ ] Add a legend for shapes, colors, line styles, abbreviations, and uncertainty markers.
+- [ ] Label every relationship with intent or data; avoid generic arrows and unexplained acronyms.
+- [ ] Keep names consistent with code, contracts, and shared architecture documents.
+- [ ] Add compact evidence notes or links sufficient to trace current-state claims.
+
+### 5. Verify and Report
+
+- [ ] Validate syntax with the repository renderer or perform a complete manual syntax inspection.
+- [ ] Inspect readability in the chosen output: render graphical notation when possible and inspect plain ASCII directly. Split overloaded views rather than shrinking labels. Without a graphical renderer, mark that output's visual readability `UNPROVEN`; syntax inspection is not render proof.
+- [ ] Verify current-state elements and relationships against implementation evidence, and target-state elements against the declared proposal or explicitly labelled assumptions.
+- [ ] Bind each view to current or proposed architecture and its authoritative source; expose contradictions rather than resolving them silently in a diagram.
+- [ ] Use `READY` when diagrams are valid, scoped, evidenced, and readable at the requested fidelity; use `INCOMPLETE` for material unknown relationships or missing required render evidence; use `BLOCKED` when scope, evidence, format, or destination prevents a trustworthy diagram.
+
+## Self-Check
+
+- [ ] **Reconcile before returning.** Check item-level evidence, requirement coverage, contradictions, scope, verdict, and applicable cleanup. Correct the report or authorized artifacts. Reuse valid evidence; do not automatically rescan the repository or rerun successful commands. Repeat checks only for relevant changes, failures, or unresolved evidence. Disclose remaining gaps.
+
+## Output Contract
+
+Report in the user's language, in this order; label all five fields and state each fact once. Use controlled plain language: one fact per sentence, usually under 20 words, active voice, and one term per concept, with no synonyms for verdicts, IDs, or states. Small results may use one line per field; omit empty tables and do not copy linked artifacts:
+
+1. **Result:** The exact skill-specific verdict token first, then the supported outcome.
+2. **Scope:** Reviewed/changed scope, exclusions, baseline, and material assumptions.
+3. **Evidence:** Skill-specific fields below; distinguish facts, inferences, and unverified claims. Link artifacts; use tables when useful.
+4. **Verification:** Checks/results, unavailable evidence, and applicable cleanup/external state.
+5. **Completion:** `Checklist: X/Y complete`; `Incomplete: None` or each `UNPROVEN` item's reason, outcome impact, and exact next action; residual risks and required decisions.
+
+**Skill-specific evidence:** Artifact paths; each view’s current/target state, audience question, and evidence basis. Report syntax/render verification and current-state relationship checks, unknown relationships, and rendering limits that affect interpretation.
