@@ -6217,3 +6217,44 @@ html body .matchCard .oneXtwo button.active.pickX{
   padding:10px 14px 12px!important;
   line-height:1.45!important;
 }
+
+/* Compact, discreet "go to current round" action. */
+.qdRoundJump .qdAdvanceRound{
+ display:inline-flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:7px!important;
+ width:auto!important;
+ min-width:0!important;
+ min-height:30px!important;
+ height:30px!important;
+ padding:0 10px!important;
+ border:1px solid rgba(150,190,230,.16)!important;
+ border-radius:9px!important;
+ background:rgba(17,48,78,.72)!important;
+ box-shadow:none!important;
+ color:#eaf3ff!important;
+ font-size:10px!important;
+ font-weight:650!important;
+ line-height:1!important;
+ letter-spacing:.005em!important;
+}
+.qdRoundJump .qdAdvanceRound .qdAdvanceRoundLabel{
+ font-size:10px!important;
+ font-weight:650!important;
+ line-height:1!important;
+ white-space:nowrap!important;
+}
+.qdRoundJump .qdAdvanceRound .qdLaunchArrow{
+ color:#fff!important;
+ font-size:15px!important;
+ font-weight:900!important;
+ line-height:1!important;
+ -webkit-text-stroke:.35px currentColor!important;
+}
+.qdRoundJump .qdAdvanceRound:disabled{opacity:.72!important}
+html[data-theme="light"] .qdRoundJump .qdAdvanceRound{
+ background:rgba(22,57,91,.88)!important;
+ border-color:rgba(22,57,91,.14)!important;
+ color:#fff!important;
+}
