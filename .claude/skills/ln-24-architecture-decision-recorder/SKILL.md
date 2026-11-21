@@ -1,0 +1,107 @@
+---
+name: ln-24-architecture-decision-recorder
+description: "Records one architecture decision with alternatives, consequences and status; does not design the whole system."
+---
+
+# Architecture Decision Recorder
+
+**Goal:** Preserve the context, forces, alternatives, decision, and consequences of one architecturally significant choice in a compact durable record. Change only approved decision documentation; do not design the whole system, approve a decision silently, delete history, audit code, or implement the choice.
+
+**Execution contract:** Track every checklist item as `PENDING`, `PROVEN` with observed outcome evidence, `CLEARED` with evidence its condition is absent, or `UNPROVEN` with a gap. Reading, delegation, tool failure, zero exit status, and self-reported success are not proof. Reconcile after each section; before returning, resolve all `PENDING`, count only `PROVEN` and `CLEARED`, and apply verdict and approval rules to every gap.
+Preserve intent, scope, mode, and existing authorization. Complete authorized work before required external approval; ask only consequential unresolved choices. If nobody can answer, report the exact question and apply the skill's gap verdict without waiting or guessing. Cite any blocking instruction and unresolved boundary; never invent approval gates. Scale depth to material risk; preserve mandatory checks, dependencies, and safety order while choosing verification methods.
+Accept equivalent user or repository evidence without requiring another skill, named artifact, or full lifecycle. Preserve source requirement and decision IDs. Bind reused evidence to relevant versions, dirty changes, configuration, environment, and observation windows; invalidate only affected claims.
+Choose the primary workflow by outcome and explicit selection. Consume neighboring contracts and valid evidence without duplicating ownership or restarting audits. Split distinct deliverables by scope, not mandatory skill invocation. Broad independent assessments use audit workflows; focused domain reviews remain read-only.
+On continuation, reconcile task, authorization, state, and gaps. Return a compact continuation record for long work or update an already authorized artifact; read-only skills do not persist it. Distinguish artifact readiness, verified behavior, and external-action authority.
+Trace applicable requirements to their authoritative owner, planned or implemented change, acceptance evidence and status in the existing artifact or response; no new registry is required. Explicit constraints remain binding until an authorized deviation; risk determines priority, not permission to ignore them.
+Investigate the causal flow beyond initially named files. Within implementation authority, include structural repair needed for the outcome; minimize total complexity and risk, not changed lines. This does not authorize unrelated cleanup or mutation during review.
+Before retrieval, define the evidence question; read selectively without skipping applicable instructions. Use tools for mechanical processing; summarize bounded results, errors, coverage, and source paths, keeping full output outside context.
+Before technical decisions, establish applicability and actual versions; verify version-dependent assumptions against official documentation or specifications. Search and read primary pages for current external recommendations; snippets are not evidence. Version-matched bundled documentation or valid prior evidence suffices. Record decision, version, source, and limitations. Mark unavailable evidence UNVERIFIED; block only essential dependent work. Prefer native mechanisms, justify added tools or abstractions with evidence, and reuse the existing rule owner.
+
+
+## Tool Routing
+
+| Need | Preferred capability | Fallback |
+|---|---|---|
+| Existing decision convention | Repository search and direct document reads | Use the default path and compact format |
+| Decision drivers | Requirements, architecture artifacts, implementation evidence, and stakeholder statements | Mark unsupported drivers `UNKNOWN` |
+| Alternatives and external claims | Repository evidence plus current official sources | Mark time-sensitive claims `UNVERIFIED` |
+| Sequence and supersession | Existing filenames, indexes, and decision links | Return `BLOCKED` rather than reuse a number |
+| Document mutation | Minimal patch to one approved decision record and necessary supersession links | Return `BLOCKED` if authority or path is unclear |
+
+One record captures one decision. If the request contains independent decisions with different drivers or lifecycles, split them only with explicit approval.
+
+## Workflow Boundary
+
+An ADR owns one accepted or proposed decision and its rationale. Operational procedures and executable configuration remain their own sources of truth; reference them rather than reproducing instructions or mutable registries.
+
+## Artifact Rules
+
+- Reuse the repository's established ADR convention when one exists.
+- Otherwise use `docs/architecture/decisions/NNNN-<slug>.md` with the next unused monotonic number.
+- Never renumber, delete, or rewrite the decision and rationale of historical records. Permit scoped status and supersession-link updates under the rules below; distinguish evolving proposed drafts from accepted history.
+- Default a new record to `Proposed`.
+- Use `Accepted` only after explicit confirmation from an authorized decision-maker.
+- A proposed replacement links to the current decision without changing its effective status. Mark the old record `Superseded` and link both directions only after the replacement is explicitly accepted; preserve historical content.
+- Keep the record short enough to review as a single decision.
+- Preserve the rationale a future maintainer needs to reconsider it safely.
+- Label retrospective records explicitly; do not imply that documentation created after implementation was prior approval.
+- Separate evidence needed before acceptance from monitoring required after adoption.
+- Prefer stable repository references over conversation, branch-local, or ephemeral links.
+
+## Checklist
+
+### 1. Establish the Decision Contract
+
+- [ ] Resolve the exact decision, scope, owner or deciders, affected system, and why the choice is architecturally significant.
+- [ ] Read repository instructions, Git state, and existing decision conventions.
+- [ ] Search for duplicate, conflicting, deprecated, or superseding decisions before allocating a new record.
+- [ ] Confirm the request is one decision rather than a broad design or implementation plan.
+- [ ] Resolve the approved status; default to `Proposed` when acceptance is not explicit.
+
+### 2. Gather Context and Forces
+
+- [ ] State the current context and problem in value-neutral language.
+- [ ] Extract business drivers, quality attributes, constraints, assumptions, and decision horizon from available evidence.
+- [ ] Identify affected boundaries, contracts, data, security, operations, cost, ownership, and migration implications.
+- [ ] Separate present facts from forecasts and preferences.
+- [ ] Record contradictions or missing evidence that could change the choice.
+
+### 3. Evaluate Alternatives
+
+- [ ] For an open choice, include the status quo and the simplest credible option unless they are demonstrably infeasible.
+- [ ] For an open choice, compare materially different credible alternatives; for retrospective records, include only evidenced historical options and mark missing rationale unknown.
+- [ ] Compare options against the same drivers: correctness, quality targets, complexity, reversibility, cost, operations, team fit, and evolution.
+- [ ] State why each rejected alternative loses in this context without claiming universal inferiority.
+- [ ] Record sensitivity or review triggers that would make a rejected option preferable later.
+
+### 4. Record the Decision
+
+- [ ] Write title, status, date, deciders or owner, context, drivers, considered options, decision, consequences, validation, and review triggers.
+- [ ] State the decision in active, testable language and name what remains deliberately undecided.
+- [ ] Record positive, negative, and neutral consequences plus accepted risks.
+- [ ] Link affected requirements, designs, diagrams, interfaces, migration documents, or issues by stable repository reference.
+- [ ] Apply the Artifact Rules for proposed or accepted supersession; verify links and preserve prior rationale.
+
+### 5. Validate and Report
+
+- [ ] Confirm the record contains one decision and can be understood without conversation history.
+- [ ] Confirm consequential claims have evidence or labelled assumptions/unknowns with validation actions; never invent historical rationale or rejected alternatives for a retrospective record.
+- [ ] Confirm `Accepted` was not assigned without explicit authority.
+- [ ] Identify the requirements, interfaces, and downstream decisions affected by this decision or its supersession; preserve the accepted/proposed distinction and historical rationale.
+- [ ] Use `READY` when the record and status are valid; use `INCOMPLETE` when material context or required acceptance authority remains unresolved; a complete explicitly Proposed record does not require acceptance to be `READY`; use `BLOCKED` for ambiguous scope, unsafe numbering, conflicting ownership, or no writable destination.
+
+## Self-Check
+
+- [ ] **Reconcile before returning.** Check item-level evidence, requirement coverage, contradictions, scope, verdict, and applicable cleanup. Correct the report or authorized artifacts. Reuse valid evidence; do not automatically rescan the repository or rerun successful commands. Repeat checks only for relevant changes, failures, or unresolved evidence. Disclose remaining gaps.
+
+## Output Contract
+
+Report in the user's language, in this order; label all five fields and state each fact once. Use controlled plain language: one fact per sentence, usually under 20 words, active voice, and one term per concept, with no synonyms for verdicts, IDs, or states. Small results may use one line per field; omit empty tables and do not copy linked artifacts:
+
+1. **Result:** The exact skill-specific verdict token first, then the supported outcome.
+2. **Scope:** Reviewed/changed scope, exclusions, baseline, and material assumptions.
+3. **Evidence:** Skill-specific fields below; distinguish facts, inferences, and unverified claims. Link artifacts; use tables when useful.
+4. **Verification:** Checks/results, unavailable evidence, and applicable cleanup/external state.
+5. **Completion:** `Checklist: X/Y complete`; `Incomplete: None` or each `UNPROVEN` item's reason, outcome impact, and exact next action; residual risks and required decisions.
+
+**Skill-specific evidence:** Artifact path, decision identity/status/owner, selected option, alternatives, consequences, evidence, and acceptance/validation needs. Report links or status changes to historical records, preserving their rationale; identify unresolved choices and review triggers without implying acceptance of a proposal.
