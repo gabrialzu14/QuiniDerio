@@ -1,0 +1,38 @@
+.qdPlenoBackdrop{position:fixed;inset:0;z-index:2147482990;display:grid;place-items:center;padding:16px;background:rgba(2,6,18,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:qdPlFade .35s ease}
+.qdPlenoPopup{position:relative;width:min(380px,100%);max-height:calc(100dvh - 32px);overflow:hidden auto;border-radius:26px;padding:28px 18px 22px;background:linear-gradient(180deg,#1a2f66,#0c1a42);border:1px solid #3c5aa8;box-shadow:0 20px 60px rgba(0,0,0,.6);color:#fff;text-align:center;animation:qdPlPop .5s ease both}
+.qdPlenoRays{position:absolute;left:50%;top:150px;width:700px;height:700px;margin:-350px 0 0 -350px;pointer-events:none;background:repeating-conic-gradient(from 0deg,rgba(251,191,36,.22) 0 8deg,transparent 8deg 20deg);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 62%);mask-image:radial-gradient(circle,#000 0,transparent 62%);animation:qdPlSpin 24s linear infinite,qdPlFade 1s ease .3s both}
+.qdPlenoTitle{position:relative;margin:0;font-size:34px;line-height:1.05;font-weight:900;letter-spacing:.02em;background:linear-gradient(180deg,#fff2b0,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;animation:qdPlPop .6s ease .5s both}
+.qdPlenoSay{position:relative;margin:10px 6px 0;font-size:16px;line-height:1.25;font-weight:700;font-style:italic;color:#e6edff;animation:qdPlRise .5s ease .8s both}
+.qdPlenoSay small{display:block;margin-top:6px;font-size:11px;font-style:normal;letter-spacing:.2em;color:#9fb3e6}
+.qdPlenoPlayers{position:relative;display:flex;justify-content:center;gap:16px;margin-top:22px}
+.qdPlenoPlayer{flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center}
+.qdPlenoCrown{width:44px;height:33px;margin-bottom:-8px;position:relative;z-index:1;animation:qdPlDrop .7s ease both}
+.qdPlenoPhoto{width:min(130px,34vw);aspect-ratio:1;border-radius:50%;overflow:hidden;background:#222;border:4px solid #fbbf24;box-shadow:0 0 26px rgba(251,191,36,.6);animation:qdPlDrop .8s ease both,qdPlGlow 2s ease-in-out 4.4s 2}
+.qdPlenoPhoto img{display:block;width:100%;height:100%;object-fit:cover}
+.qdPlenoPlayer b{display:block;margin-top:12px;font-size:20px;font-weight:850;animation:qdPlRise .4s ease both}
+.qdPlenoScore{display:inline-block;margin-top:6px;padding:4px 14px;border-radius:999px;background:rgba(251,191,36,.16);color:#fcd34d;font-weight:850;font-size:15px;animation:qdPlPop .4s ease both}
+.qdPlenoPlayer.p0 .qdPlenoCrown{animation-delay:2.8s}.qdPlenoPlayer.p0 .qdPlenoPhoto{animation-delay:2.8s,4.4s}
+.qdPlenoPlayer.p0 b{animation-delay:3.5s}.qdPlenoPlayer.p0 .qdPlenoScore{animation-delay:3.8s}
+.qdPlenoPlayer.p1 .qdPlenoCrown{animation-delay:3.3s}.qdPlenoPlayer.p1 .qdPlenoPhoto{animation-delay:3.3s,4.9s}
+.qdPlenoPlayer.p1 b{animation-delay:4s}.qdPlenoPlayer.p1 .qdPlenoScore{animation-delay:4.3s}
+.qdPlenoPot{position:relative;margin:22px 4px 0;padding:12px 16px;border-radius:20px;background:rgba(5,12,32,.6);border:1px solid #2e4a8c;animation:qdPlRise .6s ease 4.9s both}
+.qdPlenoPot em{display:block;font-style:normal;font-size:12px;letter-spacing:.14em;color:#9fb3e6;font-weight:700}
+.qdPlenoPot strong{display:block;margin:4px 0;font-size:46px;line-height:1.05;font-weight:900;color:#4ade80;animation:qdPlPop .5s ease 5.3s both}
+.qdPlenoPot span{display:block;font-size:14px;line-height:1.3;color:#c9d6f3}
+.qdPlenoBtn{position:relative;display:block;margin:20px auto 0;min-width:190px;height:48px;padding:0 24px;border:0;border-radius:999px;background:#22c55e;color:#04140a;font:inherit;font-size:16px;font-weight:850;cursor:pointer;box-shadow:0 8px 22px rgba(34,197,94,.4);opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.qdPlenoBtn.isReady{opacity:1;transform:none;pointer-events:auto}
+.qdPlenoBtn:active{transform:scale(.97)}
+.qdPlenoConfetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2}
+.qdPlenoConfetti i{position:absolute;left:var(--x);top:-14px;width:8px;height:14px;border-radius:2px;background:var(--c);opacity:0;animation:qdPlCf var(--t) linear var(--d) 1 forwards}
+@keyframes qdPlFade{from{opacity:0}to{opacity:1}}
+@keyframes qdPlPop{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:none}}
+@keyframes qdPlRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes qdPlDrop{0%{opacity:0;transform:translateY(-260px) scale(.8)}55%{opacity:1;transform:translateY(0) scale(1.1,.9)}72%{transform:translateY(-16px) scale(.97,1.03)}88%{transform:translateY(0) scale(1.03,.97)}100%{opacity:1;transform:none}}
+@keyframes qdPlSpin{to{transform:rotate(360deg)}}
+@keyframes qdPlGlow{50%{box-shadow:0 0 38px 8px rgba(251,191,36,.8)}}
+@keyframes qdPlCf{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:1;transform:translateY(760px) rotate(720deg)}}
+@media(prefers-reduced-motion:reduce){
+ .qdPlenoPopup,.qdPlenoTitle,.qdPlenoSay,.qdPlenoCrown,.qdPlenoPhoto,.qdPlenoPlayer b,.qdPlenoScore,.qdPlenoPot,.qdPlenoPot strong{animation:none!important;opacity:1!important;transform:none!important}
+ .qdPlenoRays,.qdPlenoConfetti{display:none}
+ .qdPlenoBtn{transition:none}
+}
