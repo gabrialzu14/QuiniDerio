@@ -23,7 +23,7 @@ export function mergeFixtures(rows:ManagedMatch[],rests:RestFixture[]=[]):typeof
   const base=result[row.round]?.[row.team]||{};
   const d=matchDetails(row);
   result[row.round]??={};
-  result[row.round][row.team]={...base,...d,federationRound:d.federationRound??undefined,status:undefined,opponent:row.opponent,isHome:row.is_home??base.isHome,date:d.date,time:d.time,venue:[d.venue,d.location].filter(Boolean).join(", ")};
+  result[row.round][row.team]={...base,...d,federationRound:d.federationRound??undefined,status:undefined,opponent:row.opponent,isHome:row.is_home??base.isHome,date:d.date,time:d.time,venue:venueLabel(d.venue,d.location)};
  }
  return result;
 }
@@ -59,4 +59,10 @@ export function validateDetails(input:unknown):MatchDetails{
 export function standing(position:number|null|undefined,points:number|null|undefined,fallback?:string){
  if(position===undefined&&points===undefined)return fallback;
  return [position==null?"":`${position}º`,points==null?"":`${points} pts`].filter(Boolean).join(" · ");
+}
+/** "Campo": the club's own ground is just "Ibaiondo" (no town). Other grounds keep "campo, localidad". */
+export function venueLabel(venue:string,location:string){
+ const v=(venue||"").trim();
+ if(/^ibaiondo(?!\s+nerbioi)\b/i.test(v))return"Ibaiondo";
+ return [v,(location||"").trim()].filter(Boolean).join(", ");
 }
