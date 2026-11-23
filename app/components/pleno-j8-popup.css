@@ -1,10 +1,13 @@
 .qdPlenoBackdrop{position:fixed;inset:0;z-index:2147482990;display:grid;place-items:center;padding:16px;background:rgba(2,6,18,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:qdPlFade .35s ease}
 .qdPlenoPopup{position:relative;width:min(380px,100%);max-height:calc(100dvh - 32px);overflow:hidden auto;border-radius:26px;padding:28px 18px 22px;background:linear-gradient(180deg,#1a2f66,#0c1a42);border:1px solid #3c5aa8;box-shadow:0 20px 60px rgba(0,0,0,.6);color:#fff;text-align:center;animation:qdPlPop .5s ease both}
 .qdPlenoRays{position:absolute;left:50%;top:150px;width:700px;height:700px;margin:-350px 0 0 -350px;pointer-events:none;background:repeating-conic-gradient(from 0deg,rgba(251,191,36,.22) 0 8deg,transparent 8deg 20deg);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 62%);mask-image:radial-gradient(circle,#000 0,transparent 62%);animation:qdPlSpin 24s linear infinite,qdPlFade 1s ease .3s both}
-.qdPlenoTitle{position:relative;margin:0;font-size:34px;line-height:1.05;font-weight:900;letter-spacing:.02em;background:linear-gradient(180deg,#fff2b0,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;animation:qdPlPop .6s ease .5s both}
-.qdPlenoSay{position:relative;margin:10px 6px 0;font-size:16px;line-height:1.25;font-weight:700;font-style:italic;color:#e6edff;animation:qdPlRise .5s ease .8s both}
-.qdPlenoSay small{display:block;margin-top:6px;font-size:11px;font-style:normal;letter-spacing:.2em;color:#9fb3e6}
-.qdPlenoPlayers{position:relative;display:flex;justify-content:center;gap:16px;margin-top:22px}
+.qdPlenoBand{transform:skewX(-14deg);position:absolute;top:22px;left:-10px;z-index:1;height:40px;padding:0 24px 0 32px;display:flex;align-items:center;background:#dc2626;box-shadow:0 6px 18px rgba(220,38,38,.5);animation:qdPlBand .5s cubic-bezier(.2,.8,.3,1) .4s both}
+.qdPlenoBand span{font-size:16px;font-weight:900;letter-spacing:.14em;transform:skewX(14deg)}
+.qdPlenoBand i{display:inline-block;width:10px;height:10px;margin-right:10px;border-radius:50%;background:#fff;transform:skewX(14deg);animation:qdPlBlink .8s steps(2) infinite}
+.qdPlenoTitle{position:relative;margin:52px 0 0;font-size:28px;line-height:1.08;font-weight:900;text-transform:uppercase;text-align:left;color:#fff;animation:qdPlRise .5s ease .9s both}
+.qdPlenoTitle em{font-style:normal;color:#facc15}
+.qdPlenoJornada{position:relative;margin:10px 0 0;text-align:left;font-size:11px;letter-spacing:.2em;color:#9fb3e6;font-weight:700;animation:qdPlRise .5s ease 1.2s both}
+.qdPlenoPlayers{position:relative;display:flex;justify-content:center;gap:16px;margin-top:20px}
 .qdPlenoPlayer{flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center}
 .qdPlenoCrown{width:44px;height:33px;margin-bottom:-8px;position:relative;z-index:1;animation:qdPlDrop .7s ease both}
 .qdPlenoPhoto{width:min(130px,34vw);aspect-ratio:1;border-radius:50%;overflow:hidden;background:#222;border:4px solid #fbbf24;box-shadow:0 0 26px rgba(251,191,36,.6);animation:qdPlDrop .8s ease both,qdPlGlow 2s ease-in-out 4.4s 2}
@@ -24,6 +27,8 @@
 .qdPlenoBtn:active{transform:scale(.97)}
 .qdPlenoConfetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2}
 .qdPlenoConfetti i{position:absolute;left:var(--x);top:-14px;width:8px;height:14px;border-radius:2px;background:var(--c);opacity:0;animation:qdPlCf var(--t) linear var(--d) 1 forwards}
+@keyframes qdPlBand{from{transform:translateX(-280px) skewX(-14deg)}to{transform:skewX(-14deg)}}
+@keyframes qdPlBlink{50%{opacity:.15}}
 @keyframes qdPlFade{from{opacity:0}to{opacity:1}}
 @keyframes qdPlPop{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:none}}
 @keyframes qdPlRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
@@ -32,7 +37,18 @@
 @keyframes qdPlGlow{50%{box-shadow:0 0 38px 8px rgba(251,191,36,.8)}}
 @keyframes qdPlCf{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:1;transform:translateY(760px) rotate(720deg)}}
 @media(prefers-reduced-motion:reduce){
- .qdPlenoPopup,.qdPlenoTitle,.qdPlenoSay,.qdPlenoCrown,.qdPlenoPhoto,.qdPlenoPlayer b,.qdPlenoScore,.qdPlenoPot,.qdPlenoPot strong{animation:none!important;opacity:1!important;transform:none!important}
+ .qdPlenoPopup,.qdPlenoTitle,.qdPlenoJornada,.qdPlenoBand,.qdPlenoCrown,.qdPlenoPhoto,.qdPlenoPlayer b,.qdPlenoScore,.qdPlenoPot,.qdPlenoPot strong{animation:none!important;opacity:1!important;transform:none!important}
  .qdPlenoRays,.qdPlenoConfetti{display:none}
  .qdPlenoBtn{transition:none}
+}
+@media(max-height:720px){
+ .qdPlenoPopup{padding:22px 16px 18px}
+ .qdPlenoTitle{font-size:24px;margin-top:48px}
+ .qdPlenoPlayers{margin-top:14px}
+ .qdPlenoPhoto{width:min(104px,30vw)}
+ .qdPlenoPlayer b{margin-top:8px;font-size:18px}
+ .qdPlenoPot{margin-top:14px;padding:8px 14px}
+ .qdPlenoPot strong{font-size:36px}
+ .qdPlenoPot span{font-size:13px}
+ .qdPlenoBtn{margin-top:14px;height:44px}
 }
