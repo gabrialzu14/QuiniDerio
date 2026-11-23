@@ -1,4 +1,5 @@
 "use client";
+import {derioCrestFor} from "../lib/derio-crest";
 import AvatarImage from "./AvatarImage";
 import {useCallback,useEffect,useMemo,useRef,useState} from "react";
 import {createPortal} from "react-dom";
@@ -185,7 +186,7 @@ export default function PlayerRoundSheet({player,initialRound,rounds,maxRound,fi
       const own=game.teamLabel||team;
       const rival=game.opponent||"Rival pendiente";
       const home=isHome?own:rival,away=isHome?rival:own;
-      const ownCrest="/api/assets/Escudos/cd_derio.png";
+      const ownCrest=derioCrestFor(round);
       const rivalCrest=game.crest?.startsWith("/api/assets/Escudos/")?game.crest:"";
       const final=match&&["finished","final"].includes(match.status)&&Number.isFinite(match.home_score)&&Number.isFinite(match.away_score);
       const actual=final?resultChoice(Number(match.home_score),Number(match.away_score)):null;
