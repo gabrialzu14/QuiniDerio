@@ -162,16 +162,16 @@ html body.qdModern .qdRoundNavigator .qdAdvanceRoundGhost{cursor:default}
  html body.qdModern .qdRoundNavigator .qdRoundJump.is-leaving{display:none}
 }
 
-/* Clasificación: selector «General | Jornada actual». Superficie neutra con aro fino y un solo indicador que se desliza. */
+/* Clasificación: selector «General | Jornada actual». Superficie neutra con aro fino y un indicador azul neón que se desliza. */
 html body.qdModern .qdRoundNavigator .qdScopeSwitch{
- --sw-bg:rgba(255,255,255,.06);--sw-ring:rgba(255,255,255,.10);--sw-thumb:rgba(255,255,255,.14);--sw-text:#eaf2fd;--sw-muted:#8da3c2;
+ --sw-bg:rgba(255,255,255,.06);--sw-ring:rgba(255,255,255,.10);--sw-thumb:#2f8bff;--sw-glow:0 0 0 1px rgba(140,200,255,.55) inset,0 0 16px -2px rgba(47,139,255,.75);--sw-on:#fff;--sw-muted:#8da3c2;
  position:relative;display:inline-grid;grid-template-columns:1fr 1fr;align-items:stretch;height:40px;margin:0 0 12px;padding:3px;border-radius:12px;
  background:var(--sw-bg);box-shadow:0 0 0 1px var(--sw-ring) inset;isolation:isolate;max-width:100%;
 }
-html[data-theme="light"] body.qdModern .qdRoundNavigator .qdScopeSwitch{--sw-bg:rgba(10,30,60,.05);--sw-ring:rgba(10,30,60,.12);--sw-thumb:#fff;--sw-text:#12233a;--sw-muted:#5d718c}
+html[data-theme="light"] body.qdModern .qdRoundNavigator .qdScopeSwitch{--sw-bg:rgba(10,30,60,.05);--sw-ring:rgba(10,30,60,.12);--sw-thumb:#1f7bff;--sw-glow:0 0 0 1px rgba(255,255,255,.35) inset,0 4px 14px -4px rgba(31,123,255,.75);--sw-muted:#5d718c}
 html body.qdModern .qdRoundNavigator .qdScopeThumb{
  position:absolute;z-index:-1;left:3px;top:3px;bottom:3px;width:calc((100% - 6px)/2);border-radius:9px;
- background:var(--sw-thumb);box-shadow:0 0 0 1px var(--sw-ring),0 2px 6px -2px rgba(0,0,0,.35);
+ background:var(--sw-thumb);box-shadow:var(--sw-glow);
  transition:transform .2s cubic-bezier(.23,1,.32,1),opacity .15s ease;
 }
 html body.qdModern .qdRoundNavigator .qdScopeThumb[data-pos="0"]{transform:translateX(0);opacity:1}
@@ -179,11 +179,12 @@ html body.qdModern .qdRoundNavigator .qdScopeThumb[data-pos="1"]{transform:trans
 html body.qdModern .qdRoundNavigator .qdScopeThumb[data-pos="-1"]{transform:translateX(100%);opacity:0}
 html body.qdModern .qdRoundNavigator .qdScopeSwitch button{
  display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:0;padding:0 16px;border:0;border-radius:9px;background:transparent;
- color:var(--sw-muted);font-family:inherit;font-size:13px;font-weight:650;letter-spacing:-.01em;line-height:1;white-space:nowrap;cursor:pointer;
+ color:var(--sw-muted);font-family:inherit;font-size:13px;font-weight:700;letter-spacing:-.01em;line-height:1;white-space:nowrap;cursor:pointer;
  transition:color .15s ease,transform .12s ease;-webkit-tap-highlight-color:transparent;
 }
-html body.qdModern .qdRoundNavigator .qdScopeSwitch button.active{color:var(--sw-text)}
+html body.qdModern .qdRoundNavigator .qdScopeSwitch button.active{color:var(--sw-on)}
+html body.qdModern .qdRoundNavigator .qdScopeSwitch button.active .qdAdvanceRoundDot{box-shadow:0 0 0 2px rgba(255,255,255,.92)}
 html body.qdModern .qdRoundNavigator .qdScopeSwitch button:active:not(:disabled){transform:scale(.97)}
 html body.qdModern .qdRoundNavigator .qdScopeSwitch button:disabled{opacity:.45;cursor:default}
-html body.qdModern .qdRoundNavigator .qdScopeSwitch button:focus-visible{outline:2px solid #5aa0ff;outline-offset:2px}
+html body.qdModern .qdRoundNavigator .qdScopeSwitch button:focus-visible{outline:2px solid #8cc8ff;outline-offset:2px}
 @media(prefers-reduced-motion:reduce){html body.qdModern .qdRoundNavigator .qdScopeThumb{transition:opacity .15s ease}html body.qdModern .qdRoundNavigator .qdScopeSwitch button{transition:color .15s ease}}
