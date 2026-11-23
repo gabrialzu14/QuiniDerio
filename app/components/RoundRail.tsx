@@ -2,10 +2,8 @@
 import {useEffect,useRef,useState} from "react";
 
 type Scope=number|"all";
-type Props={value:Scope;onChange:(scope:Scope)=>void;rounds:number[];currentRound:number;initialLabel:string;label:string;enabledRounds?:Set<number>;live?:boolean;jumpTo?:"current"|"general"};
-export default function RoundRail({value,onChange,rounds,currentRound,initialLabel,label,enabledRounds,live=false,jumpTo="current"}:Props){
- const general=jumpTo==="general";
- const targetScope:Scope=general?"all":currentRound;
+type Props={value:Scope;onChange:(scope:Scope)=>void;rounds:number[];currentRound:number;initialLabel:string;label:string;enabledRounds?:Set<number>;live?:boolean;switcher?:boolean};
+export default function RoundRail({value,onChange,rounds,currentRound,initialLabel,label,enabledRounds,live=false,switcher=false}:Props){
  const arrow=useRef<HTMLSpanElement>(null);
  const flight=useRef<Animation|null>(null);
  const rail=useRef<HTMLDivElement>(null);
@@ -109,10 +107,10 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
  },[value,currentRound,rounds.length]);
  const advance=()=>{
   const node=rail.current;
-  const target=node?.querySelector<HTMLButtonElement>('[data-scope="'+targetScope+'"]');
+  const target=node?.querySelector<HTMLButtonElement>('[data-scope="'+currentRound+'"]');
   const source=node?.querySelector<HTMLButtonElement>('[data-scope="'+value+'"]');
   if(!node||!target||target.disabled||travelling||frame.current)return;
-  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){onChange(targetScope);target.focus({preventScroll:true});return}
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){onChange(currentRound);target.focus({preventScroll:true});return}
   const left=node.scrollLeft;
   const end=Math.max(0,Math.min(node.scrollWidth-node.clientWidth,target.offsetLeft-(node.clientWidth-target.offsetWidth)/2));
   const from=source?source.offsetLeft+source.offsetWidth/2:0;
@@ -136,12 +134,12 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
    node.scrollLeft=left+(end-left)*ease;
    if(marker.current){marker.current.style.opacity=p===1?"0":"1";marker.current.style.transform=`translateX(${from+(to-from)*ease-14}px)`}
    if(p<1)frame.current=requestAnimationFrame(tick);
-   else{frame.current=0;flight.current?.cancel();flight.current=null;setTravelling(false);onChange(targetScope);target.focus({preventScroll:true})}
+   else{frame.current=0;flight.current?.cancel();flight.current=null;setTravelling(false);onChange(currentRound);target.focus({preventScroll:true})}
   };
   frame.current=requestAnimationFrame(tick);
  };
- const canAdvance=general||(rounds.includes(currentRound)&&(!enabledRounds||enabledRounds.has(currentRound)));
- const showJump=canAdvance&&value!==targetScope;
+ const canAdvance=rounds.includes(currentRound)&&(!enabledRounds||enabledRounds.has(currentRound));
+ const showJump=!switcher&&canAdvance&&value!==currentRound;
  // When the action goes away, a non-interactive copy folds up so it does not vanish abruptly.
  const [leaving,setLeaving]=useState(false);
  const wasShown=useRef(showJump);
@@ -150,9 +148,15 @@ export default function RoundRail({value,onChange,rounds,currentRound,initialLab
   if(showJump)setLeaving(false);
   wasShown.current=showJump;
  },[showJump]);
- const jumpContent=(withRef:boolean)=><>{live&&!general&&<span className="qdAdvanceRoundDot" aria-hidden="true"/>}<span className="qdAdvanceRoundLabel">{general?"Ver clasificación general":live?`J${currentRound} en juego`:`Jornada actual · J${currentRound}`}</span><span ref={withRef?arrow:undefined} className="qdLaunchArrow" aria-hidden="true">Ir</span></>;
+ const jumpContent=(withRef:boolean)=><>{live&&<span className="qdAdvanceRoundDot" aria-hidden="true"/>}<span className="qdAdvanceRoundLabel">{live?`J${currentRound} en juego`:`Jornada actual · J${currentRound}`}</span><span ref={withRef?arrow:undefined} className="qdLaunchArrow" aria-hidden="true">Ir</span></>;
+ const thumb=value==="all"?0:value===currentRound?1:-1;
  return <div className={"qdRoundNavigator "+(travelling?"isTravelling":"")}>
-  {showJump&&<div className="qdRoundJump is-entering"><button className="qdAdvanceRound" data-live={live&&!general?"true":"false"} type="button" onClick={advance} disabled={travelling} aria-label={general?"Ver clasificación general":`Ir a jornada actual, jornada ${currentRound}${live?", en juego":""}`} aria-busy={travelling}>{jumpContent(true)}</button></div>}
+  {switcher&&<div className="qdScopeSwitch" role="group" aria-label="Ver clasificación">
+   <span className="qdScopeThumb" data-pos={thumb} aria-hidden="true"/>
+   <button type="button" className={value==="all"?"active":""} aria-pressed={value==="all"} onClick={()=>{stop();onChange("all")}}>General</button>
+   <button type="button" className={value===currentRound?"active":""} aria-pressed={value===currentRound} disabled={!canAdvance} onClick={()=>{stop();onChange(currentRound)}}>{live&&<span className="qdAdvanceRoundDot" aria-hidden="true"/>}Jornada actual</button>
+  </div>}
+  {showJump&&<div className="qdRoundJump is-entering"><button className="qdAdvanceRound" data-live={live?"true":"false"} type="button" onClick={advance} disabled={travelling} aria-label={`Ir a jornada actual, jornada ${currentRound}${live?", en juego":""}`} aria-busy={travelling}>{jumpContent(true)}</button></div>}
   {!showJump&&leaving&&<div className="qdRoundJump is-leaving" aria-hidden="true" onAnimationEnd={event=>{if(event.target===event.currentTarget)setLeaving(false)}}><div className="qdAdvanceRound qdAdvanceRoundGhost" data-live={live?"true":"false"}>{jumpContent(false)}</div></div>}
   <div ref={rail} className="qdRoundRail" role="group" aria-label={label} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onClickCapture={onRailClickCapture} onWheel={stop} onKeyDown={stop}>
    <div className="qdRoundTrack">
