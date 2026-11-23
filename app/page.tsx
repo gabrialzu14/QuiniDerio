@@ -37,6 +37,7 @@ import useTabNavigation from "./components/useTabNavigation";
 import useRoundScope from "./components/useRoundScope";
 import usePageScrollLock from "./components/usePageScrollLock";
 import useRoundInPlay from "./components/useRoundInPlay";
+import useRoundStarted from "./components/useRoundStarted";
 import useBackDismiss from "./components/useBackDismiss";
 import HomeSummary,{type RankingDestination} from "./components/HomeSummary";
 import AppSplash from "./components/AppSplash";
@@ -563,8 +564,9 @@ function Ranking({destination}:{destination:RankingDestination|null}){
  const[pot,setPot]=useState<Array<{user_id:string,username:string,pot_euros:number}>>([]);
  const[profiles,setProfiles]=useState<Record<string,{username:string,profile_pic:string}>>({});
  const[view,setView]=useState<"hits"|"pot">(destination==="pot"?"pot":"hits");
- // Entering the tab opens the round in play; links to "my position" or the pot open the cumulative standings.
- const[rankingScope,selectRankingScope]=useRoundScope(activeRound,destination?"all":undefined);
+ // Until the round starts the tab opens General; once it starts (and until the next one is published) it opens that round. Links to "my position" or the pot open General.
+ const roundStarted=useRoundStarted(activeRound);
+ const[rankingScope,selectRankingScope]=useRoundScope(activeRound,destination?"all":undefined,roundStarted?activeRound:"all");
  const rankingRound=rankingScope==="all"?null:rankingScope;
  const motionRoot=useRef<HTMLElement>(null);useScrollReveal(motionRoot);
  const[currentUserId,setCurrentUserId]=useState("");

@@ -19,28 +19,39 @@ function harness(){
 const pageSource=ts.createSourceFile('page.tsx',read('app/page.tsx'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
 const declaration=name=>pageSource.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text===name).getText(pageSource);
 function pageFixture(name,destination=null){
- const h=harness();let active=4;
+ const h=harness();let active=4,started=false;
  const RoundRail=()=>null;
  const useRoundScope=h.load(read('app/components/useRoundScope.ts')).default;
  const coachContext={exports:{}};vm.runInNewContext(compile(read('app/lib/coach-change.ts')),coachContext);
  const {currentCoachName}=coachContext.exports;
- Object.assign(h.context,{currentCoachName,useRoundScope,useFixtures:()=>({}),useActiveRound:()=>active,useScrollReveal:()=>{},usePageScrollLock:()=>{},useBackDismiss:()=>{},AvatarImage:()=>null,rankingMoves:()=>new Map(),RankingMove:()=>null,useRoundInPlay:()=>false,teams:[],teamData:[],RoundRail,asset:p=>p,UsersIcon:()=>null,DinioImage:()=>null,quiniRoundOpeningKey:()=>null});
+ Object.assign(h.context,{currentCoachName,useRoundScope,useRoundStarted:()=>started,useFixtures:()=>({}),useActiveRound:()=>active,useScrollReveal:()=>{},usePageScrollLock:()=>{},useBackDismiss:()=>{},AvatarImage:()=>null,rankingMoves:()=>new Map(),RankingMove:()=>null,useRoundInPlay:()=>false,teams:[],teamData:[],RoundRail,asset:p=>p,UsersIcon:()=>null,DinioImage:()=>null,quiniRoundOpeningKey:()=>null});
  const Component=h.load(declaration(name)+'\nexports.Component='+name+';').Component;
  const props=name==='Ranking'?{destination}:{picks:{},round:1,dinio:'NO',season:{positions:{}},onEdit:()=>{},onRequireLogin:()=>{}};
  const render=()=>h.render(()=>Component(props));
  const rail=()=>nodes(render()).find(n=>n.type===RoundRail).props;
- return {rail,setActive:n=>{active=n}};
+ return {rail,setActive:n=>{active=n},setStarted:v=>{started=v}};
 }
 for(const name of ['MyPredictions','Ranking']){
  const page=pageFixture(name);
- const startsInGeneral=false; // Clasificación now opens on the round in play; General is one tap away.
+ const startsInGeneral=false; // Once the round has started, Clasificación opens on it; General is one tap away.
+ if(name==='Ranking')page.setStarted(true);
  assert.equal(page.rail().value,startsInGeneral?'all':4,name+' opens its intended default');
  page.setActive(7);assert.equal(page.rail().value,startsInGeneral?'all':7,'Settings hydration moves the default to the new current round');
  assert.equal(page.rail().enabledRounds.has(7),true,'The real current round stays available while fixtures load');
  page.rail().onChange(2);page.setActive(8);assert.equal(page.rail().value,2,'A deliberate historical selection must remain visible');
  page.rail().onChange('all');assert.equal(page.rail().value,'all','Season/general summaries remain selectable');
  page.rail().onChange(8);page.setActive(9);assert.equal(page.rail().value,9,'Returning to current resumes following the current round');
- const revisit=pageFixture(name);revisit.setActive(9);assert.equal(revisit.rail().value,startsInGeneral?'all':9,'Re-entry restores the section default instead of a previous manual choice');
+ const revisit=pageFixture(name);if(name==='Ranking')revisit.setStarted(true);revisit.setActive(9);assert.equal(revisit.rail().value,startsInGeneral?'all':9,'Re-entry restores the section default instead of a previous manual choice');
+}
+{
+ const before=pageFixture('Ranking');
+ assert.equal(before.rail().value,'all','Before the round starts, Clasificación opens General');
+ before.setActive(5);assert.equal(before.rail().value,'all','A newly published round also starts in General');
+ before.setStarted(true);assert.equal(before.rail().value,5,'Once the round starts it opens that round, until the next one is published');
+ before.rail().onChange('all');assert.equal(before.rail().value,'all','General stays selectable');
+ before.rail().onChange(5);assert.equal(before.rail().value,5,'The round can be selected again');
+ const early=pageFixture('Ranking');early.rail().onChange(4);assert.equal(early.rail().value,4,'The current round can be chosen before it starts');
+ assert.equal(early.rail().jumpTo,'general','The shortcut leads to General');
 }
 for(const destination of ['hits','pot','self'])assert.equal(pageFixture('Ranking',destination).rail().value,'all','An explicit cumulative summary link keeps its intended destination');
 {
