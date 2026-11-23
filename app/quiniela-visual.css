@@ -613,18 +613,20 @@ html body.qdModern .qdTab-quiniela .qdRoundLiveBadge i{width:8px;height:8px;bord
 html[data-theme="light"] body.qdModern .qdTab-quiniela .qdRoundLiveBadge{background:#fde6ea;border-color:#f08a99;color:#a3102b}
 @media(prefers-reduced-motion:reduce){html body.qdModern .qdTab-quiniela .qdRoundLiveBadge i{animation:none}}
 
-/* Quiniela: los escudos se ven completos. Sin esquinas redondeadas que los recorten y algo más pequeños. */
+/* Quiniela: escudos completos y del mismo tamaño. El recuadro es más grande que el escudo, sin esquinas
+   redondeadas ni recortes, y todos los escudos se ajustan (contain) al mismo cuadrado. */
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox{
- width:42px!important;height:42px!important;min-width:42px!important;max-width:42px!important;
- overflow:visible!important;border-radius:0!important;
+ width:52px!important;height:52px!important;min-width:52px!important;max-width:52px!important;
+ display:grid!important;place-items:center!important;
+ overflow:visible!important;border-radius:0!important;padding:0!important;
 }
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox img,
 html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox.crestNormalized img[src]{
- width:38px!important;height:38px!important;max-width:38px!important;max-height:38px!important;
- border-radius:0!important;clip-path:none!important;object-fit:contain!important;
+ width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;
+ border-radius:0!important;clip-path:none!important;object-fit:contain!important;object-position:center!important;
 }
 @media(max-width:390px){
- html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox{width:39px!important;height:39px!important;min-width:39px!important;max-width:39px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox{width:48px!important;height:48px!important;min-width:48px!important;max-width:48px!important}
  html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox img,
- html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox.crestNormalized img[src]{width:35px!important;height:35px!important;max-width:35px!important;max-height:35px!important}
+ html body.qdModern .qdTab-quiniela .qdStadiumMatch .versus .crestBox.crestNormalized img[src]{width:44px!important;height:44px!important;max-width:44px!important;max-height:44px!important}
 }
