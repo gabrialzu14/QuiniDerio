@@ -51,7 +51,7 @@ for(const name of ['MyPredictions','Ranking']){
  before.rail().onChange('all');assert.equal(before.rail().value,'all','General stays selectable');
  before.rail().onChange(5);assert.equal(before.rail().value,5,'The round can be selected again');
  const early=pageFixture('Ranking');early.rail().onChange(4);assert.equal(early.rail().value,4,'The current round can be chosen before it starts');
- assert.equal(early.rail().jumpTo,'general','The shortcut leads to General');
+ assert.equal(early.rail().switcher,true,'Clasificación shows the General | Jornada actual switch');
 }
 for(const destination of ['hits','pot','self'])assert.equal(pageFixture('Ranking',destination).rail().value,'all','An explicit cumulative summary link keeps its intended destination');
 {
