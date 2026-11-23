@@ -7,7 +7,7 @@ import usePageScrollLock from "./usePageScrollLock";
 import "./pleno-j8-popup.css";
 
 /** Shown once per player: Julen and Balbuena scored 7/7 in round 8, and each has 3 € taken off the pot. */
-const ANNOUNCEMENT = "plenos-j8-2026-11";
+const ANNOUNCEMENT = "plenos-j8-2026-11-v2";
 const LOCAL_KEY = "qd-ack-" + ANNOUNCEMENT;
 const OTHER_DIALOG = '[aria-modal="true"]:not(.qdPlenoPopup),.roundPendingOverlay,.pushPromptBackdrop,.assistantPredictionOverlay';
 const PLAYERS = [
@@ -77,8 +77,9 @@ export default function PlenoJ8Popup() {
             "--c": ["#fbbf24", "#fde68a", "#22c55e", "#ffffff"][i % 4],
           } as React.CSSProperties}/>)}
         </div>
-        <h2 id="qdPlenoTitle" className="qdPlenoTitle">¡DOBLE PLENO!</h2>
-        <p className="qdPlenoSay">Aunque parezca increíble, estos dos han hecho pleno<small>JORNADA 8</small></p>
+        <div className="qdPlenoBand" aria-hidden="true"><i/><span>ÚLTIMA HORA</span></div>
+        <h2 id="qdPlenoTitle" className="qdPlenoTitle">Aunque parezca increíble, estos dos <em>han hecho pleno</em></h2>
+        <p className="qdPlenoJornada">JORNADA 8</p>
         <div className="qdPlenoPlayers">
           {PLAYERS.map((p, i) => <div key={p.name} className={"qdPlenoPlayer p" + i}>
             <Crown/>
