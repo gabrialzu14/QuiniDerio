@@ -1,0 +1,102 @@
+---
+name: ln-22-current-architecture-documenter
+description: "Documents current architecture from implementation evidence; does not propose a target or audit fitness."
+---
+
+# Current Architecture Documenter
+
+**Goal:** Produce a trustworthy snapshot of the architecture implemented in the checked-out repository. Document what exists and how it behaves; do not score it, prescribe a target architecture, repair code, or turn intended diagrams into facts.
+
+**Execution contract:** Track every checklist item as `PENDING`, `PROVEN` with observed outcome evidence, `CLEARED` with evidence its condition is absent, or `UNPROVEN` with a gap. Reading, delegation, tool failure, zero exit status, and self-reported success are not proof. Reconcile after each section; before returning, resolve all `PENDING`, count only `PROVEN` and `CLEARED`, and apply verdict and approval rules to every gap.
+Preserve intent, scope, mode, and existing authorization. Complete authorized work before required external approval; ask only consequential unresolved choices. If nobody can answer, report the exact question and apply the skill's gap verdict without waiting or guessing. Cite any blocking instruction and unresolved boundary; never invent approval gates. Scale depth to material risk; preserve mandatory checks, dependencies, and safety order while choosing verification methods.
+Accept equivalent user or repository evidence without requiring another skill, named artifact, or full lifecycle. Preserve source requirement and decision IDs. Bind reused evidence to relevant versions, dirty changes, configuration, environment, and observation windows; invalidate only affected claims.
+Choose the primary workflow by outcome and explicit selection. Consume neighboring contracts and valid evidence without duplicating ownership or restarting audits. Split distinct deliverables by scope, not mandatory skill invocation. Broad independent assessments use audit workflows; focused domain reviews remain read-only.
+On continuation, reconcile task, authorization, state, and gaps. Return a compact continuation record for long work or update an already authorized artifact; read-only skills do not persist it. Distinguish artifact readiness, verified behavior, and external-action authority.
+Trace applicable requirements to their authoritative owner, planned or implemented change, acceptance evidence and status in the existing artifact or response; no new registry is required. Explicit constraints remain binding until an authorized deviation; risk determines priority, not permission to ignore them.
+Investigate the causal flow beyond initially named files. Within implementation authority, include structural repair needed for the outcome; minimize total complexity and risk, not changed lines. This does not authorize unrelated cleanup or mutation during review.
+Before retrieval, define the evidence question; read selectively without skipping applicable instructions. Use tools for mechanical processing; summarize bounded results, errors, coverage, and source paths, keeping full output outside context.
+Before technical decisions, establish applicability and actual versions; verify version-dependent assumptions against official documentation or specifications. Search and read primary pages for current external recommendations; snippets are not evidence. Version-matched bundled documentation or valid prior evidence suffices. Record decision, version, source, and limitations. Mark unavailable evidence UNVERIFIED; block only essential dependent work. Prefer native mechanisms, justify added tools or abstractions with evidence, and reuse the existing rule owner.
+
+
+## Tool Routing
+
+| Need | Preferred capability | Fallback |
+|---|---|---|
+| Snapshot identity and worktree state | Git status, branch, remote, and HEAD | Record the supplied snapshot as `UNVERIFIED` |
+| Structure and configuration | Native listing, search, manifests, and direct file reads | Narrow manual inspection |
+| Symbols, dependencies, and consumers | Language intelligence or resolved dependency tooling | Search definitions, registrations, imports, and callers |
+| Runtime and deployment topology | Entrypoints, IaC, containers, CI, configuration, and runtime evidence | Mark deployment relationships `UNKNOWN` |
+| Document mutation | Minimal patch to the approved architecture document | Return `BLOCKED` if no writable path is authorized |
+
+Prefer local evidence over remote repository state. A path, diagram, or naming convention is a lead until executable wiring or an authoritative contract confirms it.
+
+## Artifact Rules
+
+- Reuse a clear current-state architecture document; otherwise use `docs/architecture/current-state.md`.
+- Anchor the document to remote, branch, HEAD, worktree state, and observation date.
+- Cite material claims with file paths, symbols, commands, or configuration keys.
+- Label claims `OBSERVED`, `DOCUMENTED`, `INFERRED`, or `UNKNOWN`.
+- Separate actual structure from intended target design and from audit findings.
+- Map the declared system scope at a coarse level first, then deepen only what explains its critical behavior; do not expand a bounded request into a repository-wide inventory.
+- Prefer responsibility-oriented descriptions over exhaustive file inventories.
+- Record the evidence cutoff so readers can distinguish uninspected scope from genuine absence.
+- Keep volatile counts or inventories only when they affect architectural understanding.
+
+## Checklist
+
+### 1. Establish the Documentation Contract
+
+- [ ] Resolve repository scope, intended readers, approved destination, required depth, and language.
+- [ ] Read repository instructions and record snapshot identity plus dirty-worktree limitations.
+- [ ] Search for existing current-state, baseline, target-design, decision, diagram, and deployment artifacts.
+- [ ] Reuse an unambiguous current-state document or select the default path without duplicating project knowledge.
+- [ ] Keep the run read-only except for the approved architecture document.
+
+### 2. Map the System Breadth
+
+- [ ] Identify languages, frameworks, package roots, generated surfaces, and canonical build or run commands from manifests and CI.
+- [ ] Identify users, external systems, entrypoints, applications, services, processes, workers, scheduled jobs, and deployment units.
+- [ ] Map major domains or modules, responsibilities, ownership, and dependency direction.
+- [ ] Map data stores, caches, queues, files, external APIs, schemas, and systems of record.
+- [ ] Record public interfaces, runtime discovery, registration, configuration composition, and environment boundaries.
+- [ ] Record build, deploy, scale, and failure boundaries without inferring independence from directory names.
+
+### 3. Trace Critical Behavior
+
+- [ ] Select representative critical flows based on business importance and architectural reach.
+- [ ] Trace each flow from actor or trigger through entrypoint, runtime coordination, domain behavior, persistence or integration, and observable outcome.
+- [ ] Record synchronous and asynchronous hops, transaction ownership, consistency, retry, timeout, idempotency, and error propagation where evidenced.
+- [ ] Describe deployment, startup, shutdown, health, observability, and recovery paths visible from repository evidence.
+- [ ] Deepen only subsystems whose complexity or uncertainty affects architectural understanding; keep ordinary implementation detail out of the architecture document.
+
+### 4. Write the Current-State Artifact
+
+- [ ] Write snapshot identity, system context, component inventory, responsibilities, dependency and data flow, runtime topology, critical flows, deployment, ownership, and evidence index.
+- [ ] Include the minimum useful diagrams inline or link existing diagram artifacts by path.
+- [ ] Distinguish observed implementation from documented intent and explicitly list drift or contradictions without assigning severity.
+- [ ] Mark remote-only, runtime-only, organizational, or production facts `UNKNOWN` unless supplied authoritative evidence establishes them; distinguish declared deployment configuration from observed live topology.
+- [ ] Preserve sourced manually maintained context with its evidence status; document contradictions and label unsupported historical claims instead of inheriting them as observed facts.
+
+### 5. Verify and Report
+
+- [ ] Verify every citation against inspected snapshot evidence and remove unsupported claims; reopen sources only if they changed or the prior inspection did not establish the claim.
+- [ ] Confirm the map explains how critical behavior is discovered, executed, persisted, and deployed.
+- [ ] Confirm abstraction levels are not mixed and names remain consistent across prose and diagrams.
+- [ ] Bind the current-state account to the inspected revision and relevant dirty/configuration state; identify changes that would make a documented boundary stale.
+- [ ] Use `READY` when the snapshot is evidence-backed and useful; use `INCOMPLETE` when material topology remains unknown; use `BLOCKED` when repository identity, scope, or destination cannot be established safely.
+
+## Self-Check
+
+- [ ] **Reconcile before returning.** Check item-level evidence, requirement coverage, contradictions, scope, verdict, and applicable cleanup. Correct the report or authorized artifacts. Reuse valid evidence; do not automatically rescan the repository or rerun successful commands. Repeat checks only for relevant changes, failures, or unresolved evidence. Disclose remaining gaps.
+
+## Output Contract
+
+Report in the user's language, in this order; label all five fields and state each fact once. Use controlled plain language: one fact per sentence, usually under 20 words, active voice, and one term per concept, with no synonyms for verdicts, IDs, or states. Small results may use one line per field; omit empty tables and do not copy linked artifacts:
+
+1. **Result:** The exact skill-specific verdict token first, then the supported outcome.
+2. **Scope:** Reviewed/changed scope, exclusions, baseline, and material assumptions.
+3. **Evidence:** Skill-specific fields below; distinguish facts, inferences, and unverified claims. Link artifacts; use tables when useful.
+4. **Verification:** Checks/results, unavailable evidence, and applicable cleanup/external state.
+5. **Completion:** `Checklist: X/Y complete`; `Incomplete: None` or each `UNPROVEN` item's reason, outcome impact, and exact next action; residual risks and required decisions.
+
+**Skill-specific evidence:** Artifact path and snapshot identity (remote, branch, HEAD, worktree, date); mapped context, modules, runtime/deployment, data/interfaces, ownership, and critical flows. Identify changed sections/diagrams and claims or areas needing runtime, organizational, or external confirmation with status, inspected evidence, and exact next action.
